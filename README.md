@@ -8,6 +8,7 @@
 |------|------|------|----------|-------------|---------|
 | [jcode](./reports/jcode.md) | Coding Agent | Rust TUI + Swarm + 本地 Graph Memory 的下一代 Coding Agent 平台 | 观望 | ⭐⭐⭐⭐⭐ | 2026-05-01 |
 | [pi-mono](./reports/pi-mono.md) | Coding Agent | TypeScript Agent 工具箱：可扩展 Coding Agent CLI + SDK + 25+ Provider | 推荐采用 | ⭐⭐⭐⭐⭐ | 2026-05-01 |
+| [superpowers](./reports/superpowers.md) | AI Coding Workflow | 跨平台 Agentic 技能框架与方法论，14 技能强制注入 TDD + 设计先行 + 子代理审查 | 推荐采用 | ⭐⭐⭐⭐⭐ | 2026-05-02 |
 | [compound-engineering-plugin](./reports/compound-engineering-plugin.md) | AI Coding Workflow | 以"复利工程"为理念的 7 平台多 Agent 协作工作流插件 | 推荐采用 | ⭐⭐⭐⭐⭐ | 2026-05-02 |
 | [GitNexus](./reports/GitNexus.md) | Code Intelligence | 纯客户端知识图谱引擎，通过 MCP 让 AI Agent 获得深度代码库感知 | 观望（个人）/ 不推荐（企业免费） | ⭐⭐⭐⭐⭐ | 2026-05-01 |
 
