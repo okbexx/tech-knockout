@@ -7,6 +7,7 @@
 | 项目 | 分类 | 定位 | 采用建议 | 架构学习价值 | 分析日期 |
 |------|------|------|----------|-------------|---------|
 | [jcode](./reports/jcode.md) | Coding Agent | Rust TUI + Swarm + 本地 Graph Memory 的下一代 Coding Agent 平台 | 观望 | ⭐⭐⭐⭐⭐ | 2026-05-01 |
+| [pi-mono](./reports/pi-mono.md) | Coding Agent | TypeScript Agent 工具箱：可扩展 Coding Agent CLI + SDK + 25+ Provider | 推荐采用 | ⭐⭐⭐⭐⭐ | 2026-05-01 |
 
 <!-- 新项目进来后自动追加衈 -->
 
