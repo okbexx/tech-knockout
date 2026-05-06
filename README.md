@@ -13,6 +13,7 @@
 | [GitNexus](./reports/GitNexus.md) | Code Intelligence | 纯客户端知识图谱引擎，通过 MCP 让 AI Agent 获得深度代码库感知 | 观望（个人）/ 不推荐（企业免费） | ⭐⭐⭐⭐⭐ | 2026-05-01 |
 | [gitingest](./reports/gitingest.md) | Code Ingestion | 一键将 Git 仓库转换为 LLM-friendly 文本摘要，支持 CLI/Web/API/浏览器扩展 | 推荐采用 | ⭐⭐⭐⭐ | 2026-05-02 |
 | [mijia-control](./reports/mijia-control.md) | Smart Home Platform | 米家 x MCP x AI Agent x HomeKit 全桥接智能家居中控平台 | 观望 | ⭐⭐⭐⭐ | 2026-05-05 |
+| [miaomiaowu](./reports/miaomiaowu.md) | proxy-subscription-manager | 个人 Clash/Mihomo 订阅管理系统，带 Web UI 和流量聚合 | 推荐采用 | ⭐⭐⭐⭐ | 2026-05-06 |
 
 <!-- 新项目进来后自动追加衛 -->
 
