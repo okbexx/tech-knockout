@@ -14,7 +14,8 @@
 | [gitingest](./reports/gitingest.md) | Code Ingestion | 一键将 Git 仓库转换为 LLM-friendly 文本摘要，支持 CLI/Web/API/浏览器扩展 | 推荐采用 | ⭐⭐⭐⭐ | 2026-05-02 |
 | [mijia-control](./reports/mijia-control.md) | Smart Home Platform | 米家 x MCP x AI Agent x HomeKit 全桥接智能家居中控平台 | 观望 | ⭐⭐⭐⭐ | 2026-05-05 |
 | [miaomiaowu](./reports/miaomiaowu.md) | proxy-subscription-manager | 个人 Clash/Mihomo 订阅管理系统，带 Web UI 和流量聚合 | 推荐采用 | ⭐⭐⭐⭐ | 2026-05-06 |
-| [macshot](./reports/macshot.md) | screenshot-utility | macOS 原生截图与录屏标注工具，18+ 工具/OCR/视频编辑/40 语言 | 推荐采用 | ⭐⭐⭐⭐⭐ | 2026-05-06 |
+|| [macshot](./reports/macshot.md) | screenshot-utility | macOS 原生截图与录屏标注工具，18+ 工具/OCR/视频编辑/40 语言 | 推荐采用 | ⭐⭐⭐⭐⭐ | 2026-05-06 |
+|| [ssh-mcp](./reports/ssh-mcp.md) | mcp-server / remote-execution | MCP 远程 SSH 命令执行服务器，让 AI 获得远程服务器操作能力 | 观望 | ⭐⭐⭐⭐ | 2026-05-07 |
 
 <!-- 新项目进来后自动追加衛 -->
 
