@@ -20,7 +20,7 @@
 | [CodexDesktop-Rebuild](./reports/CodexDesktop-Rebuild.md) | electron-repackaging / desktop-distribution | 基于逆向工程将官方仅 macOS 的 Codex Desktop 重新打包为跨平台安装包 | 不推荐（生产）/ 观望（尝鲜） | ⭐⭐⭐⭐ | 2026-05-09 |
 | [UI-TARS-desktop](./reports/UI-TARS-desktop.md) | GUI Agent Platform / Desktop Automation | ByteDance 开源的 GUI Agent 平台型 monorepo：桌面端 + SDK + Operator + browser/remote runtime | 观望（生产）/ 推荐（PoC） | ⭐⭐⭐⭐⭐ | 2026-05-10 |
 | [ace-tool-rs](./reports/ace-tool-rs.md) | Code Intelligence | Rust MCP 代码上下文桥接器：本地索引切块，远端检索与 prompt enhancement | 观望 | ⭐⭐⭐⭐ | 2026-05-13 |
-| [openhuman](./reports/openhuman.md) | Desktop AI / Agent Platform | Rust/Tauri 本地优先个人 AI 桌面平台：memory、tools、channels、voice、webhooks 为主，skills 当前偏 metadata/catalog 层 | 观望（学习价值高） | ⭐⭐⭐⭐⭐ | 2026-05-17 |
+| [openhuman](./reports/openhuman.md) | Desktop AI / Agent Platform | Rust/Tauri 本地优先个人 AI 桌面平台：memory、tools、channels、voice、MCP、runtime、todos 为主，适合学习和维护切入 | 观望（学习价值高） | ⭐⭐⭐⭐⭐ | 2026-05-17 |
 
 <!-- 新项目进来后自动追加衛 -->
 
