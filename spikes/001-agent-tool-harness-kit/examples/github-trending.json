@@ -1,0 +1,8 @@
+{
+  "trend_summary": "Agent-native tooling is moving from ad-hoc scripts to reusable CLI harnesses.",
+  "repos": [
+    {"name": "HKUDS/CLI-Anything", "stars": 36696, "why": "Turns real software into agent-callable CLIs."},
+    {"name": "modelcontextprotocol/servers", "stars": 85888, "why": "Standardizes MCP server ecosystem."},
+    {"name": "ComposioHQ/composio", "stars": 28329, "why": "API integration marketplace for AI agents."}
+  ]
+}

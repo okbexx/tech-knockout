@@ -1,0 +1,17 @@
+{
+  "tools": [
+    {
+      "name": "xhs-image-cards",
+      "display_name": "XHS Image Cards Harness",
+      "category": "content",
+      "capabilities": ["generate_cards"],
+      "entry_point": "jarl-tool run xhs.generate-cards",
+      "healthcheck": "xhs-image-cards doctor --json",
+      "skill": "skills/xhs-image-cards/SKILL.md",
+      "side_effects": {
+        "doctor": "none",
+        "generate_cards": "local_files"
+      }
+    }
+  ]
+}
