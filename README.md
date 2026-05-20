@@ -24,6 +24,7 @@
 | [CLI-Anything](./reports/CLI-Anything.md) | Agent-Native Software / CLI Harness Framework | 把任意软件包装成 Agent-native CLI 的方法论、插件、CLI-Hub 与 harness 生态 | 观望（生产）/ 推荐学习与 PoC | ⭐⭐⭐⭐⭐ | 2026-05-19 |
 | [openagent](./reports/openagent.md) | Personal AI Assistant / Agent Platform | Go + React 自托管个人 AI 助手平台，集 LLM Provider、RAG、MCP/内建工具、聊天 UI、审计与分发于一体 | 观望（个人/小团队 PoC 可试） | ⭐⭐⭐⭐⭐ | 2026-05-20 |
 | [CyberVerse](./reports/CyberVerse.md) | Realtime Voice/Video Agent Platform | Go + Python + Vue 的实时音视频数字人 Agent 平台，集 WebRTC、PersonaAgent、RAG、任务和 FlashHead/LiveAct Avatar 于一体 | 观望（PoC/学习推荐） | ⭐⭐⭐⭐⭐ | 2026-05-20 |
+| [open-design](./reports/open-design.md) | AI Design Platform / Agent-Native Design Tool | 本地优先的开源 Claude Design 替代：Web + daemon + 多 Agent CLI + SKILL.md/DESIGN.md 设计产物工作台 | 观望（生产）/ 推荐学习与 PoC | ⭐⭐⭐⭐⭐ | 2026-05-20 |
 
 <!-- 新项目进来后自动追加衛 -->
 
