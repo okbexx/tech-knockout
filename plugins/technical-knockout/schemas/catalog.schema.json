@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/okbexx/tech-knockout/schemas/catalog.schema.json",
+  "title": "Technical Knockout Catalog",
+  "type": "object",
+  "required": ["schemaVersion", "generatedAt", "projects", "comparisons"],
+  "properties": {
+    "schemaVersion": { "type": "integer", "minimum": 1 },
+    "generatedAt": { "type": "string" },
+    "projects": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/project" }
+    },
+    "comparisons": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/comparison" }
+    }
+  },
+  "$defs": {
+    "project": {
+      "type": "object",
+      "required": ["id", "name", "report"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "repo": { "type": ["string", "null"] },
+        "url": { "type": ["string", "null"] },
+        "cloneUrl": { "type": ["string", "null"] },
+        "report": { "type": "string" },
+        "reportFile": { "type": "string" },
+        "category": { "type": ["string", "null"] },
+        "summary": { "type": ["string", "null"] },
+        "adoption": { "type": ["string", "null"] },
+        "architectureValue": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 },
+        "license": { "type": ["string", "null"] },
+        "language": { "type": ["string", "null"] },
+        "analysisDate": { "type": ["string", "null"] },
+        "sourceDir": { "type": ["string", "null"] },
+        "owner": { "type": ["string", "null"] },
+        "sourceExists": { "type": "boolean" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "comparison": {
+      "type": "object",
+      "required": ["id", "path", "title"],
+      "properties": {
+        "id": { "type": "string" },
+        "path": { "type": "string" },
+        "title": { "type": "string" }
+      }
+    }
+  }
+}

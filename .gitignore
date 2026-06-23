@@ -1,0 +1,26 @@
+# 源码仓库 —— 保留分析报告和索引，不保留克隆的源码
+repos/*/
+!repos/.gitkeep
+projects/*/
+!projects/.gitkeep
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 本地配置 / 源码缓存
+config/
+spikes/
+node_modules/
+
+# Python cache
+__pycache__/
+*.py[cod]
+.pytest_cache/

@@ -1,0 +1,173 @@
+# Coding Agents 横评
+
+> 更新日期：2026-06-15
+> 涉及项目：OpenCode, pi-mono, jcode
+> 参考竞品：Claude Code, Codex CLI, Cline, Aider, Continue, OpenHands, Gemini CLI
+
+---
+
+## 场景一：采用选型横评
+
+### 对比矩阵
+
+| 维度 | OpenCode | pi-mono | jcode |
+|------|----------|---------|-------|
+| 功能覆盖度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 集成成本 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| 社区健康 | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
+| 文档质量 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| 维护持续性 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
+| 运行时架构成熟度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 扩展与二次开发 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| 许可证 | MIT | MIT | MIT |
+| **综合推荐度** | ✅ 推荐个人/高级开发者；团队隔离 PoC | ✅ 推荐 | ✅ 推荐个人隔离试用；团队生产化观望 |
+
+### 基础画像
+
+| 项目 | 仓库 | Stars（观测日） | Forks | 语言 | 最新版本 / Release | 核心定位 |
+|------|------|----------------|-------|------|---------------------|----------|
+| OpenCode | `anomalyco/opencode` | 174,169 | 21,032 | TypeScript | v1.17.6 | 开源 Coding Agent runtime，多入口、多模型、MCP/插件 |
+| pi-mono | `badlogic/pi-mono` | 43,427（2026-05-01） | 5,095 | TypeScript | v0.71.1 | Agent 工具箱：CLI + SDK + 25+ Provider + Extension |
+| jcode | `1jehuang/jcode` | 7,055（2026-06-15） | 790 | Rust | v0.28.0 | Rust terminal Coding Agent runtime：TUI + server-owned live session + Swarm + Graph Memory |
+
+### 分项详评
+
+#### 功能覆盖度
+
+- **OpenCode** 覆盖最广：CLI/TUI/Desktop/Web/HTTP/SDK/GitHub Action/Slack，多模型、多工具、MCP、插件、自定义工具都在同一个 runtime 体系内。
+- **pi-mono** 覆盖也很强：Coding Agent CLI、独立 SDK、TUI/Web UI 组件、Extension 系统、Session 树、25+ Provider。它更像“可复用 agent 工具箱”。
+- **jcode** 已从“Rust TUI 工具”升级为完整 terminal agent runtime：流式 turn 状态机、server-owned live session、Swarm、Graph Memory、MCP、skills、provider/OAuth、本地/云 provider、desktop/mobile crates 和多平台 release 都已进入主线。
+
+#### 集成成本
+
+- **pi-mono**：`npm install -g` 路径最轻，作为 SDK 嵌入也符合标准 npm/TypeScript 生态。
+- **OpenCode**：终端用户安装路径清晰；源码级二次开发需要 Bun monorepo、Effect、session/event/projection 心智，学习成本中高。团队应先隔离 PoC。
+- **jcode**：release binary/Homebrew/AUR 分发降低终端用户成本；源码级二次开发成本仍高，69 个 workspace members、约 54.5 万行 Rust、Swarm/Memory/provider/session/compaction 心智都需要消化。
+
+#### 社区健康
+
+- **OpenCode**：热度最高，最近 push/release 都很新；但 6,033 open issues + 1,031 open PRs，典型“高热度、高活跃、高 backlog”。
+- **pi-mono**：社区参与受 gate 控制，新贡献者门槛高；但作者有长期维护记录，项目节奏稳定。
+- **jcode**：star/fork 增长很快，v0.28.0 仍在高频 release；但本地 `git shortlog` 显示 4,620 commits 高度集中在作者多个 Git identity 上，bus factor 仍是核心风险。
+
+#### 文档质量
+
+- **pi-mono**：包级 docs、SDK 示例、CHANGELOG、AGENTS.md 完整度最高。
+- **OpenCode**：README/AGENTS/CONTEXT 对用户和 agent 友好，但 runtime 深层理解仍需读源码，尤其要分清 V1/V2 session 演进边界。
+- **jcode**：README 已覆盖 provider/MCP/memory/swarm/安装，`SERVER_ARCHITECTURE.md`、`MEMORY_ARCHITECTURE.md`、`SWARM_ARCHITECTURE.md`、`SAFETY_SYSTEM.md` 等文档质量不错；不足是实现演进快，稳定扩展 API 和迁移指南还不如前两者成熟。
+
+#### 维护持续性
+
+- **OpenCode**：极高活跃，但 backlog 和复杂产品线意味着维护压力巨大。
+- **pi-mono**：维护节奏稳定，风险主要来自核心维护者集中与社区 gate。
+- **jcode**：迭代速度很快，2026-06-15 已到 v0.28.0；release/CI/多平台 artifact 信号强，但单点维护风险和版本稳定性仍需观察。
+
+### 场景一结论
+
+- **想要当下可用的开源 coding agent 主力工具** → 优先试 **OpenCode**，但在关键仓库中先加隔离和权限边界。
+- **想要可二次开发的 TypeScript Agent SDK/工具箱** → 选 **pi-mono**。
+- **想要 Rust terminal-first、高性能本地 runtime、Swarm/Memory 深度能力** → **jcode 值得个人隔离试用**；团队生产化前仍需安全隔离、版本冻结和维护风险评估。
+- **只需要 IDE 内 agent 体验** → 看 Cline / Continue。
+- **只需要成熟 Git patch flow** → 看 Aider。
+- **想要平台级自治软件工程环境** → 看 OpenHands。
+
+---
+
+## 场景二：技术架构学习横评
+
+### 对比矩阵
+
+| 维度 | OpenCode | pi-mono | jcode |
+|------|----------|---------|-------|
+| 设计模式深度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 代码质量 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| 可借鉴度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 创新性 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Runtime 可复用性 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **综合学习价值** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+
+### 架构模式对比
+
+| 问题 | OpenCode 的方案 | pi-mono 的方案 | jcode 的方案 |
+|------|-----------------|----------------|--------------|
+| Agent 执行内核 | Durable Session + Event/Projection + single-turn runner + tool settlement | AgentSession + AgentLoop + jsonl/session tree | Provider stream reducer + `run_turn_streaming_mpsc` + tool settlement |
+| 输入生命周期 | `session_input` inbox，`admitted_seq` / `promoted_seq`，`steer` / `queue` | follow-up / steering queue | user prompt、background wake、swarm DM、reload recovery 统一进入 live turn |
+| 状态持久化 | SQLite/Drizzle tables + synchronized events + projector | jsonl session log + compaction + branch summary | Session JSON/journal + provider_session_id + compaction + replay/memory injection |
+| 工具执行 | tool-call durable 记录后 settlement，失败显式收敛 | TypeBox tools + Extension events | Registry + ToolContext + session policy + persisted ToolResult |
+| 扩展机制 | Plugin tools + MCP + filesystem custom tools + HTTP/SDK | TypeScript Extension + event interception + custom UI | MCP + skills + provider profile + crate/internal tool registry |
+| 多模型支持 | provider/model catalog + route resolver | lazy provider registry + unified API | provider trait + 独立 provider crates + OpenAI-compatible profile |
+| Memory | session context epoch / projection-first history | 无本地 RAG，靠 session/compaction | Graph Memory + embedding seeds + BFS cascade retrieval + listwise rerank |
+| 多 Agent | task/subagent/tooling 路径，runtime 化能力强 | Subagent 编排 | Server-owned Swarm：members/channels/event history/live wake |
+| UI 架构 | CLI/TUI/Desktop/Web/HTTP 多入口读取 projection | CLI/TUI/Web UI components | Ratatui TUI + server/gateway/debug clients + desktop/mobile crates |
+
+### 设计决策对比
+
+- **OpenCode 倾向 runtime 化。** 它的核心不是 UI，而是 durable session、event log、projection、tool settlement、location ownership。这是最适合研究“coding agent 怎么从 prompt loop 变成可靠 runtime”的项目。
+- **pi-mono 倾向 SDK/工具箱化。** 它强调 provider 抽象、Extension API、Session 树、可复用 UI/SDK，是“怎么做可二次开发 agent 平台”的好样本。
+- **jcode 倾向本地系统 runtime 化。** 它用 Rust/Tokio/Ratatui，把 terminal agent 做成 server-owned live session：turn reducer、tool settlement、Swarm、Graph Memory、compaction/reload recovery 都是核心，不只是性能优化。
+
+### 最值得学习的 TOP 10
+
+1. **OpenCode 的 durable input inbox**：`admitted_seq` / `promoted_seq` 把“收到输入”和“模型看到输入”拆开。
+2. **OpenCode 的 tool settlement**：工具调用先 durable 记录，再执行副作用，再发布 result/failure。
+3. **OpenCode 的 Event/Projection runtime**：UI/API 从 projection 读状态，runner 只推进事件。
+4. **OpenCode 的 Context Epoch**：系统上下文是可比较、可替换、可阻断的 generation，而非一次性 prompt 字符串。
+5. **pi-mono 的 Provider 注册模式**：lazy provider module + unified API，适合多模型 SDK。
+6. **pi-mono 的 Extension 事件系统**：可拦截生命周期事件，适合做可编程 agent 平台。
+7. **pi-mono 的 Session Compaction 文件追踪**：压缩时保留读写文件线索，比普通摘要更实用。
+8. **jcode 的 streaming turn reducer**：provider stream、reasoning、tool/native/image/token/retry/error 统一规约成事件、消息和恢复动作。
+9. **jcode 的 server-owned live turn**：用户输入、后台任务、swarm DM、reload recovery 都复用同一条 turn 生命周期。
+10. **jcode 的 Graph Memory + listwise rerank**：embedding seed 负责召回，graph cascade 负责多跳扩展，LLM rerank 负责注入精度。
+
+### 场景二结论
+
+- **想学 agent runtime 事务化边界** → 读 **OpenCode**。
+- **想学可扩展 TypeScript agent SDK** → 读 **pi-mono**。
+- **想学 Rust terminal runtime、server live session、Swarm/Memory、长会话 recovery** → 读 **jcode**。
+- 三者都值得学，但学习重点不同：OpenCode 学“执行内核”，pi-mono 学“平台抽象”，jcode 学“本地系统 runtime”。
+
+---
+
+## 最终推荐
+
+### 如果要采用
+
+- **个人/高级开发者主力工具：OpenCode 优先。** 它功能覆盖和生态势能最强，但要接受高频迭代和 backlog 带来的摩擦。
+- **内部二次开发底座：pi-mono 更稳。** SDK/Extension/Provider 抽象更容易拆出来复用。
+- **实验性 Rust terminal agent runtime：jcode 值得个人隔离试用。** 不建议关键生产路径无隔离深度依赖。
+
+### 如果要学架构
+
+- **OpenCode**：durable session runtime、event/projection、tool settlement、context epoch。
+- **pi-mono**：provider registry、Extension 系统、Session tree、SDK 化。
+- **jcode**：streaming turn reducer、server-owned live session、Graph Memory、Swarm、compaction/reload recovery。
+
+### 综合判断
+
+- **采用冠军（个人工具）：OpenCode。** 生态势能最强，功能覆盖最高，但团队采用要做隔离。
+- **二次开发冠军：pi-mono。** 抽象边界更适合拆成内部 SDK/平台。
+- **Rust terminal runtime 学习冠军：jcode。** 如果目标是复刻一个本地高性能 terminal coding agent，jcode 当前学习价值已经超过“观望项目”的级别。
+
+---
+
+## 备注
+
+### 相关但非同类项目：compound-engineering-plugin
+
+[compound-engineering-plugin](../reports/compound-engineering-plugin.md) 不是独立 Coding Agent 平台，而是**AI 编码工作流插件/编排层**，依赖 Claude Code、Cursor、Codex 等宿主平台。它解决的问题和上述平台不同：
+
+- **OpenCode/pi-mono/jcode 是“做一个 agent 平台或 runtime”**。
+- **compound-engineering-plugin 是“在现有平台上加工作流编排和复利工程协议”**。
+- 它与 OpenCode/pi-mono 更可能互补：一个提供执行底座，一个提供工作流协议。
+
+### 闭源/邻近对标检查表
+
+| 项目 | 开源 | 核心差异 | 与三者对比 |
+|------|------|----------|------------|
+| Claude Code | ❌ | 模型/产品体验强，闭源 | OpenCode/pi-mono/jcode 的价值在开放与可扩展；模型质量仍依赖 provider |
+| Codex CLI | ❌/部分生态开放 | OpenAI 生态深度 | OpenCode 更 runtime 化，pi-mono 更 SDK 化 |
+| Cline | ✅ | VS Code 插件体验强 | IDE 内体验优先选 Cline；多入口 runtime 看 OpenCode |
+| Aider | ✅ | Git patch flow 稳 | 稳定 Git 协作选 Aider；复杂 runtime/多入口选 OpenCode |
+| Continue | ✅ | 企业 IDE/RAG 接入 | 企业 IDE 上下文看 Continue；agent runtime 看 OpenCode/pi-mono |
+| OpenHands | ✅ | 自治软件工程平台/任务执行 | 平台任务执行看 OpenHands；本地 coding runtime 看 OpenCode |
+| Gemini CLI | ✅ | Google 生态与分发强 | Google provider-first 体验强；开放插件/runtime 可对比 OpenCode |

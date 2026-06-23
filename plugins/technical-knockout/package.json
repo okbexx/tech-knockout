@@ -1,0 +1,24 @@
+{
+  "name": "@technical-knockout/plugin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "tk": "./bin/tk.mjs",
+    "tk-mcp-server": "./mcp/server.mjs"
+  },
+  "scripts": {
+    "doctor": "node ./bin/tk.mjs doctor",
+    "catalog:build": "node ./bin/tk.mjs catalog build",
+    "catalog:validate": "node ./bin/tk.mjs catalog validate",
+    "mcp:smoke": "node ./scripts/mcp-smoke.mjs",
+    "check": "node --check ./bin/tk.mjs && node --check ./lib/tk-core.mjs && node --check ./mcp/server.mjs && node --check ./scripts/mcp-smoke.mjs",
+    "verify": "npm run check && npm run catalog:validate && npm run doctor && npm run mcp:smoke"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "ajv": "^8.20.0",
+    "commander": "^15.0.0",
+    "zod": "^4.4.3"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/okbexx/tech-knockout/schemas/source-lock.schema.json",
+  "title": "Technical Knockout Source Lock",
+  "type": "object",
+  "required": ["generatedAt", "sources"],
+  "properties": {
+    "generatedAt": { "type": "string" },
+    "lockPath": { "type": "string" },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "repo", "sourceDir", "exists"],
+        "properties": {
+          "id": { "type": "string" },
+          "repo": { "type": ["string", "null"] },
+          "url": { "type": ["string", "null"] },
+          "cloneUrl": { "type": ["string", "null"] },
+          "sourceDir": { "type": ["string", "null"] },
+          "exists": { "type": "boolean" },
+          "branch": { "type": "string" },
+          "commit": { "type": "string" },
+          "remote": { "type": "string" },
+          "shallow": { "type": "boolean" },
+          "dirty": { "type": "boolean" },
+          "error": { "type": "string" }
+        }
+      }
+    }
+  }
+}
