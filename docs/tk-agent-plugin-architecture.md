@@ -21,7 +21,7 @@ evolve independently:
 
 | Directory | Role |
 |---|---|
-| `packages/tk` | `@okbexx/tk` npm package: CLI, MCP server, core logic, schemas, catalog snapshots, report/comparison snapshots |
+| `packages/tk` | `@jarl_okbe/tk` npm package: CLI, MCP server, core logic, schemas, catalog snapshots, report/comparison snapshots |
 | `plugins/technical-knockout` | Codex plugin adapter: `.codex-plugin/plugin.json`, Skills, plugin README, MCP launch config |
 
 The plugin adapter must stay small. It should not become a second npm package
@@ -48,7 +48,7 @@ source-cache planning, report judgment, and agent workflow semantics.
 
 TK uses a split distribution model:
 
-- `@okbexx/tk` on npm is the human-facing CLI and installer entry.
+- `@jarl_okbe/tk` on npm is the human-facing CLI and installer entry.
 - `plugins/technical-knockout` in the `tech-knockout` repository is the
   long-lived Codex plugin adapter.
 
@@ -64,13 +64,13 @@ codex plugin add technical-knockout@tech-knockout
 Publish the npm package from the workspace root:
 
 ```bash
-npm publish --workspace @okbexx/tk --access public
+npm publish --workspace @jarl_okbe/tk --access public
 ```
 
 The plugin-provided MCP server starts through the published package:
 
 ```bash
-npx --yes --package @okbexx/tk tk-mcp-server
+npx --yes --package @jarl_okbe/tk tk-mcp-server
 ```
 
 Do not point Codex at an ephemeral `npx` cache directory as the durable plugin
@@ -100,7 +100,7 @@ Changes to the plugin suite should pass:
 
 ```bash
 npm run verify
-npm publish --workspace @okbexx/tk --access public --dry-run
+npm publish --workspace @jarl_okbe/tk --access public --dry-run
 ```
 
 The verify script covers syntax checks, catalog validation, doctor checks, and

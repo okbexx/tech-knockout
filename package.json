@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "verify": "npm run verify --workspace @okbexx/tk",
-    "publish:tk": "npm publish --workspace @okbexx/tk --access public"
+    "verify": "npm run verify --workspace @jarl_okbe/tk",
+    "publish:tk": "npm publish --workspace @jarl_okbe/tk --access public"
   }
 }

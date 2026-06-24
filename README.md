@@ -29,10 +29,10 @@ TK 更关注：
 
 - 想快速选型：从下方 **Project Index** 或 [`comparisons/`](./comparisons/) 进入。
 - 想学习架构：读单项目报告里的“底层技术架构”“关键执行链路”“可复刻设计不变量”。
-- 想让 Agent 使用 TK：运行 `npx @okbexx/tk codex install` 安装 Codex 插件，使用其中的 Skills、CLI 和 MCP 服务。
+- 想让 Agent 使用 TK：运行 `npx @jarl_okbe/tk codex install` 安装 Codex 插件，使用其中的 Skills、CLI 和 MCP 服务。
 - 想给其它用户安装 TK Codex 插件：读 [`docs/install-codex-plugin.md`](./docs/install-codex-plugin.md)。
-- 想同步报告对应源码：运行 `npx @okbexx/tk source sync --missing`。
-- 想让 Agent 读取某个项目当前源码：运行 `npx @okbexx/tk source path <project> --json` 获取本地源码路径。
+- 想同步报告对应源码：运行 `npx @jarl_okbe/tk source sync --missing`。
+- 想让 Agent 读取某个项目当前源码：运行 `npx @jarl_okbe/tk source path <project> --json` 获取本地源码路径。
 - 想复用方法论：读 [`METHODOLOGY.md`](./METHODOLOGY.md)。
 - 想提交新项目或修正报告：读 [`CONTRIBUTING.md`](./CONTRIBUTING.md)。
 - 想让 AI Agent 参与维护：读 [`AGENTS.md`](./AGENTS.md)。
@@ -41,7 +41,7 @@ TK 更关注：
 
 TK 提供面向 agent 的完整产品形态：
 
-- **npm package**：`packages/tk` 发布为 `@okbexx/tk`，提供 CLI、MCP server、core、schemas 和报告快照。
+- **npm package**：`packages/tk` 发布为 `@jarl_okbe/tk`，提供 CLI、MCP server、core、schemas 和报告快照。
 - **Codex plugin adapter**：`plugins/technical-knockout` 提供 Codex manifest、Skills 和 MCP 启动配置。
 
 - **Skills**：告诉 agent 何时使用 TK、如何做 reference discovery、build-vs-buy、架构学习和报告维护。
@@ -52,12 +52,12 @@ TK 提供面向 agent 的完整产品形态：
 常用命令：
 
 ```bash
-npx @okbexx/tk doctor
-npx @okbexx/tk codex install
-npx @okbexx/tk search "coding agent runtime" --json
-npx @okbexx/tk source status --json
-npx @okbexx/tk source sync --missing
-npx @okbexx/tk source path gitnexus --json
+npx @jarl_okbe/tk doctor
+npx @jarl_okbe/tk codex install
+npx @jarl_okbe/tk search "coding agent runtime" --json
+npx @jarl_okbe/tk source status --json
+npx @jarl_okbe/tk source sync --missing
+npx @jarl_okbe/tk source path gitnexus --json
 npm run verify
 ```
 

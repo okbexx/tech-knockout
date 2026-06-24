@@ -5,7 +5,7 @@ installable plugin with bundled Skills, CLI commands, and an MCP server.
 
 TK has two distribution layers:
 
-- `@okbexx/tk` is the npm package that provides the `tk` CLI, MCP server, and
+- `@jarl_okbe/tk` is the npm package that provides the `tk` CLI, MCP server, and
   installer entry.
 - `plugins/technical-knockout` is the Codex plugin adapter shipped from the
   `tech-knockout` repository.
@@ -21,7 +21,7 @@ TK has two distribution layers:
 Install the Codex plugin through the TK npm CLI:
 
 ```bash
-npx @okbexx/tk codex install
+npx @jarl_okbe/tk codex install
 ```
 
 This registers the GitHub marketplace source and installs the Codex plugin:
@@ -38,17 +38,17 @@ Restart Codex or start a new Codex thread after installation.
 Run TK commands through npm without cloning the repository:
 
 ```bash
-npx @okbexx/tk doctor
-npx @okbexx/tk search "coding agent runtime" --json
-npx @okbexx/tk source status --json
-npx @okbexx/tk source sync --missing
-npx @okbexx/tk source path gitnexus --json
+npx @jarl_okbe/tk doctor
+npx @jarl_okbe/tk search "coding agent runtime" --json
+npx @jarl_okbe/tk source status --json
+npx @jarl_okbe/tk source sync --missing
+npx @jarl_okbe/tk source path gitnexus --json
 ```
 
 Or install the CLI globally:
 
 ```bash
-npm install --global @okbexx/tk
+npm install --global @jarl_okbe/tk
 tk doctor
 tk source sync --missing
 ```
@@ -67,7 +67,7 @@ directory.
 To make `doctor` fail when source caches are missing, run:
 
 ```bash
-npx @okbexx/tk doctor --require-sources
+npx @jarl_okbe/tk doctor --require-sources
 ```
 
 ## Install from source for development
@@ -95,7 +95,7 @@ npm run verify
 Register the TK repository as a Codex plugin marketplace:
 
 ```bash
-npx @okbexx/tk codex install --source "$(pwd)"
+npx @jarl_okbe/tk codex install --source "$(pwd)"
 ```
 
 The underlying Codex commands are:
@@ -183,12 +183,12 @@ MCP configuration are available to the agent.
 
 ## Troubleshooting
 
-If `npx @okbexx/tk codex install` cannot find the plugin, run
+If `npx @jarl_okbe/tk codex install` cannot find the plugin, run
 `codex plugin marketplace list` and confirm that `tech-knockout` is registered.
 If it is missing, rerun:
 
 ```bash
-npx @okbexx/tk codex install
+npx @jarl_okbe/tk codex install
 ```
 
 If verification fails with a Node.js engine error, upgrade Node.js to 22.12.0 or
@@ -198,11 +198,11 @@ If the plugin MCP server fails to start, make sure the npm package is published
 and available through:
 
 ```bash
-npx --yes --package @okbexx/tk tk-mcp-server
+npx --yes --package @jarl_okbe/tk tk-mcp-server
 ```
 
 If source paths are missing, run:
 
 ```bash
-npx @okbexx/tk source sync --missing
+npx @jarl_okbe/tk source sync --missing
 ```

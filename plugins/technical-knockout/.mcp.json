@@ -5,7 +5,7 @@
       "args": [
         "--yes",
         "--package",
-        "@okbexx/tk",
+        "@jarl_okbe/tk",
         "tk-mcp-server"
       ]
     }

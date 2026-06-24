@@ -15,7 +15,7 @@ Technical Knockout（TK）是开源项目技术调研与选型仓库。这里保
 
 TK 给 Agent 的完整产品形态由 npm 包和 Codex 插件适配层共同组成：
 
-- `packages/tk` 是 `@okbexx/tk` npm 产品包，包含 CLI、MCP server、core、schema、报告快照和机器可读数据。
+- `packages/tk` 是 `@jarl_okbe/tk` npm 产品包，包含 CLI、MCP server、core、schema、报告快照和机器可读数据。
 - `plugins/technical-knockout` 是 Codex 插件适配层，只包含 manifest、Skills、插件 README 和 MCP 启动配置。
 - Skill 负责触发与编排，不复制 CLI/MCP 逻辑。
 - CLI 负责确定性执行、catalog、source sync、doctor 和 JSON 输出。

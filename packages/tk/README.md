@@ -1,4 +1,4 @@
-# @okbexx/tk
+# @jarl_okbe/tk
 
 Technical Knockout CLI and MCP server for architecture reference evidence.
 
@@ -7,15 +7,15 @@ Technical Knockout CLI and MCP server for architecture reference evidence.
 Run without installing:
 
 ```bash
-npx @okbexx/tk doctor
-npx @okbexx/tk search "coding agent runtime" --json
-npx @okbexx/tk source sync --missing
+npx @jarl_okbe/tk doctor
+npx @jarl_okbe/tk search "coding agent runtime" --json
+npx @jarl_okbe/tk source sync --missing
 ```
 
 Or install globally:
 
 ```bash
-npm install --global @okbexx/tk
+npm install --global @jarl_okbe/tk
 tk doctor
 ```
 
@@ -24,7 +24,7 @@ tk doctor
 Install the Technical Knockout Codex plugin:
 
 ```bash
-npx @okbexx/tk codex install
+npx @jarl_okbe/tk codex install
 ```
 
 This registers the GitHub marketplace and installs
@@ -43,7 +43,7 @@ npm run publish:tk -- --dry-run
 Publish the npm package from the workspace root:
 
 ```bash
-npm publish --workspace @okbexx/tk --access public
+npm publish --workspace @jarl_okbe/tk --access public
 ```
 
 The Codex plugin adapter lives in `plugins/technical-knockout`; this package is
