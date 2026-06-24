@@ -5,8 +5,8 @@
   "description": "Technical Knockout CLI and Codex plugin installer for architecture reference evidence.",
   "type": "module",
   "bin": {
-    "tk": "./bin/tk.mjs",
-    "tk-mcp-server": "./mcp/server.mjs"
+    "tk": "bin/tk.mjs",
+    "tk-mcp-server": "mcp/server.mjs"
   },
   "files": [
     ".codex-plugin/",
