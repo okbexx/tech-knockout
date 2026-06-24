@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-22T04:11:23.575Z",
+  "generatedAt": "2026-06-24T15:09:28.129Z",
   "projects": [
     {
       "id": "1shell",
@@ -625,6 +625,31 @@
         "tauri",
         "rust",
         "typescript"
+      ]
+    },
+    {
+      "id": "trellis",
+      "name": "Trellis",
+      "repo": "mindfold-ai/Trellis",
+      "url": "https://github.com/mindfold-ai/Trellis",
+      "cloneUrl": "https://github.com/mindfold-ai/Trellis.git",
+      "report": "reports/Trellis.md",
+      "reportFile": "Trellis",
+      "category": "AI Coding / Agent Workflow",
+      "summary": "Trellis 是一套项目层 AI coding engineering framework / agent harness substrate：把 spec、task、workspace memory、四阶段工作流、跨平台 agent 配置和事件溯源 channel runtime 落到仓库与本地状态中，让 Claude Code、Codex、Cursor、OpenCode、Pi 等不同 coding agent 在同一套工程上下文和任务纪律下工作。",
+      "adoption": "🟢 推荐采用（团队/高频 AI coding 项目的项目记忆与任务底座） / 🟡 商业生产化前需先评估 AGPL 与流程迁移成本。",
+      "architectureValue": 5,
+      "license": "AGPL-3.0-only / GitHub API 显示 AGPL-3.0",
+      "language": null,
+      "analysisDate": "2026-06-24",
+      "sourceDir": "projects/mindfold-ai__Trellis",
+      "owner": "mindfold-ai",
+      "sourceExists": true,
+      "tags": [
+        "agent",
+        "coding",
+        "workflow",
+        "runtime"
       ]
     },
     {

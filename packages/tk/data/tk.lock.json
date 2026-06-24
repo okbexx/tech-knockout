@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-22T06:15:02.167Z",
+  "generatedAt": "2026-06-24T15:12:06.176947Z",
   "sources": [
     {
       "id": "1shell",
@@ -310,6 +310,19 @@
       "branch": "main",
       "commit": "d93e9e24ba1b301e97a9496fab0d8592247f3004",
       "remote": "https://github.com/refactoringhq/tolaria.git",
+      "shallow": true,
+      "dirty": false
+    },
+    {
+      "id": "trellis",
+      "repo": "mindfold-ai/Trellis",
+      "url": "https://github.com/mindfold-ai/Trellis",
+      "cloneUrl": "https://github.com/mindfold-ai/Trellis.git",
+      "sourceDir": "projects/mindfold-ai__Trellis",
+      "exists": true,
+      "branch": "main",
+      "commit": "e1459dd8e9ce3564b44d5982d634511a9b9d62c9",
+      "remote": "https://github.com/mindfold-ai/Trellis.git",
       "shallow": true,
       "dirty": false
     },

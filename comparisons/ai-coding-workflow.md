@@ -9,32 +9,38 @@
 | 项目 | 一句话 | Star（观测日） |
 |------|--------|---------------|
 | **superpowers** | 跨平台 Agentic 技能操作系统，用 Skills + bootstrap + hooks + adapters 在宿主会话启动时注入设计先行、TDD、工作树隔离、子代理审查和完成前验证 | 227,958（2026-06-15） |
+| **Trellis** | 项目层 AI coding engineering framework：把 spec、task、workspace memory、四阶段工作流、跨平台 agent 配置和事件溯源 channel runtime 落到仓库与本地状态中 | 11,043（2026-06-24） |
 | **compound-engineering-plugin** | 团队型 AI coding workflow 插件：Claude-compatible skills/agents 单一源码、多平台转换分发、多 persona review 与 brainstorm → plan → work → review → compound 复利闭环 | 21,460（2026-06-16） |
 | **ECC** | 跨 Claude Code / Codex / Cursor / OpenCode 等 harness 的工作流操作系统：agents、skills、rules、hooks、MCP、installer、ECC2 alpha 控制面 | 207,220（2026-06-05） |
 | **vibecode-pro-max-kit** | 面向 Claude Code 与 Codex 的 RIPER-5 规格驱动开发 harness：12 agents、31 skills、7 hooks、`process/` 项目记忆和一键安装器 | 860（2026-06-14） |
 | **loop-engineering** | Practical loop engineering toolkit：patterns registry、starters 与 `loop-audit` / `loop-init` / `loop-cost`，把 AI coding agent 任务产品化为可持续运行的工程回路 | 262（2026-06-16） |
 
-> 分层提醒：这五个项目同属 AI coding workflow 决策面，但不是完全同层。`superpowers` 偏单次任务行为纪律，`compound-engineering-plugin` 偏团队协作、多 Agent 审查与 workflow artifact 复利沉淀，`ECC` 偏 cross-harness substrate，`vibecode-pro-max-kit` 偏 spec-driven harness + 项目记忆，`loop-engineering` 偏 recurring loop operation / starter toolkit。
+> 分层提醒：这六个项目同属 AI coding workflow 决策面，但不是完全同层。`superpowers` 偏单次任务行为纪律，`Trellis` 偏项目级 spec/task/memory 与跨平台工作流 substrate，`compound-engineering-plugin` 偏团队协作、多 Agent 审查与 workflow artifact 复利沉淀，`ECC` 偏 cross-harness substrate，`vibecode-pro-max-kit` 偏 spec-driven harness + 项目记忆，`loop-engineering` 偏 recurring loop operation / starter toolkit。
 
 ## 采用选型横评
 
-| 维度 | superpowers | compound-engineering-plugin | ECC | vibecode-pro-max-kit | loop-engineering | 评价 |
-|------|------------|-----------------------------|-----|----------------------|------------------|------|
-| 功能覆盖度 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ECC 覆盖面最大；CE 覆盖 brainstorm/strategy/plan/work/debug/review/compound/pulse 的团队任务闭环；loop-engineering 聚焦 patterns/starters/audit/cost，不做 runtime / hook OS。 |
-| 集成成本 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | superpowers 和 loop-engineering 最轻；CE 的 Claude/Cursor native install 较顺，但 Codex 需要 native plugin + Bun agents，且 skills/agents 心智成本较高；vibecode 依赖 Node 22+ 且会替换 `.claude`/`.codex`。 |
-| 社区健康 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐ | loop-engineering 项目仅一周，star/fork 有早期传播但 contributors/adoption 样本少。 |
-| 文档质量 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | CE 的 README、plugin README 与 SKILL.md 是 runtime contract 级文档；loop-engineering 的 primitives、safety、operating loops、patterns 文档非常清楚。 |
-| 维护持续性 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | loop-engineering dogfood 活跃，但长期维护还未被时间验证。 |
-| 平台覆盖 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | loop-engineering 显式覆盖 Grok / Claude / Codex / GitHub Actions，但不是深平台 adapter。 |
-| 安全/治理 | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | CE 在 installer 层有 safe path guard、managed manifest、bounded config merge 与 hook ownership index；loop-engineering 对 L1/L2/L3、human gates、MCP scope、budget/kill switch 讲得清楚，但执行仍依赖用户环境。 |
-| 上下文/副作用控制 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | CE workflow 文本多、安装会写宿主配置，需隔离 profile；loop-engineering 的 `STATE.md` / `LOOP.md` / budget / run-log 状态面好；`loop-init` 仍会写入目标项目文件，应先 dry-run。 |
-| Recurring loop 运维能力 | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | loop-engineering 是唯一把 cadence、readiness、token cap、run log、state 和 audit 作为主轴的项目。 |
+| 维度 | superpowers | Trellis | compound-engineering-plugin | ECC | vibecode-pro-max-kit | loop-engineering | 评价 |
+|------|------------|---------|-----------------------------|-----|----------------------|------------------|------|
+| 功能覆盖度 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | Trellis 覆盖 spec/task/workspace memory/channel/mem 与多平台生成；ECC 覆盖面最大；CE 覆盖 brainstorm/strategy/plan/work/debug/review/compound/pulse 的团队任务闭环；loop-engineering 聚焦 patterns/starters/audit/cost，不做 runtime / hook OS。 |
+| 集成成本 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐⭐ | superpowers 和 loop-engineering 最轻；Trellis 需要接受 `.trellis/`、任务工件、Python/Node 与平台配置写入；CE 的 Claude/Cursor native install 较顺，但 Codex 需要 native plugin + Bun agents，且 skills/agents 心智成本较高；vibecode 依赖 Node 22+ 且会替换 `.claude`/`.codex`。 |
+| 社区健康 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐ | Trellis 声量强、迭代快、npm 有真实下载，但项目很新且提交集中；loop-engineering 项目仅一周，star/fork 有早期传播但 contributors/adoption 样本少。 |
+| 文档质量 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | CE 的 README、plugin README 与 SKILL.md 是 runtime contract 级文档；Trellis README/docs 入口清楚，core/channel 深层设计主要靠源码；loop-engineering 的 primitives、safety、operating loops、patterns 文档非常清楚。 |
+| 维护持续性 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | Trellis 2026-06-24 当日仍有 CI 与 merge，维护活跃；loop-engineering dogfood 活跃，但长期维护还未被时间验证。 |
+| 平台覆盖 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | Trellis README 声称 16 AI coding platforms，CLI option 面很宽；loop-engineering 显式覆盖 Grok / Claude / Codex / GitHub Actions，但不是深平台 adapter。 |
+| 安全/治理 | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | Trellis 的 template hash、manifest prune、migration/backup/scrubber 让 installer ownership 设计扎实；CE 在 installer 层有 safe path guard、managed manifest、bounded config merge 与 hook ownership index；loop-engineering 对 L1/L2/L3、human gates、MCP scope、budget/kill switch 讲得清楚，但执行仍依赖用户环境。 |
+| 上下文/副作用控制 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | Trellis 通过 task/spec/context curated injection 控制上下文，但 `.trellis/` 与多平台 artifacts 有真实副作用；CE workflow 文本多、安装会写宿主配置，需隔离 profile；loop-engineering 的 `STATE.md` / `LOOP.md` / budget / run-log 状态面好；`loop-init` 仍会写入目标项目文件，应先 dry-run。 |
+| Recurring loop 运维能力 | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Trellis 有 task/journal/finish/spec promotion 和 channel worker primitives，但 recurring loop 运营不是主轴；loop-engineering 是唯一把 cadence、readiness、token cap、run log、state 和 audit 作为主轴的项目。 |
 
 ### 采用建议
 
 - **个人开发者 / 只想提升 coding agent 纪律：优先 superpowers**
   - 最轻、方法论清楚、心智负担最低。
   - 不需要理解复杂 installer、hooks、副作用边界。
+
+- **团队/高频 AI coding 项目 / 需要项目记忆与任务底座：优先 Trellis**
+  - 更适合把 specs、tasks、workspace journals 和四阶段 workflow 固化到仓库。
+  - 对多平台团队有价值：同一项目层 substrate 服务 Claude Code、Codex、Cursor、OpenCode、Pi 等宿主。
+  - 商业生产化前必须先评估 AGPL-3.0-only 与 `.trellis/` 工作流迁移成本。
 
 - **团队技术负责人 / 需要多 Agent 审查和复利沉淀：优先 compound-engineering-plugin**
   - 更聚焦团队 workflow 闭环：brainstorm → plan → work → review → compound。
@@ -54,18 +60,23 @@
 
 ## 架构学习横评
 
-| 维度 | superpowers | compound-engineering-plugin | ECC | vibecode-pro-max-kit | loop-engineering | 评价 |
-|------|------------|-----------------------------|-----|----------------------|------------------|------|
-| 设计模式深度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | CE 在 source plugin model + target adapter + managed install state + multi reviewer contract 上很有代表性；loop-engineering 在 pattern registry + loop state + budget/run-log + readiness audit 上很有代表性。 |
-| 代码质量 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | loop-engineering 代码小、类型清楚、依赖少；但项目早期，映射仍有硬编码与重复源。 |
-| 可借鉴度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | CE 的 managed plugin writer、多 agent review contract 和 compound artifact loop 可直接迁移到内部 agent workflow；loop-engineering 的 `STATE.md + LOOP.md + budget + run-log + audit` 也很可复用。 |
-| 创新性 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | CE 的创新在于把复利工程做成跨宿主可分发 workflow；loop-engineering 概念不复杂，但把 loop operation 产品化得很清楚。 |
-| 综合学习价值 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | 学行为 shaping 看 superpowers；学团队 review 看 CE；学 substrate 工程看 ECC；学项目记忆看 vibecode；学 recurring loop 运维看 loop-engineering。 |
+| 维度 | superpowers | Trellis | compound-engineering-plugin | ECC | vibecode-pro-max-kit | loop-engineering | 评价 |
+|------|------------|---------|-----------------------------|-----|----------------------|------------------|------|
+| 设计模式深度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Trellis 在 task artifact、template ownership、migration、event-sourced channel、mem adapter 上很有代表性；CE 在 source plugin model + target adapter + managed install state + multi reviewer contract 上很有代表性；loop-engineering 在 pattern registry + loop state + budget/run-log + readiness audit 上很有代表性。 |
+| 代码质量 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | Trellis core 分层扎实、installer 安全性设计较强，但 CLI init/update 文件偏大且平台矩阵仍在快速堆叠；loop-engineering 代码小、类型清楚、依赖少；但项目早期，映射仍有硬编码与重复源。 |
+| 可借鉴度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | Trellis 的 `.trellis` project memory、task schema、channel events、template hash/migration 可以直接借鉴到内部 agent substrate；CE 的 managed plugin writer、多 agent review contract 和 compound artifact loop 可迁移；loop-engineering 的 `STATE.md + LOOP.md + budget + run-log + audit` 也很可复用。 |
+| 创新性 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | Trellis 的创新在于把 repo-native project memory/task lifecycle 和跨宿主配置结合；CE 的创新在于把复利工程做成跨宿主可分发 workflow；loop-engineering 概念不复杂，但把 loop operation 产品化得很清楚。 |
+| 综合学习价值 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | 学行为 shaping 看 superpowers；学项目级 agent memory/task substrate 看 Trellis；学团队 review 看 CE；学 substrate 工程看 ECC；学项目记忆看 vibecode；学 recurring loop 运维看 loop-engineering。 |
 
 ### 架构学习建议
 
 - **学习如何让 agent 遵守流程：看 superpowers**
   - Red Flags / CSO / TDD-for-docs 是方法论标杆。
+
+- **学习项目级 agent memory / task substrate：看 Trellis**
+  - `.trellis/spec`、`.trellis/tasks`、`.trellis/workspace` 如何把上下文、任务和学习变成 repo-native 工件。
+  - template hash / manifest prune / migration manifests 如何治理安装器 ownership 和升级副作用。
+  - `task/channel/mem` core primitives 如何把 task schema、event-sourced worker coordination 和宿主 session memory reader 分层。
 
 - **学习多 agent 协作审查：看 compound-engineering-plugin**
   - 多 reviewer、置信度门控、合成去重、复利工程闭环。
@@ -92,11 +103,13 @@
 | 场景 | 推荐 |
 |------|------|
 | 个人/小团队快速采用 | 🏆 **superpowers** — 最轻、最稳、心智成本最低。 |
+| 团队项目记忆与任务底座 | 🏆 **Trellis** — 把 specs、tasks、workspace memory、四阶段 workflow 和多平台配置落成 repo-native substrate。 |
 | 团队多 Agent 审查与复利沉淀 | 🏆 **compound-engineering-plugin** — 更聚焦组织 workflow 闭环。 |
 | 多 harness 统一工作流资产 | 🏆 **ECC** — 选择性安装、hooks、安全 CI、MCP、ECC2 control-plane 路线最完整。 |
 | Founder/PM/vibecoder 想试 spec-driven 交付 | **vibecode-pro-max-kit** — 值得 Node 22+ 隔离 PoC，但生产 full install 先观望。 |
 | Recurring repo maintenance / triage / PR babysitting | 🏆 **loop-engineering** — patterns、starters、readiness audit、成本与运行状态面最直接。 |
 | 学习 agent 行为 shaping | 🏆 **superpowers** — Red Flags / CSO / TDD-for-docs 是标杆。 |
+| 学习项目级 agent memory / task substrate | 🏆 **Trellis** — `.trellis` specs/tasks/workspace、task schema、channel events、mem adapters 和 template ownership 很值得拆。 |
 | 学习 agent workflow 平台工程 | 🏆 **ECC** — 最值得拆解 manifests、installer、hooks、validators、public/private boundary。 |
 | 学习项目记忆与计划生命周期 | 🏆 **vibecode-pro-max-kit** — `process/` 结构和 RIPER-5 phase protocol 很有参考价值。 |
 | 学习 recurring loop 运维 | 🏆 **loop-engineering** — L1/L2/L3、state、budget、run-log、human gate 组合最清楚。 |
@@ -111,6 +124,7 @@
 - `loop-engineering` 与 `ECC` 的差别在重量级：ECC 是 substrate / OS，loop-engineering 是 lightweight pattern kit；团队如果已有内部平台，可直接借鉴 loop-engineering 的状态面和 readiness audit。
 - `vibecode-pro-max-kit` 与 `loop-engineering` 都强调状态落盘，但前者关注 spec-driven delivery 的项目记忆，后者关注 recurring operations 的运行状态。
 - `compound-engineering-plugin` 重新分析后更应视为“workflow + converter + managed installer”三位一体项目：采用价值在团队审查和知识复利，架构学习价值在 Claude-compatible source assets 如何安全分发到 Codex/OpenCode/Pi/Gemini/Kiro 等宿主。
+- `Trellis` 更应视为“项目级 AI coding substrate”而不是单个 agent runtime：采用价值在 repo-native specs/tasks/workspace memory 与多平台配置复用，架构学习价值在 task schema、event-sourced channel、mem adapters、template ownership 和 migration system。采用前需评估 AGPL-3.0-only 与 `.trellis/` 流程迁移成本。
 - 采用 `compound-engineering-plugin` 前需额外核对安装源版本：2026-06-16 观测 GitHub latest release 为 `compound-engineering-v3.13.0`，npm `@every-env/compound-plugin` latest 查询仍为 `3.8.3`。
 - 采用 loop-engineering 前必须先确认：不要直接开 L3 unattended；先 L1 report-only，补 verifier、worktree、budget、run-log、human gate、MCP scope，再逐步放权。
 - vibecode-pro-max-kit 采用前必须验证 Node 22+：Node 20.19.2 下 `resolve-manifest.mjs` 只解析 7 个文件，`install.sh` 会先复制少量文件再退出失败，留下 0 个 agents / 5 个 skills 的半安装目录。
