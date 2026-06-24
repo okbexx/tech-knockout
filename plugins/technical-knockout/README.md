@@ -1,40 +1,32 @@
 # Technical Knockout Codex Plugin
 
-Technical Knockout packages TK reports, comparisons, source-cache workflows,
-and architecture decision methodology as an agent-native Codex plugin.
+This directory is the Codex plugin adapter for Technical Knockout.
 
-The plugin contains:
+It contains:
 
-- Skills that teach Codex how to use TK evidence.
-- A Commander.js-based `tk` CLI for catalog, source, and doctor operations.
-- A read-mostly MCP server, built on the official MCP SDK, for structured
-  report, catalog, and source-cache access.
+- `.codex-plugin/plugin.json` for Codex marketplace metadata.
+- `skills/` for agent routing and TK evidence workflows.
+- `.mcp.json` that starts the TK MCP server through
+  `npx --yes --package @okbexx/tk tk-mcp-server`.
 
-Install it as a user-facing npm CLI:
+The npm package is the primary CLI and MCP implementation and lives in
+`packages/tk`. Keep this directory as the Codex adapter; do not add a second
+package runtime here.
+
+Install the user-facing package and Codex plugin with:
 
 ```bash
 npx @okbexx/tk codex install
 npx @okbexx/tk doctor
 ```
 
-Install it from a local TK repository checkout for development:
+For local development from the repository root:
 
 ```bash
-npm --prefix plugins/technical-knockout ci
-npm --prefix plugins/technical-knockout run verify
-node plugins/technical-knockout/bin/tk.mjs codex install --source "$(pwd)"
+npm install
+npm run verify
+npm run publish:tk -- --dry-run
 ```
 
 See the full user guide at
 [`docs/install-codex-plugin.md`](../../docs/install-codex-plugin.md).
-
-Run the CLI from the plugin directory or from the TK repository:
-
-```bash
-tk doctor
-tk doctor --require-sources
-tk search "coding agent runtime" --json
-tk source path gitnexus --json
-npm --prefix plugins/technical-knockout run verify
-npm --prefix plugins/technical-knockout run mcp:smoke
-```

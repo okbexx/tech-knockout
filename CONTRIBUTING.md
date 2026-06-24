@@ -108,14 +108,15 @@ comparisons/code-intelligence.md
 
 TK 维护时通常会把待分析仓库 clone 到本地 `projects/`，但 `projects/` 不属于本仓库内容，不应提交。
 
-推荐使用 TK CLI 同步和检查源码缓存：
+推荐使用 TK CLI 同步和检查源码缓存。仓库根目录是 npm workspace，依赖安装、验证和发布预检都从根目录执行：
 
 ```bash
-node plugins/technical-knockout/bin/tk.mjs source sync --missing
-node plugins/technical-knockout/bin/tk.mjs source status --json
-node plugins/technical-knockout/bin/tk.mjs source path gitnexus --json
-node plugins/technical-knockout/bin/tk.mjs doctor
-npm --prefix plugins/technical-knockout run verify
+node packages/tk/bin/tk.mjs source sync --missing
+node packages/tk/bin/tk.mjs source status --json
+node packages/tk/bin/tk.mjs source path gitnexus --json
+node packages/tk/bin/tk.mjs doctor
+npm run verify
+npm run publish:tk -- --dry-run
 ```
 
 请不要提交：
@@ -132,9 +133,10 @@ npm --prefix plugins/technical-knockout run verify
 - [ ] 报告基于 `reports/_TEMPLATE.md` 或保持同等结构。
 - [ ] README Project Index 已更新。
 - [ ] 横评已更新，或说明为什么不需要横评。
-- [ ] `node plugins/technical-knockout/bin/tk.mjs catalog validate` 通过。
-- [ ] `node plugins/technical-knockout/bin/tk.mjs doctor` 已运行，或说明未运行原因。
-- [ ] 改动 Agent 插件套件时，`npm --prefix plugins/technical-knockout run verify` 通过。
+- [ ] `node packages/tk/bin/tk.mjs catalog validate` 通过。
+- [ ] `node packages/tk/bin/tk.mjs doctor` 已运行，或说明未运行原因。
+- [ ] 改动 `packages/tk` 或 Agent 插件适配层时，`npm run verify` 通过。
+- [ ] 改动 npm 包分发内容时，`npm run publish:tk -- --dry-run` 通过。
 - [ ] 数据指标注明观察日期。
 - [ ] 采用建议区分个人 / 小团队 / 企业生产化。
 - [ ] 关键结论有证据来源。

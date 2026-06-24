@@ -1,9 +1,12 @@
 {
   "mcpServers": {
     "technical-knockout": {
-      "command": "node",
+      "command": "npx",
       "args": [
-        "./mcp/server.mjs"
+        "--yes",
+        "--package",
+        "@okbexx/tk",
+        "tk-mcp-server"
       ]
     }
   }

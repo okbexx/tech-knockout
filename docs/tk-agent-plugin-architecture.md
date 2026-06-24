@@ -14,6 +14,21 @@ The product is intentionally layered:
 | Codex plugin | Installable distribution unit |
 | npm package | User-facing CLI and installer entry |
 
+## Directory Boundary
+
+TK uses an npm workspace so the reusable runtime and the Codex adapter can
+evolve independently:
+
+| Directory | Role |
+|---|---|
+| `packages/tk` | `@okbexx/tk` npm package: CLI, MCP server, core logic, schemas, catalog snapshots, report/comparison snapshots |
+| `plugins/technical-knockout` | Codex plugin adapter: `.codex-plugin/plugin.json`, Skills, plugin README, MCP launch config |
+
+The plugin adapter must stay small. It should not become a second npm package
+or a hidden runtime root. Codex may copy installed plugin directories into a
+cache, so plugin-local config must not depend on parent-relative paths such as
+`../../packages/tk`.
+
 ## Build-vs-Buy Policy
 
 TK product infrastructure should use mature libraries for durable surfaces:
@@ -34,7 +49,8 @@ source-cache planning, report judgment, and agent workflow semantics.
 TK uses a split distribution model:
 
 - `@okbexx/tk` on npm is the human-facing CLI and installer entry.
-- `tech-knockout` Codex marketplace is the long-lived agent plugin source.
+- `plugins/technical-knockout` in the `tech-knockout` repository is the
+  long-lived Codex plugin adapter.
 
 The npm package can run `tk doctor`, `tk search`, and `tk codex install`.
 `tk codex install` wraps official Codex CLI commands instead of reimplementing
@@ -43,6 +59,18 @@ plugin installation state:
 ```bash
 codex plugin marketplace add okbexx/tech-knockout
 codex plugin add technical-knockout@tech-knockout
+```
+
+Publish the npm package from the workspace root:
+
+```bash
+npm publish --workspace @okbexx/tk --access public
+```
+
+The plugin-provided MCP server starts through the published package:
+
+```bash
+npx --yes --package @okbexx/tk tk-mcp-server
 ```
 
 Do not point Codex at an ephemeral `npx` cache directory as the durable plugin
@@ -72,6 +100,7 @@ Changes to the plugin suite should pass:
 
 ```bash
 npm run verify
+npm publish --workspace @okbexx/tk --access public --dry-run
 ```
 
 The verify script covers syntax checks, catalog validation, doctor checks, and

@@ -1,6 +1,6 @@
 # Technical Knockout — Agent Instructions
 
-Technical Knockout（TK）是开源项目技术调研与选型仓库。这里保存报告、横评、Agent 插件和源码缓存；`projects/` 下源码不纳入本仓库提交。
+Technical Knockout（TK）是开源项目技术调研与选型仓库。这里保存报告、横评、Agent 能力产品和源码缓存；`projects/` 下源码不纳入本仓库提交。
 
 ## 核心原则
 
@@ -11,24 +11,26 @@ Technical Knockout（TK）是开源项目技术调研与选型仓库。这里保
 - 模糊项目名且多个候选仓库存在时，先问用户确认具体 `org/repo`。
 - 开发 TK 自身时优先使用 repo skill：`.agents/skills/develop-tech-knockout/SKILL.md`。
 
-## Agent 插件产品边界
+## Agent 产品边界
 
-TK 给 Agent 的完整产品形态是 `plugins/technical-knockout`：
+TK 给 Agent 的完整产品形态由 npm 包和 Codex 插件适配层共同组成：
 
-- Skill 负责触发与编排。
+- `packages/tk` 是 `@okbexx/tk` npm 产品包，包含 CLI、MCP server、core、schema、报告快照和机器可读数据。
+- `plugins/technical-knockout` 是 Codex 插件适配层，只包含 manifest、Skills、插件 README 和 MCP 启动配置。
+- Skill 负责触发与编排，不复制 CLI/MCP 逻辑。
 - CLI 负责确定性执行、catalog、source sync、doctor 和 JSON 输出。
 - MCP 负责 read-mostly 的结构化上下文查询。
-- `plugins/technical-knockout/data/tk.catalog.json` 和 `tk.lock.json` 是机器可读事实。
+- `packages/tk/data/tk.catalog.json` 和 `tk.lock.json` 是机器可读事实。
 - `projects/` 是可再生当前源码缓存，不能提交。Agent 需要读完整代码时，先用 `tk source path <project> --json` 解析本地路径，再直接读该目录。
 
 常用验证命令：
 
 ```bash
-node plugins/technical-knockout/bin/tk.mjs catalog build
-node plugins/technical-knockout/bin/tk.mjs catalog validate
-node plugins/technical-knockout/bin/tk.mjs source path gitnexus --json
-node plugins/technical-knockout/bin/tk.mjs doctor
-npm --prefix plugins/technical-knockout run verify
+node packages/tk/bin/tk.mjs catalog build
+node packages/tk/bin/tk.mjs catalog validate
+node packages/tk/bin/tk.mjs source path gitnexus --json
+node packages/tk/bin/tk.mjs doctor
+npm run verify
 ```
 
 ## 底层技术架构是硬要求
@@ -72,7 +74,7 @@ TK 的“架构分析”不能停在：
 ```bash
 git status --short
 git diff --check
-git add README.md reports/*.md comparisons/*.md AGENTS.md plugins/technical-knockout docs .agents .gitignore
+git add README.md reports/*.md comparisons/*.md AGENTS.md CONTRIBUTING.md docs .agents plugins/technical-knockout packages/tk package.json package-lock.json .gitignore
 git diff --cached --stat
 git diff --cached --check
 git commit -m "analysis: <repo-name> 全量五层分析"

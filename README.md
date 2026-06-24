@@ -37,9 +37,12 @@ TK 更关注：
 - 想提交新项目或修正报告：读 [`CONTRIBUTING.md`](./CONTRIBUTING.md)。
 - 想让 AI Agent 参与维护：读 [`AGENTS.md`](./AGENTS.md)。
 
-## Agent Plugin
+## Agent Product
 
-TK 提供 Codex 插件形态的 agent 使用入口：
+TK 提供面向 agent 的完整产品形态：
+
+- **npm package**：`packages/tk` 发布为 `@okbexx/tk`，提供 CLI、MCP server、core、schemas 和报告快照。
+- **Codex plugin adapter**：`plugins/technical-knockout` 提供 Codex manifest、Skills 和 MCP 启动配置。
 
 - **Skills**：告诉 agent 何时使用 TK、如何做 reference discovery、build-vs-buy、架构学习和报告维护。
 - **CLI**：提供确定性的本地操作面，覆盖 catalog、source cache、doctor、search、inspect。
@@ -55,7 +58,7 @@ npx @okbexx/tk search "coding agent runtime" --json
 npx @okbexx/tk source status --json
 npx @okbexx/tk source sync --missing
 npx @okbexx/tk source path gitnexus --json
-npm --prefix plugins/technical-knockout run verify
+npm run verify
 ```
 
 完整产品结构见 [`docs/tk-agent-plugin-architecture.md`](./docs/tk-agent-plugin-architecture.md)。

@@ -9,17 +9,14 @@
     "tk-mcp-server": "mcp/server.mjs"
   },
   "files": [
-    ".codex-plugin/",
     ".mcp.json",
     "README.md",
-    "assets/",
     "bin/",
     "data/",
     "lib/",
     "mcp/",
     "schemas/",
-    "scripts/",
-    "skills/"
+    "scripts/"
   ],
   "engines": {
     "node": ">=22.12.0"
@@ -28,7 +25,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/okbexx/tech-knockout.git",
-    "directory": "plugins/technical-knockout"
+    "directory": "packages/tk"
   },
   "bugs": {
     "url": "https://github.com/okbexx/tech-knockout/issues"

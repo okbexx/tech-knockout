@@ -1,0 +1,12 @@
+{
+  "name": "tech-knockout-workspace",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "verify": "npm run verify --workspace @okbexx/tk",
+    "publish:tk": "npm publish --workspace @okbexx/tk --access public"
+  }
+}

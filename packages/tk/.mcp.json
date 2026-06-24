@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "technical-knockout": {
+      "command": "node",
+      "args": [
+        "./mcp/server.mjs"
+      ]
+    }
+  }
+}

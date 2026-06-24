@@ -3,6 +3,13 @@
 This guide is for users who want Codex to use Technical Knockout as an
 installable plugin with bundled Skills, CLI commands, and an MCP server.
 
+TK has two distribution layers:
+
+- `@okbexx/tk` is the npm package that provides the `tk` CLI, MCP server, and
+  installer entry.
+- `plugins/technical-knockout` is the Codex plugin adapter shipped from the
+  `tech-knockout` repository.
+
 ## Prerequisites
 
 - Codex CLI or Codex app with plugin support.
@@ -73,16 +80,16 @@ git clone https://github.com/okbexx/tech-knockout.git
 cd tech-knockout
 ```
 
-Install the plugin dependencies:
+Install workspace dependencies from the repository root:
 
 ```bash
-npm --prefix plugins/technical-knockout ci
+npm install
 ```
 
-Run the plugin verification suite:
+Run the package and plugin verification suite:
 
 ```bash
-npm --prefix plugins/technical-knockout run verify
+npm run verify
 ```
 
 Register the TK repository as a Codex plugin marketplace:
@@ -137,14 +144,15 @@ You can also ask Codex to use the plugin explicitly:
 Use Technical Knockout to compare these architecture options.
 ```
 
-The plugin also provides the `tk` CLI inside the repository:
+When developing from source before publishing, run the local CLI from the
+workspace package:
 
 ```bash
-node plugins/technical-knockout/bin/tk.mjs doctor
-node plugins/technical-knockout/bin/tk.mjs search "coding agent runtime" --json
-node plugins/technical-knockout/bin/tk.mjs source status --json
-node plugins/technical-knockout/bin/tk.mjs source sync --missing
-node plugins/technical-knockout/bin/tk.mjs source path gitnexus --json
+node packages/tk/bin/tk.mjs doctor
+node packages/tk/bin/tk.mjs search "coding agent runtime" --json
+node packages/tk/bin/tk.mjs source status --json
+node packages/tk/bin/tk.mjs source sync --missing
+node packages/tk/bin/tk.mjs source path gitnexus --json
 ```
 
 `source sync --missing` clones source repositories referenced by TK reports.
@@ -158,8 +166,8 @@ Pull the latest TK repository changes:
 
 ```bash
 git pull --ff-only
-npm --prefix plugins/technical-knockout ci
-npm --prefix plugins/technical-knockout run verify
+npm install
+npm run verify
 ```
 
 If Codex does not pick up changed plugin metadata immediately, remove and
@@ -185,6 +193,13 @@ npx @okbexx/tk codex install
 
 If verification fails with a Node.js engine error, upgrade Node.js to 22.12.0 or
 newer and reinstall dependencies.
+
+If the plugin MCP server fails to start, make sure the npm package is published
+and available through:
+
+```bash
+npx --yes --package @okbexx/tk tk-mcp-server
+```
 
 If source paths are missing, run:
 

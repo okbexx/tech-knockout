@@ -7,11 +7,11 @@ import Ajv2020 from 'ajv/dist/2020.js';
 import envPaths from 'env-paths';
 
 const execFileAsync = promisify(execFile);
-const PLUGIN_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const PACKAGE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const USER_PATHS = envPaths('tech-knockout', { suffix: '' });
 
 export function findRepoRoot(startDir = process.cwd()) {
-  return findTkRepoRoot(startDir) || PLUGIN_ROOT;
+  return findTkRepoRoot(startDir) || PACKAGE_ROOT;
 }
 
 function findTkRepoRoot(startDir = process.cwd()) {
@@ -31,17 +31,18 @@ function findTkRepoRoot(startDir = process.cwd()) {
 export function getPaths(options = {}) {
   const configuredRepoRoot = options.repoRoot || process.env.TK_REPO_ROOT;
   const discoveredRepoRoot = configuredRepoRoot ? resolve(configuredRepoRoot) : findTkRepoRoot();
-  const repoRoot = discoveredRepoRoot || PLUGIN_ROOT;
+  const repoRoot = discoveredRepoRoot || PACKAGE_ROOT;
   const sourceRoot = resolve(options.sourceRoot || process.env.TK_SOURCE_ROOT || (discoveredRepoRoot ? repoRoot : USER_PATHS.cache));
-  const pluginRoot = resolve(options.pluginRoot || PLUGIN_ROOT);
-  const dataDir = join(pluginRoot, 'data');
+  const packageRoot = resolve(options.packageRoot || options.pluginRoot || PACKAGE_ROOT);
+  const dataDir = join(packageRoot, 'data');
   const runtimeDataDir = resolve(
     options.runtimeDataDir || process.env.TK_RUNTIME_DATA_ROOT || (discoveredRepoRoot ? dataDir : USER_PATHS.data),
   );
   return {
     repoRoot,
     sourceRoot,
-    pluginRoot,
+    packageRoot,
+    pluginRoot: packageRoot,
     runtimeDataDir,
     reportsDir: join(repoRoot, 'reports'),
     comparisonsDir: join(repoRoot, 'comparisons'),
@@ -260,7 +261,7 @@ export function loadCatalog(options = {}) {
 
 export function validateCatalog(catalog, options = {}) {
   const paths = getPaths(options);
-  const schema = JSON.parse(readText(join(paths.pluginRoot, 'schemas', 'catalog.schema.json')));
+  const schema = JSON.parse(readText(join(paths.packageRoot, 'schemas', 'catalog.schema.json')));
   const errors = [];
   errors.push(...validateJsonSchema(schema, catalog));
   const ids = new Set();
@@ -277,7 +278,7 @@ export function validateCatalog(catalog, options = {}) {
 
 export function validateSourceLock(lock, options = {}) {
   const paths = getPaths(options);
-  const schema = JSON.parse(readText(join(paths.pluginRoot, 'schemas', 'source-lock.schema.json')));
+  const schema = JSON.parse(readText(join(paths.packageRoot, 'schemas', 'source-lock.schema.json')));
   const errors = validateJsonSchema(schema, lock);
   return { ok: errors.length === 0, errors };
 }
