@@ -5,7 +5,9 @@ import {
   doctor,
   executeSyncPlan,
   findProject,
+  formatCodexInstall,
   formatTable,
+  installCodexPlugin,
   loadCatalog,
   projectContext,
   readComparison,
@@ -39,8 +41,9 @@ program
   .command('doctor')
   .description('Run TK doctor checks for catalog validity and local source-cache health.')
   .option('--json', 'emit machine-readable JSON')
+  .option('--require-sources', 'fail when catalog source caches are missing')
   .action(async (options) => {
-    const result = await doctor();
+    const result = await doctor(options);
     output(result, options, (payload) =>
       payload.checks
         .map((check) => {
@@ -123,6 +126,23 @@ program
       program.error(`Comparison not found: ${id}`, { exitCode: 2 });
     }
     output({ id, text }, options, (payload) => payload.text);
+  });
+
+const codex = program.command('codex').description('Install and inspect the TK Codex plugin integration.');
+
+codex
+  .command('install')
+  .description('Install the Technical Knockout Codex plugin from its GitHub marketplace.')
+  .option('--source <source>', 'Codex marketplace source', 'okbexx/tech-knockout')
+  .option('--ref <ref>', 'Git ref to use when adding the marketplace')
+  .option('--marketplace <name>', 'Codex marketplace name', 'tech-knockout')
+  .option('--plugin <name>', 'Codex plugin name', 'technical-knockout')
+  .option('--dry-run', 'print the Codex commands without executing them')
+  .option('--json', 'emit machine-readable JSON')
+  .action(async (options) => {
+    const result = await installCodexPlugin(options);
+    output(result, options, formatCodexInstall);
+    process.exitCode = result.ok ? 0 : 1;
   });
 
 const source = program.command('source').description('Manage and inspect local project source caches.');

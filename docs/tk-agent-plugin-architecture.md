@@ -12,6 +12,7 @@ The product is intentionally layered:
 | MCP | Structured read-mostly access for agents |
 | Skills | Agent behavior: when to use TK and how to apply evidence |
 | Codex plugin | Installable distribution unit |
+| npm package | User-facing CLI and installer entry |
 
 ## Build-vs-Buy Policy
 
@@ -22,9 +23,31 @@ TK product infrastructure should use mature libraries for durable surfaces:
 | CLI command parsing | Commander.js |
 | MCP stdio server and tool protocol | Official `@modelcontextprotocol/sdk` |
 | JSON Schema validation | Ajv draft 2020-12 |
+| CLI package distribution | npm package with `bin.tk` |
+| Codex plugin distribution | Codex marketplace source remains the long-lived plugin source |
 
 Self-built code should stay at the TK business boundary: catalog field mapping,
 source-cache planning, report judgment, and agent workflow semantics.
+
+## Distribution Policy
+
+TK uses a split distribution model:
+
+- `@okbexx/tk` on npm is the human-facing CLI and installer entry.
+- `tech-knockout` Codex marketplace is the long-lived agent plugin source.
+
+The npm package can run `tk doctor`, `tk search`, and `tk codex install`.
+`tk codex install` wraps official Codex CLI commands instead of reimplementing
+plugin installation state:
+
+```bash
+codex plugin marketplace add okbexx/tech-knockout
+codex plugin add technical-knockout@tech-knockout
+```
+
+Do not point Codex at an ephemeral `npx` cache directory as the durable plugin
+marketplace. The durable marketplace should be the GitHub repository or an
+explicit local checkout.
 
 ## Capability Maturity
 
@@ -69,26 +92,31 @@ keeping the dependency surface small. oclif remains the upgrade path if TK
 later needs CLI plugins, generated command documentation, or heavier lifecycle
 hooks.
 
-The data plane is the report text, comparison text, and local source cache under
-`projects/`. Source repositories are not committed to TK and should be treated
-as reproducible local cache.
+The data plane is the report text, comparison text, and local source cache.
+Source repositories are not committed to TK and should be treated as
+reproducible local cache.
 
 ## Source Cache Policy
 
-`projects/<owner>__<repo>` is the canonical cache layout. The cache is ignored
-by Git. `tk source sync` can recreate missing caches from catalog metadata.
+`projects/<owner>__<repo>` is the canonical cache layout. Inside a TK repository
+checkout, that layout lives under the repository root and is ignored by Git.
+When TK runs from the npm package, the same layout lives under the OS-specific
+user cache directory. Set `TK_SOURCE_ROOT` to override the source cache root.
+`tk source sync` can recreate missing caches from catalog metadata.
 
 The source cache is a current-code cache, not a history analysis database. TK
 uses shallow clones by default so agents can inspect the full current working
 tree without paying for full Git history.
 
-`data/tk.lock.json` records current local state: branch, commit, shallow/full
-clone state, dirty state, and remote URL.
+`tk source status --write-lock` records current local state: branch, commit,
+shallow/full clone state, dirty state, and remote URL. From a TK checkout this
+writes `data/tk.lock.json`; from the npm package it writes to the OS-specific
+user data directory. Set `TK_RUNTIME_DATA_ROOT` to override that location.
 
 Agents that need source code should resolve the project through catalog/context,
-check source status, then read files directly from `projects/<owner>__<repo>`.
-MCP tools should expose the path and state; CLI commands perform network or
-write side effects.
+check source status, then read files directly from the path returned by
+`tk source path <project> --json`. MCP tools should expose the path and state;
+CLI commands perform network or write side effects.
 
 ## Agent Usage Contract
 

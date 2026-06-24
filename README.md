@@ -29,10 +29,10 @@ TK 更关注：
 
 - 想快速选型：从下方 **Project Index** 或 [`comparisons/`](./comparisons/) 进入。
 - 想学习架构：读单项目报告里的“底层技术架构”“关键执行链路”“可复刻设计不变量”。
-- 想让 Agent 使用 TK：安装或启用 [`plugins/technical-knockout`](./plugins/technical-knockout/)，使用其中的 Skills、CLI 和 MCP 服务。
+- 想让 Agent 使用 TK：运行 `npx @okbexx/tk codex install` 安装 Codex 插件，使用其中的 Skills、CLI 和 MCP 服务。
 - 想给其它用户安装 TK Codex 插件：读 [`docs/install-codex-plugin.md`](./docs/install-codex-plugin.md)。
-- 想同步报告对应源码：运行 `node plugins/technical-knockout/bin/tk.mjs source sync --missing`。
-- 想让 Agent 读取某个项目当前源码：运行 `node plugins/technical-knockout/bin/tk.mjs source path <project> --json` 获取本地源码路径。
+- 想同步报告对应源码：运行 `npx @okbexx/tk source sync --missing`。
+- 想让 Agent 读取某个项目当前源码：运行 `npx @okbexx/tk source path <project> --json` 获取本地源码路径。
 - 想复用方法论：读 [`METHODOLOGY.md`](./METHODOLOGY.md)。
 - 想提交新项目或修正报告：读 [`CONTRIBUTING.md`](./CONTRIBUTING.md)。
 - 想让 AI Agent 参与维护：读 [`AGENTS.md`](./AGENTS.md)。
@@ -49,11 +49,12 @@ TK 提供 Codex 插件形态的 agent 使用入口：
 常用命令：
 
 ```bash
-node plugins/technical-knockout/bin/tk.mjs doctor
-node plugins/technical-knockout/bin/tk.mjs catalog build
-node plugins/technical-knockout/bin/tk.mjs search "coding agent runtime" --json
-node plugins/technical-knockout/bin/tk.mjs source status --json
-node plugins/technical-knockout/bin/tk.mjs source path gitnexus --json
+npx @okbexx/tk doctor
+npx @okbexx/tk codex install
+npx @okbexx/tk search "coding agent runtime" --json
+npx @okbexx/tk source status --json
+npx @okbexx/tk source sync --missing
+npx @okbexx/tk source path gitnexus --json
 npm --prefix plugins/technical-knockout run verify
 ```
 

@@ -4,11 +4,17 @@ import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import Ajv2020 from 'ajv/dist/2020.js';
+import envPaths from 'env-paths';
 
 const execFileAsync = promisify(execFile);
 const PLUGIN_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const USER_PATHS = envPaths('tech-knockout', { suffix: '' });
 
 export function findRepoRoot(startDir = process.cwd()) {
+  return findTkRepoRoot(startDir) || PLUGIN_ROOT;
+}
+
+function findTkRepoRoot(startDir = process.cwd()) {
   let current = resolve(startDir);
   while (true) {
     if (existsSync(join(current, 'reports')) && existsSync(join(current, 'comparisons'))) {
@@ -16,26 +22,35 @@ export function findRepoRoot(startDir = process.cwd()) {
     }
     const parent = dirname(current);
     if (parent === current) {
-      return resolve(PLUGIN_ROOT, '..', '..');
+      return null;
     }
     current = parent;
   }
 }
 
 export function getPaths(options = {}) {
-  const repoRoot = resolve(options.repoRoot || process.env.TK_REPO_ROOT || findRepoRoot());
+  const configuredRepoRoot = options.repoRoot || process.env.TK_REPO_ROOT;
+  const discoveredRepoRoot = configuredRepoRoot ? resolve(configuredRepoRoot) : findTkRepoRoot();
+  const repoRoot = discoveredRepoRoot || PLUGIN_ROOT;
+  const sourceRoot = resolve(options.sourceRoot || process.env.TK_SOURCE_ROOT || (discoveredRepoRoot ? repoRoot : USER_PATHS.cache));
   const pluginRoot = resolve(options.pluginRoot || PLUGIN_ROOT);
+  const dataDir = join(pluginRoot, 'data');
+  const runtimeDataDir = resolve(
+    options.runtimeDataDir || process.env.TK_RUNTIME_DATA_ROOT || (discoveredRepoRoot ? dataDir : USER_PATHS.data),
+  );
   return {
     repoRoot,
+    sourceRoot,
     pluginRoot,
+    runtimeDataDir,
     reportsDir: join(repoRoot, 'reports'),
     comparisonsDir: join(repoRoot, 'comparisons'),
-    projectsDir: join(repoRoot, 'projects'),
-    dataDir: join(pluginRoot, 'data'),
-    catalogPath: join(pluginRoot, 'data', 'tk.catalog.json'),
-    lockPath: join(pluginRoot, 'data', 'tk.lock.json'),
-    reportSnapshotDir: join(pluginRoot, 'data', 'reports'),
-    comparisonSnapshotDir: join(pluginRoot, 'data', 'comparisons'),
+    projectsDir: join(sourceRoot, 'projects'),
+    dataDir,
+    catalogPath: join(dataDir, 'tk.catalog.json'),
+    lockPath: join(runtimeDataDir, 'tk.lock.json'),
+    reportSnapshotDir: join(dataDir, 'reports'),
+    comparisonSnapshotDir: join(dataDir, 'comparisons'),
   };
 }
 
@@ -189,10 +204,21 @@ function parseReport(reportPath, paths, readme) {
     analysisDate: extractDate(text),
     sourceDir: github ? github.sourceDir : null,
     owner,
-    sourceExists: github ? existsSync(join(paths.repoRoot, github.sourceDir, '.git')) : false,
+    sourceExists: github ? existsSync(join(paths.sourceRoot, github.sourceDir, '.git')) : false,
   };
   project.tags = buildTags(project);
   return project;
+}
+
+function applyRuntimeSourcePresence(catalog, options = {}) {
+  const paths = getPaths(options);
+  return {
+    ...catalog,
+    projects: (catalog.projects || []).map((project) => ({
+      ...project,
+      sourceExists: Boolean(project.sourceDir && existsSync(join(paths.sourceRoot, project.sourceDir, '.git'))),
+    })),
+  };
 }
 
 export function buildCatalog(options = {}) {
@@ -227,9 +253,9 @@ export function writeCatalog(catalog, options = {}) {
 export function loadCatalog(options = {}) {
   const paths = getPaths(options);
   if (existsSync(paths.catalogPath)) {
-    return JSON.parse(readText(paths.catalogPath));
+    return applyRuntimeSourcePresence(JSON.parse(readText(paths.catalogPath)), options);
   }
-  return buildCatalog(options);
+  return applyRuntimeSourcePresence(buildCatalog(options), options);
 }
 
 export function validateCatalog(catalog, options = {}) {
@@ -298,7 +324,7 @@ export async function projectContext(identifier, options = {}) {
   const project = findProject(identifier, options);
   if (!project) return null;
 
-  const sourcePath = project.sourceDir ? join(paths.repoRoot, project.sourceDir) : null;
+  const sourcePath = project.sourceDir ? join(paths.sourceRoot, project.sourceDir) : null;
   const exists = Boolean(sourcePath && existsSync(join(sourcePath, '.git')));
   const context = {
     project,
@@ -329,12 +355,152 @@ async function git(args, cwd) {
   return stdout.trim();
 }
 
+async function runCodex(args, cwd = process.cwd()) {
+  try {
+    const { stdout, stderr } = await execFileAsync('codex', args, {
+      cwd,
+      maxBuffer: 1024 * 1024 * 16,
+    });
+    return { ok: true, command: ['codex', ...args], stdout: stdout.trim(), stderr: stderr.trim() };
+  } catch (error) {
+    return {
+      ok: false,
+      command: ['codex', ...args],
+      stdout: (error.stdout || '').trim(),
+      stderr: (error.stderr || '').trim(),
+      error: error.message,
+      code: error.code,
+    };
+  }
+}
+
+function marketplaceIsConfigured(output, marketplace) {
+  return output
+    .split(/\r?\n/)
+    .some((line) => line.trim().startsWith(`${marketplace} `) || line.trim() === marketplace);
+}
+
+function pluginIsInstalled(output, selector) {
+  return output.includes(selector) && output.includes('installed');
+}
+
+function commandText(command) {
+  return command.map((part) => (/\s/.test(part) ? JSON.stringify(part) : part)).join(' ');
+}
+
+export async function installCodexPlugin(options = {}) {
+  const marketplace = options.marketplace || 'tech-knockout';
+  const plugin = options.plugin || 'technical-knockout';
+  const source = options.source || 'okbexx/tech-knockout';
+  const selector = `${plugin}@${marketplace}`;
+  const steps = [];
+
+  const addMarketplaceCommand = ['plugin', 'marketplace', 'add', source];
+  if (options.ref) addMarketplaceCommand.push('--ref', options.ref);
+  const addPluginCommand = ['plugin', 'add', selector];
+
+  if (options.dryRun) {
+    return {
+      ok: true,
+      dryRun: true,
+      marketplace,
+      plugin,
+      source,
+      commands: [
+        ['codex', ...addMarketplaceCommand],
+        ['codex', ...addPluginCommand],
+        ['codex', 'plugin', 'list', '--marketplace', marketplace],
+      ],
+    };
+  }
+
+  const marketplaceList = await runCodex(['plugin', 'marketplace', 'list']);
+  steps.push({ name: 'marketplace_list', ...marketplaceList });
+  if (!marketplaceList.ok) {
+    return { ok: false, marketplace, plugin, source, steps };
+  }
+
+  if (marketplaceIsConfigured(marketplaceList.stdout, marketplace)) {
+    steps.push({
+      name: 'marketplace_add',
+      ok: true,
+      skipped: true,
+      command: ['codex', ...addMarketplaceCommand],
+      stdout: `marketplace ${marketplace} already configured`,
+      stderr: '',
+    });
+  } else {
+    const addMarketplace = await runCodex(addMarketplaceCommand);
+    steps.push({ name: 'marketplace_add', ...addMarketplace });
+    if (!addMarketplace.ok) {
+      return { ok: false, marketplace, plugin, source, steps };
+    }
+  }
+
+  const pluginList = await runCodex(['plugin', 'list', '--marketplace', marketplace]);
+  steps.push({ name: 'plugin_list', ...pluginList });
+  if (!pluginList.ok) {
+    return { ok: false, marketplace, plugin, source, steps };
+  }
+
+  if (pluginIsInstalled(pluginList.stdout, selector)) {
+    steps.push({
+      name: 'plugin_add',
+      ok: true,
+      skipped: true,
+      command: ['codex', ...addPluginCommand],
+      stdout: `plugin ${selector} already installed`,
+      stderr: '',
+    });
+  } else {
+    const addPlugin = await runCodex(addPluginCommand);
+    steps.push({ name: 'plugin_add', ...addPlugin });
+    if (!addPlugin.ok) {
+      return { ok: false, marketplace, plugin, source, steps };
+    }
+  }
+
+  return {
+    ok: steps.every((step) => step.ok),
+    marketplace,
+    plugin,
+    source,
+    selector,
+    steps,
+    next: [
+      'Restart Codex or start a new Codex thread.',
+      `Run codex plugin list --marketplace ${marketplace} to verify the installation.`,
+    ],
+  };
+}
+
+export function formatCodexInstall(result) {
+  if (result.dryRun) {
+    return result.commands.map((command) => commandText(command)).join('\n') + '\n';
+  }
+
+  const lines = [];
+  for (const step of result.steps || []) {
+    const status = step.skipped ? 'skip' : step.ok ? 'ok' : 'fail';
+    lines.push(`${status} ${step.name}: ${commandText(step.command || [])}`);
+    if (!step.ok) {
+      if (step.stderr) lines.push(step.stderr);
+      else if (step.error) lines.push(step.error);
+    }
+  }
+  if (result.ok) {
+    lines.push(`installed ${result.selector}`);
+    for (const next of result.next || []) lines.push(next);
+  }
+  return lines.join('\n') + '\n';
+}
+
 export async function sourceStatus(options = {}) {
   const paths = getPaths(options);
   const catalog = loadCatalog(options);
   const sources = [];
   for (const project of catalog.projects) {
-    const sourcePath = project.sourceDir ? join(paths.repoRoot, project.sourceDir) : null;
+    const sourcePath = project.sourceDir ? join(paths.sourceRoot, project.sourceDir) : null;
     const exists = Boolean(sourcePath && existsSync(join(sourcePath, '.git')));
     const source = {
       id: project.id,
@@ -365,7 +531,7 @@ export async function sourceStatus(options = {}) {
 
 export async function writeLock(status, options = {}) {
   const paths = getPaths(options);
-  mkdirSync(paths.dataDir, { recursive: true });
+  mkdirSync(dirname(paths.lockPath), { recursive: true });
   writeFileSync(paths.lockPath, `${JSON.stringify(status, null, 2)}\n`);
   return paths.lockPath;
 }
@@ -378,7 +544,7 @@ export function syncPlan(options = {}) {
   for (const project of catalog.projects) {
     if (only && !only.has(project.id) && !only.has(project.reportFile.toLowerCase())) continue;
     if (!project.cloneUrl || !project.sourceDir) continue;
-    const sourcePath = join(paths.repoRoot, project.sourceDir);
+    const sourcePath = join(paths.sourceRoot, project.sourceDir);
     if (!existsSync(join(sourcePath, '.git'))) {
       actions.push({
         action: 'clone',
@@ -404,10 +570,10 @@ export async function executeSyncPlan(plan, options = {}) {
   mkdirSync(paths.projectsDir, { recursive: true });
   const results = [];
   for (const action of plan.actions) {
-    const target = join(paths.repoRoot, action.sourceDir);
+    const target = join(paths.sourceRoot, action.sourceDir);
     try {
       if (action.action === 'clone') {
-        await git(['clone', '--depth', '1', action.cloneUrl, target], paths.repoRoot);
+        await git(['clone', '--depth', '1', action.cloneUrl, target], paths.sourceRoot);
       } else if (action.action === 'fetch') {
         await git(['fetch', '--all', '--prune'], target);
       }
@@ -426,11 +592,18 @@ export async function doctor(options = {}) {
   const status = await sourceStatus(options);
   const missingSources = status.sources.filter((source) => !source.exists);
   const dirtySources = status.sources.filter((source) => source.dirty);
+  const reportsAvailable = existsSync(paths.reportsDir) || existsSync(paths.reportSnapshotDir);
+  const comparisonsAvailable = existsSync(paths.comparisonsDir) || existsSync(paths.comparisonSnapshotDir);
+  const sourcesRequired = Boolean(options.requireSources);
   const checks = [
-    { name: 'reports_dir_exists', ok: existsSync(paths.reportsDir) },
-    { name: 'comparisons_dir_exists', ok: existsSync(paths.comparisonsDir) },
+    { name: 'reports_available', ok: reportsAvailable },
+    { name: 'comparisons_available', ok: comparisonsAvailable },
     { name: 'catalog_valid', ok: validation.ok, details: validation.errors },
-    { name: 'sources_present', ok: missingSources.length === 0, details: missingSources.map((s) => s.id) },
+    {
+      name: sourcesRequired ? 'sources_present' : 'sources_known',
+      ok: sourcesRequired ? missingSources.length === 0 : true,
+      details: missingSources.map((s) => s.id),
+    },
     { name: 'sources_clean', ok: dirtySources.length === 0, details: dirtySources.map((s) => s.id) },
   ];
   return {

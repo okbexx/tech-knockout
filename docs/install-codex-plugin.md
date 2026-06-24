@@ -6,13 +6,67 @@ installable plugin with bundled Skills, CLI commands, and an MCP server.
 ## Prerequisites
 
 - Codex CLI or Codex app with plugin support.
-- Git.
 - Node.js 22.12.0 or newer.
 - npm.
 
-## Install from source
+## Install with npm
 
-Clone the TK repository:
+Install the Codex plugin through the TK npm CLI:
+
+```bash
+npx @okbexx/tk codex install
+```
+
+This registers the GitHub marketplace source and installs the Codex plugin:
+
+```bash
+codex plugin marketplace add okbexx/tech-knockout
+codex plugin add technical-knockout@tech-knockout
+```
+
+Restart Codex or start a new Codex thread after installation.
+
+## Use the CLI
+
+Run TK commands through npm without cloning the repository:
+
+```bash
+npx @okbexx/tk doctor
+npx @okbexx/tk search "coding agent runtime" --json
+npx @okbexx/tk source status --json
+npx @okbexx/tk source sync --missing
+npx @okbexx/tk source path gitnexus --json
+```
+
+Or install the CLI globally:
+
+```bash
+npm install --global @okbexx/tk
+tk doctor
+tk source sync --missing
+```
+
+`source sync --missing` clones source repositories referenced by TK reports.
+When run inside a TK repository checkout, sources are cached under that
+checkout's `projects/` directory. When run from the npm package, sources are
+cached under the OS-specific user cache directory. Set `TK_SOURCE_ROOT` to
+override the source cache root.
+
+`source status --write-lock` writes local source-cache state to the TK checkout
+when run from source, or to the OS-specific user data directory when run from
+the npm package. Set `TK_RUNTIME_DATA_ROOT` to override that runtime data
+directory.
+
+To make `doctor` fail when source caches are missing, run:
+
+```bash
+npx @okbexx/tk doctor --require-sources
+```
+
+## Install from source for development
+
+Clone the TK repository when you want to develop reports, plugin code, Skills,
+or MCP tools:
 
 ```bash
 git clone https://github.com/okbexx/tech-knockout.git
@@ -34,16 +88,15 @@ npm --prefix plugins/technical-knockout run verify
 Register the TK repository as a Codex plugin marketplace:
 
 ```bash
-codex plugin marketplace add "$(pwd)"
+npx @okbexx/tk codex install --source "$(pwd)"
 ```
 
-Install the plugin from that marketplace:
+The underlying Codex commands are:
 
 ```bash
+codex plugin marketplace add "$(pwd)"
 codex plugin add technical-knockout@tech-knockout
 ```
-
-Restart Codex or start a new Codex thread after installation.
 
 ## Verify the installation
 
@@ -53,8 +106,9 @@ Check that Codex can see the marketplace:
 codex plugin marketplace list
 ```
 
-The output should include a marketplace named `tech-knockout` whose root points
-to your local clone of this repository.
+The output should include a marketplace named `tech-knockout` from the GitHub
+repository, or from your local checkout when you installed with
+`--source "$(pwd)"`.
 
 Check that the plugin is installed:
 
@@ -93,8 +147,10 @@ node plugins/technical-knockout/bin/tk.mjs source sync --missing
 node plugins/technical-knockout/bin/tk.mjs source path gitnexus --json
 ```
 
-`source sync --missing` clones source repositories referenced by TK reports into
-the local `projects/` cache. The cache is intentionally not committed to Git.
+`source sync --missing` clones source repositories referenced by TK reports.
+From a repository checkout, the cache is `projects/` and is intentionally not
+committed to Git. From the npm package, the cache is under the OS-specific user
+cache directory.
 
 ## Update later
 
@@ -119,12 +175,12 @@ MCP configuration are available to the agent.
 
 ## Troubleshooting
 
-If `codex plugin add technical-knockout@tech-knockout` cannot find the plugin,
-run `codex plugin marketplace list` and confirm that `tech-knockout` is
-registered. If it is missing, rerun:
+If `npx @okbexx/tk codex install` cannot find the plugin, run
+`codex plugin marketplace list` and confirm that `tech-knockout` is registered.
+If it is missing, rerun:
 
 ```bash
-codex plugin marketplace add "$(pwd)"
+npx @okbexx/tk codex install
 ```
 
 If verification fails with a Node.js engine error, upgrade Node.js to 22.12.0 or
@@ -133,5 +189,5 @@ newer and reinstall dependencies.
 If source paths are missing, run:
 
 ```bash
-node plugins/technical-knockout/bin/tk.mjs source sync --missing
+npx @okbexx/tk source sync --missing
 ```
