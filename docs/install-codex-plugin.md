@@ -1,7 +1,8 @@
 # Install the Technical Knockout Codex Plugin
 
 This guide is for users who want Codex to use Technical Knockout as an
-installable plugin with bundled Skills, CLI commands, and an MCP server.
+installable capability replication plugin with bundled Skills, CLI commands,
+and an MCP server.
 
 TK has two distribution layers:
 
@@ -39,6 +40,8 @@ Run TK commands through npm without cloning the repository:
 
 ```bash
 npx @jarl_okbe/tk doctor
+npx @jarl_okbe/tk codex status
+npx @jarl_okbe/tk replicate "agent internet capability layer" --from agent-reach
 npx @jarl_okbe/tk search "coding agent runtime" --json
 npx @jarl_okbe/tk source status --json
 npx @jarl_okbe/tk source sync --missing
@@ -107,7 +110,22 @@ codex plugin add technical-knockout@tech-knockout
 
 ## Verify the installation
 
-Check that Codex can see the marketplace:
+Check that Codex can see the marketplace and plugin:
+
+```bash
+npx @jarl_okbe/tk codex status
+```
+
+The output should show:
+
+```text
+ok codex_cli
+ok marketplace_configured
+ok plugin_installed
+ready technical-knockout@tech-knockout
+```
+
+You can also check the raw Codex marketplace:
 
 ```bash
 codex plugin marketplace list
@@ -135,20 +153,26 @@ installed and enabled status.
 ## Use the bundled capabilities
 
 After installation, Codex can load the TK Skills when a task involves
-open-source project evaluation, architecture learning, build-vs-buy decisions,
-or source-backed reference discovery.
+capability replication, open-source project evaluation, architecture learning,
+build-vs-buy decisions, or source-backed reference discovery.
 
 You can also ask Codex to use the plugin explicitly:
 
 ```text
-Use Technical Knockout to compare these architecture options.
+Use Technical Knockout to replicate Agent Reach's capability routing model in this project.
 ```
+
+To see what a good TK result looks like, read
+[`docs/value-proof.md`](./value-proof.md). A useful TK result changes the build
+decision: skip, reuse, buy, extract a smaller kernel, or define a tighter
+implementation boundary.
 
 When developing from source before publishing, run the local CLI from the
 workspace package:
 
 ```bash
 node packages/tk/bin/tk.mjs doctor
+node packages/tk/bin/tk.mjs replicate "agent internet capability layer" --from agent-reach
 node packages/tk/bin/tk.mjs search "coding agent runtime" --json
 node packages/tk/bin/tk.mjs source status --json
 node packages/tk/bin/tk.mjs source sync --missing
@@ -174,8 +198,7 @@ If Codex does not pick up changed plugin metadata immediately, remove and
 reinstall the local plugin:
 
 ```bash
-codex plugin remove technical-knockout@tech-knockout
-codex plugin add technical-knockout@tech-knockout
+npx @jarl_okbe/tk codex refresh
 ```
 
 Start a new Codex thread after reinstalling so the refreshed plugin Skills and

@@ -1,6 +1,10 @@
 # @jarl_okbe/tk
 
-Technical Knockout CLI and MCP server for architecture reference evidence.
+Technical Knockout CLI and MCP server for capability replication.
+
+TK helps agents turn open-source architecture evidence into a current-project
+replication brief: what capability to preserve, what to adapt, what not to
+copy, which infrastructure to reuse, and how to verify the result.
 
 ## Install
 
@@ -8,6 +12,7 @@ Run without installing:
 
 ```bash
 npx @jarl_okbe/tk doctor
+npx @jarl_okbe/tk replicate "agent internet capability layer" --from agent-reach
 npx @jarl_okbe/tk search "coding agent runtime" --json
 npx @jarl_okbe/tk source sync --missing
 ```
@@ -17,6 +22,7 @@ Or install globally:
 ```bash
 npm install --global @jarl_okbe/tk
 tk doctor
+tk replicate "agent internet capability layer" --from agent-reach
 ```
 
 ## Codex Plugin
@@ -29,6 +35,9 @@ npx @jarl_okbe/tk codex install
 
 This registers the GitHub marketplace and installs
 `technical-knockout@tech-knockout`.
+
+Value proof examples:
+https://github.com/okbexx/tech-knockout/blob/main/docs/value-proof.md
 
 ## Development
 

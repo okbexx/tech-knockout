@@ -1,12 +1,13 @@
 ---
 name: tk-architecture-learning
-description: Use when extracting reusable architecture patterns from TK reports or source code, including minimal architecture kernel, core abstractions, control/data plane, execution flows, state model, contracts, failure model, and design invariants.
+description: Use when extracting reusable architecture patterns from TK reports or source code for capability replication, including minimal architecture kernel, core abstractions, control/data plane, execution flows, state model, contracts, failure model, and design invariants.
 ---
 
 # TK Architecture Learning
 
 Use this skill when the user wants to learn or reuse architecture from a TK
-project. The goal is to extract transferable structure, not to copy a project.
+project. The goal is to extract transferable capability structure, not to copy
+a project.
 
 ## Required Analysis
 
@@ -20,6 +21,8 @@ For each selected project, collect:
 6. Contract boundaries: internal API, CLI/API/MCP/schema, agent-facing docs.
 7. Failure and degradation model.
 8. Reusable design invariants.
+9. What must be preserved to replicate the capability in the current project.
+10. What can be replaced by current-project patterns or mature libraries.
 
 ## Output Shape
 

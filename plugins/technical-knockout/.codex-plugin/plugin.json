@@ -1,7 +1,7 @@
 {
   "name": "technical-knockout",
-  "version": "0.1.0",
-  "description": "Agent-native architecture reference system for open-source project evaluation, build-vs-buy, and source-backed architecture learning.",
+  "version": "0.1.1",
+  "description": "Agent-native capability replication system for turning open-source architecture evidence into current-project implementation boundaries.",
   "author": {
     "name": "okbexx",
     "url": "https://github.com/okbexx"
@@ -11,6 +11,7 @@
   "license": "MIT",
   "keywords": [
     "architecture",
+    "capability-replication",
     "build-vs-buy",
     "technical-research",
     "open-source",
@@ -22,15 +23,15 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Technical Knockout",
-    "shortDescription": "Use TK reports, comparisons, source cache, and build-vs-buy evidence in Codex.",
-    "longDescription": "Technical Knockout helps Codex evaluate open-source projects, compare architecture patterns, avoid repeated wheel-building, and cite source-backed evidence from local TK reports and cloned project caches.",
+    "shortDescription": "Use TK to replicate capabilities from proven open-source architecture evidence.",
+    "longDescription": "Technical Knockout helps Codex turn open-source reports, comparisons, source cache, and build-vs-buy evidence into capability replication briefs, implementation boundaries, and verification plans for the current project.",
     "developerName": "okbexx",
     "category": "Coding",
     "capabilities": [
       "Read",
       "Interactive"
     ],
-    "defaultPrompt": "Use Technical Knockout to evaluate this architecture or dependency decision.",
+    "defaultPrompt": "Use Technical Knockout to build a capability replication brief for this project.",
     "websiteURL": "https://github.com/okbexx/tech-knockout",
     "privacyPolicyURL": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
     "termsOfServiceURL": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",

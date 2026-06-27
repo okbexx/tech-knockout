@@ -3,6 +3,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import * as z from 'zod/v4';
 import {
+  buildReplicationBrief,
   doctor,
   findProject,
   loadCatalog,
@@ -21,7 +22,7 @@ const server = new McpServer(
   },
   {
     instructions:
-      'Use Technical Knockout as an architecture reference system. Prefer read-only discovery tools first; use the tk CLI for source sync and validation side effects.',
+      'Use Technical Knockout as a capability replication system. Prefer read-only discovery and replication brief tools first; use the tk CLI for source sync and validation side effects.',
   },
 );
 
@@ -189,6 +190,30 @@ server.registerTool(
     },
   },
   async ({ project }) => textContent(syncPlan({ only: project ? [project] : null })),
+);
+
+server.registerTool(
+  'tk_build_replication_brief',
+  {
+    title: 'Build TK Replication Brief',
+    description:
+      'Build a capability replication brief from TK reports and source-cache status. Use when an agent needs to replicate a capability from reference projects into the current project.',
+    inputSchema: z.object({
+      capability: z.string().describe('Capability to replicate, such as "agent internet capability layer".'),
+      from: z
+        .string()
+        .optional()
+        .describe('Optional comma-separated TK project ids to force as references.'),
+      limit: z.number().int().positive().max(10).default(5).describe('Maximum auto-discovered references.'),
+    }),
+    annotations: {
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
+  },
+  async ({ capability, from, limit }) => textContent(await buildReplicationBrief(capability, { from, limit })),
 );
 
 server.registerTool(

@@ -6,6 +6,9 @@
     "packages/*"
   ],
   "scripts": {
+    "codex:plugin:add": "node packages/tk/bin/tk.mjs codex install",
+    "codex:plugin:refresh": "node packages/tk/bin/tk.mjs codex refresh",
+    "codex:plugin:remove": "codex plugin remove technical-knockout@tech-knockout",
     "verify": "npm run verify --workspace @jarl_okbe/tk",
     "publish:tk": "npm publish --workspace @jarl_okbe/tk --access public"
   }

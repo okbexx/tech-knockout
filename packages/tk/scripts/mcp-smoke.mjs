@@ -17,8 +17,13 @@ try {
     name: 'tk_get_project_context',
     arguments: { project: 'gitnexus' },
   });
+  const brief = await client.callTool({
+    name: 'tk_build_replication_brief',
+    arguments: { capability: 'agent internet capability layer', from: 'agent-reach' },
+  });
   const hasContext = Boolean(context.content?.[0]?.text?.includes('sourceDir'));
-  if (tools.tools.length < 1 || !hasContext) {
+  const hasBrief = Boolean(brief.content?.[0]?.text?.includes('agent-reach'));
+  if (tools.tools.length < 1 || !hasContext || !hasBrief) {
     throw new Error('MCP smoke check did not return expected tools/context.');
   }
   console.log(`ok mcp tools=${tools.tools.length}`);

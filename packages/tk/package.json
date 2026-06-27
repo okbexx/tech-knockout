@@ -1,8 +1,8 @@
 {
   "name": "@jarl_okbe/tk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
-  "description": "Technical Knockout CLI and Codex plugin installer for architecture reference evidence.",
+  "description": "Technical Knockout CLI, MCP server, and Codex installer for capability replication.",
   "type": "module",
   "bin": {
     "tk": "bin/tk.mjs",
@@ -36,6 +36,7 @@
     "codex",
     "mcp",
     "skills",
+    "capability-replication",
     "architecture",
     "build-vs-buy",
     "technical-research",

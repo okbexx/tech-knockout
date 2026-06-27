@@ -2,16 +2,22 @@
 import { Command } from 'commander';
 import {
   buildCatalog,
+  buildReplicationBrief,
+  codexPluginStatus,
   doctor,
   executeSyncPlan,
   findProject,
   formatCodexInstall,
+  formatCodexRefresh,
+  formatCodexStatus,
+  formatReplicationBrief,
   formatTable,
   installCodexPlugin,
   loadCatalog,
   projectContext,
   readComparison,
   readReport,
+  refreshCodexPlugin,
   searchCatalog,
   sourceStatus,
   syncPlan,
@@ -34,7 +40,7 @@ const program = new Command();
 
 program
   .name('tk')
-  .description('Technical Knockout CLI for catalog, source cache, doctor, and agent context operations.')
+  .description('Technical Knockout CLI for capability replication, catalog, source cache, doctor, and agent context operations.')
   .version('0.1.0');
 
 program
@@ -128,7 +134,32 @@ program
     output({ id, text }, options, (payload) => payload.text);
   });
 
+program
+  .command('replicate')
+  .description('Build a capability replication brief from TK reports, comparisons, and source-cache state.')
+  .argument('<capability...>', 'capability to replicate, such as "agent internet capability layer"')
+  .option('--from <projects>', 'comma-separated TK project ids to use as references')
+  .option('--limit <number>', 'maximum auto-discovered reference projects', '5')
+  .option('--json', 'emit machine-readable JSON')
+  .action(async (capabilityParts, options) => {
+    const capability = capabilityParts.join(' ');
+    const result = await buildReplicationBrief(capability, options);
+    output(result, options, formatReplicationBrief);
+  });
+
 const codex = program.command('codex').description('Install and inspect the TK Codex plugin integration.');
+
+codex
+  .command('status')
+  .description('Check whether the Technical Knockout Codex marketplace and plugin are installed.')
+  .option('--marketplace <name>', 'Codex marketplace name', 'tech-knockout')
+  .option('--plugin <name>', 'Codex plugin name', 'technical-knockout')
+  .option('--json', 'emit machine-readable JSON')
+  .action(async (options) => {
+    const result = await codexPluginStatus(options);
+    output(result, options, formatCodexStatus);
+    process.exitCode = result.ok ? 0 : 1;
+  });
 
 codex
   .command('install')
@@ -142,6 +173,19 @@ codex
   .action(async (options) => {
     const result = await installCodexPlugin(options);
     output(result, options, formatCodexInstall);
+    process.exitCode = result.ok ? 0 : 1;
+  });
+
+codex
+  .command('refresh')
+  .description('Refresh the installed TK Codex plugin cache by removing and adding it again.')
+  .option('--marketplace <name>', 'Codex marketplace name', 'tech-knockout')
+  .option('--plugin <name>', 'Codex plugin name', 'technical-knockout')
+  .option('--dry-run', 'print the Codex commands without executing them')
+  .option('--json', 'emit machine-readable JSON')
+  .action(async (options) => {
+    const result = await refreshCodexPlugin(options);
+    output(result, options, formatCodexRefresh);
     process.exitCode = result.ok ? 0 : 1;
   });
 

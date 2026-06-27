@@ -1,6 +1,10 @@
 # TK Agent Plugin Architecture
 
-Technical Knockout is an agent-native architecture reference system.
+Technical Knockout is an agent-native capability replication system.
+
+The main product job is to help an agent turn a proven open-source capability
+into a current-project implementation boundary, with evidence, build-vs-buy
+discipline, and verification.
 
 The product is intentionally layered:
 
@@ -8,9 +12,9 @@ The product is intentionally layered:
 |---|---|
 | Reports and comparisons | Human-readable research, judgment, and architecture analysis |
 | Catalog and source lock | Machine-readable project facts and local source-cache state |
-| CLI | Deterministic local operations: catalog, source sync, validation, doctor |
-| MCP | Structured read-mostly access for agents |
-| Skills | Agent behavior: when to use TK and how to apply evidence |
+| CLI | Deterministic local operations: replication brief, catalog, source sync, validation, doctor |
+| MCP | Structured read-mostly access for agents and replication brief construction |
+| Skills | Agent behavior: when to use TK and how to replicate capabilities with evidence |
 | Codex plugin | Installable distribution unit |
 | npm package | User-facing CLI and installer entry |
 
@@ -53,6 +57,28 @@ TK uses a split distribution model:
   long-lived Codex plugin adapter.
 
 The npm package can run `tk doctor`, `tk search`, and `tk codex install`.
+It also exposes the main capability replication entry:
+
+```bash
+tk replicate "agent internet capability layer" --from agent-reach
+```
+
+The user-facing product lifecycle is:
+
+```bash
+tk codex install
+tk codex status
+tk replicate "agent internet capability layer" --from agent-reach
+tk codex refresh
+```
+
+`status` gives users a direct readiness check for the Codex CLI, marketplace,
+and plugin. `refresh` wraps the official Codex remove/add flow so local plugin
+development does not require users to remember raw plugin commands.
+
+The value proof lives in [`value-proof.md`](./value-proof.md). New product
+surfaces should be justified by a value proof before TK grows a larger runtime.
+
 `tk codex install` wraps official Codex CLI commands instead of reimplementing
 plugin installation state:
 
@@ -79,20 +105,22 @@ explicit local checkout.
 
 ## Capability Maturity
 
-TK's agent plugin suite targets **L4 Skill + CLI + MCP** maturity:
+TK's agent plugin suite targets **L6 portable product** maturity for the Codex
+path: npm package, CLI, MCP, Skills, plugin adapter, install docs, doctor, and
+verification. Cross-agent adapters can be added later when the Codex path has
+enough user evidence.
 
 | Layer | Role |
 |---|---|
-| Skill | Trigger, reference-first workflow, build-vs-buy discipline |
-| CLI | Deterministic local execution, writes, source sync, validation |
-| MCP | Structured read-mostly context and tool discovery for agents |
+| Skill | Trigger, capability replication workflow, build-vs-buy discipline |
+| CLI | Deterministic local execution, replication brief, writes, source sync, validation |
+| MCP | Structured read-mostly context, replication brief, and tool discovery for agents |
 | Schemas | Stable machine contracts for catalog and source lock |
 | Docs | Architecture decisions, safety boundary, and verification contract |
 
-The next maturity step is L5 only if TK needs cross-session task state,
-automated upgrade/migration, or persistent decision memory beyond repo docs.
 Do not add Memory or Long-task machinery just to make the structure look
-complete.
+complete. Add them only when TK owns cross-session replication tasks or durable
+decision memory beyond repo docs.
 
 ## Verification Contract
 
@@ -149,13 +177,45 @@ CLI commands perform network or write side effects.
 
 ## Agent Usage Contract
 
-Agents should use TK in this order:
+Agents should use TK in this order for capability replication:
 
 1. Current project evidence.
-2. TK comparison documents.
-3. TK report documents.
-4. Source-cache evidence when implementation details matter.
-5. Official/current upstream verification when time-sensitive facts matter.
+2. `tk replicate "<capability>" --json` or MCP `tk_build_replication_brief`.
+3. TK comparison documents.
+4. TK report documents.
+5. Source-cache evidence when implementation details matter.
+6. Official/current upstream verification when time-sensitive facts matter.
+
+The required user-facing output is:
+
+```md
+## Capability Replication Brief
+
+Capability:
+Current project fit:
+Reference projects:
+Evidence:
+TK Replication Ladder:
+Kernel:
+Must keep:
+Can adapt:
+Do not copy:
+Build-vs-buy:
+Implementation boundary:
+Verification:
+Freshness gaps:
+```
+
+The ladder is TK's Ponytail-style product discipline:
+
+1. Skip the capability if the current project does not need it.
+2. Reuse current-project code or nearby patterns.
+3. Prefer standard library and native platform features.
+4. Prefer already-installed dependencies.
+5. Prefer official SDKs and mature OSS.
+6. Use TK references only to extract the smallest capability kernel.
+7. Implement the smallest verifiable boundary.
+8. Add new infrastructure only when evidence proves the smaller rungs fail.
 
 ## Safety
 

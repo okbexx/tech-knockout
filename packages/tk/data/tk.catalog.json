@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-27T11:54:18.908Z",
+  "generatedAt": "2026-06-27T12:09:33.154Z",
   "projects": [
     {
       "id": "1shell",
@@ -564,7 +564,7 @@
       "analysisDate": "2026-06-27",
       "sourceDir": "projects/DietrichGebert__ponytail",
       "owner": "DietrichGebert",
-      "sourceExists": true,
+      "sourceExists": false,
       "tags": [
         "agent",
         "coding",

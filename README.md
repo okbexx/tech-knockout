@@ -1,9 +1,13 @@
 # Technical Knockout
 
-> 开源项目技术选型与底层架构拆解库。<br>
-> 判断项目是否值得采用，也拆出它为什么能成立、哪些架构能力值得复刻。
+> 给 AI Agent 用的能力复刻系统。<br>
+> 从优秀开源项目里抽取可复刻能力，再落成当前项目的架构边界、实现约束和验证清单。
 
-Technical Knockout（TK）面向正在做技术选型、架构学习和 AI Agent 上下文构建的开发者。这里的报告不只复述 README，也不只看 Star 数，而是基于源码、文档、Issue/PR、Release、测试和生态信号，形成可复用的技术研究资产。
+Technical Knockout（TK）面向正在让 agent 做真实工程的开发者。TK 不只回答“这个项目能不能采用”，更重要的是回答：**如果我要在当前项目里复刻类似能力，哪些架构内核、契约边界、失败模型和设计不变量必须保留，哪些东西不能照搬。**
+
+TK 的产品形态对标 Ponytail 这类 agent 能力包：用户通过 npm 安装，Codex 通过 plugin 获得 Skills、CLI 和 MCP，agent 再用 TK 生成 evidence-backed capability replication brief。
+
+TK 借鉴 Ponytail 的工程纪律：先判断能力是否需要、当前项目是否已有、平台/依赖/成熟 OSS 是否足够；只有这些都不够时，才用 TK 证据复刻最小能力内核。
 
 ## TK 解决什么问题
 
@@ -13,7 +17,7 @@ TK 更关注：
 
 - **能不能用**：适合个人、小团队、企业生产化，还是应该观望。
 - **为什么能工作**：核心抽象、控制面 / 数据面、执行链路、状态模型和契约边界。
-- **怎么复刻能力**：如果重写一个同类系统，哪些架构设计不变量必须保留。
+- **怎么复刻能力**：如果重写一个同类系统，哪些架构设计不变量必须保留，当前项目第一刀做到哪里。
 - **和谁比较**：同类横评、邻近替代、架构邻居和真实风险。
 - **如何喂给 Agent**：结构化报告可作为 AI coding agent / research agent 的高质量项目上下文。
 
@@ -25,12 +29,38 @@ TK 更关注：
 - 开源贡献者：寻找值得贡献、维护或二次构建的项目。
 - 架构学习者：通过真实代码学习系统设计，而不是只看概念文章。
 
+## 快速开始
+
+让 Codex 获得 TK 的 Skills、CLI 和 MCP：
+
+```bash
+npx @jarl_okbe/tk codex install
+```
+
+让 TK 生成能力复刻 brief：
+
+```bash
+npx @jarl_okbe/tk replicate "agent internet capability layer" --from agent-reach
+```
+
+典型对话：
+
+```text
+Use Technical Knockout to replicate Agent Reach's capability routing model in this project.
+```
+
+TK 会引导 agent 先读当前项目，再用报告、横评和源码缓存抽取能力内核、build-vs-buy 边界、不能照搬的部分和验证方式。
+
+看 TK 实际改变 agent 构建决策的例子：[`docs/value-proof.md`](./docs/value-proof.md)。
+
 ## 如何使用这个仓库
 
 - 想快速选型：从下方 **Project Index** 或 [`comparisons/`](./comparisons/) 进入。
 - 想学习架构：读单项目报告里的“底层技术架构”“关键执行链路”“可复刻设计不变量”。
+- 想复刻某个能力：运行 `npx @jarl_okbe/tk replicate "<capability>" --from <project>` 生成能力复刻 brief。
 - 想让 Agent 使用 TK：运行 `npx @jarl_okbe/tk codex install` 安装 Codex 插件，使用其中的 Skills、CLI 和 MCP 服务。
 - 想给其它用户安装 TK Codex 插件：读 [`docs/install-codex-plugin.md`](./docs/install-codex-plugin.md)。
+- 想看 TK 的产品价值证明：读 [`docs/value-proof.md`](./docs/value-proof.md)。
 - 想同步报告对应源码：运行 `npx @jarl_okbe/tk source sync --missing`。
 - 想让 Agent 读取某个项目当前源码：运行 `npx @jarl_okbe/tk source path <project> --json` 获取本地源码路径。
 - 想复用方法论：读 [`METHODOLOGY.md`](./METHODOLOGY.md)。
@@ -54,6 +84,9 @@ TK 提供面向 agent 的完整产品形态：
 ```bash
 npx @jarl_okbe/tk doctor
 npx @jarl_okbe/tk codex install
+npx @jarl_okbe/tk codex status
+npx @jarl_okbe/tk codex refresh
+npx @jarl_okbe/tk replicate "agent internet capability layer" --from agent-reach
 npx @jarl_okbe/tk search "coding agent runtime" --json
 npx @jarl_okbe/tk source status --json
 npx @jarl_okbe/tk source sync --missing

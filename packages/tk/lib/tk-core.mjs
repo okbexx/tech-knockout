@@ -320,6 +320,222 @@ export function findProject(identifier, options = {}) {
   );
 }
 
+function splitList(value) {
+  if (!value) return [];
+  if (Array.isArray(value)) return value.flatMap(splitList);
+  return String(value)
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function cleanHeading(value) {
+  return cleanInline(value)
+    .replace(/^\d+[.、]\s*/, '')
+    .replace(/^#+\s*/, '')
+    .trim();
+}
+
+function reportSections(text) {
+  const lines = text.split(/\r?\n/);
+  const headings = [];
+  for (let index = 0; index < lines.length; index += 1) {
+    const match = lines[index].match(/^(#{2,6})\s+(.+)$/);
+    if (match) {
+      headings.push({
+        index,
+        level: match[1].length,
+        title: cleanHeading(match[2]),
+      });
+    }
+  }
+
+  return headings.map((heading, position) => {
+    const next = headings
+      .slice(position + 1)
+      .find((candidate) => candidate.level <= heading.level);
+    const body = lines.slice(heading.index + 1, next ? next.index : lines.length).join('\n').trim();
+    return { ...heading, body };
+  });
+}
+
+function firstMatchingSection(sections, keywords) {
+  return sections.find((section) =>
+    keywords.some((keyword) => {
+      const title = section.title.toLowerCase();
+      const normalizedKeyword = keyword.toLowerCase();
+      return title === normalizedKeyword || title.includes(normalizedKeyword);
+    }),
+  );
+}
+
+function snippet(value, maxLength = 1800) {
+  const text = String(value || '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength).replace(/\s+\S*$/u, '').trim()}\n...`;
+}
+
+function extractReplicationSections(report) {
+  const sections = reportSections(report);
+  const mapping = {
+    architecture: ['底层技术架构', 'underlying technical architecture'],
+    kernel: ['最小架构内核', 'minimal architecture kernel', '可复刻的最小内核'],
+    abstractions: ['核心抽象', 'core abstractions'],
+    controlDataPlane: ['控制面 / 数据面', '控制面', 'control plane'],
+    executionFlows: ['关键执行链路', 'execution flow'],
+    stateModel: ['状态模型', 'state model'],
+    contracts: ['契约边界', 'contract'],
+    failureModel: ['失败', '降级', 'failure'],
+    invariants: ['可复刻设计不变量', 'design invariants', 'invariants'],
+  };
+
+  return Object.fromEntries(
+    Object.entries(mapping).map(([name, keywords]) => {
+      const section = firstMatchingSection(sections, keywords);
+      return [
+        name,
+        section
+          ? {
+              title: section.title,
+              text: snippet(section.body),
+            }
+          : null,
+      ];
+    }),
+  );
+}
+
+function resolveReferenceProjects(capability, options = {}) {
+  const references = splitList(options.references || options.from || options.projects);
+  const projects = references.length
+    ? references.map((identifier) => findProject(identifier, options)).filter(Boolean)
+    : searchCatalog(capability, options);
+  const limit = Number(options.limit || 5);
+  return projects.slice(0, Number.isFinite(limit) && limit > 0 ? limit : 5);
+}
+
+export async function buildReplicationBrief(capability, options = {}) {
+  const projects = resolveReferenceProjects(capability, options);
+  const references = [];
+
+  for (const project of projects) {
+    const report = readReport(project, options);
+    const context = await projectContext(project.id, options);
+    references.push({
+      project,
+      sections: extractReplicationSections(report),
+      source: context?.source || {
+        sourceDir: project.sourceDir,
+        path: null,
+        exists: false,
+      },
+    });
+  }
+
+  return {
+    capability,
+    generatedAt: new Date().toISOString(),
+    references,
+    brief: {
+      capability,
+      referenceProjects: references.map((item) => item.project.id),
+      ladder: [
+        'Skip the capability if the current project does not actually need it.',
+        'Reuse current-project code, contracts, and installed dependencies before copying a reference.',
+        'Prefer standard library, native platform features, official SDKs, and mature OSS over new TK-owned infrastructure.',
+        'Use TK evidence only to extract the smallest capability kernel and invariants.',
+        'Implement the smallest verifiable boundary; add a bigger base only after evidence proves the smaller rung fails.',
+      ],
+      currentProjectFit: 'Inspect the current project before choosing what to reuse.',
+      kernel: 'Extract the smallest capability kernel from the referenced sections.',
+      mustKeep: [
+        'Architecture invariants that make the capability work.',
+        'Contract boundaries that agents, users, or external tools depend on.',
+        'Failure and degradation behavior that protects users and state.',
+      ],
+      canAdapt: [
+        'UI, framework, package layout, and host-specific adapters.',
+        'Backend implementations when the capability contract stays stable.',
+      ],
+      doNotCopy: [
+        'Project branding, private paths, credentials, or unrelated process ceremony.',
+        'Source code without checking license and current-project fit.',
+      ],
+      buildVsBuy: 'Use current-project dependencies, standard libraries, official SDKs, and mature OSS before self-building infrastructure.',
+      implementationBoundary: 'Implement only the smallest current-project slice that proves the replicated capability.',
+      verification: [
+        'A user-visible success path.',
+        'One deterministic CLI/test/smoke check for the replicated contract.',
+        'Freshness note for any time-sensitive upstream facts.',
+      ],
+    },
+  };
+}
+
+export function formatReplicationBrief(payload) {
+  const lines = [
+    `# Capability Replication Brief: ${payload.capability}`,
+    '',
+    '## Reference Projects',
+  ];
+
+  if (!payload.references.length) {
+    lines.push('No TK reference projects matched. Try `tk search <capability>` or pass `--from <project>`.');
+    return `${lines.join('\n')}\n`;
+  }
+
+  for (const reference of payload.references) {
+    const { project, source } = reference;
+    lines.push(`- ${project.id}: ${project.name}`);
+    if (project.summary) lines.push(`  summary: ${project.summary}`);
+    if (project.adoption) lines.push(`  adoption: ${project.adoption}`);
+    lines.push(`  report: ${project.report}`);
+    lines.push(`  source: ${source.exists ? source.path : `missing (${project.sourceDir || 'no sourceDir'})`}`);
+  }
+
+  lines.push('', '## Evidence Pack');
+  const evidenceOrder = [
+    'kernel',
+    'abstractions',
+    'controlDataPlane',
+    'executionFlows',
+    'stateModel',
+    'contracts',
+    'failureModel',
+    'invariants',
+  ];
+  for (const reference of payload.references) {
+    lines.push('', `### ${reference.project.id}`);
+    for (const name of evidenceOrder) {
+      const section = reference.sections[name];
+      if (!section) continue;
+      lines.push('', `#### ${name}: ${section.title}`, section.text);
+    }
+  }
+
+  lines.push('', '## Replication Contract');
+  lines.push(`Capability: ${payload.brief.capability}`);
+  lines.push(`Reference projects: ${payload.brief.referenceProjects.join(', ')}`);
+  lines.push('', 'TK Replication Ladder:');
+  for (const item of payload.brief.ladder) lines.push(`- ${item}`);
+  lines.push(`Current project fit: ${payload.brief.currentProjectFit}`);
+  lines.push(`Kernel: ${payload.brief.kernel}`);
+  lines.push(`Build-vs-buy: ${payload.brief.buildVsBuy}`);
+  lines.push(`Implementation boundary: ${payload.brief.implementationBoundary}`);
+  lines.push('', 'Must keep:');
+  for (const item of payload.brief.mustKeep) lines.push(`- ${item}`);
+  lines.push('', 'Can adapt:');
+  for (const item of payload.brief.canAdapt) lines.push(`- ${item}`);
+  lines.push('', 'Do not copy:');
+  for (const item of payload.brief.doNotCopy) lines.push(`- ${item}`);
+  lines.push('', 'Verification:');
+  for (const item of payload.brief.verification) lines.push(`- ${item}`);
+
+  return `${lines.join('\n')}\n`;
+}
+
 export async function projectContext(identifier, options = {}) {
   const paths = getPaths(options);
   const project = findProject(identifier, options);
@@ -475,6 +691,79 @@ export async function installCodexPlugin(options = {}) {
   };
 }
 
+export async function codexPluginStatus(options = {}) {
+  const marketplace = options.marketplace || 'tech-knockout';
+  const plugin = options.plugin || 'technical-knockout';
+  const selector = `${plugin}@${marketplace}`;
+  const marketplaceList = await runCodex(['plugin', 'marketplace', 'list']);
+  const pluginList = await runCodex(['plugin', 'list', '--marketplace', marketplace]);
+  const checks = [
+    {
+      name: 'codex_cli',
+      ok: marketplaceList.ok,
+      details: marketplaceList.ok ? [] : [marketplaceList.stderr || marketplaceList.error || 'codex command failed'],
+    },
+    {
+      name: 'marketplace_configured',
+      ok: marketplaceList.ok && marketplaceIsConfigured(marketplaceList.stdout, marketplace),
+      details: marketplaceList.ok ? [] : [marketplaceList.stderr || marketplaceList.error || 'marketplace list failed'],
+    },
+    {
+      name: 'plugin_installed',
+      ok: pluginList.ok && pluginIsInstalled(pluginList.stdout, selector),
+      details: pluginList.ok ? [] : [pluginList.stderr || pluginList.error || 'plugin list failed'],
+    },
+  ];
+  return {
+    ok: checks.every((check) => check.ok),
+    marketplace,
+    plugin,
+    selector,
+    checks,
+    commands: {
+      install: `tk codex install --marketplace ${marketplace} --plugin ${plugin}`,
+      refresh: `tk codex refresh --marketplace ${marketplace} --plugin ${plugin}`,
+    },
+  };
+}
+
+export async function refreshCodexPlugin(options = {}) {
+  const marketplace = options.marketplace || 'tech-knockout';
+  const plugin = options.plugin || 'technical-knockout';
+  const selector = `${plugin}@${marketplace}`;
+  const removeCommand = ['plugin', 'remove', selector];
+  const addCommand = ['plugin', 'add', selector];
+
+  if (options.dryRun) {
+    return {
+      ok: true,
+      dryRun: true,
+      marketplace,
+      plugin,
+      selector,
+      commands: [
+        ['codex', ...removeCommand],
+        ['codex', ...addCommand],
+      ],
+    };
+  }
+
+  const remove = await runCodex(removeCommand);
+  const add = await runCodex(addCommand);
+  const steps = [
+    { name: 'plugin_remove', ...remove },
+    { name: 'plugin_add', ...add },
+  ];
+  return {
+    ok: steps.every((step) => step.ok),
+    marketplace,
+    plugin,
+    selector,
+    steps,
+    next: ['Start a new Codex thread so refreshed Skills and MCP config are loaded.'],
+  };
+}
+
 export function formatCodexInstall(result) {
   if (result.dryRun) {
     return result.commands.map((command) => commandText(command)).join('\n') + '\n';
@@ -494,6 +783,37 @@ export function formatCodexInstall(result) {
     for (const next of result.next || []) lines.push(next);
   }
   return lines.join('\n') + '\n';
+}
+
+export function formatCodexStatus(result) {
+  const lines = result.checks.map((check) => {
+    const suffix = check.details?.length ? `: ${check.details.join(', ')}` : '';
+    return `${check.ok ? 'ok' : 'fail'} ${check.name}${suffix}`;
+  });
+  if (!result.ok) {
+    lines.push(`install: ${result.commands.install}`);
+  } else {
+    lines.push(`ready ${result.selector}`);
+    lines.push(`refresh: ${result.commands.refresh}`);
+  }
+  return `${lines.join('\n')}\n`;
+}
+
+export function formatCodexRefresh(result) {
+  if (result.dryRun) {
+    return result.commands.map((command) => commandText(command)).join('\n') + '\n';
+  }
+
+  const lines = [];
+  for (const step of result.steps || []) {
+    lines.push(`${step.ok ? 'ok' : 'fail'} ${step.name}: ${commandText(step.command || [])}`);
+    if (!step.ok) lines.push(step.stderr || step.error || 'codex command failed');
+  }
+  if (result.ok) {
+    lines.push(`refreshed ${result.selector}`);
+    for (const next of result.next || []) lines.push(next);
+  }
+  return `${lines.join('\n')}\n`;
 }
 
 export async function sourceStatus(options = {}) {
