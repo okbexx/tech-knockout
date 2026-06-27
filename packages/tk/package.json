@@ -1,6 +1,6 @@
 {
   "name": "@jarl_okbe/tk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": false,
   "description": "Technical Knockout CLI, MCP server, and Codex installer for capability replication.",
   "type": "module",

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
+import packageJson from '../package.json' with { type: 'json' };
 import {
   buildCatalog,
   buildReplicationBrief,
@@ -41,7 +42,7 @@ const program = new Command();
 program
   .name('tk')
   .description('Technical Knockout CLI for capability replication, catalog, source cache, doctor, and agent context operations.')
-  .version('0.1.0');
+  .version(packageJson.version);
 
 program
   .command('doctor')

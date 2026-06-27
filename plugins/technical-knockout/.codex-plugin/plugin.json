@@ -1,6 +1,6 @@
 {
   "name": "technical-knockout",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Agent-native capability replication system for turning open-source architecture evidence into current-project implementation boundaries.",
   "author": {
     "name": "okbexx",
