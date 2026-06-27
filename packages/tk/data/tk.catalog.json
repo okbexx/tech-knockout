@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-24T15:09:28.129Z",
+  "generatedAt": "2026-06-27T11:54:18.908Z",
   "projects": [
     {
       "id": "1shell",
@@ -545,6 +545,32 @@
         "cli",
         "workflow",
         "typescript"
+      ]
+    },
+    {
+      "id": "ponytail",
+      "name": "ponytail",
+      "repo": "DietrichGebert/ponytail",
+      "url": "https://github.com/DietrichGebert/ponytail",
+      "cloneUrl": "https://github.com/DietrichGebert/ponytail.git",
+      "report": "reports/ponytail.md",
+      "reportFile": "ponytail",
+      "category": "AI Coding / Agent Workflow",
+      "summary": "跨宿主极简编码纪律插件：把 “YAGNI → 复用 → stdlib → 原生能力 → 已装依赖 → 一行解 → 最小实现” 这套 lazy senior dev ladder，通过 skills、AGENTS.md、hooks、MCP、Hermes/OpenCode/Pi 等 plugin adapters 注入 AI coding agent，抑制过度工程化而不牺牲安全、验证和可访问性。",
+      "adoption": "🟢 推荐采用（个人 / 小团队） / 🟡 团队标准化前隔离试点。",
+      "architectureValue": 5,
+      "license": "MIT",
+      "language": "JavaScript / Python / Markdown；核心资产是 skills、AGENTS.md 与多宿主 adapter",
+      "analysisDate": "2026-06-27",
+      "sourceDir": "projects/DietrichGebert__ponytail",
+      "owner": "DietrichGebert",
+      "sourceExists": true,
+      "tags": [
+        "agent",
+        "coding",
+        "mcp",
+        "workflow",
+        "python"
       ]
     },
     {

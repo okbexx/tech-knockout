@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-24T15:12:06.176947Z",
+  "generatedAt": "2026-06-27T11:54:18.908Z",
   "sources": [
     {
       "id": "1shell",
@@ -272,6 +272,19 @@
       "commit": "04e93af5c4fcee5ab3be35177940c720ac6f8b53",
       "remote": "https://github.com/badlogic/pi-mono.git",
       "shallow": true,
+      "dirty": false
+    },
+    {
+      "id": "ponytail",
+      "repo": "DietrichGebert/ponytail",
+      "url": "https://github.com/DietrichGebert/ponytail",
+      "cloneUrl": "https://github.com/DietrichGebert/ponytail.git",
+      "sourceDir": "projects/DietrichGebert__ponytail",
+      "exists": true,
+      "branch": "main",
+      "commit": "c4d1925ae9b76a1b641877328209ad25cfeb5ef2",
+      "remote": "https://github.com/DietrichGebert/ponytail.git",
+      "shallow": false,
       "dirty": false
     },
     {
