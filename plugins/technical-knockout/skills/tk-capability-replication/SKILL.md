@@ -104,8 +104,9 @@ Freshness gaps:
   evidence.
 - Keep the first implementation boundary small enough to verify in the current
   project.
-- If the user asks for a Ponytail-level product, include install, CLI, MCP,
-  Skills, docs, doctor, and a value proof path; do not stop at a Skill.
+- If the user asks for a complete agent capability product, include install,
+  CLI, MCP, Skills, docs, doctor, and a value proof path; do not stop at a
+  Skill.
 
 ## Completion
 

@@ -22,7 +22,7 @@ Use Technical Knockout to replicate this capability in the current project.
 
 The expected result is a capability replication brief, not a code dump.
 
-## Proof 1: Anti-overengineering Discipline
+## Proof 1: Foundation Build-vs-Buy Gate
 
 User need:
 
@@ -33,24 +33,26 @@ features, installed dependencies, official SDKs, and mature OSS.
 Reference:
 
 ```bash
-npx @jarl_okbe/tk replicate "anti-overengineering agent behavior discipline" --from ponytail
+npx @jarl_okbe/tk replicate "agent capability plugin with CLI MCP and Skills" --from superpowers,compound-engineering-plugin,ECC
 ```
 
 TK evidence:
 
-- Ponytail's kernel is a behavior skill corpus, mode resolver, instruction
-  builder, host adapter matrix, lightweight state handle, and soft-fail
-  injection contract.
-- Its reusable invariant is the ladder: skip unnecessary work, reuse local
-  code, prefer stdlib/native/installed dependencies, then write the minimum
-  implementation.
-- It keeps adapter code thin and treats agent-facing Markdown as an API.
+- TK identifies plugin distribution, CLI execution, MCP tools, Skills, and
+  docs as separate surfaces instead of one large custom runtime.
+- The build-vs-buy gate requires current-project reuse, standard
+  library/platform features, installed dependencies, official SDKs, and mature
+  OSS before TK-owned infrastructure.
+- The product boundary stays small: CLI does deterministic local work, MCP
+  stays read-mostly, Skills steer agent behavior, and docs explain the user
+  path.
 
 TK decision for this project:
 
-Do not copy Ponytail's persona, command set, host matrix, or mode system into
-TK. TK should replicate the capability semantics: a hard ladder that prevents
-unnecessary foundation work before capability replication begins.
+Do not build a custom agent runtime, installer protocol, MCP transport, CLI
+parser, schema validator, or search engine. TK should use mature foundations
+and keep self-built code at the product boundary: catalog mapping, replication
+briefs, source-cache planning, and agent workflow semantics.
 
 Minimum product boundary:
 
@@ -62,7 +64,7 @@ Minimum product boundary:
 
 Verification:
 
-- `npx @jarl_okbe/tk replicate "anti-overengineering agent behavior discipline" --from ponytail`
+- `npx @jarl_okbe/tk replicate "agent capability plugin with CLI MCP and Skills" --from superpowers,compound-engineering-plugin,ECC`
 - `npx @jarl_okbe/tk doctor`
 - `npm run verify`
 
@@ -114,8 +116,8 @@ Verification:
 ## Proof 3: Current Gap
 
 Code intelligence replication is a good next proof, but it is not finished
-until TK reports expose the same reusable sections for CodeGraph and GitNexus
-that Ponytail and Agent Reach already expose.
+until TK reports expose the same reusable architecture sections for CodeGraph
+and GitNexus that the replication brief extractor expects.
 
 Current command:
 

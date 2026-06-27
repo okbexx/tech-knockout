@@ -5,9 +5,9 @@
 
 Technical Knockout（TK）面向正在让 agent 做真实工程的开发者。TK 不只回答“这个项目能不能采用”，更重要的是回答：**如果我要在当前项目里复刻类似能力，哪些架构内核、契约边界、失败模型和设计不变量必须保留，哪些东西不能照搬。**
 
-TK 的产品形态对标 Ponytail 这类 agent 能力包：用户通过 npm 安装，Codex 通过 plugin 获得 Skills、CLI 和 MCP，agent 再用 TK 生成 evidence-backed capability replication brief。
+TK 的产品入口很简单：用户通过 npm 安装，Codex 通过 plugin 获得 Skills、CLI 和 MCP，agent 再用 TK 生成 evidence-backed capability replication brief。
 
-TK 借鉴 Ponytail 的工程纪律：先判断能力是否需要、当前项目是否已有、平台/依赖/成熟 OSS 是否足够；只有这些都不够时，才用 TK 证据复刻最小能力内核。
+TK 的工程纪律是：先判断能力是否需要、当前项目是否已有、平台/依赖/成熟 OSS 是否足够；只有这些都不够时，才用 TK 证据复刻最小能力内核。
 
 ## TK 解决什么问题
 

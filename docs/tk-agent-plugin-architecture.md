@@ -206,7 +206,7 @@ Verification:
 Freshness gaps:
 ```
 
-The ladder is TK's Ponytail-style product discipline:
+The ladder is TK's product discipline:
 
 1. Skip the capability if the current project does not need it.
 2. Reuse current-project code or nearby patterns.

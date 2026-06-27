@@ -101,7 +101,7 @@ Freshness gaps:
 
 ### TK Replication Ladder
 
-TK 借鉴 Ponytail 的工程纪律：先少造，再复刻。Agent 在提出实现前按顺序检查：
+TK 的工程纪律是先少造，再复刻。Agent 在提出实现前按顺序检查：
 
 1. 当前项目真的需要这个能力吗？不需要就不做。
 2. 当前项目是否已有能力或相近模式？有就复用。
