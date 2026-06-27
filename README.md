@@ -1,13 +1,11 @@
 # Technical Knockout
 
-> 给 AI Agent 用的能力复刻系统。<br>
-> 从优秀开源项目里抽取可复刻能力，再落成当前项目的架构边界、实现约束和验证清单。
+> 让 Codex 先看证据，再复刻开源项目里的能力。<br>
+> TK 帮 agent 判断要不要做、该复用什么、最小能力内核是什么、第一刀怎么验证。
 
-Technical Knockout（TK）面向正在让 agent 做真实工程的开发者。TK 不只回答“这个项目能不能采用”，更重要的是回答：**如果我要在当前项目里复刻类似能力，哪些架构内核、契约边界、失败模型和设计不变量必须保留，哪些东西不能照搬。**
+Technical Knockout（TK）面向正在让 Codex 做真实工程的开发者。用户给出一个想复刻的能力，TK 会让 agent 先查当前项目、再读可信参考，最后给出实现边界和验证方式。TK 不把参考项目变成代码模板；它回答：**当前项目该保留什么、可以替换什么、不能复制什么。**
 
-TK 的产品入口很简单：用户通过 npm 安装，Codex 通过 plugin 获得 Skills、CLI 和 MCP，agent 再用 TK 生成 evidence-backed capability replication brief。
-
-TK 的工程纪律是：先判断能力是否需要、当前项目是否已有、平台/依赖/成熟 OSS 是否足够；只有这些都不够时，才用 TK 证据复刻最小能力内核。
+TK 的工程纪律是：先跳过不需要的能力，先复用当前项目已有代码，先用标准库、平台能力、已安装依赖、官方 SDK 和成熟 OSS；这些都不够时，才用 TK 证据复刻最小能力内核。
 
 ## TK 解决什么问题
 
@@ -31,45 +29,54 @@ TK 更关注：
 
 ## 快速开始
 
-让 Codex 获得 TK 的 Skills、CLI 和 MCP：
+安装 TK 并检查 Codex 是否已经能使用：
 
 ```bash
 npx @jarl_okbe/tk codex install
+npx @jarl_okbe/tk codex status
 ```
 
-让 TK 生成能力复刻 brief：
+然后在目标项目里直接问 Codex：
+
+```text
+Use Technical Knockout to replicate Agent Reach's internet capability layer in this repo.
+```
+
+你应该看到 Codex 先给出一份能力复刻 brief，再进入实现：
+
+```text
+Capability:
+Current project fit:
+Reference projects:
+Must keep:
+Can adapt:
+Do not copy:
+Implementation boundary:
+Verification:
+```
+
+只想先看参考证据时，可以直接运行：
 
 ```bash
 npx @jarl_okbe/tk replicate "agent internet capability layer" --from agent-reach
 ```
 
-典型对话：
-
-```text
-Use Technical Knockout to replicate Agent Reach's capability routing model in this project.
-```
-
-TK 会引导 agent 先读当前项目，再用报告、横评和源码缓存抽取能力内核、build-vs-buy 边界、不能照搬的部分和验证方式。
-
-看 TK 实际改变 agent 构建决策的例子：[`docs/value-proof.md`](./docs/value-proof.md)。
+看完整示例：[`docs/value-proof.md`](./docs/value-proof.md)。
 
 ## 如何使用这个仓库
 
-- 想快速选型：从下方 **Project Index** 或 [`comparisons/`](./comparisons/) 进入。
-- 想学习架构：读单项目报告里的“底层技术架构”“关键执行链路”“可复刻设计不变量”。
-- 想复刻某个能力：运行 `npx @jarl_okbe/tk replicate "<capability>" --from <project>` 生成能力复刻 brief。
-- 想让 Agent 使用 TK：运行 `npx @jarl_okbe/tk codex install` 安装 Codex 插件，使用其中的 Skills、CLI 和 MCP 服务。
-- 想给其它用户安装 TK Codex 插件：读 [`docs/install-codex-plugin.md`](./docs/install-codex-plugin.md)。
-- 想看 TK 的产品价值证明：读 [`docs/value-proof.md`](./docs/value-proof.md)。
-- 想同步报告对应源码：运行 `npx @jarl_okbe/tk source sync --missing`。
-- 想让 Agent 读取某个项目当前源码：运行 `npx @jarl_okbe/tk source path <project> --json` 获取本地源码路径。
-- 想复用方法论：读 [`METHODOLOGY.md`](./METHODOLOGY.md)。
+- 想让 Codex 复刻能力：先运行 `npx @jarl_okbe/tk codex install`，再在目标项目里直接问 Codex。
+- 想先看参考证据：运行 `npx @jarl_okbe/tk replicate "<capability>" --from <project>`。
+- 想快速选型或学习架构：从下方 **Project Index**、[`reports/`](./reports/) 或 [`comparisons/`](./comparisons/) 进入。
+- 想看好结果长什么样：读 [`docs/value-proof.md`](./docs/value-proof.md)。
+- 想给其它用户安装 TK：读 [`docs/install-codex-plugin.md`](./docs/install-codex-plugin.md)。
+- 想复用分析方法：读 [`METHODOLOGY.md`](./METHODOLOGY.md)。
 - 想提交新项目或修正报告：读 [`CONTRIBUTING.md`](./CONTRIBUTING.md)。
 - 想让 AI Agent 参与维护：读 [`AGENTS.md`](./AGENTS.md)。
 
-## Agent Product
+## Maintainer Notes
 
-TK 提供面向 agent 的完整产品形态：
+TK 的用户入口是安装、检查、让 Codex 复刻能力。下面是给维护者和高级用户看的产品结构：
 
 - **npm package**：`packages/tk` 发布为 `@jarl_okbe/tk`，提供 CLI、MCP server、core、schemas 和报告快照。
 - **Codex plugin adapter**：`plugins/technical-knockout` 提供 Codex manifest、Skills 和 MCP 启动配置。

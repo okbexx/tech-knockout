@@ -1,10 +1,10 @@
-# TK Value Proof
+# TK Examples
 
-TK is useful only when it changes what an agent does before building.
+These examples show what a useful TK result looks like.
 
-The product proof is not that TK has reports, Skills, CLI commands, or MCP
-tools. The proof is that an agent can turn a reference project into a smaller,
-evidence-backed implementation boundary for the current project.
+TK is doing its job when it changes the build decision: skip the capability,
+reuse what already exists, choose a mature dependency, extract a smaller kernel,
+or define a tighter first implementation boundary.
 
 ## User Path
 
@@ -22,7 +22,7 @@ Use Technical Knockout to replicate this capability in the current project.
 
 The expected result is a capability replication brief, not a code dump.
 
-## Proof 1: Foundation Build-vs-Buy Gate
+## Example 1: Foundation Build-vs-Buy Gate
 
 User need:
 
@@ -36,7 +36,7 @@ Reference:
 npx @jarl_okbe/tk replicate "agent capability plugin with CLI MCP and Skills" --from superpowers,compound-engineering-plugin,ECC
 ```
 
-TK evidence:
+What TK surfaces:
 
 - TK identifies plugin distribution, CLI execution, MCP tools, Skills, and
   docs as separate surfaces instead of one large custom runtime.
@@ -47,14 +47,14 @@ TK evidence:
   stays read-mostly, Skills steer agent behavior, and docs explain the user
   path.
 
-TK decision for this project:
+Decision:
 
 Do not build a custom agent runtime, installer protocol, MCP transport, CLI
 parser, schema validator, or search engine. TK should use mature foundations
 and keep self-built code at the product boundary: catalog mapping, replication
 briefs, source-cache planning, and agent workflow semantics.
 
-Minimum product boundary:
+First implementation boundary:
 
 - Add the TK Replication Ladder to TK methodology and Skills.
 - Make `tk replicate` produce a brief with build-vs-buy and implementation
@@ -68,7 +68,7 @@ Verification:
 - `npx @jarl_okbe/tk doctor`
 - `npm run verify`
 
-## Proof 2: Agent Internet Capability Layer
+## Example 2: Agent Internet Capability Layer
 
 User need:
 
@@ -82,7 +82,7 @@ Reference:
 npx @jarl_okbe/tk replicate "agent internet capability layer" --from agent-reach
 ```
 
-TK evidence:
+What TK surfaces:
 
 - Agent Reach's kernel is a capability registry, ordered backend routing,
   side-effect-aware health probe, local config/credential store,
@@ -91,14 +91,14 @@ TK evidence:
 - The data plane stays with existing upstream tools such as platform CLIs,
   MCP servers, search APIs, RSS readers, and browser-login backends.
 
-TK decision for a consuming project:
+Decision for a consuming project:
 
 Do not build a unified internet API first. Start with a capability registry,
 read-only health/status checks, and an agent-facing contract that tells the
 agent which existing upstream tool to use. Only add a new backend when the
 brief proves current tools fail the product boundary.
 
-Minimum product boundary:
+First implementation boundary:
 
 - Define the channels the current project actually needs.
 - Expose machine-readable status for each channel.
@@ -113,7 +113,7 @@ Verification:
 - Source evidence only after `npx @jarl_okbe/tk source path agent-reach --json`
   returns an existing path and the agent has read the cited files.
 
-## Proof 3: Current Gap
+## Current Gap
 
 Code intelligence replication is a good next proof, but it is not finished
 until TK reports expose the same reusable architecture sections for CodeGraph
@@ -137,7 +137,7 @@ Next product cut:
 - Re-run the same command and require an evidence pack before claiming this as
   a completed value proof.
 
-## What Counts As Product Value
+## What Good Looks Like
 
 TK has product value when the brief changes the build decision:
 

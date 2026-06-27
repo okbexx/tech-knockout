@@ -1,15 +1,9 @@
 # Install the Technical Knockout Codex Plugin
 
-This guide is for users who want Codex to use Technical Knockout as an
-installable capability replication plugin with bundled Skills, CLI commands,
-and an MCP server.
-
-TK has two distribution layers:
-
-- `@jarl_okbe/tk` is the npm package that provides the `tk` CLI, MCP server, and
-  installer entry.
-- `plugins/technical-knockout` is the Codex plugin adapter shipped from the
-  `tech-knockout` repository.
+This guide is for users who want Codex to use TK before replicating a capability
+from another project. After installation, Codex can ask TK what to keep, what to
+adapt, what not to copy, where the first implementation boundary should be, and
+how to verify it.
 
 ## Prerequisites
 
@@ -17,44 +11,61 @@ TK has two distribution layers:
 - Node.js 22.12.0 or newer.
 - npm.
 
-## Install with npm
+## Install
 
-Install the Codex plugin through the TK npm CLI:
+Install TK into Codex:
 
 ```bash
 npx @jarl_okbe/tk codex install
+npx @jarl_okbe/tk codex status
 ```
 
-This registers the GitHub marketplace source and installs the Codex plugin:
+`codex status` should show:
 
-```bash
-codex plugin marketplace add okbexx/tech-knockout
-codex plugin add technical-knockout@tech-knockout
+```text
+ok codex_cli
+ok marketplace_configured
+ok plugin_installed
+ready technical-knockout@tech-knockout
 ```
 
 Restart Codex or start a new Codex thread after installation.
 
-## Use the CLI
+## Use TK
 
-Run TK commands through npm without cloning the repository:
+From the project where you want the capability, ask Codex:
+
+```text
+Use Technical Knockout to replicate Agent Reach's internet capability layer in this repo.
+```
+
+Codex should first produce a brief with:
+
+```text
+Current project fit
+Reference projects
+Must keep
+Can adapt
+Do not copy
+Implementation boundary
+Verification
+```
+
+For reference-only exploration, run:
+
+```bash
+npx @jarl_okbe/tk replicate "agent internet capability layer" --from agent-reach
+```
+
+Other useful checks:
 
 ```bash
 npx @jarl_okbe/tk doctor
-npx @jarl_okbe/tk codex status
-npx @jarl_okbe/tk replicate "agent internet capability layer" --from agent-reach
-npx @jarl_okbe/tk search "coding agent runtime" --json
-npx @jarl_okbe/tk source status --json
-npx @jarl_okbe/tk source sync --missing
-npx @jarl_okbe/tk source path gitnexus --json
+npx @jarl_okbe/tk search "coding agent runtime"
+npx @jarl_okbe/tk source status
 ```
 
-Or install the CLI globally:
-
-```bash
-npm install --global @jarl_okbe/tk
-tk doctor
-tk source sync --missing
-```
+## Source Cache
 
 `source sync --missing` clones source repositories referenced by TK reports.
 When run inside a TK repository checkout, sources are cached under that
@@ -108,24 +119,10 @@ codex plugin marketplace add "$(pwd)"
 codex plugin add technical-knockout@tech-knockout
 ```
 
-## Verify the installation
+## Advanced Verification
 
-Check that Codex can see the marketplace and plugin:
-
-```bash
-npx @jarl_okbe/tk codex status
-```
-
-The output should show:
-
-```text
-ok codex_cli
-ok marketplace_configured
-ok plugin_installed
-ready technical-knockout@tech-knockout
-```
-
-You can also check the raw Codex marketplace:
+`tk codex status` is the normal readiness check. If you need to inspect the
+raw Codex state, run:
 
 ```bash
 codex plugin marketplace list
@@ -150,22 +147,9 @@ codex plugin list | grep -E "technical-knockout|tech-knockout"
 The plugin should appear as `technical-knockout@tech-knockout` with an
 installed and enabled status.
 
-## Use the bundled capabilities
-
-After installation, Codex can load the TK Skills when a task involves
-capability replication, open-source project evaluation, architecture learning,
-build-vs-buy decisions, or source-backed reference discovery.
-
-You can also ask Codex to use the plugin explicitly:
-
-```text
-Use Technical Knockout to replicate Agent Reach's capability routing model in this project.
-```
-
-To see what a good TK result looks like, read
-[`docs/value-proof.md`](./value-proof.md). A useful TK result changes the build
-decision: skip, reuse, buy, extract a smaller kernel, or define a tighter
-implementation boundary.
+A useful TK result changes the build decision: skip, reuse, buy, extract a
+smaller kernel, or define a tighter implementation boundary. See
+[`docs/value-proof.md`](./value-proof.md) for examples.
 
 When developing from source before publishing, run the local CLI from the
 workspace package:

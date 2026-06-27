@@ -448,8 +448,8 @@ export async function buildReplicationBrief(capability, options = {}) {
         'Use TK evidence only to extract the smallest capability kernel and invariants.',
         'Implement the smallest verifiable boundary; add a bigger base only after evidence proves the smaller rung fails.',
       ],
-      currentProjectFit: 'Inspect the current project before choosing what to reuse.',
-      kernel: 'Extract the smallest capability kernel from the referenced sections.',
+      currentProjectFit: 'Not evaluated here. The agent must inspect the current project before choosing what to reuse.',
+      kernel: 'Extract the smallest capability kernel from the referenced sections, then adapt it to the current project.',
       mustKeep: [
         'Architecture invariants that make the capability work.',
         'Contract boundaries that agents, users, or external tools depend on.',
@@ -476,7 +476,14 @@ export async function buildReplicationBrief(capability, options = {}) {
 
 export function formatReplicationBrief(payload) {
   const lines = [
-    `# Capability Replication Brief: ${payload.capability}`,
+    `# TK Reference Brief: ${payload.capability}`,
+    '',
+    'Use this brief with the current project before implementation. It is reference evidence, not a decision by itself.',
+    '',
+    'Next:',
+    '1. Check whether the current project needs this capability.',
+    '2. Reuse current-project code, platform features, installed dependencies, official SDKs, or mature OSS first.',
+    '3. Ask the agent to turn this reference brief into a current-project implementation boundary.',
     '',
     '## Reference Projects',
   ];
@@ -492,7 +499,7 @@ export function formatReplicationBrief(payload) {
     if (project.summary) lines.push(`  summary: ${project.summary}`);
     if (project.adoption) lines.push(`  adoption: ${project.adoption}`);
     lines.push(`  report: ${project.report}`);
-    lines.push(`  source: ${source.exists ? source.path : `missing (${project.sourceDir || 'no sourceDir'})`}`);
+    lines.push(`  source: ${source.exists ? 'available' : 'missing'}`);
   }
 
   lines.push('', '## Evidence Pack');
@@ -524,6 +531,9 @@ export function formatReplicationBrief(payload) {
   lines.push(`Kernel: ${payload.brief.kernel}`);
   lines.push(`Build-vs-buy: ${payload.brief.buildVsBuy}`);
   lines.push(`Implementation boundary: ${payload.brief.implementationBoundary}`);
+  lines.push(
+    'Source files: use `tk source path <project> --json` when implementation details require local file evidence.',
+  );
   lines.push('', 'Must keep:');
   for (const item of payload.brief.mustKeep) lines.push(`- ${item}`);
   lines.push('', 'Can adapt:');
