@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-27T12:09:33.154Z",
+  "generatedAt": "2026-06-28T14:13:39.525Z",
   "projects": [
     {
       "id": "1shell",
@@ -203,6 +203,34 @@
         "design",
         "typescript",
         "python",
+        "go"
+      ]
+    },
+    {
+      "id": "design.md",
+      "name": "DESIGN.md",
+      "repo": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "cloneUrl": "https://github.com/google-labs-code/design.md.git",
+      "report": "reports/design.md.md",
+      "reportFile": "design.md",
+      "category": "Agent Platform / Desktop / Design",
+      "summary": "Google Labs / Stitch 开源的 agent-readable 设计系统文件格式与 CLI：用 `YAML front matter` 承载机器可读 design tokens，用 Markdown prose 承载设计意图、审美约束和使用 rationale，让 coding agent 在不同会话、不同工具之间稳定复用同一套视觉身份。",
+      "adoption": null,
+      "architectureValue": 5,
+      "license": "Apache-2.0",
+      "language": "TypeScript",
+      "analysisDate": "2026-06-28",
+      "sourceDir": "projects/google-labs-code__design.md",
+      "owner": "google-labs-code",
+      "sourceExists": false,
+      "tags": [
+        "agent",
+        "coding",
+        "cli",
+        "desktop",
+        "design",
+        "typescript",
         "go"
       ]
     },
@@ -761,6 +789,11 @@
     }
   ],
   "comparisons": [
+    {
+      "id": "agent-native-design",
+      "path": "comparisons/agent-native-design.md",
+      "title": "Agent-Native Design 横评"
+    },
     {
       "id": "agent-platforms",
       "path": "comparisons/agent-platforms.md",
