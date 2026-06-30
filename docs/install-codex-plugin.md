@@ -65,6 +65,12 @@ npx @jarl_okbe/tk search "coding agent runtime"
 npx @jarl_okbe/tk source status
 ```
 
+You can also ask Codex directly:
+
+```text
+Use Technical Knockout to clone the missing reference repositories.
+```
+
 ## Source Cache
 
 `source sync --missing` clones source repositories referenced by TK reports.

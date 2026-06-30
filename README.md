@@ -42,6 +42,12 @@ npx @jarl_okbe/tk codex status
 Use Technical Knockout to replicate Agent Reach's internet capability layer in this repo.
 ```
 
+如果需要原始参考代码，也可以直接问：
+
+```text
+Use Technical Knockout to clone the missing reference repositories.
+```
+
 你应该看到 Codex 先给出一份能力复刻 brief，再进入实现：
 
 ```text
@@ -66,6 +72,7 @@ npx @jarl_okbe/tk replicate "agent internet capability layer" --from agent-reach
 ## 如何使用这个仓库
 
 - 想让 Codex 复刻能力：先运行 `npx @jarl_okbe/tk codex install`，再在目标项目里直接问 Codex。
+- 想让 Codex 准备参考仓库源码：直接问 `Use Technical Knockout to clone the missing reference repositories.`。
 - 想先看参考证据：运行 `npx @jarl_okbe/tk replicate "<capability>" --from <project>`。
 - 想快速选型或学习架构：从下方 **Project Index**、[`reports/`](./reports/) 或 [`comparisons/`](./comparisons/) 进入。
 - 想看好结果长什么样：读 [`docs/value-proof.md`](./docs/value-proof.md)。

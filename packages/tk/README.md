@@ -20,6 +20,12 @@ Then ask Codex from your project:
 Use Technical Knockout to replicate Agent Reach's internet capability layer in this repo.
 ```
 
+If Codex needs the original reference code, ask:
+
+```text
+Use Technical Knockout to clone the missing reference repositories.
+```
+
 For a reference-only brief:
 
 ```bash
@@ -35,6 +41,7 @@ first implementation boundary, and how to verify it.
 npx @jarl_okbe/tk doctor
 npx @jarl_okbe/tk search "coding agent runtime"
 npx @jarl_okbe/tk source status
+npx @jarl_okbe/tk source sync --missing
 ```
 
 Examples:
