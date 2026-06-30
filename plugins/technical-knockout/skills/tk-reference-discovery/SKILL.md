@@ -19,6 +19,9 @@ build-vs-buy decisions, not as a source-code dump.
      similar capability
    - `tk compare <category> --json` or the relevant comparison document
    - `tk search <query> --json`
+   - `tk deps <project> --json` when deciding whether to reuse a library, SDK,
+     framework, CLI, protocol package, parser, storage engine, or other
+     infrastructure dependency
    - `tk inspect <project> --json`
    - local report text
    - local source cache only when implementation evidence is needed
@@ -28,6 +31,7 @@ build-vs-buy decisions, not as a source-code dump.
    - TK report conclusion
    - comparison conclusion
    - replication kernel and invariants
+   - dependency / SDK evidence and build-vs-buy reuse signals
    - source evidence
    - freshness or verification gap
 
@@ -41,6 +45,7 @@ When the user is deciding whether to self-build, answer with:
 Need:
 Current project:
 TK references:
+Dependency / SDK evidence:
 Official / standard:
 Mature OSS:
 Decision:
@@ -52,6 +57,13 @@ Verification:
 Self-build requires evidence that reuse or adaptation fails on license,
 maintenance, security, cost, performance, integration complexity, or product
 semantics. "It is simple" is not enough.
+
+Before recommending a dependency, compare:
+
+- current project dependencies and platform features;
+- TK reference `dependencyEvidence`;
+- the full direct dependency list from `tk deps <project> --json`;
+- the reference caution field.
 
 ## Source Evidence Rule
 

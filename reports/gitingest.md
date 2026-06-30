@@ -55,6 +55,15 @@
 - **学习曲线**：极低。CLI 参数直观，Python API 只有 `ingest()` 一个函数
 - **从零到 demo**：`< 1 分钟`（`pipx install` → `gitingest <url>`）
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
+
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |

@@ -253,6 +253,14 @@ macshot/
 
 > 如果团队需要一个功能完整的 macOS 截图工具且不在意 GPL，macshot 是 CleanShot X 的最佳免费替代品。如果需要在产品中嵌入截图能力并以闭源形式分发，需考虑许可证影响或寻找 MIT/Apache 替代方案。
 
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
+
 ### 场景二：技术架构学习
 
 | 学习点 | 价值 | 具体文件 |

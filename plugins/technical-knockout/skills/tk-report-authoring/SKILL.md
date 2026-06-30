@@ -19,8 +19,15 @@ Use this skill when maintaining TK itself.
    - README/docs/changelog/release
    - issues/PRs/actions when checked
    - real command output if tests/builds were run
-6. Update `README.md` Project Index and relevant `comparisons/*.md`.
-7. Run catalog and doctor checks before finishing.
+6. Add `### 依赖 / SDK 选型证据` to every report:
+   - make sure local source is present so `tk catalog build` can capture all
+     direct dependencies from manifests;
+   - explain key libraries, SDKs, frameworks, CLIs, protocol packages, parsers,
+     storage engines, search tools, and UI/runtime dependencies;
+   - for each key dependency, state what problem it solves, evidence paths,
+     reuse signal, and caution.
+7. Update `README.md` Project Index and relevant `comparisons/*.md`.
+8. Run catalog and doctor checks before finishing.
 
 ## Do Not
 

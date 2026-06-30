@@ -69,6 +69,15 @@ OpenAgent 解决的是“我不想自己拼 LangChain/LangGraph + 管理后台 +
 - **学习曲线**：如果只用 UI 配模型和知识库，中等；如果要改核心，需要理解 Beego controller、object 业务层、provider factory、MCP toolset、RAG vector、前端 SSE、Casdoor/authz、CI/release。
 - **维护成本**：中高。代码不是小框架，而是一个功能面很宽的单体平台。
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
+
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |

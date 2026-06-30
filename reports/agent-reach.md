@@ -77,6 +77,18 @@ Agent Reach 的产品判断是：**Agent 不需要再记住每个平台的最佳
 | 学习曲线 | 普通用户低：复制安装句子给 Agent；维护者中等：需要理解 channel registry、backend probing、credential handling、Skill 分发。 |
 | 从零到 demo | 本地开发机几分钟可完成基础渠道；要让 Twitter/Reddit/小红书稳定可用，取决于浏览器登录态、Chrome 扩展、Cookie、代理。 |
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| `yt-dlp` | CLI / library | YouTube metadata, subtitles, and audio download for transcription | Avoids writing a video extractor and platform-specific downloader | `pyproject.toml`; `agent_reach/channels/youtube.py`; `agent_reach/transcribe.py`; `skill/references/video.md` | Reuse when an agent needs YouTube media/subtitle access and can accept upstream CLI/platform churn | Do not assume it works for every video platform; this report explicitly says Bilibili moved away from yt-dlp due to 412 risk control |
+| `feedparser` | parser | RSS feed parsing backend | Avoids hand-writing RSS/Atom parsing and edge-case handling | `pyproject.toml`; `agent_reach/channels/rss.py`; `skill/references/web.md` | Reuse for lightweight RSS ingestion before building a crawler | RSS is only one channel; it does not solve logged-in/social content |
+| `mcp` / `mcporter` | protocol / CLI bridge | Expose or route MCP-backed web/search/social tools | Avoids inventing a custom agent tool protocol for every upstream service | `pyproject.toml`; `agent_reach/integrations/mcp_server.py`; `channels/exa_search.py`; `guides/setup-exa.md` | Reuse MCP when an agent-facing tool should be discoverable and composable across hosts | MCP server availability, credentials, and local daemon state still need doctor checks |
+| `browser-cookie3` | credential access | Optional browser cookie extraction for logged-in channels | Avoids custom browser cookie-store parsing | `pyproject.toml`; `agent_reach/cookie_extract.py` | Evaluate only when the product explicitly needs user-session backed reads | High privacy risk; prefer dedicated accounts, local-only storage, and explicit user consent |
+
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |

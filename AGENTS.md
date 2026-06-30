@@ -64,6 +64,7 @@ TK 的“架构分析”不能停在：
 - 基本信息中的 Star、Fork、Release、Issue/PR 等指标要注明观测日期。
 - 风险结论必须区分“个人/小团队 PoC”和“企业生产化”。
 - 竞品要按项目真实产品边界分层：直接竞品、邻近替代、架构邻居。
+- 每份报告必须包含 `### 依赖 / SDK 选型证据`；全量 direct dependencies 进入 catalog，关键依赖解释清楚 Used for、Problem solved、Reuse signal 和 Caution。
 - 代码走读要引用真实文件路径和函数/类名。
 - 如果本地实测了测试/构建/lint/mypy，要写真实命令和真实结果；不能编造。
 

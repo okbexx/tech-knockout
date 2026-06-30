@@ -62,6 +62,7 @@ Other useful checks:
 ```bash
 npx @jarl_okbe/tk doctor
 npx @jarl_okbe/tk search "coding agent runtime"
+npx @jarl_okbe/tk deps agent-reach
 npx @jarl_okbe/tk source status
 ```
 
@@ -164,6 +165,7 @@ workspace package:
 node packages/tk/bin/tk.mjs doctor
 node packages/tk/bin/tk.mjs replicate "agent internet capability layer" --from agent-reach
 node packages/tk/bin/tk.mjs search "coding agent runtime" --json
+node packages/tk/bin/tk.mjs deps agent-reach --json
 node packages/tk/bin/tk.mjs source status --json
 node packages/tk/bin/tk.mjs source sync --missing
 node packages/tk/bin/tk.mjs source path gitnexus --json

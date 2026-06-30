@@ -80,6 +80,15 @@ jcode 解决的是 **“把 Claude Code / Codex CLI 式终端 Agent 体验，推
 - **学习曲线：** 使用层中高；Swarm、memory、MCP、provider profile、server/live session 都需要心智。源码学习层很高，但架构收益也很高。
 - **从零到 smoke：** 若只下载 release 并配置 provider，理论上 10–20 分钟；若源码构建，需要 Rust toolchain、平台依赖和较长编译时间。
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
+
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |

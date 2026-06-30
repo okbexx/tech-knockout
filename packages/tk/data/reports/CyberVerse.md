@@ -73,6 +73,15 @@ CyberVerse 解决的是“我想搭一个能听、能说、能看，必要时还
 - **从零到 demo 时间**：纯语音在依赖齐全和 API key 可用时可按小时级跑通；数字人视频更接近半天到数天，取决于 CUDA/模型权重/驱动/FFmpeg/网络。
 - **二开学习曲线**：中高。要同时理解 Vue UI、Go HTTP/WebRTC/session/orchestrator、Python gRPC/plugin/runtime、LLM/ASR/TTS/Avatar provider、RAG 与任务事件。
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
+
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |

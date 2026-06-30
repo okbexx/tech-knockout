@@ -88,6 +88,15 @@ Compound Engineering 解决的不是“模型能不能写代码”，而是 **AI
 - **学习曲线中高。** 用户要理解 CE 命令、产物目录、workflow 边界、模式参数、subagent 委派和复利文档；不是只多一个 slash command。
 - **从零到 demo。** Claude Code/Cursor native install 可很快体验；Codex 完整体验要额外安装 agents；团队真正采用需要约定哪些 workflow 必跑、产物放哪里、review 发现如何进入 PR/issue。
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
+
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |

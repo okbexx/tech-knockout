@@ -80,6 +80,15 @@ last30days-skill 的核心价值不是“又一个搜索 API”，而是把**跨
 | 学习曲线 | 中高。普通用户只需会用 `/last30days`；维护者需要理解 1700 行级 `SKILL.md` contract、planner schema、source adapters、render LAWs 和 config priority。 |
 | 从零到 demo | Skill 安装后 1-5 分钟可跑基础查询；要跑出 README 展示级跨源效果，需要浏览器登录、API key、host WebSearch 和输出合同配合。 |
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
+
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |

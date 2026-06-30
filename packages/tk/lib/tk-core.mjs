@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import Ajv2020 from 'ajv/dist/2020.js';
 import envPaths from 'env-paths';
+import { parse as parseToml } from 'smol-toml';
 
 const execFileAsync = promisify(execFile);
 const PACKAGE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -66,6 +67,248 @@ function listMarkdownFiles(dir, excludeTemplates = true) {
     .filter((name) => !excludeTemplates || !name.startsWith('_'))
     .sort()
     .map((name) => join(dir, name));
+}
+
+const DEPENDENCY_MANIFESTS = new Set(['package.json', 'pyproject.toml', 'requirements.txt', 'go.mod', 'Cargo.toml']);
+const SKIPPED_SOURCE_DIRS = new Set([
+  '.git',
+  'node_modules',
+  'vendor',
+  'target',
+  'dist',
+  'build',
+  '.next',
+  '.turbo',
+  '.venv',
+  'venv',
+  '__pycache__',
+]);
+
+function listDependencyManifests(sourcePath) {
+  if (!sourcePath || !existsSync(sourcePath)) return [];
+  const manifests = [];
+  const visit = (dir) => {
+    for (const name of readdirSync(dir)) {
+      if (SKIPPED_SOURCE_DIRS.has(name)) continue;
+      const path = join(dir, name);
+      const stat = statSync(path);
+      if (stat.isDirectory()) {
+        visit(path);
+      } else if (stat.isFile() && DEPENDENCY_MANIFESTS.has(name)) {
+        manifests.push(path);
+      }
+    }
+  };
+  visit(sourcePath);
+  return manifests.sort();
+}
+
+function dependencyRecord(name, version, ecosystem, scope, manifest, sourcePath) {
+  return {
+    name,
+    version: version == null ? null : String(version),
+    ecosystem,
+    scope,
+    manifest: relative(sourcePath, manifest),
+  };
+}
+
+function packageJsonDependencies(path, sourcePath) {
+  const data = JSON.parse(readText(path));
+  const fields = {
+    dependencies: 'runtime',
+    devDependencies: 'development',
+    optionalDependencies: 'optional',
+    peerDependencies: 'peer',
+    bundledDependencies: 'bundled',
+    bundleDependencies: 'bundled',
+  };
+  const dependencies = [];
+  for (const [field, scope] of Object.entries(fields)) {
+    const value = data[field];
+    if (!value) continue;
+    if (Array.isArray(value)) {
+      dependencies.push(...value.map((name) => dependencyRecord(name, null, 'npm', scope, path, sourcePath)));
+    } else if (typeof value === 'object') {
+      dependencies.push(
+        ...Object.entries(value).map(([name, version]) => dependencyRecord(name, version, 'npm', scope, path, sourcePath)),
+      );
+    }
+  }
+  return dependencies;
+}
+
+function pyprojectDependencies(path, sourcePath) {
+  const data = parseToml(readText(path));
+  const dependencies = [];
+  const addList = (items, scope) => {
+    if (!Array.isArray(items)) return;
+    for (const item of items) {
+      const text = String(item);
+      const name = text.match(/^([A-Za-z0-9_.-]+)/)?.[1];
+      if (name) dependencies.push(dependencyRecord(name, text, 'python', scope, path, sourcePath));
+    }
+  };
+  const addMap = (items, scope) => {
+    if (!items || typeof items !== 'object') return;
+    for (const [name, spec] of Object.entries(items)) {
+      if (name.toLowerCase() !== 'python') {
+        dependencies.push(dependencyRecord(name, typeof spec === 'string' ? spec : JSON.stringify(spec), 'python', scope, path, sourcePath));
+      }
+    }
+  };
+
+  addList(data.project?.dependencies, 'runtime');
+  for (const items of Object.values(data.project?.['optional-dependencies'] || {})) addList(items, 'optional');
+  addMap(data.tool?.poetry?.dependencies, 'runtime');
+  addMap(data.tool?.poetry?.['dev-dependencies'], 'development');
+  for (const group of Object.values(data.tool?.poetry?.group || {})) addMap(group?.dependencies, 'development');
+  for (const items of Object.values(data['dependency-groups'] || {})) addList(items, 'development');
+  return dependencies;
+}
+
+function requirementsDependencies(path, sourcePath) {
+  return readText(path)
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line && !line.startsWith('#') && !line.startsWith('-'))
+    .map((line) => {
+      const name = line.match(/^([A-Za-z0-9_.-]+)/)?.[1] || line;
+      return dependencyRecord(name, line, 'python', 'runtime', path, sourcePath);
+    });
+}
+
+function goModDependencies(path, sourcePath) {
+  const dependencies = [];
+  let inRequireBlock = false;
+  for (const line of readText(path).split(/\r?\n/)) {
+    const text = line.replace(/\/\/.*$/, '').trim();
+    if (!text) continue;
+    if (text === 'require (') {
+      inRequireBlock = true;
+      continue;
+    }
+    if (inRequireBlock && text === ')') {
+      inRequireBlock = false;
+      continue;
+    }
+    const requireText = inRequireBlock ? text : text.startsWith('require ') ? text.slice('require '.length).trim() : null;
+    if (!requireText) continue;
+    const [name, version] = requireText.split(/\s+/);
+    if (name && version) dependencies.push(dependencyRecord(name, version, 'go', 'runtime', path, sourcePath));
+  }
+  return dependencies;
+}
+
+function cargoDependencies(path, sourcePath) {
+  const data = parseToml(readText(path));
+  const dependencies = [];
+  const addMap = (items, scope) => {
+    if (!items || typeof items !== 'object') return;
+    for (const [name, spec] of Object.entries(items)) {
+      dependencies.push(dependencyRecord(name, typeof spec === 'string' ? spec : JSON.stringify(spec), 'cargo', scope, path, sourcePath));
+    }
+  };
+  addMap(data.dependencies, 'runtime');
+  addMap(data['dev-dependencies'], 'development');
+  addMap(data['build-dependencies'], 'build');
+  for (const target of Object.values(data.target || {})) {
+    addMap(target?.dependencies, 'runtime');
+    addMap(target?.['dev-dependencies'], 'development');
+    addMap(target?.['build-dependencies'], 'build');
+  }
+  return dependencies;
+}
+
+function directDependencies(project, paths) {
+  const sourcePath = project.sourceDir ? join(paths.sourceRoot, project.sourceDir) : null;
+  if (!sourcePath || !existsSync(sourcePath)) return [];
+  const dependencies = [];
+  for (const manifest of listDependencyManifests(sourcePath)) {
+    try {
+      if (manifest.endsWith('/package.json')) dependencies.push(...packageJsonDependencies(manifest, sourcePath));
+      else if (manifest.endsWith('/pyproject.toml')) dependencies.push(...pyprojectDependencies(manifest, sourcePath));
+      else if (manifest.endsWith('/requirements.txt')) dependencies.push(...requirementsDependencies(manifest, sourcePath));
+      else if (manifest.endsWith('/go.mod')) dependencies.push(...goModDependencies(manifest, sourcePath));
+      else if (manifest.endsWith('/Cargo.toml')) dependencies.push(...cargoDependencies(manifest, sourcePath));
+    } catch (error) {
+      dependencies.push({
+        name: '<parse-error>',
+        version: error.message,
+        ecosystem: 'unknown',
+        scope: 'error',
+        manifest: relative(sourcePath, manifest),
+      });
+    }
+  }
+  const seen = new Set();
+  return dependencies
+    .filter((dependency) => {
+      const key = [dependency.name, dependency.ecosystem, dependency.scope, dependency.manifest].join('\0');
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .sort(
+    (a, b) =>
+      a.ecosystem.localeCompare(b.ecosystem) ||
+      a.manifest.localeCompare(b.manifest) ||
+      a.scope.localeCompare(b.scope) ||
+      a.name.localeCompare(b.name),
+    );
+}
+
+function dependencySummary(dependencies) {
+  const byEcosystem = {};
+  const byScope = {};
+  const manifests = new Set();
+  for (const dependency of dependencies) {
+    byEcosystem[dependency.ecosystem] = (byEcosystem[dependency.ecosystem] || 0) + 1;
+    byScope[dependency.scope] = (byScope[dependency.scope] || 0) + 1;
+    manifests.add(dependency.manifest);
+  }
+  return {
+    total: dependencies.length,
+    manifests: manifests.size,
+    byEcosystem,
+    byScope,
+  };
+}
+
+function parseMarkdownTable(section) {
+  if (!section) return [];
+  const lines = section.body.split(/\r?\n/).filter((line) => line.trim().startsWith('|'));
+  if (lines.length < 2) return [];
+  const rows = lines.map((line) => line.split('|').slice(1, -1).map(cleanInline));
+  const headers = rows[0].map((header) => header.toLowerCase());
+  return rows.slice(2).flatMap((cells) => {
+    if (!cells.length || cells.every((cell) => /^-+$/.test(cell))) return [];
+    const row = Object.fromEntries(headers.map((header, index) => [header, cells[index] || '']));
+    return [row];
+  });
+}
+
+function extractDependencyEvidence(text) {
+  const section = firstMatchingSection(reportSections(text), [
+    '依赖 / SDK 选型证据',
+    '依赖/sdk 选型证据',
+    'libraries, sdks, and build-vs-buy evidence',
+    'dependency evidence',
+  ]);
+  return {
+    present: Boolean(section),
+    items: parseMarkdownTable(section)
+      .map((row) => ({
+        dependency: row.dependency || row['依赖'] || row['库 / sdk'] || row['库/sdk'] || '',
+        type: row.type || row['类型'] || '',
+        usedFor: row['used for'] || row['用途'] || '',
+        problemSolved: row['problem solved'] || row['解决的问题'] || '',
+        evidence: row.evidence || row['证据'] || '',
+        reuseSignal: row['reuse signal'] || row['复用信号'] || '',
+        caution: row.caution || row['注意'] || row['风险'] || '',
+      }))
+      .filter((item) => item.dependency && !item.dependency.startsWith('_待补')),
+  };
 }
 
 function extractGithubUrl(text) {
@@ -150,6 +393,13 @@ function buildTags(project) {
     project.language,
     project.summary,
     project.repo,
+    ...(project.dependencies || []).map((dependency) => dependency.name),
+    ...(project.dependencyEvidence || []).flatMap((dependency) => [
+      dependency.dependency,
+      dependency.type,
+      dependency.usedFor,
+      dependency.problemSolved,
+    ]),
   ]
     .filter(Boolean)
     .join(' ')
@@ -207,6 +457,11 @@ function parseReport(reportPath, paths, readme) {
     owner,
     sourceExists: github ? existsSync(join(paths.sourceRoot, github.sourceDir, '.git')) : false,
   };
+  const dependencyEvidence = extractDependencyEvidence(text);
+  project.dependencies = directDependencies(project, paths);
+  project.dependencySummary = dependencySummary(project.dependencies);
+  project.dependencyEvidencePresent = dependencyEvidence.present;
+  project.dependencyEvidence = dependencyEvidence.items;
   project.tags = buildTags(project);
   return project;
 }
@@ -235,7 +490,7 @@ export function buildCatalog(options = {}) {
     title: readText(path).match(/^#\s+(.+)/m)?.[1]?.trim() || path.split('/').pop(),
   }));
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     generatedAt: new Date().toISOString(),
     repoRoot: options.includeLocalPaths ? paths.repoRoot : undefined,
     projects,
@@ -272,6 +527,7 @@ export function validateCatalog(catalog, options = {}) {
     if (!project.report) errors.push(`${project.id} missing report`);
     if (!project.url) errors.push(`${project.id} missing GitHub url`);
     if (!project.sourceDir) errors.push(`${project.id} missing sourceDir`);
+    if (!project.dependencyEvidencePresent) errors.push(`${project.id} missing dependency evidence section`);
   }
   return { ok: errors.length === 0, errors };
 }
@@ -295,6 +551,13 @@ export function searchCatalog(query, options = {}) {
         project.category,
         project.summary,
         project.adoption,
+        ...(project.dependencies || []).map((dependency) => `${dependency.name} ${dependency.ecosystem}`),
+        ...(project.dependencyEvidence || []).flatMap((dependency) => [
+          dependency.dependency,
+          dependency.usedFor,
+          dependency.problemSolved,
+          dependency.reuseSignal,
+        ]),
         ...(project.tags || []),
       ]
         .filter(Boolean)
@@ -431,6 +694,9 @@ export async function buildReplicationBrief(capability, options = {}) {
         path: null,
         exists: false,
       },
+      dependencySummary: project.dependencySummary,
+      dependencyEvidence: project.dependencyEvidence,
+      dependencies: project.dependencies,
     });
   }
 
@@ -500,6 +766,26 @@ export function formatReplicationBrief(payload) {
     if (project.adoption) lines.push(`  adoption: ${project.adoption}`);
     lines.push(`  report: ${project.report}`);
     lines.push(`  source: ${source.exists ? 'available' : 'missing'}`);
+    if (reference.dependencySummary) {
+      lines.push(
+        `  dependencies: ${reference.dependencySummary.total} direct across ${reference.dependencySummary.manifests} manifests`,
+      );
+    }
+  }
+
+  lines.push('', '## Dependency Evidence');
+  for (const reference of payload.references) {
+    lines.push('', `### ${reference.project.id}`);
+    const evidence = reference.dependencyEvidence || [];
+    if (!evidence.length) {
+      lines.push('No curated dependency evidence rows yet. Use `tk deps <project> --json` for the direct dependency list.');
+      continue;
+    }
+    for (const item of evidence.slice(0, 8)) {
+      lines.push(`- ${item.dependency}: ${item.usedFor || item.problemSolved || item.reuseSignal}`);
+      if (item.reuseSignal) lines.push(`  reuse: ${item.reuseSignal}`);
+      if (item.caution) lines.push(`  caution: ${item.caution}`);
+    }
   }
 
   lines.push('', '## Evidence Pack');

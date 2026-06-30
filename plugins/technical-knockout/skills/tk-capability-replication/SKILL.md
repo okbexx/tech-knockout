@@ -55,7 +55,17 @@ tk replicate "<capability>" --from agent-reach,superpowers --json
 When MCP is available, prefer `tk_build_replication_brief` for read-only brief
 construction. Use the CLI for source sync, doctor, and validation.
 
-5. If implementation details matter, check source state and read targeted files:
+5. Before recommending new infrastructure, inspect dependency evidence:
+
+```bash
+tk deps <project-id> --json
+```
+
+Use `dependencyEvidence` to see which libraries, SDKs, frameworks, CLIs, or
+protocol packages the reference project reused, what problem they solved, and
+when the current project should or should not reuse the same kind of package.
+
+6. If implementation details matter, check source state and read targeted files:
 
 ```bash
 tk source status --json
@@ -63,11 +73,11 @@ tk source sync --only <project-id>
 tk source path <project-id> --json
 ```
 
-6. Do build-vs-buy before self-building infrastructure. Reuse current-project
+7. Do build-vs-buy before self-building infrastructure. Reuse current-project
 patterns, standard libraries, official SDKs, and mature OSS unless evidence
 shows they fail the product boundary.
 
-7. Output a replication brief before implementation. Do not start coding until
+8. Output a replication brief before implementation. Do not start coding until
    the brief states the implementation boundary and verification path.
 
 ## Output Shape
@@ -85,6 +95,7 @@ Must keep:
 Can adapt:
 Do not copy:
 Build-vs-buy:
+Dependency / SDK evidence:
 Implementation boundary:
 Verification:
 Freshness gaps:
@@ -102,6 +113,9 @@ Freshness gaps:
 - Do not self-build CLI parsers, MCP protocol plumbing, schema validation,
   installers, search, state stores, or plugin systems without build-vs-buy
   evidence.
+- Do not recommend adding a library just because a TK reference uses it. First
+  check the current project dependencies and the reference's reuse signal and
+  caution.
 - Keep the first implementation boundary small enough to verify in the current
   project.
 - If the user asks for a complete agent capability product, include install,
@@ -114,6 +128,8 @@ A TK replication task is complete only when the user can see:
 
 - what capability will be gained or skipped;
 - which current-project code or dependency is reused first;
+- which reference dependencies or SDKs solve the same problem, and why they are
+  or are not appropriate for the current project;
 - which TK reference proves the remaining kernel;
 - what must not be copied;
 - the smallest implementation boundary;

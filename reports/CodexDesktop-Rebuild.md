@@ -55,6 +55,15 @@ OpenAI 官方 Codex Desktop（基于 Electron 的 AI 编程助手 GUI）目前**
 - **学习曲线：** 低（如果只是想用），高（如果想理解/修改构建流程）
 - **从零到 demo：** 克隆仓库 → `npm ci` → `npm run sync` → `npm run patch` → `npm run build`，约 10-30 分钟（取决于网络下载官方包的速度）
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
+
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |

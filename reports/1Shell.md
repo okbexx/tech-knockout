@@ -94,6 +94,15 @@
 - **源码构建验证**：本次在 Node v22.22.2、npm 10.9.7、Go 1.26.3 下完成依赖安装、后端测试、前端 build、Go test 和本地健康检查。
 - **学习曲线**：如果只是用 UI 管主机，中等；如果要二开核心，需要理解 Express 路由、Socket.IO、SSH pool、FileService、ProbeService、MCP service、Remote ACL、Harness、Program Engine、Skill/IDE AI loop 和桌面打包。
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
+
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |

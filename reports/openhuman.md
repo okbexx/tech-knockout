@@ -85,6 +85,15 @@ OpenHuman 要解决的不是“聊天 UI”问题，而是“个人 AI 怎么持
 - **安全配置成本高**：readonly/supervised/full、workspace_only、trusted_roots、approval gate、sandbox backend、HTTP/browser allowlist、MCP allowlist 都需要逐项收敛。
 - **从零到 demo**：下载 installer 或 `pnpm dev` 看 UI 不难；完整 desktop + core + CEF + connectors + local/managed provider + e2e 验证明显高于普通 web app。
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
+
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |

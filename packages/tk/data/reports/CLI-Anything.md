@@ -92,6 +92,15 @@ CLI-Anything 的方向非常值得学：它抓住了 Agent 时代软件形态的
 2. **PoC：** 选一个内部工具/服务/桌面软件，按 CLI-Anything 规范做最小 harness：`--json`、REPL、session、E2E、SKILL.md、preview/summary artifact。
 3. **Production：** 不直接照搬 public registry。先加组织内 registry 审核、install command allowlist、license provenance、sandbox、凭证隔离、CI syntax/test gate、artifact 签名或 lockfile。
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
+
 ### 采用风险
 
 | 风险项 | 评估 | 说明 |

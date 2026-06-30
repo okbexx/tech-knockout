@@ -73,6 +73,18 @@ README 对项目的定位是“open-source RAG engine”，强调适配任意规
 - **部署复杂度**：高于 LightRAG 单服务。`docker/docker-compose-base.yml` 提供 Elasticsearch、OpenSearch、Infinity、OceanBase、MySQL、MinIO、Redis/Valkey 等服务形态。
 - **从零到 demo**：如果只跑官方 Docker，顺利时可在小时级跑通；如果企业内网、国产化环境、私有模型、复杂 PDF 解析都要配置，通常是数天到数周的集成项目。
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| Elasticsearch / OpenSearch clients | search / document engine | Hybrid retrieval and document index backend | Avoids building a production inverted index and query engine | `pyproject.toml`; `go.mod`; `common/doc_store/es_conn_base.py`; Helm `DOC_ENGINE` config | Reuse when enterprise RAG needs mature filtering, scoring, and ops tooling | Heavy operational dependency; smaller apps may prefer embedded or managed search first |
+| MinIO / S3 clients | object storage SDK | File and artifact storage | Avoids custom binary/object storage layer | `pyproject.toml`; `go.mod`; `internal/storage/minio.go`; Helm MinIO templates | Reuse when documents/artifacts need S3-compatible storage portability | Still requires bucket lifecycle, credentials, backup, and multi-tenant isolation design |
+| Redis clients | cache / queue / lock | Distributed locks, runtime selection, message/task coordination | Avoids inventing ad hoc process coordination and shared state | `go.mod`; `api/ragflow_server.py`; `internal/agent/runtime/selector.go`; Helm Redis templates | Reuse when multi-worker coordination or low-latency shared state is required | Redis is not a durable database; define failure and recovery behavior |
+| SQLAlchemy / relational DB layer | ORM / persistence | Structured platform state and metadata | Avoids hand-writing all SQL persistence plumbing | `pyproject.toml`; `common/doc_store/ob_conn_base.py`; admin CLI docs | Reuse when product state needs migrations, transactions, and query composition | ORM does not replace explicit schema ownership and migration discipline |
+
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |

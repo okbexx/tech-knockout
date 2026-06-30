@@ -41,6 +41,15 @@
 - 学习曲线
 - 从零到跑通 demo 需要多久
 
+### 依赖 / SDK 选型证据
+
+> 必填。全量直接依赖由 `tk catalog build` 从本地源码 manifest 写入 catalog；
+> 本表解释关键库 / SDK / 框架为什么存在，以及 agent 是否应该在用户项目中优先评估复用它们。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| | framework / SDK / CLI / protocol / parser / storage / search / UI / runtime | | 它替代了什么自研基础设施 | manifest + 调用点 / 配置路径 | 用户项目满足什么条件时优先评估 | 什么情况下不要照搬 |
+
 ### 风险评估
 | 风险项 | 评估 | 说明 |
 |--------|------|------|

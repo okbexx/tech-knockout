@@ -112,6 +112,15 @@ CLI = validation / diff / export / machine-readable report
 - **接入 agent 成本**：低到中。低在文件格式简单；中在需要团队真正写好 prose，而不是只贴 token。
 - **从零到 demo**：几分钟。设计体系真实落地的成本主要在写出高质量 DESIGN.md，而不是工具安装。
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
+
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |

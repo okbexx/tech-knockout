@@ -136,6 +136,47 @@ program
   });
 
 program
+  .command('deps')
+  .description('Inspect direct dependency and SDK evidence for one TK project.')
+  .argument('<project>', 'project id, report file, display name, or owner/repo')
+  .option('--json', 'emit machine-readable JSON')
+  .action((projectId, options) => {
+    const project = findProject(projectId);
+    if (!project) {
+      program.error(`Project not found: ${projectId}`, { exitCode: 2 });
+    }
+    const result = {
+      id: project.id,
+      name: project.name,
+      repo: project.repo,
+      dependencySummary: project.dependencySummary,
+      dependencyEvidence: project.dependencyEvidence,
+      dependencies: project.dependencies,
+    };
+    output(result, options, (payload) => {
+      const lines = [
+        `${payload.id}: ${payload.dependencySummary.total} direct dependencies across ${payload.dependencySummary.manifests} manifests`,
+      ];
+      for (const item of payload.dependencyEvidence || []) {
+        lines.push(`- ${item.dependency}: ${item.usedFor || item.problemSolved || 'see report evidence'}`);
+      }
+      if (!payload.dependencyEvidence?.length) {
+        lines.push('No curated dependency evidence rows yet. Use --json for the full direct dependency list.');
+      }
+      const direct = payload.dependencies
+        .slice(0, 12)
+        .map((item) => `${item.name} (${item.ecosystem}/${item.scope})`);
+      if (direct.length) {
+        lines.push('direct:', ...direct.map((item) => `- ${item}`));
+        if (payload.dependencies.length > direct.length) {
+          lines.push(`... ${payload.dependencies.length - direct.length} more; use --json for all.`);
+        }
+      }
+      return `${lines.join('\n')}\n`;
+    });
+  });
+
+program
   .command('replicate')
   .description('Build a capability replication brief from TK reports, comparisons, and source-cache state.')
   .argument('<capability...>', 'capability to replicate, such as "agent internet capability layer"')

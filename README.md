@@ -102,6 +102,7 @@ npx @jarl_okbe/tk codex status
 npx @jarl_okbe/tk codex refresh
 npx @jarl_okbe/tk replicate "agent internet capability layer" --from agent-reach
 npx @jarl_okbe/tk search "coding agent runtime" --json
+npx @jarl_okbe/tk deps agent-reach --json
 npx @jarl_okbe/tk source status --json
 npx @jarl_okbe/tk source sync --missing
 npx @jarl_okbe/tk source path gitnexus --json

@@ -70,6 +70,15 @@ OpenCode 解决的是 **“开源、可扩展、多入口、多模型的 Coding 
 - **学习曲线：** 使用层中等；二次开发层较高，需要理解 Effect、event/projection、session runner、tool registry、provider resolver。
 - **从零到 smoke：** 安装 Bun + `bun install` 后，包级 typecheck/test 可跑；不建议从 repo root 跑测试，根 `test` 明确输出 `do not run tests from root`。
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
+
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |

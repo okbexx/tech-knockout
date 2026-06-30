@@ -89,6 +89,15 @@ Trellis 的答案是：把工程规则和任务状态变成 repo 内的 `.trelli
 - **多平台成本不均。** Claude/Codex/Cursor/OpenCode/Pi 等平台能力不同；Trellis 通过 configurator 和 template context 抹平差异，但每新增宿主都增加兼容测试和迁移负担。
 - **团队采用要先约定 ownership。** `.trellis/spec/` 和 `.trellis/tasks/` 会进入 repo，需要明确哪些内容共享、哪些内容个人化，哪些任务/journal 应提交，哪些应忽略或归档。
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
+
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |

@@ -146,6 +146,36 @@ server.registerTool(
 );
 
 server.registerTool(
+  'tk_get_dependency_evidence',
+  {
+    title: 'Get TK Dependency Evidence',
+    description:
+      'Return direct dependencies, SDKs, manifest counts, and curated build-vs-buy evidence for one TK project. Use before deciding whether the current project should reuse a library instead of self-building.',
+    inputSchema: z.object({
+      project: z.string().describe('Project id, report file, display name, or owner/repo.'),
+    }),
+    annotations: {
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
+  },
+  async ({ project: identifier }) => {
+    const project = findProject(identifier);
+    if (!project) throw new Error(`Project not found: ${identifier}`);
+    return textContent({
+      id: project.id,
+      name: project.name,
+      repo: project.repo,
+      dependencySummary: project.dependencySummary,
+      dependencyEvidence: project.dependencyEvidence,
+      dependencies: project.dependencies,
+    });
+  },
+);
+
+server.registerTool(
   'tk_get_source_status',
   {
     title: 'Get TK Source Status',

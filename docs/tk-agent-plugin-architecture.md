@@ -42,11 +42,33 @@ TK product infrastructure should use mature libraries for durable surfaces:
 | CLI command parsing | Commander.js |
 | MCP stdio server and tool protocol | Official `@modelcontextprotocol/sdk` |
 | JSON Schema validation | Ajv draft 2020-12 |
+| TOML manifest parsing | `smol-toml` |
 | CLI package distribution | npm package with `bin.tk` |
 | Codex plugin distribution | Codex marketplace source remains the long-lived plugin source |
 
 Self-built code should stay at the TK business boundary: catalog field mapping,
 source-cache planning, report judgment, and agent workflow semantics.
+
+## Dependency Evidence Policy
+
+TK treats dependency and SDK choices as build-vs-buy evidence.
+
+Each report must contain `### 依赖 / SDK 选型证据`, where authors explain the
+key libraries, SDKs, CLIs, protocols, parsers, storage engines, UI frameworks,
+and runtimes that materially affect replication decisions.
+
+The catalog stores two dependency surfaces:
+
+- `project.dependencies`: the full direct dependency list parsed from source
+  manifests such as `package.json`, `pyproject.toml`, `requirements.txt`,
+  `go.mod`, and `Cargo.toml`. This excludes lockfile transitive dependencies.
+- `project.dependencyEvidence`: curated report rows explaining what a key
+  dependency solves, where the evidence is, when to reuse it, and when not to.
+
+Agents should use `tk deps <project> --json` or MCP
+`tk_get_dependency_evidence` before recommending new infrastructure. A
+reference dependency is evidence to evaluate, not an automatic install
+recommendation.
 
 ## Distribution Policy
 
@@ -181,10 +203,12 @@ Agents should use TK in this order for capability replication:
 
 1. Current project evidence.
 2. `tk replicate "<capability>" --json` or MCP `tk_build_replication_brief`.
-3. TK comparison documents.
-4. TK report documents.
-5. Source-cache evidence when implementation details matter.
-6. Official/current upstream verification when time-sensitive facts matter.
+3. `tk deps <project> --json` or MCP `tk_get_dependency_evidence` for
+   build-vs-buy dependency decisions.
+4. TK comparison documents.
+5. TK report documents.
+6. Source-cache evidence when implementation details matter.
+7. Official/current upstream verification when time-sensitive facts matter.
 
 The required user-facing output is:
 
@@ -201,6 +225,7 @@ Must keep:
 Can adapt:
 Do not copy:
 Build-vs-buy:
+Dependency / SDK evidence:
 Implementation boundary:
 Verification:
 Freshness gaps:

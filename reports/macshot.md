@@ -1,11 +1,11 @@
 # macshot 全量分析报告
 
-**仓库**: [sw33tLie/macshot](https://github.com/sw33tLie/macshot)  
-**分类**: screenshot-utility  
-**主要语言**: Swift (100%)  
-**许可证**: GPLv3  
-**分析日期**: 2026-05-06  
-**观测 Star 数**: 见 GitHub（数据随时间变化）  
+**仓库**: [sw33tLie/macshot](https://github.com/sw33tLie/macshot)
+**分类**: screenshot-utility
+**主要语言**: Swift (100%)
+**许可证**: GPLv3
+**分析日期**: 2026-05-06
+**观测 Star 数**: 见 GitHub（数据随时间变化）
 
 ---
 
@@ -252,6 +252,14 @@ macshot/
 **采用结论**: **推荐采用**（个人用户/开源团队） / **观望**（需要闭源分发的商业产品）
 
 > 如果团队需要一个功能完整的 macOS 截图工具且不在意 GPL，macshot 是 CleanShot X 的最佳免费替代品。如果需要在产品中嵌入截图能力并以闭源形式分发，需考虑许可证影响或寻找 MIT/Apache 替代方案。
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
 
 ### 场景二：技术架构学习
 

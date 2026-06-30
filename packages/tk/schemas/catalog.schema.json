@@ -19,7 +19,15 @@
   "$defs": {
     "project": {
       "type": "object",
-      "required": ["id", "name", "report"],
+      "required": [
+        "id",
+        "name",
+        "report",
+        "dependencySummary",
+        "dependencies",
+        "dependencyEvidencePresent",
+        "dependencyEvidence"
+      ],
       "properties": {
         "id": { "type": "string" },
         "name": { "type": "string" },
@@ -38,10 +46,60 @@
         "sourceDir": { "type": ["string", "null"] },
         "owner": { "type": ["string", "null"] },
         "sourceExists": { "type": "boolean" },
+        "dependencySummary": { "$ref": "#/$defs/dependencySummary" },
+        "dependencies": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/dependency" }
+        },
+        "dependencyEvidencePresent": { "type": "boolean" },
+        "dependencyEvidence": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/dependencyEvidence" }
+        },
         "tags": {
           "type": "array",
           "items": { "type": "string" }
         }
+      }
+    },
+    "dependencySummary": {
+      "type": "object",
+      "required": ["total", "manifests", "byEcosystem", "byScope"],
+      "properties": {
+        "total": { "type": "integer", "minimum": 0 },
+        "manifests": { "type": "integer", "minimum": 0 },
+        "byEcosystem": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "byScope": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "dependency": {
+      "type": "object",
+      "required": ["name", "version", "ecosystem", "scope", "manifest"],
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": ["string", "null"] },
+        "ecosystem": { "type": "string" },
+        "scope": { "type": "string" },
+        "manifest": { "type": "string" }
+      }
+    },
+    "dependencyEvidence": {
+      "type": "object",
+      "required": ["dependency", "type", "usedFor", "problemSolved", "evidence", "reuseSignal", "caution"],
+      "properties": {
+        "dependency": { "type": "string" },
+        "type": { "type": "string" },
+        "usedFor": { "type": "string" },
+        "problemSolved": { "type": "string" },
+        "evidence": { "type": "string" },
+        "reuseSignal": { "type": "string" },
+        "caution": { "type": "string" }
       }
     },
     "comparison": {

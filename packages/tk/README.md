@@ -40,6 +40,7 @@ first implementation boundary, and how to verify it.
 ```bash
 npx @jarl_okbe/tk doctor
 npx @jarl_okbe/tk search "coding agent runtime"
+npx @jarl_okbe/tk deps agent-reach
 npx @jarl_okbe/tk source status
 npx @jarl_okbe/tk source sync --missing
 ```

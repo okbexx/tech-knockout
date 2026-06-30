@@ -89,6 +89,15 @@
 - **学习成本来自 loop operation。** 用户需要理解 pattern、cadence、L1/L2/L3、state、human gates、verifier、budget 和 run log；不是装一个 CLI 就自动安全。
 - **从零到 demo：** 个人项目可当天跑 L1 report-only；团队要进入 L2/L3，至少需要一周报告模式校准、MCP/权限/CI/worktree gate 审计。
 
+
+### 依赖 / SDK 选型证据
+
+> 全量 direct dependencies 由 `tk catalog build` 从本地源码 manifest 写入 catalog；本表只解释影响 build-vs-buy 的关键库 / SDK。
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| _待补关键依赖_ | | | | | | |
+
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |
