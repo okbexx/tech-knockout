@@ -148,6 +148,7 @@ npm run verify
 | [ECC](./reports/ECC.md) | 跨 Claude Code / Codex / Cursor / OpenCode 的 workflow 操作系统 | 推荐采用（profile/skill/hooks）/ 观望（ECC2） | ⭐⭐⭐⭐⭐ | 2026-06-05 |
 | [vibecode-pro-max-kit](./reports/vibecode-pro-max-kit.md) | 面向 Claude Code 与 Codex 的 RIPER-5 规格驱动开发 harness | 观望（生产 full install）/ 推荐 Node 22+ 隔离 PoC 与架构学习 | ⭐⭐⭐⭐⭐ | 2026-06-14 |
 | [loop-engineering](./reports/loop-engineering.md) | Practical loop engineering toolkit：patterns registry、starters 与 loop-audit / loop-init / loop-cost，帮助把 AI coding agent 任务产品化为可持续运行的工程回路 | 推荐采用（个人/小团队 loop 试点）/ 团队生产化前受控推广 | ⭐⭐⭐⭐⭐ | 2026-06-16 |
+| [agency-agents](./reports/agency-agents.md) | 跨宿主 AI 专家角色库：233 个 Markdown agent、16 个 division、14 个工具安装目标、转换/安装脚本和 Hermes lazy-router plugin | 推荐采用（个人/小团队按需专家池）/ 团队生产化前 fork、筛选、审查 | ⭐⭐⭐⭐ | 2026-07-03 |
 | [last30days-skill](./reports/last30days-skill.md) | 跨 Reddit、X、YouTube、HN、Polymarket、GitHub、Web 的实时社会信号研究 Skill | 推荐采用（个人/小团队）/ 企业生产化前观望 | ⭐⭐⭐⭐⭐ | 2026-06-11 |
 | [Agent Reach](./reports/agent-reach.md) | 给 AI Agent 装互联网读取与搜索能力的本地能力层 | 推荐采用（个人/小团队）/ 企业生产化前观望 | ⭐⭐⭐⭐⭐ | 2026-06-16 |
 

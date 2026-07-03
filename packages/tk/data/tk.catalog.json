@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-06-30T13:41:03.339Z",
+  "generatedAt": "2026-07-03T03:21:05.689Z",
   "projects": [
     {
       "id": "1shell",
@@ -300,6 +300,86 @@
         "cli",
         "typescript",
         "go"
+      ]
+    },
+    {
+      "id": "agency-agents",
+      "name": "agency-agents",
+      "repo": "msitarzewski/agency-agents",
+      "url": "https://github.com/msitarzewski/agency-agents",
+      "cloneUrl": "https://github.com/msitarzewski/agency-agents.git",
+      "report": "reports/agency-agents.md",
+      "reportFile": "agency-agents",
+      "category": "AI Coding / Agent Workflow",
+      "summary": "agency-agents 是一个跨宿主 AI 专家角色库：用 233 个 Markdown agent、16 个业务 division、14 个工具安装目标、转换/安装脚本和 Hermes lazy-router plugin，把 Claude Code、Codex、Cursor、Gemini、OpenCode、Hermes 等宿主变成“按需调用专家团队”。",
+      "adoption": "🟢 推荐采用（个人 / 小团队按需专家库；Hermes 场景优先 lazy-router） / 🟡 团队生产化前隔离试点。",
+      "architectureValue": 4,
+      "license": "MIT",
+      "language": "Shell / Markdown / Python（GitHub API 主语言为 Shell；核心资产是 Markdown agent）",
+      "analysisDate": "2026-07-03",
+      "sourceDir": "projects/msitarzewski__agency-agents",
+      "owner": "msitarzewski",
+      "sourceExists": false,
+      "dependencies": [],
+      "dependencySummary": {
+        "total": 0,
+        "manifests": 0,
+        "byEcosystem": {},
+        "byScope": {}
+      },
+      "dependencyEvidencePresent": true,
+      "dependencyEvidence": [
+        {
+          "dependency": "Bash + POSIX shell utilities (awk / sed / grep / perl)",
+          "type": "Runtime / scripting substrate",
+          "usedFor": "scripts/install.sh、scripts/convert.sh、scripts/lint-agents.sh、scripts/check-tools.sh、scripts/check-divisions.sh",
+          "problemSolved": "用最小依赖完成跨 macOS/Linux/CI 的转换、安装和一致性校验",
+          "evidence": "脚本显式注释避免 jq，依赖 Bash 3.2 + coreutils；install/convert/lint/check 均为 shell 主体",
+          "reuseSignal": "低安装门槛，适合 prompt asset repo；用户无需 Node/Python 包管理器即可使用大部分功能",
+          "caution": "脚本体量已经较大，继续扩展 target 时应补 shellcheck/golden tests 或拆模块"
+        },
+        {
+          "dependency": "Python 3 standard library",
+          "type": "Build helper / generated integration",
+          "usedFor": "scripts/build-hermes-plugin.py、Hermes router plugin 生成、agent roster JSON 生成",
+          "problemSolved": "生成 Hermes plugin，把 233 个 agent 变成 4 个 lazy tools，避免全量 skills 注入",
+          "evidence": "builder 只使用 Python stdlib；installer 在 Hermes 分支调用 python3 检查/统计 agents.json",
+          "reuseSignal": "适合作为跨平台生成器；比 Shell 更适合处理 JSON/frontmatter/搜索索引",
+          "caution": "当前不是打包的 Python project；无 pyproject/requirements，也无 Python unit tests"
+        },
+        {
+          "dependency": "Git / GitHub Actions",
+          "type": "CI and contribution governance",
+          "usedFor": "check-tools.yml、check-divisions.yml、lint-agents.yml、PR changed-file lint",
+          "problemSolved": "让工具清单、division 清单、agent frontmatter 和原创性检查进入 PR 门禁",
+          "evidence": ".github/workflows/* 与 scripts/check-* 已读；lint workflow 用 git diff 找 changed agent files",
+          "reuseSignal": "对 Markdown agent library 足够轻量，贡献者无需复杂本地环境",
+          "caution": "只覆盖 changed agent files；缺少 generated docs drift、shellcheck、converter golden tests"
+        },
+        {
+          "dependency": "Markdown + YAML frontmatter",
+          "type": "Asset format / public contract",
+          "usedFor": "233 个 agent 文件、CONTRIBUTING.md 模板、converter 输入",
+          "problemSolved": "用人类可读、容易贡献的格式承载专家 persona，同时让 converter 能读取 name/description/color/emoji/vibe",
+          "evidence": "agent corpus 以 Markdown 为主；lib.sh / Python builder 都解析 frontmatter",
+          "reuseSignal": "极低贡献门槛，便于 fork、本地审查和跨宿主转换",
+          "caution": "YAML/frontmatter 解析在 Shell/Python 中是轻量自实现，不等于完整 YAML parser；复杂值需谨慎"
+        },
+        {
+          "dependency": "JSON registries (tools.json / divisions.json)",
+          "type": "Single source of truth",
+          "usedFor": "工具目标、安装类型、division metadata、CI drift checks",
+          "problemSolved": "防止 README、脚本、workflow 和目录结构各自维护导致漂移",
+          "evidence": "tools.json 14 个工具目标；divisions.json 16 个 division；check-tools.sh / check-divisions.sh 读取它们校验脚本",
+          "reuseSignal": "可直接借鉴到内部 prompt library / plugin marketplace",
+          "caution": "JSON 不是完整 schema-validated；目前靠 Bash 文本解析，复杂字段增长后建议加 JSON schema"
+        }
+      ],
+      "tags": [
+        "agent",
+        "coding",
+        "workflow",
+        "python"
       ]
     },
     {
