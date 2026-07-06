@@ -54,8 +54,9 @@
     "catalog:validate": "node ./bin/tk.mjs catalog validate",
     "codex:install:dry-run": "node ./bin/tk.mjs codex install --dry-run",
     "fixtures:regression": "node ./scripts/fixture-regression.mjs",
+    "benchmark:capabilities": "node ./scripts/capability-benchmark.mjs",
     "mcp:smoke": "node ./scripts/mcp-smoke.mjs",
-    "check": "node --check ./bin/tk.mjs && node --check ./lib/tk-core.mjs && node --check ./lib/runtime/run-store.mjs && node --check ./mcp/server.mjs && node --check ./scripts/mcp-smoke.mjs && node --check ./scripts/fixture-regression.mjs",
+    "check": "node --check ./bin/tk.mjs && node --check ./lib/tk-core.mjs && node --check ./lib/runtime/run-store.mjs && node --check ./mcp/server.mjs && node --check ./scripts/mcp-smoke.mjs && node --check ./scripts/fixture-regression.mjs && node --check ./scripts/capability-benchmark.mjs && node --check ./scripts/lib/replication-fixture-suite.mjs",
     "verify": "npm run check && npm run catalog:validate && npm run doctor:repo && npm run doctor:runtime && npm run fixtures:regression && npm run codex:install:dry-run && npm run mcp:smoke"
   },
   "dependencies": {

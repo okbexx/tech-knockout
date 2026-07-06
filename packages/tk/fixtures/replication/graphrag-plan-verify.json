@@ -1,11 +1,11 @@
 {
-  "id": "agent-reach-plan-verify",
-  "capability": "agent internet capability layer",
-  "from": "agent-reach",
+  "id": "graphrag-plan-verify",
+  "capability": "GraphRAG retrieval kernel",
+  "from": "lightrag,ragflow",
   "limit": 5,
   "expect": {
-    "referenceIds": ["agent-reach"],
-    "verificationContract": "agent-internet-capability-layer:v1",
+    "referenceIds": ["lightrag", "ragflow"],
+    "verificationContract": "graphrag-retrieval-kernel:v1",
     "verifyStatus": "warn",
     "checkStatuses": {
       "plan_schema_valid": "pass",
@@ -14,11 +14,11 @@
       "verification_contract_present": "pass",
       "source_backing": "warn"
     },
-    "warningIncludes": ["Source cache missing for: agent-reach"],
+    "warningIncludes": ["Source cache missing for: lightrag, ragflow"],
     "minCounts": {
-      "kernel": 3,
-      "mustKeep": 5,
-      "canAdapt": 4,
+      "kernel": 2,
+      "mustKeep": 2,
+      "canAdapt": 2,
       "risks": 3
     },
     "traceSteps": ["resolve_references", "build_plan", "verify"],

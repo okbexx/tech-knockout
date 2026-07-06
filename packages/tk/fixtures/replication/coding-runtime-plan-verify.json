@@ -1,11 +1,11 @@
 {
-  "id": "agent-reach-plan-verify",
-  "capability": "agent internet capability layer",
-  "from": "agent-reach",
+  "id": "coding-runtime-plan-verify",
+  "capability": "durable coding agent runtime",
+  "from": "jcode,opencode",
   "limit": 5,
   "expect": {
-    "referenceIds": ["agent-reach"],
-    "verificationContract": "agent-internet-capability-layer:v1",
+    "referenceIds": ["jcode", "opencode"],
+    "verificationContract": "durable-coding-agent-runtime:v1",
     "verifyStatus": "warn",
     "checkStatuses": {
       "plan_schema_valid": "pass",
@@ -14,12 +14,12 @@
       "verification_contract_present": "pass",
       "source_backing": "warn"
     },
-    "warningIncludes": ["Source cache missing for: agent-reach"],
+    "warningIncludes": ["Source cache missing for: jcode, opencode"],
     "minCounts": {
-      "kernel": 3,
-      "mustKeep": 5,
-      "canAdapt": 4,
-      "risks": 3
+      "kernel": 6,
+      "mustKeep": 8,
+      "canAdapt": 6,
+      "risks": 5
     },
     "traceSteps": ["resolve_references", "build_plan", "verify"],
     "traceArtifactsByStep": {
