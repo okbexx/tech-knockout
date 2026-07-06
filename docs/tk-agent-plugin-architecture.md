@@ -11,9 +11,9 @@ The product is intentionally layered:
 | Layer | Responsibility |
 |---|---|
 | Reports and comparisons | Human-readable research, judgment, and architecture analysis |
-| Catalog and source lock | Machine-readable project facts and local source-cache state |
-| CLI | Deterministic local operations: replication brief, catalog, source sync, validation, doctor |
-| MCP | Structured read-mostly access for agents and replication brief construction |
+| Catalog, source lock, and replication runs | Machine-readable project facts, local source-cache state, and persisted replication artifacts |
+| CLI | Deterministic local operations: plan, brief rendering, verify, catalog, source sync, doctor, run inspection |
+| MCP | Structured read-mostly access for agents: plan, verify, runs, doctor, context, and evidence |
 | Skills | Agent behavior: when to use TK and how to replicate capabilities with evidence |
 | Codex plugin | Installable distribution unit |
 | npm package | User-facing CLI and installer entry |
@@ -85,14 +85,27 @@ It also exposes the main capability replication entry:
 tk replicate "agent internet capability layer" --from agent-reach
 ```
 
+And the structured workflow beneath it:
+
+```bash
+tk plan "agent internet capability layer" --from agent-reach --json
+tk verify "agent internet capability layer" --from agent-reach --json
+tk run list --json
+tk run show <run-id> --json
+```
+
 The user-facing product lifecycle is:
 
 ```bash
 tk codex install
 tk codex status
-tk replicate "agent internet capability layer" --from agent-reach
+tk plan "agent internet capability layer" --from agent-reach
+tk verify "agent internet capability layer" --from agent-reach
+tk run list
 tk codex refresh
 ```
+
+`replicate` remains the human-readable brief view for users who want direct text output.
 
 `status` gives users a direct readiness check for the Codex CLI, marketplace,
 and plugin. `refresh` wraps the official Codex remove/add flow so local plugin
@@ -135,10 +148,10 @@ enough user evidence.
 | Layer | Role |
 |---|---|
 | Skill | Trigger, capability replication workflow, build-vs-buy discipline |
-| CLI | Deterministic local execution, replication brief, writes, source sync, validation |
-| MCP | Structured read-mostly context, replication brief, and tool discovery for agents |
-| Schemas | Stable machine contracts for catalog and source lock |
-| Docs | Architecture decisions, safety boundary, and verification contract |
+| CLI | Deterministic local execution, plan, brief rendering, verify, run inspection, source sync, validation |
+| MCP | Structured read-mostly context plus plan / verify / runs / doctor tools for agents |
+| Schemas | Stable machine contracts for catalog, source lock, replication plan, verification result, and run trace |
+| Docs | Architecture decisions, runtime artifact rules, safety boundary, and verification contract |
 
 Do not add Memory or Long-task machinery just to make the structure look
 complete. Add them only when TK owns cross-session replication tasks or durable
@@ -153,15 +166,57 @@ npm run verify
 npm publish --workspace @jarl_okbe/tk --access public --dry-run
 ```
 
-The verify script covers syntax checks, catalog validation, doctor checks, and
-MCP smoke. Plugin manifest and Skill validation are still run with the Codex
-creator validators when those surfaces change.
+The verify script covers syntax checks, catalog validation, split doctor scopes, fixture regression, and MCP smoke. Plugin manifest and Skill validation are still run with the Codex creator validators when those surfaces change.
+
+See [`tk-replication-runtime.md`](./tk-replication-runtime.md) for the detailed plan / verification / trace runtime contract and artifact layout.
 
 ## Control Plane / Data Plane
 
-The control plane is the TK catalog, CLI, MCP server, skills, schemas, and
-doctor checks. It decides what evidence exists, what is stale, and what an
-agent should read next.
+The control plane is the TK catalog, CLI, MCP server, skills, schemas, and doctor checks. It decides what evidence exists, what is stale, and what an agent should read next.
+
+The data plane is the report text, comparison text, local source cache, and persisted replication run artifacts. Source repositories are not committed to TK and should be treated as reproducible local cache.
+
+## Plan-first Replication Runtime
+
+Capability replication now flows through a shared core workflow:
+
+```text
+capability -> references -> plan.json -> brief.md -> verification.json -> trace.json
+```
+
+This keeps CLI and MCP aligned on the same object model. The key rule is:
+
+> `replicate` is a rendered view; `plan`, `verification`, and `trace` are the primary contracts.
+
+### Runtime artifacts
+
+Inside a TK repository checkout, persisted runs live under:
+
+```text
+packages/tk/data/runs/<run-id>/
+```
+
+Inside the published package they live in the OS-specific user data directory, unless `TK_RUNTIME_DATA_ROOT` overrides the location.
+
+Each run stores:
+
+- `input.json`
+- `references.json`
+- `plan.json`
+- `brief.md`
+- `verification.json`
+- `trace.json`
+
+`packages/tk/data/runs/` is runtime output and is intentionally ignored by Git.
+
+### Doctor scopes
+
+`tk doctor` is split into two layers:
+
+- `tk doctor repo` — reports/comparisons presence, catalog validity, replication schema availability
+- `tk doctor runtime` — source cache state, dirty sources, runtime data root writability, run artifact root writability
+
+The aggregate `tk doctor` command combines both scopes for one summary verdict.
 
 ## CLI Framework Policy
 
@@ -202,13 +257,14 @@ CLI commands perform network or write side effects.
 Agents should use TK in this order for capability replication:
 
 1. Current project evidence.
-2. `tk replicate "<capability>" --json` or MCP `tk_build_replication_brief`.
-3. `tk deps <project> --json` or MCP `tk_get_dependency_evidence` for
-   build-vs-buy dependency decisions.
-4. TK comparison documents.
-5. TK report documents.
-6. Source-cache evidence when implementation details matter.
-7. Official/current upstream verification when time-sensitive facts matter.
+2. `tk plan "<capability>" --json` or MCP `tk_plan_replication`.
+3. `tk verify <run-id>` / `tk verify "<capability>" --json` or MCP `tk_verify_replication`.
+4. `tk deps <project> --json` or MCP `tk_get_dependency_evidence` for build-vs-buy dependency decisions.
+5. `tk run show <run-id> --json` or MCP `tk_get_run_trace` when the full persisted artifact chain matters.
+6. TK comparison documents.
+7. TK report documents.
+8. Source-cache evidence when implementation details matter.
+9. Official/current upstream verification when time-sensitive facts matter.
 
 The required user-facing output is:
 

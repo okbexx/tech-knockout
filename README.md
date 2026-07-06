@@ -67,13 +67,24 @@ Verification:
 npx @jarl_okbe/tk replicate "agent internet capability layer" --from agent-reach
 ```
 
+想要 machine-readable 的 plan / verification / trace 工作流时：
+
+```bash
+npx @jarl_okbe/tk plan "agent internet capability layer" --from agent-reach --json
+npx @jarl_okbe/tk verify "agent internet capability layer" --from agent-reach --json
+npx @jarl_okbe/tk run list --json
+npx @jarl_okbe/tk run show <run-id> --json
+```
+
 看完整示例：[`docs/value-proof.md`](./docs/value-proof.md)。
+运行时契约见 [`docs/tk-replication-runtime.md`](./docs/tk-replication-runtime.md)。
 
 ## 如何使用这个仓库
 
 - 想让 Codex 复刻能力：先运行 `npx @jarl_okbe/tk codex install`，再在目标项目里直接问 Codex。
 - 想让 Codex 准备参考仓库源码：直接问 `Use Technical Knockout to clone the missing reference repositories.`。
 - 想先看参考证据：运行 `npx @jarl_okbe/tk replicate "<capability>" --from <project>`。
+- 想走结构化 plan / verify / trace 工作流：读 [`docs/tk-replication-runtime.md`](./docs/tk-replication-runtime.md)，或直接运行 `tk plan` / `tk verify` / `tk run show`。
 - 想快速选型或学习架构：从下方 **Project Index**、[`reports/`](./reports/) 或 [`comparisons/`](./comparisons/) 进入。
 - 想看好结果长什么样：读 [`docs/value-proof.md`](./docs/value-proof.md)。
 - 想给其它用户安装 TK：读 [`docs/install-codex-plugin.md`](./docs/install-codex-plugin.md)。
@@ -85,22 +96,28 @@ npx @jarl_okbe/tk replicate "agent internet capability layer" --from agent-reach
 
 TK 的用户入口是安装、检查、让 Codex 复刻能力。下面是给维护者和高级用户看的产品结构：
 
-- **npm package**：`packages/tk` 发布为 `@jarl_okbe/tk`，提供 CLI、MCP server、core、schemas 和报告快照。
+- **npm package**：`packages/tk` 发布为 `@jarl_okbe/tk`，提供 CLI、MCP server、core、schemas、运行时 artifacts 和报告快照。
 - **Codex plugin adapter**：`plugins/technical-knockout` 提供 Codex manifest、Skills 和 MCP 启动配置。
 
 - **Skills**：告诉 agent 何时使用 TK、如何做 reference discovery、build-vs-buy、架构学习和报告维护。
-- **CLI**：提供确定性的本地操作面，覆盖 catalog、source cache、doctor、search、inspect。
-- **MCP**：提供 read-mostly 的结构化上下文查询工具。
-- **Catalog / lock**：把 Markdown 报告转成机器可读事实，避免 agent 每次临时解析报告格式。
+- **CLI**：提供确定性的本地操作面，覆盖 catalog、source cache、doctor、plan、verify、runs、search、inspect。
+- **MCP**：提供 read-mostly 的结构化上下文查询工具，以及 plan / verify / run trace 入口。
+- **Catalog / lock / run contracts**：把 Markdown 报告转成机器可读事实，把 plan / verification / trace 变成稳定对象，而不是只让 agent 临时解析文本。
 
 常用命令：
 
 ```bash
 npx @jarl_okbe/tk doctor
+npx @jarl_okbe/tk doctor repo
+npx @jarl_okbe/tk doctor runtime
 npx @jarl_okbe/tk codex install
 npx @jarl_okbe/tk codex status
 npx @jarl_okbe/tk codex refresh
 npx @jarl_okbe/tk replicate "agent internet capability layer" --from agent-reach
+npx @jarl_okbe/tk plan "agent internet capability layer" --from agent-reach --json
+npx @jarl_okbe/tk verify "agent internet capability layer" --from agent-reach --json
+npx @jarl_okbe/tk run list --json
+npx @jarl_okbe/tk run show <run-id> --json
 npx @jarl_okbe/tk search "coding agent runtime" --json
 npx @jarl_okbe/tk deps agent-reach --json
 npx @jarl_okbe/tk source status --json
@@ -110,6 +127,7 @@ npm run verify
 ```
 
 完整产品结构见 [`docs/tk-agent-plugin-architecture.md`](./docs/tk-agent-plugin-architecture.md)。
+运行时和 machine-readable contracts 见 [`docs/tk-replication-runtime.md`](./docs/tk-replication-runtime.md)。
 安装指南见 [`docs/install-codex-plugin.md`](./docs/install-codex-plugin.md)。
 
 ## Featured Reports
