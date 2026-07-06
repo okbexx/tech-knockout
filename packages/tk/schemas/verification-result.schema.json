@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/okbexx/tech-knockout/schemas/verification-result.schema.json",
+  "title": "Technical Knockout Verification Result",
+  "type": "object",
+  "required": ["contractId", "runId", "status", "checks", "warnings", "generatedAt"],
+  "properties": {
+    "contractId": { "type": "string" },
+    "runId": { "type": "string" },
+    "status": { "type": "string", "enum": ["pass", "fail", "warn"] },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "status"],
+        "properties": {
+          "name": { "type": "string" },
+          "status": { "type": "string", "enum": ["pass", "fail", "warn"] },
+          "details": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "generatedAt": { "type": "string" }
+  }
+}

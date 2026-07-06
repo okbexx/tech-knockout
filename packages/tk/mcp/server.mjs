@@ -6,13 +6,17 @@ import {
   buildReplicationBrief,
   doctor,
   findProject,
+  getRunTrace,
+  listRuns,
   loadCatalog,
+  planReplication,
   projectContext,
   readComparison,
   readReport,
   searchCatalog,
   sourceStatus,
   syncPlan,
+  verifyReplication,
 } from '../lib/tk-core.mjs';
 
 const server = new McpServer(
@@ -247,12 +251,16 @@ server.registerTool(
 );
 
 server.registerTool(
-  'tk_doctor',
+  'tk_plan_replication',
   {
-    title: 'Run TK Doctor',
+    title: 'Plan TK Replication',
     description:
-      'Run read-only TK doctor checks for catalog validity, source-cache presence, and dirty nested source repositories.',
-    inputSchema: z.object({}),
+      'Build a structured replication plan plus persisted run artifacts. Use when the agent wants machine-readable plan/kernel/slices instead of only markdown.',
+    inputSchema: z.object({
+      capability: z.string().describe('Capability to replicate.'),
+      from: z.string().optional().describe('Optional comma-separated TK project ids to force as references.'),
+      limit: z.number().int().positive().max(10).default(5).describe('Maximum auto-discovered references.'),
+    }),
     annotations: {
       readOnlyHint: true,
       destructiveHint: false,
@@ -260,7 +268,90 @@ server.registerTool(
       openWorldHint: false,
     },
   },
-  async () => textContent(await doctor()),
+  async ({ capability, from, limit }) => textContent(await planReplication(capability, { from, limit })),
+);
+
+server.registerTool(
+  'tk_verify_replication',
+  {
+    title: 'Verify TK Replication',
+    description:
+      'Verify a structured replication plan by capability or persisted run id. Returns verification status plus updated run trace metadata.',
+    inputSchema: z.object({
+      target: z.string().describe('Capability text or run id.'),
+      from: z.string().optional().describe('Optional comma-separated TK project ids to force as references when target is a capability.'),
+      limit: z.number().int().positive().max(10).default(5).describe('Maximum auto-discovered references when target is a capability.'),
+      run_id: z.string().optional().describe('Optional explicit run id to verify.'),
+    }),
+    annotations: {
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
+  },
+  async ({ target, from, limit, run_id }) => textContent(await verifyReplication(target, { from, limit, runId: run_id })),
+);
+
+server.registerTool(
+  'tk_get_run_trace',
+  {
+    title: 'Get TK Run Trace',
+    description:
+      'Read one persisted TK replication run, including trace, plan, references, and verification artifacts.',
+    inputSchema: z.object({
+      run_id: z.string().describe('Run id such as run_20260706T123456_abcd12.'),
+    }),
+    annotations: {
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
+  },
+  async ({ run_id }) => {
+    const run = getRunTrace(run_id);
+    if (!run) throw new Error(`Run not found: ${run_id}`);
+    return textContent(run);
+  },
+);
+
+server.registerTool(
+  'tk_list_runs',
+  {
+    title: 'List TK Runs',
+    description: 'List recent persisted TK replication runs.',
+    inputSchema: z.object({
+      limit: z.number().int().positive().max(100).default(20).describe('Maximum runs to return.'),
+    }),
+    annotations: {
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
+  },
+  async ({ limit }) => textContent(listRuns({ limit })),
+);
+
+server.registerTool(
+  'tk_doctor',
+  {
+    title: 'Run TK Doctor',
+    description:
+      'Run read-only TK doctor checks for repo assets, catalog validity, runtime artifact roots, source-cache presence, and dirty nested source repositories.',
+    inputSchema: z.object({
+      scope: z.enum(['all', 'repo', 'runtime']).default('all').describe('Doctor scope to inspect.'),
+      require_sources: z.boolean().optional().describe('When true, runtime doctor fails if source caches are missing.'),
+    }),
+    annotations: {
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: false,
+    },
+  },
+  async ({ scope, require_sources }) => textContent(await doctor({ scope, requireSources: require_sources })),
 );
 
 async function main() {

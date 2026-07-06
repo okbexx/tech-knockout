@@ -1,11 +1,12 @@
 import { execFile } from 'node:child_process';
-import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { accessSync, constants as fsConstants, copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import Ajv2020 from 'ajv/dist/2020.js';
 import envPaths from 'env-paths';
 import { parse as parseToml } from 'smol-toml';
+import { createRun, listRuns as listStoredRuns, readRun as readStoredRun, writeRunArtifact } from './runtime/run-store.mjs';
 
 const execFileAsync = promisify(execFile);
 const PACKAGE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -51,6 +52,7 @@ export function getPaths(options = {}) {
     dataDir,
     catalogPath: join(dataDir, 'tk.catalog.json'),
     lockPath: join(runtimeDataDir, 'tk.lock.json'),
+    runsDir: join(runtimeDataDir, 'runs'),
     reportSnapshotDir: join(dataDir, 'reports'),
     comparisonSnapshotDir: join(dataDir, 'comparisons'),
   };
@@ -532,11 +534,31 @@ export function validateCatalog(catalog, options = {}) {
   return { ok: errors.length === 0, errors };
 }
 
-export function validateSourceLock(lock, options = {}) {
+function loadSchema(name, options = {}) {
   const paths = getPaths(options);
-  const schema = JSON.parse(readText(join(paths.packageRoot, 'schemas', 'source-lock.schema.json')));
-  const errors = validateJsonSchema(schema, lock);
+  return JSON.parse(readText(join(paths.packageRoot, 'schemas', name)));
+}
+
+function validateNamedSchema(name, value, options = {}) {
+  const schema = loadSchema(name, options);
+  const errors = validateJsonSchema(schema, value);
   return { ok: errors.length === 0, errors };
+}
+
+export function validateSourceLock(lock, options = {}) {
+  return validateNamedSchema('source-lock.schema.json', lock, options);
+}
+
+export function validateReplicationPlan(plan, options = {}) {
+  return validateNamedSchema('replication-plan.schema.json', plan, options);
+}
+
+export function validateVerificationResult(result, options = {}) {
+  return validateNamedSchema('verification-result.schema.json', result, options);
+}
+
+export function validateRunTrace(trace, options = {}) {
+  return validateNamedSchema('run-trace.schema.json', trace, options);
 }
 
 export function searchCatalog(query, options = {}) {
@@ -679,81 +701,384 @@ function resolveReferenceProjects(capability, options = {}) {
   return projects.slice(0, Number.isFinite(limit) && limit > 0 ? limit : 5);
 }
 
-export async function buildReplicationBrief(capability, options = {}) {
+function slugValue(value) {
+  return (
+    String(value || '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '') || 'capability'
+  );
+}
+
+function firstUsefulLine(value) {
+  return (
+    String(value || '')
+      .split(/\r?\n/)
+      .map((line) => cleanInline(line))
+      .find(Boolean) || null
+  );
+}
+
+function uniqueLines(values, limit = 8) {
+  const output = [];
+  const seen = new Set();
+  for (const value of values || []) {
+    const line = cleanInline(String(value || ''));
+    if (!line || seen.has(line)) continue;
+    seen.add(line);
+    output.push(line);
+    if (output.length >= limit) break;
+  }
+  return output;
+}
+
+function sectionSummary(reference, key) {
+  const section = reference.sections?.[key];
+  if (!section?.text) return null;
+  const line = firstUsefulLine(section.text);
+  return line ? `${reference.project.id}: ${line}` : null;
+}
+
+function dependencyEvidenceLines(reference) {
+  return (reference.dependencyEvidence || []).map((item) => {
+    const detail = item.usedFor || item.problemSolved || item.reuseSignal || item.dependency;
+    return `${reference.project.id}: ${item.dependency} — ${cleanInline(detail)}`;
+  });
+}
+
+function buildImplementationSlices(capability, references) {
+  const referenceNames = references.map((reference) => reference.project.id).join(', ') || 'selected references';
+  const capabilitySlug = slugValue(capability);
+  return [
+    {
+      id: `${capabilitySlug}-fit`,
+      title: 'confirm current-project fit and choose the smallest boundary',
+      boundary: `Inspect the current project before copying anything; choose the minimum slice needed from ${referenceNames}.`,
+      verification: 'Document the target user-facing path and one boundary that proves the capability is needed.',
+    },
+    {
+      id: `${capabilitySlug}-kernel`,
+      title: 'adapt the capability kernel',
+      boundary: 'Implement the smallest contract/kernel that reproduces the reference capability without copying host-specific ceremony.',
+      verification: 'One deterministic contract check or smoke command passes for the adapted kernel.',
+    },
+    {
+      id: `${capabilitySlug}-trace`,
+      title: 'capture verification and run trace',
+      boundary: 'Persist plan, brief, and verification artifacts so later work can audit what was attempted.',
+      verification: 'Run trace includes plan.json, brief.md, and verification.json artifacts.',
+    },
+  ];
+}
+
+async function collectReferenceEvidence(capability, options = {}) {
   const projects = resolveReferenceProjects(capability, options);
   const references = [];
-
   for (const project of projects) {
     const report = readReport(project, options);
     const context = await projectContext(project.id, options);
+    const source = context?.source || {
+      sourceDir: project.sourceDir,
+      path: null,
+      exists: false,
+    };
     references.push({
       project,
       sections: extractReplicationSections(report),
-      source: context?.source || {
-        sourceDir: project.sourceDir,
-        path: null,
-        exists: false,
-      },
+      source,
       dependencySummary: project.dependencySummary,
       dependencyEvidence: project.dependencyEvidence,
       dependencies: project.dependencies,
+      freshness: {
+        reportDate: project.analysisDate || null,
+        sourceCheckedAt: new Date().toISOString(),
+      },
+      confidence: {
+        reportOnly: !source.exists,
+        sourceBacked: Boolean(source.exists),
+        score: source.exists ? 0.9 : 0.55,
+      },
     });
   }
+  return references;
+}
 
+function buildReplicationPlan(capability, references) {
+  const generatedAt = new Date().toISOString();
+  const kernel = uniqueLines([
+    ...references.map((reference) => sectionSummary(reference, 'kernel')),
+    ...references.map((reference) => sectionSummary(reference, 'architecture')),
+    ...references.map((reference) => `${reference.project.id}: ${reference.project.summary || reference.project.name}`),
+  ]);
+  const reuseFirst = uniqueLines(references.flatMap((reference) => dependencyEvidenceLines(reference)));
+  const mustKeep = uniqueLines([
+    ...references.map((reference) => sectionSummary(reference, 'invariants')),
+    ...references.map((reference) => sectionSummary(reference, 'contracts')),
+    ...references.map((reference) => sectionSummary(reference, 'failureModel')),
+    'Preserve architecture invariants that make the capability work.',
+    'Preserve contracts that users, agents, or external tools depend on.',
+  ]);
+  const canAdapt = uniqueLines([
+    ...references.map((reference) => sectionSummary(reference, 'controlDataPlane')),
+    ...references.map((reference) => sectionSummary(reference, 'abstractions')),
+    'Host adapters, package layout, UI surface, and framework integration can change if the contract stays stable.',
+    'Backend implementations can change when the observable capability contract is preserved.',
+  ]);
+  const risks = uniqueLines([
+    ...references.map((reference) => sectionSummary(reference, 'failureModel')),
+    ...references.filter((reference) => !reference.source.exists).map((reference) => `${reference.project.id}: source cache missing; plan is report-backed only.`),
+    'Current-project fit is not evaluated until the target codebase is inspected.',
+  ]);
   return {
     capability,
+    generatedAt,
+    references: references.map((reference) => reference.project.id),
+    kernel,
+    reuseFirst,
+    implementationSlices: buildImplementationSlices(capability, references),
+    mustKeep,
+    canAdapt,
+    risks,
+    verificationContract: `${slugValue(capability)}:v1`,
+  };
+}
+
+function buildRunTrace(runId, input, result, durationMs, steps) {
+  return {
+    runId,
+    input,
+    steps,
+    policyHits: [],
+    durationMs,
+    result,
     generatedAt: new Date().toISOString(),
+  };
+}
+
+function persistPlanRun(paths, capability, options, references, plan) {
+  const run = createRun(paths);
+  const input = {
+    capability,
+    references: plan.references,
+    requestedReferences: splitList(options.references || options.from || options.projects),
+    limit: Number(options.limit || 5),
+  };
+  const briefPayload = {
+    capability,
+    generatedAt: plan.generatedAt,
     references,
-    brief: {
-      capability,
-      referenceProjects: references.map((item) => item.project.id),
-      ladder: [
-        'Skip the capability if the current project does not actually need it.',
-        'Reuse current-project code, contracts, and installed dependencies before copying a reference.',
-        'Prefer standard library, native platform features, official SDKs, and mature OSS over new TK-owned infrastructure.',
-        'Use TK evidence only to extract the smallest capability kernel and invariants.',
-        'Implement the smallest verifiable boundary; add a bigger base only after evidence proves the smaller rung fails.',
-      ],
-      currentProjectFit: 'Not evaluated here. The agent must inspect the current project before choosing what to reuse.',
-      kernel: 'Extract the smallest capability kernel from the referenced sections, then adapt it to the current project.',
-      mustKeep: [
-        'Architecture invariants that make the capability work.',
-        'Contract boundaries that agents, users, or external tools depend on.',
-        'Failure and degradation behavior that protects users and state.',
-      ],
-      canAdapt: [
-        'UI, framework, package layout, and host-specific adapters.',
-        'Backend implementations when the capability contract stays stable.',
-      ],
-      doNotCopy: [
-        'Project branding, private paths, credentials, or unrelated process ceremony.',
-        'Source code without checking license and current-project fit.',
-      ],
-      buildVsBuy: 'Use current-project dependencies, standard libraries, official SDKs, and mature OSS before self-building infrastructure.',
-      implementationBoundary: 'Implement only the smallest current-project slice that proves the replicated capability.',
-      verification: [
-        'A user-visible success path.',
-        'One deterministic CLI/test/smoke check for the replicated contract.',
-        'Freshness note for any time-sensitive upstream facts.',
-      ],
+    plan,
+    brief: plan,
+    run,
+  };
+  const briefMarkdown = formatReplicationBrief(briefPayload);
+  const trace = buildRunTrace(run.runId, input, 'planned', 0, [
+    { type: 'resolve_references', status: references.length ? 'ok' : 'warn', artifacts: ['references.json'] },
+    { type: 'build_plan', status: 'ok', artifacts: ['plan.json', 'brief.md'] },
+  ]);
+  const validation = validateRunTrace(trace, options);
+  if (!validation.ok) {
+    throw new Error(`run trace invalid\n${validation.errors.join('\n')}`);
+  }
+  writeRunArtifact(paths, run.runId, 'input.json', input);
+  writeRunArtifact(paths, run.runId, 'references.json', references);
+  writeRunArtifact(paths, run.runId, 'plan.json', plan);
+  writeRunArtifact(paths, run.runId, 'brief.md', briefMarkdown);
+  writeRunArtifact(paths, run.runId, 'trace.json', trace);
+  return {
+    ...run,
+    artifacts: {
+      input: join(run.dir, 'input.json'),
+      references: join(run.dir, 'references.json'),
+      plan: join(run.dir, 'plan.json'),
+      brief: join(run.dir, 'brief.md'),
+      trace: join(run.dir, 'trace.json'),
     },
   };
 }
 
-export function formatReplicationBrief(payload) {
-  const lines = [
-    `# TK Reference Brief: ${payload.capability}`,
-    '',
-    'Use this brief with the current project before implementation. It is reference evidence, not a decision by itself.',
-    '',
-    'Next:',
-    '1. Check whether the current project needs this capability.',
-    '2. Reuse current-project code, platform features, installed dependencies, official SDKs, or mature OSS first.',
-    '3. Ask the agent to turn this reference brief into a current-project implementation boundary.',
-    '',
-    '## Reference Projects',
+export async function planReplication(capability, options = {}) {
+  const startedAt = Date.now();
+  const paths = getPaths(options);
+  const references = await collectReferenceEvidence(capability, options);
+  const plan = buildReplicationPlan(capability, references);
+  const validation = validateReplicationPlan(plan, options);
+  if (!validation.ok) {
+    throw new Error(`replication plan invalid\n${validation.errors.join('\n')}`);
+  }
+  const run = options.persist === false ? null : persistPlanRun(paths, capability, options, references, plan);
+  return {
+    capability,
+    generatedAt: plan.generatedAt,
+    references,
+    plan,
+    brief: plan,
+    run,
+    durationMs: Date.now() - startedAt,
+  };
+}
+
+export async function buildReplicationBrief(capability, options = {}) {
+  return planReplication(capability, options);
+}
+
+export function listRuns(options = {}) {
+  const paths = getPaths(options);
+  return {
+    runs: listStoredRuns(paths, options),
+  };
+}
+
+export function getRunTrace(runId, options = {}) {
+  const paths = getPaths(options);
+  const run = readStoredRun(paths, runId);
+  if (!run) return null;
+  return {
+    runId: run.runId,
+    dir: run.dir,
+    artifacts: Object.keys(run.artifacts || {}),
+    input: run.input,
+    references: run.references,
+    plan: run.plan,
+    verification: run.verification,
+    trace: run.trace,
+  };
+}
+
+export async function verifyReplication(target, options = {}) {
+  const paths = getPaths(options);
+  const candidateRunId = options.runId || (String(target || '').startsWith('run_') ? String(target) : null);
+  let run = candidateRunId ? readStoredRun(paths, candidateRunId) : null;
+  if (!run) {
+    const capability = candidateRunId ? options.capability : String(target || options.capability || '').trim();
+    if (!capability) throw new Error('verifyReplication requires a capability name or run id.');
+    const planned = await planReplication(capability, options);
+    run = planned.run ? readStoredRun(paths, planned.run.runId) : null;
+  }
+  if (!run?.plan) {
+    throw new Error(`Run not found or missing plan: ${candidateRunId || target}`);
+  }
+
+  const warnings = [];
+  const planValidation = validateReplicationPlan(run.plan, options);
+  const checks = [
+    {
+      name: 'plan_schema_valid',
+      status: planValidation.ok ? 'pass' : 'fail',
+      details: planValidation.errors || [],
+    },
+    {
+      name: 'reference_projects_present',
+      status: run.plan.references?.length ? 'pass' : 'fail',
+      details: run.plan.references?.length ? [] : ['No reference projects were selected.'],
+    },
+    {
+      name: 'kernel_present',
+      status: run.plan.kernel?.length ? 'pass' : 'fail',
+      details: run.plan.kernel?.length ? [] : ['Replication plan missing kernel evidence.'],
+    },
+    {
+      name: 'verification_contract_present',
+      status: run.plan.verificationContract ? 'pass' : 'fail',
+      details: run.plan.verificationContract ? [] : ['Replication plan missing verificationContract.'],
+    },
   ];
 
+  const missingSources = (run.references || [])
+    .filter((reference) => !reference.source?.exists)
+    .map((reference) => reference.project.id);
+  if (missingSources.length) {
+    warnings.push(`Source cache missing for: ${missingSources.join(', ')}`);
+    checks.push({ name: 'source_backing', status: 'warn', details: missingSources });
+  } else {
+    checks.push({ name: 'source_backing', status: 'pass', details: [] });
+  }
+
+  const status = checks.some((check) => check.status === 'fail') ? 'fail' : warnings.length ? 'warn' : 'pass';
+  const verification = {
+    contractId: run.plan.verificationContract,
+    runId: run.runId,
+    status,
+    checks,
+    warnings,
+    generatedAt: new Date().toISOString(),
+  };
+  const verificationValidation = validateVerificationResult(verification, options);
+  if (!verificationValidation.ok) {
+    throw new Error(`verification result invalid\n${verificationValidation.errors.join('\n')}`);
+  }
+  writeRunArtifact(paths, run.runId, 'verification.json', verification);
+
+  const priorSteps = (run.trace?.steps || []).filter((step) => step.type !== 'verify');
+  const trace = buildRunTrace(
+    run.runId,
+    run.trace?.input || { capability: run.plan.capability, references: run.plan.references },
+    status,
+    run.trace?.durationMs || 0,
+    [...priorSteps, { type: 'verify', status: status === 'fail' ? 'fail' : status === 'warn' ? 'warn' : 'ok', artifacts: ['verification.json'] }],
+  );
+  const traceValidation = validateRunTrace(trace, options);
+  if (!traceValidation.ok) {
+    throw new Error(`run trace invalid\n${traceValidation.errors.join('\n')}`);
+  }
+  writeRunArtifact(paths, run.runId, 'trace.json', trace);
+  return {
+    ...verification,
+    trace,
+    plan: run.plan,
+    references: run.plan.references,
+  };
+}
+
+export function formatReplicationPlan(payload) {
+  return formatReplicationBrief(payload);
+}
+
+export function formatVerificationResult(payload) {
+  const lines = [`${payload.status} ${payload.contractId}`, `run: ${payload.runId}`];
+  for (const check of payload.checks || []) {
+    const suffix = check.details?.length ? `: ${check.details.join(', ')}` : '';
+    lines.push(`- ${check.status} ${check.name}${suffix}`);
+  }
+  for (const warning of payload.warnings || []) lines.push(`warning: ${warning}`);
+  return `${lines.join('\n')}\n`;
+}
+
+export function formatRunTrace(payload) {
+  const lines = [
+    `${payload.runId} ${payload.trace?.result || 'unknown'}`,
+    `capability: ${payload.plan?.capability || payload.input?.capability || 'unknown'}`,
+  ];
+  for (const step of payload.trace?.steps || []) {
+    lines.push(`- ${step.status} ${step.type}${step.artifacts?.length ? ` -> ${step.artifacts.join(', ')}` : ''}`);
+  }
+  return `${lines.join('\n')}\n`;
+}
+
+export function formatRunList(payload) {
+  const rows = [['runId', 'result', 'capability', 'generatedAt']];
+  for (const run of payload.runs || []) {
+    rows.push([run.runId, run.result || '', run.capability || '', run.generatedAt || '']);
+  }
+  return `${rows.map((row) => row.join('\t')).join('\n')}\n`;
+}
+
+export function formatReplicationBrief(payload) {
+  const plan = payload.plan || payload.brief || {};
+  const lines = [
+    `# TK Replication Plan: ${payload.capability}`,
+    '',
+    'Use this as structured reference evidence before changing the target project.',
+    '',
+  ];
+
+  if (payload.run?.runId) {
+    lines.push(`Run: ${payload.run.runId}`);
+    lines.push(`Artifacts: ${payload.run.relativeDir || payload.run.dir}`);
+    lines.push('');
+  }
+
+  lines.push('## Reference Projects');
   if (!payload.references.length) {
     lines.push('No TK reference projects matched. Try `tk search <capability>` or pass `--from <project>`.');
     return `${lines.join('\n')}\n`;
@@ -763,42 +1088,16 @@ export function formatReplicationBrief(payload) {
     const { project, source } = reference;
     lines.push(`- ${project.id}: ${project.name}`);
     if (project.summary) lines.push(`  summary: ${project.summary}`);
-    if (project.adoption) lines.push(`  adoption: ${project.adoption}`);
     lines.push(`  report: ${project.report}`);
     lines.push(`  source: ${source.exists ? 'available' : 'missing'}`);
-    if (reference.dependencySummary) {
-      lines.push(
-        `  dependencies: ${reference.dependencySummary.total} direct across ${reference.dependencySummary.manifests} manifests`,
-      );
-    }
+    lines.push(`  confidence: ${reference.confidence.score}`);
   }
 
-  lines.push('', '## Dependency Evidence');
-  for (const reference of payload.references) {
-    lines.push('', `### ${reference.project.id}`);
-    const evidence = reference.dependencyEvidence || [];
-    if (!evidence.length) {
-      lines.push('No curated dependency evidence rows yet. Use `tk deps <project> --json` for the direct dependency list.');
-      continue;
-    }
-    for (const item of evidence.slice(0, 8)) {
-      lines.push(`- ${item.dependency}: ${item.usedFor || item.problemSolved || item.reuseSignal}`);
-      if (item.reuseSignal) lines.push(`  reuse: ${item.reuseSignal}`);
-      if (item.caution) lines.push(`  caution: ${item.caution}`);
-    }
-  }
+  lines.push('', '## Dependency Reuse First');
+  for (const item of plan.reuseFirst || []) lines.push(`- ${item}`);
 
   lines.push('', '## Evidence Pack');
-  const evidenceOrder = [
-    'kernel',
-    'abstractions',
-    'controlDataPlane',
-    'executionFlows',
-    'stateModel',
-    'contracts',
-    'failureModel',
-    'invariants',
-  ];
+  const evidenceOrder = ['kernel', 'abstractions', 'controlDataPlane', 'executionFlows', 'stateModel', 'contracts', 'failureModel', 'invariants'];
   for (const reference of payload.references) {
     lines.push('', `### ${reference.project.id}`);
     for (const name of evidenceOrder) {
@@ -809,26 +1108,23 @@ export function formatReplicationBrief(payload) {
   }
 
   lines.push('', '## Replication Contract');
-  lines.push(`Capability: ${payload.brief.capability}`);
-  lines.push(`Reference projects: ${payload.brief.referenceProjects.join(', ')}`);
-  lines.push('', 'TK Replication Ladder:');
-  for (const item of payload.brief.ladder) lines.push(`- ${item}`);
-  lines.push(`Current project fit: ${payload.brief.currentProjectFit}`);
-  lines.push(`Kernel: ${payload.brief.kernel}`);
-  lines.push(`Build-vs-buy: ${payload.brief.buildVsBuy}`);
-  lines.push(`Implementation boundary: ${payload.brief.implementationBoundary}`);
-  lines.push(
-    'Source files: use `tk source path <project> --json` when implementation details require local file evidence.',
-  );
+  lines.push(`Capability: ${plan.capability}`);
+  lines.push(`Verification contract: ${plan.verificationContract}`);
+  lines.push('', 'Kernel:');
+  for (const item of plan.kernel || []) lines.push(`- ${item}`);
   lines.push('', 'Must keep:');
-  for (const item of payload.brief.mustKeep) lines.push(`- ${item}`);
+  for (const item of plan.mustKeep || []) lines.push(`- ${item}`);
   lines.push('', 'Can adapt:');
-  for (const item of payload.brief.canAdapt) lines.push(`- ${item}`);
-  lines.push('', 'Do not copy:');
-  for (const item of payload.brief.doNotCopy) lines.push(`- ${item}`);
-  lines.push('', 'Verification:');
-  for (const item of payload.brief.verification) lines.push(`- ${item}`);
-
+  for (const item of plan.canAdapt || []) lines.push(`- ${item}`);
+  lines.push('', 'Risks:');
+  for (const item of plan.risks || []) lines.push(`- ${item}`);
+  lines.push('', 'Implementation slices:');
+  for (const slice of plan.implementationSlices || []) {
+    lines.push(`- ${slice.id}: ${slice.title}`);
+    lines.push(`  boundary: ${slice.boundary}`);
+    lines.push(`  verification: ${slice.verification}`);
+  }
+  lines.push('', 'Next: run `tk verify <run_id>` or `tk verify <capability>` after choosing the current-project boundary.');
   return `${lines.join('\n')}\n`;
 }
 
@@ -1202,31 +1498,103 @@ export async function executeSyncPlan(plan, options = {}) {
   return { ok: results.every((result) => result.ok), results };
 }
 
-export async function doctor(options = {}) {
+function nearestExistingPath(path) {
+  let current = resolve(path);
+  while (!existsSync(current)) {
+    const parent = dirname(current);
+    if (parent === current) return null;
+    current = parent;
+  }
+  return current;
+}
+
+function pathWritable(path) {
+  const existing = nearestExistingPath(path);
+  if (!existing) return false;
+  try {
+    accessSync(existing, fsConstants.W_OK);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function repoDoctorChecks(options = {}) {
   const paths = getPaths(options);
   const catalog = loadCatalog(options);
   const validation = validateCatalog(catalog, options);
-  const status = await sourceStatus(options);
-  const missingSources = status.sources.filter((source) => !source.exists);
-  const dirtySources = status.sources.filter((source) => source.dirty);
   const reportsAvailable = existsSync(paths.reportsDir) || existsSync(paths.reportSnapshotDir);
   const comparisonsAvailable = existsSync(paths.comparisonsDir) || existsSync(paths.comparisonSnapshotDir);
-  const sourcesRequired = Boolean(options.requireSources);
-  const checks = [
+  const schemaFiles = [
+    'catalog.schema.json',
+    'source-lock.schema.json',
+    'replication-plan.schema.json',
+    'verification-result.schema.json',
+    'run-trace.schema.json',
+  ];
+  const missingSchemas = schemaFiles.filter((name) => !fileExists(join(paths.packageRoot, 'schemas', name)));
+  return [
     { name: 'reports_available', ok: reportsAvailable },
     { name: 'comparisons_available', ok: comparisonsAvailable },
     { name: 'catalog_valid', ok: validation.ok, details: validation.errors },
+    { name: 'replication_schemas_available', ok: missingSchemas.length === 0, details: missingSchemas },
+  ];
+}
+
+function runtimeDoctorChecks(status, options = {}) {
+  const paths = getPaths(options);
+  const missingSources = status.sources.filter((source) => !source.exists);
+  const dirtySources = status.sources.filter((source) => source.dirty);
+  const sourcesRequired = Boolean(options.requireSources);
+  const runtimeDataPath = paths.runtimeDataDir;
+  const runsPath = paths.runsDir;
+  return [
     {
       name: sourcesRequired ? 'sources_present' : 'sources_known',
       ok: sourcesRequired ? missingSources.length === 0 : true,
       details: missingSources.map((s) => s.id),
     },
     { name: 'sources_clean', ok: dirtySources.length === 0, details: dirtySources.map((s) => s.id) },
+    { name: 'runtime_data_writable', ok: pathWritable(runtimeDataPath), details: [runtimeDataPath] },
+    { name: 'run_artifact_root_writable', ok: pathWritable(runsPath), details: [runsPath] },
   ];
+}
+
+export async function doctorRepo(options = {}) {
+  const checks = repoDoctorChecks(options);
   return {
     ok: checks.every((check) => check.ok),
+    scope: 'repo',
     generatedAt: new Date().toISOString(),
     checks,
+  };
+}
+
+export async function doctorRuntime(options = {}) {
+  const status = await sourceStatus(options);
+  const checks = runtimeDoctorChecks(status, options);
+  return {
+    ok: checks.every((check) => check.ok),
+    scope: 'runtime',
+    generatedAt: new Date().toISOString(),
+    checks,
+    sourceGeneratedAt: status.generatedAt,
+  };
+}
+
+export async function doctor(options = {}) {
+  const scope = String(options.scope || 'all').toLowerCase();
+  if (scope === 'repo') return doctorRepo(options);
+  if (scope === 'runtime') return doctorRuntime(options);
+  const repo = await doctorRepo(options);
+  const runtime = await doctorRuntime(options);
+  const checks = [...repo.checks, ...runtime.checks];
+  return {
+    ok: checks.every((check) => check.ok),
+    scope: 'all',
+    generatedAt: new Date().toISOString(),
+    checks,
+    sections: { repo, runtime },
   };
 }
 

@@ -1,0 +1,19 @@
+{
+  "id": "agent-reach-plan-verify",
+  "capability": "agent internet capability layer",
+  "from": "agent-reach",
+  "limit": 5,
+  "expect": {
+    "referenceIds": ["agent-reach"],
+    "verificationContract": "agent-internet-capability-layer:v1",
+    "verifyStatus": "warn",
+    "warningIncludes": ["Source cache missing for: agent-reach"],
+    "checkNames": [
+      "plan_schema_valid",
+      "reference_projects_present",
+      "kernel_present",
+      "verification_contract_present",
+      "source_backing"
+    ]
+  }
+}

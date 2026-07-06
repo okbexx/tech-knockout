@@ -12,9 +12,16 @@ import {
   formatCodexRefresh,
   formatCodexStatus,
   formatReplicationBrief,
+  formatReplicationPlan,
+  formatRunList,
+  formatRunTrace,
   formatTable,
+  formatVerificationResult,
+  getRunTrace,
   installCodexPlugin,
+  listRuns,
   loadCatalog,
+  planReplication,
   projectContext,
   readComparison,
   readReport,
@@ -24,6 +31,7 @@ import {
   syncPlan,
   validateCatalog,
   validateSourceLock,
+  verifyReplication,
   writeCatalog,
   writeLock,
 } from '../lib/tk-core.mjs';
@@ -46,11 +54,16 @@ program
 
 program
   .command('doctor')
-  .description('Run TK doctor checks for catalog validity and local source-cache health.')
+  .description('Run TK doctor checks for repo assets and runtime/source-cache health.')
+  .argument('[scope]', 'all | repo | runtime', 'all')
   .option('--json', 'emit machine-readable JSON')
   .option('--require-sources', 'fail when catalog source caches are missing')
-  .action(async (options) => {
-    const result = await doctor(options);
+  .action(async (scope, options) => {
+    const normalizedScope = String(scope || 'all').toLowerCase();
+    if (!['all', 'repo', 'runtime'].includes(normalizedScope)) {
+      program.error(`Invalid doctor scope: ${scope}. Use all, repo, or runtime.`, { exitCode: 2 });
+    }
+    const result = await doctor({ ...options, scope: normalizedScope });
     output(result, options, (payload) =>
       payload.checks
         .map((check) => {
@@ -177,6 +190,19 @@ program
   });
 
 program
+  .command('plan')
+  .description('Build a structured replication plan and persist run artifacts.')
+  .argument('<capability...>', 'capability to replicate, such as "agent internet capability layer"')
+  .option('--from <projects>', 'comma-separated TK project ids to use as references')
+  .option('--limit <number>', 'maximum auto-discovered reference projects', '5')
+  .option('--json', 'emit machine-readable JSON')
+  .action(async (capabilityParts, options) => {
+    const capability = capabilityParts.join(' ');
+    const result = await planReplication(capability, options);
+    output(result, options, formatReplicationPlan);
+  });
+
+program
   .command('replicate')
   .description('Build a capability replication brief from TK reports, comparisons, and source-cache state.')
   .argument('<capability...>', 'capability to replicate, such as "agent internet capability layer"')
@@ -187,6 +213,46 @@ program
     const capability = capabilityParts.join(' ');
     const result = await buildReplicationBrief(capability, options);
     output(result, options, formatReplicationBrief);
+  });
+
+program
+  .command('verify')
+  .description('Verify a replication plan by capability or existing run id.')
+  .argument('<target...>', 'capability text or persisted run id')
+  .option('--from <projects>', 'comma-separated TK project ids to use as references')
+  .option('--limit <number>', 'maximum auto-discovered reference projects', '5')
+  .option('--run-id <id>', 'explicit run id to verify')
+  .option('--json', 'emit machine-readable JSON')
+  .action(async (targetParts, options) => {
+    const target = targetParts.join(' ');
+    const result = await verifyReplication(target, options);
+    output(result, options, formatVerificationResult);
+    process.exitCode = result.status === 'fail' ? 1 : 0;
+  });
+
+const run = program.command('run').description('Inspect persisted TK replication runs and artifacts.');
+
+run
+  .command('list')
+  .description('List recent persisted TK runs.')
+  .option('--limit <number>', 'maximum runs to show', '20')
+  .option('--json', 'emit machine-readable JSON')
+  .action((options) => {
+    const result = listRuns(options);
+    output(result, options, formatRunList);
+  });
+
+run
+  .command('show')
+  .description('Show one persisted TK run, including trace and artifacts.')
+  .argument('<run-id>', 'run id such as run_20260706T123456_abcd12')
+  .option('--json', 'emit machine-readable JSON')
+  .action((runId, options) => {
+    const result = getRunTrace(runId, options);
+    if (!result) {
+      program.error(`Run not found: ${runId}`, { exitCode: 2 });
+    }
+    output(result, options, formatRunTrace);
   });
 
 const codex = program.command('codex').description('Install and inspect the TK Codex plugin integration.');

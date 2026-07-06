@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/okbexx/tech-knockout/schemas/replication-plan.schema.json",
+  "title": "Technical Knockout Replication Plan",
+  "type": "object",
+  "required": [
+    "capability",
+    "generatedAt",
+    "references",
+    "kernel",
+    "reuseFirst",
+    "implementationSlices",
+    "mustKeep",
+    "canAdapt",
+    "risks",
+    "verificationContract"
+  ],
+  "properties": {
+    "capability": { "type": "string" },
+    "generatedAt": { "type": "string" },
+    "references": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "kernel": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "reuseFirst": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "implementationSlices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "boundary", "verification"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "boundary": { "type": "string" },
+          "verification": { "type": "string" }
+        }
+      }
+    },
+    "mustKeep": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "canAdapt": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "risks": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "verificationContract": { "type": "string" }
+  }
+}

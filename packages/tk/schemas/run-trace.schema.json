@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/okbexx/tech-knockout/schemas/run-trace.schema.json",
+  "title": "Technical Knockout Run Trace",
+  "type": "object",
+  "required": ["runId", "input", "steps", "policyHits", "durationMs", "result", "generatedAt"],
+  "properties": {
+    "runId": { "type": "string" },
+    "input": { "type": "object" },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "status"],
+        "properties": {
+          "type": { "type": "string" },
+          "status": { "type": "string", "enum": ["ok", "warn", "fail"] },
+          "artifacts": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "policyHits": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "durationMs": { "type": "integer", "minimum": 0 },
+    "result": { "type": "string", "enum": ["planned", "pass", "fail", "warn"] },
+    "generatedAt": { "type": "string" }
+  }
+}
