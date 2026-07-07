@@ -90,22 +90,6 @@
       "exists": false
     },
     {
-      "id": "gitingest",
-      "repo": "coderamp-labs/gitingest",
-      "url": "https://github.com/coderamp-labs/gitingest",
-      "cloneUrl": "https://github.com/coderamp-labs/gitingest.git",
-      "sourceDir": "projects/coderamp-labs__gitingest",
-      "exists": false
-    },
-    {
-      "id": "gitnexus",
-      "repo": "abhigyanpatwari/GitNexus",
-      "url": "https://github.com/abhigyanpatwari/GitNexus",
-      "cloneUrl": "https://github.com/abhigyanpatwari/GitNexus.git",
-      "sourceDir": "projects/abhigyanpatwari__GitNexus",
-      "exists": false
-    },
-    {
       "id": "jcode",
       "repo": "1jehuang/jcode",
       "url": "https://github.com/1jehuang/jcode",

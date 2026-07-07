@@ -179,8 +179,6 @@ npm run verify
 
 | Project | What it is | Adopt? | Architecture value | Date |
 |---|---|---|---|---|
-| [GitNexus](./reports/GitNexus.md) | 纯客户端知识图谱引擎，通过 MCP 让 AI Agent 获得代码库感知 | 观望（个人/受控团队试点）/ 不推荐（企业免费） | ⭐⭐⭐⭐⭐ | 2026-07-07 |
-| [gitingest](./reports/gitingest.md) | 一键将 Git 仓库转换为 LLM-friendly 文本摘要 | 推荐采用（个人/小团队） | ⭐⭐⭐⭐ | 2026-07-07 |
 | [CodeGraph](./reports/codegraph.md) | MIT 本地代码图谱 + MCP Server，用 SQLite/FTS5 和 tree-sitter/WASM 降低 Agent 探索成本 | 推荐采用（个人/小团队/内部受控 PoC）/ 企业标准化前观望 | ⭐⭐⭐⭐⭐ | 2026-07-07 |
 | [Understand-Anything](./reports/Understand-Anything.md) | Agent-native 代码 / 知识库理解工作流：graph 生成 + dashboard/chat/diff/onboard + hook 增量更新 | 推荐试用（个人/小团队）/ 企业标准化前受控 PoC | ⭐⭐⭐⭐⭐ | 2026-07-07 |
 | [AIHub](./reports/AIHub.md) | Chrome 扩展采集多平台 AI 对话，本地构建 AI 对话知识资产库 | 观望（个人 PoC 可试） | ⭐⭐⭐⭐ | 2026-05-31 |

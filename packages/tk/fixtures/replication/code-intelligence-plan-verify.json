@@ -1,10 +1,12 @@
 {
   "id": "code-intelligence-plan-verify",
   "capability": "local code intelligence MCP",
-  "from": "codegraph,gitnexus",
+  "from": "codegraph",
   "limit": 5,
   "expect": {
-    "referenceIds": ["codegraph", "gitnexus"],
+    "referenceIds": [
+      "codegraph"
+    ],
     "verificationContract": "local-code-intelligence-mcp:v1",
     "verifyStatus": "pass",
     "checkStatuses": {
@@ -16,17 +18,35 @@
     },
     "warningIncludes": [],
     "minCounts": {
-      "kernel": 2,
+      "kernel": 1,
       "mustKeep": 2,
       "canAdapt": 2,
       "risks": 1
     },
-    "traceSteps": ["resolve_references", "build_plan", "verify"],
+    "traceSteps": [
+      "resolve_references",
+      "build_plan",
+      "verify"
+    ],
     "traceArtifactsByStep": {
-      "resolve_references": ["references.json"],
-      "build_plan": ["plan.json", "brief.md"],
-      "verify": ["verification.json"]
+      "resolve_references": [
+        "references.json"
+      ],
+      "build_plan": [
+        "plan.json",
+        "brief.md"
+      ],
+      "verify": [
+        "verification.json"
+      ]
     },
-    "artifactFiles": ["brief.md", "input.json", "plan.json", "references.json", "trace.json", "verification.json"]
+    "artifactFiles": [
+      "brief.md",
+      "input.json",
+      "plan.json",
+      "references.json",
+      "trace.json",
+      "verification.json"
+    ]
   }
 }

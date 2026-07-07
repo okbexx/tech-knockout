@@ -15,7 +15,7 @@ try {
   const tools = await client.listTools();
   const context = await client.callTool({
     name: 'tk_get_project_context',
-    arguments: { project: 'gitnexus' },
+    arguments: { project: 'codegraph' },
   });
   const doctorRepo = await client.callTool({
     name: 'tk_doctor',
