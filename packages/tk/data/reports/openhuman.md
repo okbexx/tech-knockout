@@ -107,7 +107,7 @@ OpenHuman 要解决的不是“聊天 UI”问题，而是“个人 AI 怎么持
 | 文档一致性 | 中 | README/AGENTS/源码整体清晰，但 GitBook 和旧叙事可能滞后，需要以源码为准 |
 | 生产安全默认值 | 中 | approval gate、policy、allowlist、sandbox 都在，但宽工具面和 managed flows 需要组织级重配 |
 
-### 采用结论
+### 结论
 
 **结论：观望；推荐隔离试用、架构学习和外围维护，不建议直接作为闭源/企业生产底座。**
 
@@ -593,7 +593,7 @@ await_workflow / command center / recent runs read terminal outcome
 - MCP registry / setup tools / generic MCP bridge 是最现实的外部工具生态入口。
 - Composio integrations 给“118+ third-party integrations”提供能力来源，但 managed backend / OAuth / webhook 是真实边界。
 
-### 竞品分层
+### 竞品对比
 
 **直接竞品 / 同层参照：**
 
@@ -633,7 +633,7 @@ await_workflow / command center / recent runs read terminal outcome
 
 ---
 
-## 核心文件走读
+## 关键代码走读
 
 ### 1. `app/src-tauri/src/core_process.rs`
 

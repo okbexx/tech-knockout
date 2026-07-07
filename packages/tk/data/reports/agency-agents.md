@@ -210,7 +210,7 @@ Frontmatter Agent Corpus
 | Quality Gate Scripts | `scripts/lint-agents.sh`、`check-*.sh` | frontmatter、division/tool 漂移、原创性相似度检查 | required fields、single-source comparisons、shingle overlap threshold | 社区贡献规模上来后，prompt 库必须有软件工程门禁 |
 | NEXUS Playbook | `strategy/*`、`specialized/agents-orchestrator.md` | 多 agent 协作协议 | phase playbooks、handoff templates、retry limits、QA gates | 从“专家列表”提升到“专家网络”的协作层，但目前主要是文档协议 |
 
-#### 控制面 / 数据面分离
+#### 控制面 / 数据面
 
 - **控制面：**
   - `divisions.json`、`tools.json` 决定系统的可见分类、工具目标、安装机制和目标路径。
@@ -570,7 +570,7 @@ integrations/*
 - **Integration docs：** 每个宿主都有 README；Hermes doc 特别强调不要 `skills.external_dirs` 全量预载。
 - **文档缺口：** 计数漂移；没有一份自动生成的 full catalog / schema docs；NEXUS 文档里的效率/质量数字缺少可验证来源，适合作为内部方法论而非事实指标引用。
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 
 - **Open issues / PRs：** 44 issues / 54 PRs。
 - **Merged PRs：** 182 merged PRs；近期有 Antigravity path fix、README tool list sync、Network Engineer agent、Hermes router plugin 等合并。
@@ -637,7 +637,7 @@ agency-agents 的社区信号很强，但它的热度主要来自“角色资产
 
 ---
 
-## 采用建议
+## 总结
 
 ### 个人开发者
 
@@ -681,7 +681,7 @@ agency-agents 的社区信号很强，但它的热度主要来自“角色资产
 
 ---
 
-## 最终结论
+## 总结
 
 **agency-agents 是目前最值得关注的“AI 专家角色库”之一，尤其值得 Hermes 用户学习它的 lazy-router plugin。**
 

@@ -57,14 +57,14 @@ jcode 解决的是 **“把 Claude Code / Codex CLI 式终端 Agent 体验，推
 
 - **不能做什么 / 尚不稳定处：**
   - 不是企业团队协作 SaaS；它更像本地/个人/小团队 PoC 的 agent runtime。
-  - 外部插件生态仍弱。虽然 MCP、skills、工具 registry 都存在，但与 OpenCode 的 plugin/HTTP ecosystem 或 pi-mono 的 Extension SDK 相比，第三方扩展面还不成熟。
+  - 外部插件生态仍弱。虽然 MCP、skills、工具 registry 都存在，但与 OpenCode 的 plugin/HTTP ecosystem 或 Pi（原 pi-mono）的 Extension SDK 相比，第三方扩展面还不成熟。
   - bus factor 高：提交高度集中在作者 Jeremy Huang 多个 Git identity 上；项目非常活跃，但维护风险和 reviewer 缺口都要计入。
   - 功能面增长很快，报告时 v0.28.0；breaking change、配置迁移、provider 行为兼容仍需跟踪。
   - 本次本地环境没有 `cargo`/`rustc`，无法在当前机器上实际跑 `cargo test` 或 build；测试/CI 评价基于源码和 GitHub Actions 配置。
 
 - **与竞品差异：**
 
-  | 维度 | jcode | OpenCode | pi-mono | Aider / Cline / Continue |
+  | 维度 | jcode | OpenCode | Pi（原 pi-mono） | Aider / Cline / Continue |
   |------|-------|----------|---------|--------------------------|
   | 主要形态 | Rust terminal runtime + TUI + server | 多入口 durable coding-agent runtime | TypeScript Agent CLI + SDK/Extension | Git patch CLI / IDE 插件 / 企业 IDE 上下文 |
   | 核心强项 | 本地性能、live session、Swarm、Graph Memory、reload recovery | Event/Projection、HTTP/SDK、插件/MCP、多入口 | Provider SDK、Extension、Session tree、轻量嵌入 | 成熟使用路径或 IDE 集成 |
@@ -186,7 +186,7 @@ jcode 解决的是 **“把 Claude Code / Codex CLI 式终端 Agent 体验，推
 | `MemoryAgentHandle` | `crates/jcode-base/src/memory_agent.rs` | 异步记忆代理通信句柄 | `update_context_sync_with_dir`、`Reset`、channel capacity、turn extraction constants | Memory 作为 side agent 非阻塞运行，不把每个 turn 变成同步 RAG 延迟 |
 | `CompactionManager` integration | `crates/jcode-app-core/src/agent/compaction.rs` | 上下文压缩和错误恢复 | `try_auto_compact_after_context_limit`、`try_recover_after_payload_too_large`、provider session reset | 长会话真实故障不是“报错结束”，而是可降级、可缩减、可 retry |
 
-#### 控制面 / 数据面分离
+#### 控制面 / 数据面
 
 - **控制面：**
   - CLI startup、server accept loop、client lifecycle、provider/model selection、tool policy、Swarm member 状态、channel subscription、reload recovery、compaction trigger、memory relevance trigger。
@@ -381,7 +381,7 @@ provider call
 1. **复杂度增长很快**：69 个 workspace members、近 55 万行 Rust，对外部贡献者理解成本高。
 2. **bus factor 高**：项目质量很强，但审查和维护高度依赖作者本人。
 3. **文档追不上实现速度**：README 已非常长，docs 有 server/memory/swarm/safety/resume 文档，但很多真实语义仍要靠源码定位。
-4. **外部扩展生态弱于 OpenCode/pi-mono**：MCP/skills 有入口，但尚未形成面向第三方的稳定 Extension SDK 或插件市场。
+4. **外部扩展生态弱于 OpenCode/Pi**：MCP/skills 有入口，但尚未形成面向第三方的稳定 Extension SDK 或插件市场。
 5. **测试在本机不可快速复现**：当前分析环境无 cargo/rustc；即使有，workspace 大、CI matrix 重，快速全量验证成本较高。
 6. **安全默认值需要使用者兜底**：shell/file/MCP/browser/gmail 等工具能力很强，团队使用必须加 workspace、密钥、网络和文件权限隔离。
 
@@ -506,9 +506,9 @@ root jcode crate
 
 - **README：** 非常长，覆盖功能、memory、swarm、provider login、OpenAI-compatible、本地 runtime、MCP、scriptable login 等；对用户上手有帮助。
 - **架构文档：** `SERVER_ARCHITECTURE.md`、`MEMORY_ARCHITECTURE.md`、`SWARM_ARCHITECTURE.md`、`SAFETY_SYSTEM.md`、`MULTI_SESSION_CLIENT_ARCHITECTURE.md` 质量较高。
-- **不足：** 源码演进太快，很多真实语义只能读代码；外部扩展/插件 API 文档仍不如 OpenCode/pi-mono 成熟。
+- **不足：** 源码演进太快，很多真实语义只能读代码；外部扩展/插件 API 文档仍不如 OpenCode / Pi 成熟。
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 
 - **Open issues / PRs：** 89 / 3（2026-06-15）。
 - **最近维护：** 最新 release v0.28.0 发布于 2026-06-15；本地 HEAD 为 2026-06-14 bump version。最近 releases 连续 v0.24.0 → v0.28.0，迭代非常快。
@@ -533,11 +533,11 @@ jcode 的社区信号更像“新晋高势能个人项目”：
 - **Swarm / skills / memory** 主要还是 jcode 内建生态，尚未看到稳定第三方插件市场。
 - 与 `agentgrep` 等作者周边工具存在组合空间，但还不是成熟生态网络。
 
-### 竞品分层
+### 竞品对比
 
-- **直接竞品：** OpenCode、pi-mono、Aider、Gemini CLI、Codex CLI、Claude Code、Cline/Continue（如果用户入口是终端/IDE coding agent）。
+- **直接竞品：** OpenCode、Pi（原 pi-mono）、Aider、Gemini CLI、Codex CLI、Claude Code、Cline/Continue（如果用户入口是终端/IDE coding agent）。
 - **邻近替代：** OpenHands（自治软件工程平台）、Continue（企业 IDE/RAG 接入）、Cline（VS Code 操作体验）。
-- **架构邻居：** OpenCode 的 durable runtime，pi-mono 的 SDK/Extension，Hermes Agent 的 toolset/memory/cron/gateway/subagent 运行面。
+- **架构邻居：** OpenCode 的 durable runtime，Pi 的 SDK/Extension，Hermes Agent 的 toolset/memory/cron/gateway/subagent 运行面。
 
 jcode 的独特位置是：**它更像“高性能本地 terminal agent runtime + swarm/memory 实验场”，而不是最稳妥的企业 agent platform。**
 
@@ -644,7 +644,7 @@ jcode 的独特位置是：**它更像“高性能本地 terminal agent runtime 
 - 想研究 agent turn runtime、工具结算、provider streaming、memory rerank 的架构学习者。
 - Rust/TUI/terminal 产品开发者。
 
-### 谁不应该用
+### 谁不应该直接用
 
 - 需要企业级权限审计、多租户隔离、长期 SLA 的团队。
 - 不能接受 breaking change 或高频 release 的保守生产环境。

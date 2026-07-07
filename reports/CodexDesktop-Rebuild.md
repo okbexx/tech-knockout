@@ -325,7 +325,7 @@ prepare-src.js
 - **教程/指南：** README 简洁清晰，包含构建命令和项目结构说明，但缺少故障排查指南
 - **Changelog：** ❌ 无。版本号通过 `bump-version.js` 自动提升，但无变更记录
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 
 - **Issue 数量：** 28 open / 34 closed（截至 2026-05-09）
 - **Issue 响应：** 作者有回复（如 #55、#56），但部分严重问题（如 Linux ELF 头无效）尚未解决
@@ -530,7 +530,7 @@ GitNexus 对这个项目的价值有限，原因是：
 - 对 Electron 逆向、ASAR 操作、AST 补丁感兴趣的技术学习者
 - 需要参考 MS Store API 抓包或 Sparkle appcast 解析实现的开发者
 
-### 谁不应该用
+### 谁不应该直接用
 
 - 企业或团队（合规风险）
 - 需要长期稳定维护的项目（脆弱的单点依赖）

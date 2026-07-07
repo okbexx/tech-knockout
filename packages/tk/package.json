@@ -52,12 +52,14 @@
     "doctor:runtime": "node ./bin/tk.mjs doctor runtime",
     "catalog:build": "node ./bin/tk.mjs catalog build",
     "catalog:validate": "node ./bin/tk.mjs catalog validate",
+    "report:audit": "node ./bin/tk.mjs report audit --write",
+    "report:lint": "node ./bin/tk.mjs report lint --write",
     "codex:install:dry-run": "node ./bin/tk.mjs codex install --dry-run",
     "fixtures:regression": "node ./scripts/fixture-regression.mjs",
     "benchmark:capabilities": "node ./scripts/capability-benchmark.mjs",
     "mcp:smoke": "node ./scripts/mcp-smoke.mjs",
-    "check": "node --check ./bin/tk.mjs && node --check ./lib/tk-core.mjs && node --check ./lib/runtime/run-store.mjs && node --check ./mcp/server.mjs && node --check ./scripts/mcp-smoke.mjs && node --check ./scripts/fixture-regression.mjs && node --check ./scripts/capability-benchmark.mjs && node --check ./scripts/lib/replication-fixture-suite.mjs",
-    "verify": "npm run check && npm run catalog:validate && npm run doctor:repo && npm run doctor:runtime && npm run fixtures:regression && npm run codex:install:dry-run && npm run mcp:smoke"
+    "check": "node --check ./bin/tk.mjs && node --check ./lib/tk-core.mjs && node --check ./lib/report-structure.mjs && node --check ./lib/runtime/run-store.mjs && node --check ./mcp/server.mjs && node --check ./scripts/mcp-smoke.mjs && node --check ./scripts/fixture-regression.mjs && node --check ./scripts/capability-benchmark.mjs && node --check ./scripts/lib/replication-fixture-suite.mjs",
+    "verify": "npm run check && npm run report:lint && npm run catalog:validate && npm run doctor:repo && npm run doctor:runtime && npm run fixtures:regression && npm run codex:install:dry-run && npm run mcp:smoke"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",

@@ -103,7 +103,7 @@ Agent Reach 的产品判断是：**Agent 不需要再记住每个平台的最佳
 | 分发成熟度 | 中 | wheel build 和 smoke install 本次验证 OK；但 PyPI 未发布，用户主要依赖 GitHub archive。 |
 | 社区信号可信度 | 中 | Star 很高且上榜传播明显；open issue #336 的 phantomstars 报告显示 24h 窗口有少量 suspicious/fake engagement，不能只用 star 判断质量。 |
 
-### 采用结论
+### 结论
 
 **推荐采用（个人/小团队 Agent 工作流） / 企业生产化前观望。**
 
@@ -198,7 +198,7 @@ Capability Registry
 | Credential material | `cookie_extract.py` / `Config.save()` | Cookie / token 的采集、落盘和同步 | rookiepy/browser_cookie3、0o600、`shlex.quote`、best-effort legacy sync | 平台登录态是能力可用性的核心外部状态，也是最大安全风险点。 |
 | Transcription job | `transcribe.py` | 少数由 Agent Reach 自己承载的数据面能力 | yt-dlp 下载、ffmpeg 压缩/切块、Groq→OpenAI Whisper fallback | 证明项目不是完全无数据面，但把数据面限制在明确、可边界化的音频转写场景。 |
 
-#### 控制面 / 数据面分离
+#### 控制面 / 数据面
 
 **控制面：Agent Reach 自己负责。**
 
@@ -591,7 +591,7 @@ mypy agent_reach
 - **Changelog**：存在但明显滞后；文件只写到 1.3.1/1.3.0/1.1.0/1.0.0，没有记录 1.4.x/1.5.0，release notes 比 CHANGELOG 更新。
 - **贡献文档**：基础齐全，但新增渠道步骤里写“Update `agent_reach/doctor.py` to include the new channel”，实际注册点是 `channels/__init__.py`；属于小文档漂移。
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 
 - open issues 32，open PRs 27，merged PRs 142；近期 PR 很活跃。
 - 近期 closed PR 聚焦：OpenCLI、multi-backend routing、真实 probing、Reddit honest tiering、B站 yt-dlp 退役、wheel duplicate 修复、凭证 0o600 安全修复。
@@ -616,7 +616,7 @@ mypy agent_reach
 - 生态更多体现在**上游工具组合**而不是 Agent Reach 自身插件：OpenCLI、twitter-cli、rdt-cli、bili-cli、xiaohongshu-mcp、Jina Reader、Exa MCP、gh、yt-dlp、feedparser。
 - 它自身的“生态接口”是 `SKILL.md` + agent skill install，而不是 marketplace / plugin SDK。
 
-### 竞品分层
+### 竞品对比
 
 **直接竞品 / 同层能力路由：**
 
@@ -731,7 +731,7 @@ Agent Reach 不是“万能联网神器”，而是一个很聪明的 **Agent In
 - 想搭建内部“Agent 外部世界接入层”的开发者；
 - 想学习 capability routing / doctor / Skill 分发模式的人。
 
-### 谁不应该用
+### 谁不应该直接用
 
 - 对平台 ToS / Cookie / 账号风控完全零容忍的组织；
 - 需要稳定 SLA、审计、多租户权限、集中凭证治理的企业生产系统；

@@ -117,7 +117,7 @@
 | 测试覆盖 | 中-低 | CI 能跑，但测试主体只有风险规则、文件服务 dotfile、Go fileops；与 44k LOC 和大量安全边界相比覆盖偏薄。 |
 | 分支治理 | 中 | 默认分支为 `codex-contrib-refresh`，`main` 反向开 PR 到默认分支；对外贡献者会困惑。 |
 
-### 采用结论
+### 结论
 
 **观望；个人/小团队 PoC 可试，架构学习推荐，生产核心运维面暂不建议直接押。**
 
@@ -391,7 +391,7 @@ Release workflows：
 
 不足：文档有“安全理想态”表述，部分与当前实现细节不完全一致；贡献指南、开发者 API、测试策略、威胁模型边界还可继续补。
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 
 - 纯 open issue = 0。
 - open PR #3：`docs: add usage guide link to README`，owner 自己发起。
@@ -422,7 +422,7 @@ GitHub search 结果：
 
 暂无可确认的衍生项目或插件生态。仓库自身内置 Skill/Program/MCP registry，是生态能力的“种子”，但外部生态还未形成。
 
-### 竞品 / 参照物
+### 竞品对比
 
 | 项目 | Stars（2026-06-10） | 层级 | 与 1Shell 的关系 |
 |------|---------------------|------|------------------|
@@ -540,7 +540,7 @@ GitHub search 结果：
 - 不愿意处理公网 HTTPS、Token ACL、IP Filter、docker socket 权限和默认凭据 hardening 的用户。
 - 需要成熟监控告警平台而不是 AI 运维入口的团队。
 
-### 下一步建议
+### 下一步
 
 1. 如果要试用：先只在内网 / Tailscale / 本机跑，不要直接公网暴露 Remote MCP。
 2. 必须改：`APP_LOGIN_USERNAME`、`APP_LOGIN_PASSWORD`、`APP_SECRET`、`BRIDGE_TOKEN`；远程 MCP 必须 HTTPS + Host whitelist + Token ACL。

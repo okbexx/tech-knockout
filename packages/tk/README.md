@@ -56,6 +56,9 @@ TK should help Codex answer what to keep, what to adapt, what not to copy, the f
 | `tk verify "<capability-or-run-id>"` | Verify the replication contract and update the run trace |
 | `tk run list` | List recent persisted runs |
 | `tk run show <run-id>` | Read one persisted run with plan, trace, references, and verification |
+| `tk report audit` | Audit report structure against TK Report Contract v1 |
+| `tk report lint` | Fail when reports fall outside the hard-gate contract |
+| `tk report fix-headings --write` | Normalize low-risk heading aliases across `reports/` |
 | `tk search "<query>"` | Search TK catalog metadata |
 | `tk deps <project>` | Inspect dependency / SDK evidence for one project |
 | `tk source status` | Inspect local source-cache state |
@@ -89,6 +92,17 @@ Each run stores:
 
 `packages/tk/data/runs/` is runtime output, not source-controlled product content.
 
+## Report Structure Contract
+
+TK report governance is now part of the package surface.
+
+- Contract doc: `docs/tk-report-structure-contract-v1.md`
+- Rollout / migration plan: `docs/tk-report-structure-rollout-plan.md`
+- Machine-readable audit schema: `packages/tk/schemas/report-structure-audit.schema.json`
+- Written audit artifact: `packages/tk/data/report-structure-audit.json`
+
+Hard gate focuses on the decision skeleton (`基本信息`, dual-scenario core, quality, community, rating, summary). Recommended sections such as `架构解剖`, `关键代码走读`, and detailed bottom-architecture children stay as warnings so the repository can migrate gradually instead of rewriting every report at once.
+
 ## MCP
 
 The MCP server exposes the same replication workflow through structured tools:
@@ -108,6 +122,8 @@ From the repository root:
 ```bash
 npm install
 npm run check --workspace @jarl_okbe/tk
+npm run report:audit --workspace @jarl_okbe/tk
+npm run report:lint --workspace @jarl_okbe/tk
 npm run fixtures:regression --workspace @jarl_okbe/tk
 npm run benchmark:capabilities --workspace @jarl_okbe/tk
 npm run mcp:smoke --workspace @jarl_okbe/tk

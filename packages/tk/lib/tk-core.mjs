@@ -6,6 +6,7 @@ import { promisify } from 'node:util';
 import Ajv2020 from 'ajv/dist/2020.js';
 import envPaths from 'env-paths';
 import { parse as parseToml } from 'smol-toml';
+import { auditReportStructure } from './report-structure.mjs';
 import { createRun, listRuns as listStoredRuns, readRun as readStoredRun, writeRunArtifact } from './runtime/run-store.mjs';
 
 const execFileAsync = promisify(execFile);
@@ -426,7 +427,12 @@ function buildTags(project) {
     'python',
     'go',
   ];
-  return candidates.filter((tag) => text.includes(tag));
+  return candidates.filter((tag) => {
+    if (tag === 'go') {
+      return /(^|[^a-z0-9])go([^a-z0-9]|$)/.test(text);
+    }
+    return text.includes(tag);
+  });
 }
 
 function parseReport(reportPath, paths, readme) {
@@ -1523,11 +1529,14 @@ function repoDoctorChecks(options = {}) {
   const paths = getPaths(options);
   const catalog = loadCatalog(options);
   const validation = validateCatalog(catalog, options);
+  const reportAudit = auditReportStructure(options);
+  const reportAuditPath = join(paths.dataDir, 'report-structure-audit.json');
   const reportsAvailable = existsSync(paths.reportsDir) || existsSync(paths.reportSnapshotDir);
   const comparisonsAvailable = existsSync(paths.comparisonsDir) || existsSync(paths.comparisonSnapshotDir);
   const schemaFiles = [
     'catalog.schema.json',
     'source-lock.schema.json',
+    'report-structure-audit.schema.json',
     'replication-plan.schema.json',
     'verification-result.schema.json',
     'run-trace.schema.json',
@@ -1537,6 +1546,20 @@ function repoDoctorChecks(options = {}) {
     { name: 'reports_available', ok: reportsAvailable },
     { name: 'comparisons_available', ok: comparisonsAvailable },
     { name: 'catalog_valid', ok: validation.ok, details: validation.errors },
+    {
+      name: 'report_structure_valid',
+      ok: reportAudit.summary.failedReports === 0,
+      details: [
+        `warn=${reportAudit.summary.warnedReports}`,
+        `fail=${reportAudit.summary.failedReports}`,
+        ...reportAudit.reports.filter((report) => report.status === 'fail').slice(0, 8).map((report) => report.path),
+      ],
+    },
+    {
+      name: 'report_structure_audit_snapshot_present',
+      ok: fileExists(reportAuditPath),
+      details: [relative(paths.packageRoot, reportAuditPath)],
+    },
     { name: 'replication_schemas_available', ok: missingSchemas.length === 0, details: missingSchemas },
   ];
 }

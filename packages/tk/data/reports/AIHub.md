@@ -298,7 +298,7 @@ frontend/src/api/client.ts
   - README 写 `docker-compose up`，仓库无实际 Dockerfile/docker-compose 文件，只有 USAGE 示例。
   - README 强调企业审计与合规，但实现没有权限/审计/脱敏。
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 
 - Open issues：0。
 - Open PRs：0。
@@ -318,7 +318,7 @@ GitHub 上 AIHub 目前 1 star / 0 fork / 0 issue / 0 PR，项目创建于 2026-
 
 AIHub 自身没有插件生态。它的可扩展点主要是新增 AI 平台 content script、替换向量存储、未来接入更多知识库/Agent。
 
-### 竞品分层
+### 竞品对比
 
 **直接竞品 / 同层项目：**
 

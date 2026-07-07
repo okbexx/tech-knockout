@@ -111,7 +111,7 @@ Compound Engineering 解决的不是“模型能不能写代码”，而是 **AI
 | 平台兼容 | 中 | open issues 中持续出现 Codex delegation、bundled script、config-read、plugin stale 等跨平台问题。 |
 | 企业生产化 | 中 | 适合团队试点 workflow，但缺少中心化权限、审计、多租户、策略 enforcement。 |
 
-### 采用结论
+### 结论
 
 **🟢 推荐采用（团队多 Agent 审查与复利沉淀） / 🟡 企业生产化前需隔离试点。**
 
@@ -522,7 +522,7 @@ src/targets/codex.ts
 - **安全测试重点：** `tests/manifest-path-safety.test.ts` 覆盖 absolute path、`..` traversal、unsafe manifest cleanup entries、Codex/Pi manifest filtering。
 - **测试哲学：** 对 converter/writer 这类可确定代码做结构性测试；对 skills/agents 这种 agent-facing 文本资产，用 real plugin drift test 防格式/数量漂移。
 
-### CI/CD 与发布
+### CI/CD
 
 - **CI workflow：** `.github/workflows/ci.yml` 包含 PR title conventional check、Bun setup、`bun install --frozen-lockfile`、`bun test`、`bun run release:validate`。
 - **Release workflow：** `release-pr.yml` 用 release-please 管理 release PR；config 中 `cli` 与 `compound-engineering` 使用 linked versions。
@@ -537,7 +537,7 @@ src/targets/codex.ts
 - **SKILL.md 信息密度高。** `ce-plan`、`ce-brainstorm`、`ce-code-review`、`ce-work`、`ce-compound` 等包含阶段、交互规则、平台工具名、失败处理、产物要求。
 - **文档即 runtime。** 优点是 agent 可直接执行；缺点是文本资产快速演进时容易产生局部矛盾，近期 issues/PRs 已出现 bundled-script、config-read、relative-path guidance 等修正。
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 
 - **活跃度高。** 2026-06-16 查询：open issues 69、open PRs 28、closed issues 197、merged PRs 517。
 - **近期问题集中在平台兼容与 workflow 漂移：** Codex delegation fallback、bundled script path、Claude permission system、config-read、ce-compound non-Claude guard、release/npm out-of-date。
@@ -585,7 +585,7 @@ Team Knowledge Compounding
 
 ---
 
-## 关键文件走读
+## 关键代码走读
 
 ### 1. `src/parsers/claude.ts` — Source plugin parser
 
@@ -713,11 +713,11 @@ Team Knowledge Compounding
 ### 谁不应该直接用
 
 - 只想让个人 agent 少犯错、不要复杂流程的用户：优先看 `superpowers`。
-- 想要独立 coding agent runtime、provider/tool/session 控制面的团队：看 OpenCode / jcode / pi-mono 等 runtime。
+- 想要独立 coding agent runtime、provider/tool/session 控制面的团队：看 OpenCode / jcode / Pi（原 pi-mono）等 runtime。
 - 不能接受安装器写宿主配置、不能先隔离试点的企业环境。
 - 只做低价值小改动、无法承受多 agent review token/时延的场景。
 
-### 采用建议
+### 结论
 
 1. **先隔离 profile。** 尤其 Codex：用单独 `CODEX_HOME`，完成 marketplace + native install + Bun agents 三步。
 2. **先跑一个完整闭环。** 选一个真实但低风险任务，跑 `/ce-brainstorm → /ce-plan → /ce-work → /ce-code-review → /ce-compound`。

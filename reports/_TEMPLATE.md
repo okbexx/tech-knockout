@@ -1,6 +1,6 @@
 # 项目分析报告模板
 
-> 每个项目分析时复制此模板，填写后保存为 `reports/<project>.md`
+> 每个项目分析时复制此模板，填写后保存为 `reports/<project>.md`。写完后运行 `node packages/tk/bin/tk.mjs report lint --write`。
 
 ```markdown
 # <项目名>
@@ -174,7 +174,7 @@
 - 教程/指南：
 - Changelog：
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 - Issue 响应速度：
 - PR 合并节奏：
 - Breaking change 历史：
@@ -235,7 +235,7 @@
 ### 谁应该用
 <!-- 适合的人群/场景 -->
 
-### 谁不应该用
+### 谁不应该直接用
 <!-- 不适合的人群/场景 -->
 
 ### 下一步

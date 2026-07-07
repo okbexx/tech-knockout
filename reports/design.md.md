@@ -133,7 +133,7 @@ CLI = validation / diff / export / machine-readable report
 | 规范稳定性 | ⚠️ | version 当前为 `alpha`，很多类别通过 extension key / prose 兜底，schema 还会变。 |
 | 企业采用 | ⚠️ | 作为上下文文件和 lint 可采用；作为“公司级设计系统唯一事实源”还需要和 Figma/DTCG/Style Dictionary 流程打通。 |
 
-### 采用结论
+### 结论
 
 **推荐采用：个人/小团队可直接放进前端仓库；企业可作为 AI coding agent 的设计上下文层试点，但不要立刻替代正式 design token pipeline。**
 
@@ -208,7 +208,7 @@ Markdown/YAML Parser
 | CLI commands | `packages/cli/src/commands/*.ts`、`src/index.ts` | 外部契约：lint/diff/export/spec | `defineCommand()`、`process.exitCode` | agent/CI 调用的稳定边界。 |
 | Spec config | `packages/cli/src/linter/spec-config.ts` + `spec-config.yaml` | 单一规范事实源 | `getSpecConfig()`、`CANONICAL_ORDER`、`VALID_*` | linter 与 docs/spec 共享同一配置，减少规范/实现漂移。 |
 
-#### 控制面 / 数据面分离
+#### 控制面 / 数据面
 
 - **控制面**
   - `spec-config.yaml` / `spec-config.ts`：定义版本、section order、valid typography props、component sub tokens、limits。
@@ -510,7 +510,7 @@ CI 质量不错，尤其是 tarball smoke 和 Windows registry smoke，直接覆
 - `PHILOSOPHY.md` 是项目最有价值的文档之一：明确 DESIGN.md 的核心不是 token 精度，而是 prose intent。
 - 不足：规范仍 alpha；真实生态如何从 Figma/tokens.json 反向生成 DESIGN.md 还缺少正式 guide。
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 
 - Open issues：24；open PRs：30；closed issues：30；closed PRs：63（GitHub Search，2026-06-28）。
 - 最新 open issues 包括：token name collision、accessibility considerations、structured shadows/elevation、color-blind contrast lint、missing file ENOENT 等。

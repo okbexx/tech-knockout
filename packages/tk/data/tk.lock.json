@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-27T11:54:18.908Z",
+  "generatedAt": "2026-07-07T08:10:29.831733Z",
   "sources": [
     {
       "id": "1shell",
@@ -7,12 +7,15 @@
       "url": "https://github.com/weidu12123/1Shell",
       "cloneUrl": "https://github.com/weidu12123/1Shell.git",
       "sourceDir": "projects/weidu12123__1Shell",
-      "exists": true,
-      "branch": "codex-contrib-refresh",
-      "commit": "5c690a261d14b063b3b702af579082fa5aa2ec67",
-      "remote": "https://github.com/weidu12123/1Shell.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
+    },
+    {
+      "id": "agency-agents",
+      "repo": "msitarzewski/agency-agents",
+      "url": "https://github.com/msitarzewski/agency-agents",
+      "cloneUrl": "https://github.com/msitarzewski/agency-agents.git",
+      "sourceDir": "projects/msitarzewski__agency-agents",
+      "exists": false
     },
     {
       "id": "agent-reach",
@@ -20,12 +23,7 @@
       "url": "https://github.com/Panniantong/agent-reach",
       "cloneUrl": "https://github.com/Panniantong/agent-reach.git",
       "sourceDir": "projects/Panniantong__agent-reach",
-      "exists": true,
-      "branch": "main",
-      "commit": "22d7f03a59401b5740b380c3ad43e3ff7a9dc373",
-      "remote": "https://github.com/Panniantong/agent-reach.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "aihub",
@@ -33,12 +31,7 @@
       "url": "https://github.com/Vincent-chao-lang/AIHub",
       "cloneUrl": "https://github.com/Vincent-chao-lang/AIHub.git",
       "sourceDir": "projects/Vincent-chao-lang__AIHub",
-      "exists": true,
-      "branch": "main",
-      "commit": "745f0743722ca6b46c579d629e7e5a7e094aad07",
-      "remote": "https://github.com/Vincent-chao-lang/AIHub.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "cli-anything",
@@ -46,12 +39,7 @@
       "url": "https://github.com/HKUDS/CLI-Anything",
       "cloneUrl": "https://github.com/HKUDS/CLI-Anything.git",
       "sourceDir": "projects/HKUDS__CLI-Anything",
-      "exists": true,
-      "branch": "main",
-      "commit": "a32f11fc67052ff233dfaa5106de5bb1ccdf24ec",
-      "remote": "https://github.com/HKUDS/CLI-Anything.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "codegraph",
@@ -59,12 +47,7 @@
       "url": "https://github.com/colbymchenry/codegraph",
       "cloneUrl": "https://github.com/colbymchenry/codegraph.git",
       "sourceDir": "projects/colbymchenry__codegraph",
-      "exists": true,
-      "branch": "main",
-      "commit": "e43ac82cdf76998f78bc871a741235a4c02e5bd0",
-      "remote": "https://github.com/colbymchenry/codegraph.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "codexdesktop-rebuild",
@@ -72,12 +55,7 @@
       "url": "https://github.com/Haleclipse/CodexDesktop-Rebuild",
       "cloneUrl": "https://github.com/Haleclipse/CodexDesktop-Rebuild.git",
       "sourceDir": "projects/Haleclipse__CodexDesktop-Rebuild",
-      "exists": true,
-      "branch": "master",
-      "commit": "6b56ec62430f86e082b8934c80c6e9dbed1863b5",
-      "remote": "https://github.com/Haleclipse/CodexDesktop-Rebuild.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "compound-engineering-plugin",
@@ -85,12 +63,7 @@
       "url": "https://github.com/EveryInc/compound-engineering-plugin",
       "cloneUrl": "https://github.com/EveryInc/compound-engineering-plugin.git",
       "sourceDir": "projects/EveryInc__compound-engineering-plugin",
-      "exists": true,
-      "branch": "main",
-      "commit": "f61d1b33eaba7be6e75902e31e49e022abdca3a0",
-      "remote": "https://github.com/EveryInc/compound-engineering-plugin.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "cyberverse",
@@ -98,12 +71,15 @@
       "url": "https://github.com/dsd2077/CyberVerse",
       "cloneUrl": "https://github.com/dsd2077/CyberVerse.git",
       "sourceDir": "projects/dsd2077__CyberVerse",
-      "exists": true,
-      "branch": "main",
-      "commit": "44b8dddac5e637bef111b605902596a5c76dea76",
-      "remote": "https://github.com/dsd2077/CyberVerse.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
+    },
+    {
+      "id": "design.md",
+      "repo": "google-labs-code/design.md",
+      "url": "https://github.com/google-labs-code/design.md",
+      "cloneUrl": "https://github.com/google-labs-code/design.md.git",
+      "sourceDir": "projects/google-labs-code__design.md",
+      "exists": false
     },
     {
       "id": "ecc",
@@ -111,12 +87,7 @@
       "url": "https://github.com/affaan-m/ECC",
       "cloneUrl": "https://github.com/affaan-m/ECC.git",
       "sourceDir": "projects/affaan-m__ECC",
-      "exists": true,
-      "branch": "main",
-      "commit": "71d22d0a77b7e0684f4e51cba03749b788993cdb",
-      "remote": "https://github.com/affaan-m/ECC.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "gitingest",
@@ -124,12 +95,7 @@
       "url": "https://github.com/coderamp-labs/gitingest",
       "cloneUrl": "https://github.com/coderamp-labs/gitingest.git",
       "sourceDir": "projects/coderamp-labs__gitingest",
-      "exists": true,
-      "branch": "main",
-      "commit": "4e259a02fe72115bee538271622f1234a81c8e1a",
-      "remote": "https://github.com/coderamp-labs/gitingest.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "gitnexus",
@@ -137,12 +103,7 @@
       "url": "https://github.com/abhigyanpatwari/GitNexus",
       "cloneUrl": "https://github.com/abhigyanpatwari/GitNexus.git",
       "sourceDir": "projects/abhigyanpatwari__GitNexus",
-      "exists": true,
-      "branch": "main",
-      "commit": "d7e1815aa310ff497178f240cde77819d1cf750f",
-      "remote": "https://github.com/abhigyanpatwari/GitNexus.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "jcode",
@@ -150,12 +111,7 @@
       "url": "https://github.com/1jehuang/jcode",
       "cloneUrl": "https://github.com/1jehuang/jcode.git",
       "sourceDir": "projects/1jehuang__jcode",
-      "exists": true,
-      "branch": "master",
-      "commit": "354f95a5ee143a241c921f651033f00c38c8d5eb",
-      "remote": "https://github.com/1jehuang/jcode.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "last30days-skill",
@@ -163,12 +119,7 @@
       "url": "https://github.com/mvanhorn/last30days-skill",
       "cloneUrl": "https://github.com/mvanhorn/last30days-skill.git",
       "sourceDir": "projects/mvanhorn__last30days-skill",
-      "exists": true,
-      "branch": "main",
-      "commit": "b8122a28d88ebc1cf43d4f4c76df49c91c6c03b2",
-      "remote": "https://github.com/mvanhorn/last30days-skill.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "lightrag",
@@ -176,12 +127,7 @@
       "url": "https://github.com/HKUDS/LightRAG",
       "cloneUrl": "https://github.com/HKUDS/LightRAG.git",
       "sourceDir": "projects/HKUDS__LightRAG",
-      "exists": true,
-      "branch": "main",
-      "commit": "4e1f95269b32cd803cb96e0acc24d922aa6b6932",
-      "remote": "https://github.com/HKUDS/LightRAG.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "loop-engineering",
@@ -189,12 +135,7 @@
       "url": "https://github.com/cobusgreyling/loop-engineering",
       "cloneUrl": "https://github.com/cobusgreyling/loop-engineering.git",
       "sourceDir": "projects/cobusgreyling__loop-engineering",
-      "exists": true,
-      "branch": "main",
-      "commit": "cb4f4eaad033666b543058d2d7b44d2d99d9386e",
-      "remote": "https://github.com/cobusgreyling/loop-engineering.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "macshot",
@@ -204,7 +145,7 @@
       "sourceDir": "projects/sw33tLie__macshot",
       "exists": true,
       "branch": "main",
-      "commit": "9014fc05d23f12036e1c33fba7400d6dd581b3e0",
+      "commit": "b2dc68effe09cdec99e131dd478e0bc4224b66f9",
       "remote": "https://github.com/sw33tLie/macshot.git",
       "shallow": true,
       "dirty": false
@@ -215,12 +156,7 @@
       "url": "https://github.com/nexu-io/open-design",
       "cloneUrl": "https://github.com/nexu-io/open-design.git",
       "sourceDir": "projects/nexu-io__open-design",
-      "exists": true,
-      "branch": "main",
-      "commit": "f4b8fbece26d38af97d5faccea70d51cd5232406",
-      "remote": "https://github.com/nexu-io/open-design.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "openagent",
@@ -228,12 +164,7 @@
       "url": "https://github.com/the-open-agent/openagent",
       "cloneUrl": "https://github.com/the-open-agent/openagent.git",
       "sourceDir": "projects/the-open-agent__openagent",
-      "exists": true,
-      "branch": "master",
-      "commit": "836b4c25cf5fcc2b47c839c587deb455fbdab3aa",
-      "remote": "https://github.com/the-open-agent/openagent.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "opencode",
@@ -241,12 +172,7 @@
       "url": "https://github.com/anomalyco/opencode",
       "cloneUrl": "https://github.com/anomalyco/opencode.git",
       "sourceDir": "projects/anomalyco__opencode",
-      "exists": true,
-      "branch": "dev",
-      "commit": "06dae383f794fbdadf9c7027717bff8dcb321a60",
-      "remote": "https://github.com/anomalyco/opencode.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "openhuman",
@@ -254,24 +180,19 @@
       "url": "https://github.com/tinyhumansai/openhuman",
       "cloneUrl": "https://github.com/tinyhumansai/openhuman.git",
       "sourceDir": "projects/tinyhumansai__openhuman",
-      "exists": true,
-      "branch": "main",
-      "commit": "9ec2ae765f1c50242551beed4856bef4305b3498",
-      "remote": "https://github.com/tinyhumansai/openhuman.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
-      "id": "pi-mono",
-      "repo": "badlogic/pi-mono",
-      "url": "https://github.com/badlogic/pi-mono",
-      "cloneUrl": "https://github.com/badlogic/pi-mono.git",
-      "sourceDir": "projects/badlogic__pi-mono",
+      "id": "pi",
+      "repo": "earendil-works/pi",
+      "url": "https://github.com/earendil-works/pi",
+      "cloneUrl": "https://github.com/earendil-works/pi.git",
+      "sourceDir": "projects/earendil-works__pi",
       "exists": true,
       "branch": "main",
-      "commit": "04e93af5c4fcee5ab3be35177940c720ac6f8b53",
-      "remote": "https://github.com/badlogic/pi-mono.git",
-      "shallow": true,
+      "commit": "2b00dade7cec918aefb025c8b7a4fa304a30acdd",
+      "remote": "https://github.com/earendil-works/pi.git",
+      "shallow": false,
       "dirty": false
     },
     {
@@ -284,7 +205,7 @@
       "branch": "main",
       "commit": "c4d1925ae9b76a1b641877328209ad25cfeb5ef2",
       "remote": "https://github.com/DietrichGebert/ponytail.git",
-      "shallow": false,
+      "shallow": true,
       "dirty": false
     },
     {
@@ -293,12 +214,7 @@
       "url": "https://github.com/infiniflow/ragflow",
       "cloneUrl": "https://github.com/infiniflow/ragflow.git",
       "sourceDir": "projects/infiniflow__ragflow",
-      "exists": true,
-      "branch": "main",
-      "commit": "dfe841a3e34b77525bdbc87ad45bceb7cda13204",
-      "remote": "https://github.com/infiniflow/ragflow.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "superpowers",
@@ -306,12 +222,7 @@
       "url": "https://github.com/obra/superpowers",
       "cloneUrl": "https://github.com/obra/superpowers.git",
       "sourceDir": "projects/obra__superpowers",
-      "exists": true,
-      "branch": "main",
-      "commit": "f2cbfbefebbfef77321e4c9abc9e949826bea9d7",
-      "remote": "https://github.com/obra/superpowers.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "tolaria",
@@ -319,12 +230,7 @@
       "url": "https://github.com/refactoringhq/tolaria",
       "cloneUrl": "https://github.com/refactoringhq/tolaria.git",
       "sourceDir": "projects/refactoringhq__tolaria",
-      "exists": true,
-      "branch": "main",
-      "commit": "d93e9e24ba1b301e97a9496fab0d8592247f3004",
-      "remote": "https://github.com/refactoringhq/tolaria.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "trellis",
@@ -332,12 +238,7 @@
       "url": "https://github.com/mindfold-ai/Trellis",
       "cloneUrl": "https://github.com/mindfold-ai/Trellis.git",
       "sourceDir": "projects/mindfold-ai__Trellis",
-      "exists": true,
-      "branch": "main",
-      "commit": "e1459dd8e9ce3564b44d5982d634511a9b9d62c9",
-      "remote": "https://github.com/mindfold-ai/Trellis.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "ui-tars-desktop",
@@ -345,12 +246,7 @@
       "url": "https://github.com/bytedance/UI-TARS-desktop",
       "cloneUrl": "https://github.com/bytedance/UI-TARS-desktop.git",
       "sourceDir": "projects/bytedance__UI-TARS-desktop",
-      "exists": true,
-      "branch": "main",
-      "commit": "e9f3387288da4af2ad99972da2ac916cdabce093",
-      "remote": "https://github.com/bytedance/UI-TARS-desktop.git",
-      "shallow": true,
-      "dirty": false
+      "exists": false
     },
     {
       "id": "understand-anything",
@@ -360,9 +256,9 @@
       "sourceDir": "projects/Egonex-AI__Understand-Anything",
       "exists": true,
       "branch": "main",
-      "commit": "7f5a717694d3a94f19f523b375c777eb21548ff5",
+      "commit": "73559a160645359c57be44c174935899dec9f9f2",
       "remote": "https://github.com/Egonex-AI/Understand-Anything.git",
-      "shallow": true,
+      "shallow": false,
       "dirty": false
     },
     {
@@ -373,9 +269,9 @@
       "sourceDir": "projects/withkynam__vibecode-pro-max-kit",
       "exists": true,
       "branch": "main",
-      "commit": "00f13c6e1122edc854e17b133dc5a2da04c467eb",
+      "commit": "3bcb2f9891308fcaa305e2b64027bd0a7dc8251e",
       "remote": "https://github.com/withkynam/vibecode-pro-max-kit.git",
-      "shallow": true,
+      "shallow": false,
       "dirty": false
     }
   ]

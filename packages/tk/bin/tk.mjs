@@ -35,6 +35,14 @@ import {
   writeCatalog,
   writeLock,
 } from '../lib/tk-core.mjs';
+import {
+  auditReportStructure,
+  formatReportStructureAudit,
+  formatReportStructureLint,
+  lintReportStructure,
+  normalizeReportHeadings,
+  writeReportStructureAudit,
+} from '../lib/report-structure.mjs';
 
 function printJson(value) {
   process.stdout.write(`${JSON.stringify(value, null, 2)}\n`);
@@ -295,6 +303,64 @@ codex
     const result = await refreshCodexPlugin(options);
     output(result, options, formatCodexRefresh);
     process.exitCode = result.ok ? 0 : 1;
+  });
+
+const report = program.command('report').description('Audit, lint, and normalize TK report structure.');
+
+report
+  .command('audit')
+  .description('Audit report structure against TK Report Contract v1.')
+  .option('--write', 'persist packages/tk/data/report-structure-audit.json')
+  .option('--json', 'emit machine-readable JSON')
+  .action((options) => {
+    const audit = auditReportStructure(options);
+    const result = options.write ? { ...audit, auditPath: writeReportStructureAudit(audit, options) } : audit;
+    output(result, options, (payload) => {
+      const text = formatReportStructureAudit(payload);
+      return payload.auditPath ? `${text}wrote ${payload.auditPath}\n` : text;
+    });
+    process.exitCode = audit.summary.failedReports === 0 ? 0 : 1;
+  });
+
+report
+  .command('lint')
+  .description('Fail when TK report structure is outside contract.')
+  .option('--strict', 'treat warnings as failures')
+  .option('--write', 'persist packages/tk/data/report-structure-audit.json')
+  .option('--json', 'emit machine-readable JSON')
+  .action((options) => {
+    const result = lintReportStructure(options);
+    if (options.write) {
+      result.auditPath = writeReportStructureAudit(result.audit, options);
+    }
+    output(result, options, (payload) => {
+      const text = formatReportStructureLint(payload);
+      return payload.auditPath ? `${text}wrote ${payload.auditPath}\n` : text;
+    });
+    process.exitCode = result.ok ? 0 : 1;
+  });
+
+report
+  .command('fix-headings')
+  .description('Normalize low-risk heading aliases in reports/.')
+  .option('--write', 'apply changes instead of dry-run preview')
+  .option('--json', 'emit machine-readable JSON')
+  .action((options) => {
+    const result = normalizeReportHeadings({ dryRun: !options.write });
+    output(result, options, (payload) => {
+      if (!payload.changedFiles) return 'no report heading changes\n';
+      const lines = [payload.dryRun ? 'report heading changes (dry-run)' : 'report heading changes'];
+      for (const item of payload.results) {
+        lines.push(`${item.path} (${item.changed})`);
+        for (const change of item.changes.slice(0, 8)) {
+          lines.push(`  line ${change.line}: ${change.from} -> ${change.to}`);
+        }
+        if (item.changes.length > 8) {
+          lines.push(`  ... ${item.changes.length - 8} more changes`);
+        }
+      }
+      return `${lines.join('\n')}\n`;
+    });
   });
 
 const source = program.command('source').description('Manage and inspect local project source caches.');

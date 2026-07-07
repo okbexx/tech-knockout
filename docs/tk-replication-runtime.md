@@ -11,6 +11,7 @@ The design goal is simple:
 Earlier TK behavior was good at producing a brief, but weak at giving agents and maintainers a durable object model. The current runtime adds:
 
 - stable contracts for `plan`, `verification`, and `trace`
+- report-structure governance with audit/lint and a machine-readable audit artifact
 - persisted run artifacts that can be re-opened later
 - the same execution path for CLI and MCP
 - split doctor checks for repo assets vs runtime health
@@ -125,6 +126,7 @@ Current verification is intentionally layered:
 
 ```bash
 npm run check --workspace @jarl_okbe/tk
+npm run report:lint --workspace @jarl_okbe/tk
 npm run doctor:repo --workspace @jarl_okbe/tk
 npm run doctor:runtime --workspace @jarl_okbe/tk
 npm run fixtures:regression --workspace @jarl_okbe/tk
@@ -138,6 +140,7 @@ npm run verify --workspace @jarl_okbe/tk
 | Command | Proof |
 |---|---|
 | `check` | Syntax surface is valid |
+| `report:lint` | Report corpus still satisfies TK Report Contract v1 |
 | `doctor:repo` | Repo/package assets and schemas are present |
 | `doctor:runtime` | Runtime roots are usable and source-cache checks run |
 | `fixtures:regression` | A real multi-fixture `plan -> verify -> list/show trace` path works in a temporary runtime data root |

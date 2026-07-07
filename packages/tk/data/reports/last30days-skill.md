@@ -103,7 +103,7 @@ last30days-skill 的核心价值不是“又一个搜索 API”，而是把**跨
 | CI 安全门 | 中 | `Validate` 跑全量 `uv run pytest`；`Security` 跑 pip-audit 和 TruffleHog，但两个安全步骤目前 `continue-on-error: true`，偏 advisory-first。 |
 | 社区健康 | 中高 | Stars/Forks 和衍生项目强；但项目只有约 5 个月历史，open PR 72 较高，社区真实长期使用数据还不够。 |
 
-### 采用结论
+### 结论
 
 **推荐采用（个人/小团队研究工作流） / 企业生产化前观望。**
 
@@ -332,7 +332,7 @@ render.py / html_render.py / schema.to_dict / store.py
 - **CONCEPTS.md**：明确 Skill / Engine / Harness / Beta channel，降低新贡献者理解成本。
 - **CHANGELOG.md**：质量较高，PR/issue 链接细，能看出每个版本修了什么真实问题。
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 
 - **高活跃但 backlog 大**：open issues 75、open PRs 72；对一个创建不到半年的项目来说，热度和维护压力都很高。
 - **响应速度**：近期 PR/issue 每天都有，Actions 成功，维护者合并/修复节奏快。

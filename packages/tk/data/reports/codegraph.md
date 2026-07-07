@@ -395,7 +395,7 @@ src/bin/codegraph.ts / src/mcp/index.ts / library users
 - **Repo-local agent docs**：`CLAUDE.md` 写了架构、模块布局、测试、release 规则和 house rules，质量很高。
 - **扣分点**：README 局部 drift 明显：旧 Global Instructions Reference 与 v0.8 的“answer directly”策略冲突；MCP tool 表漏 `codegraph_explore`。
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 
 - **Open issue / PR**：GitHub API `open_issues_count` 为 105（含 PR）；分开查约 47 open issues、56 open PR。
 - **近期问题集中点**：Windows/NTFS watcher、Node 版本/SQLite、installer 写配置边界、更多 Agent target、更多语言/框架支持。
@@ -431,7 +431,7 @@ CodeGraph 本身更像“生态内基础件”，不是插件平台：
 - 语言/框架支持 PR 很多，说明扩展点被社区看懂了。
 - 目前还没有看到成熟第三方 plugin ecosystem；生态主要围绕 upstream repo 贡献。
 
-### 竞品分层
+### 竞品对比
 
 **直接竞品：**
 
@@ -537,7 +537,7 @@ CodeGraph 本身更像“生态内基础件”，不是插件平台：
 - 正在做 Agent 平台 / MCP 工具 / 内部工程助手的人，想学工具说明、输出预算、installer 的设计。
 - 需要比 gitingest 更结构化、但不想上 GitNexus 复杂栈的人。
 
-### 谁不应该用
+### 谁不应该直接用
 
 - 需要企业级多仓库权限、审计、共享图谱、跨 repo contract 分析的团队。
 - 需要编译器级精度和类型推导的静态分析场景。

@@ -96,7 +96,7 @@ CyberVerse 解决的是“我想搭一个能听、能说、能看，必要时还
 | CI/CD | 高风险 | 仓库没有 `.github/workflows`；只有 `.githooks/pre-commit` 调 `make test`。对跨语言重依赖项目来说，缺 CI 是明显短板。 |
 | 文档漂移 | 中 | README 友好，但存在 Node 版本口径、Docker Compose env 命名、docs 绝对本地路径等小漂移。 |
 
-### 采用结论
+### 结论
 
 **观望；推荐做 PoC / 架构学习，不建议直接作为生产底座。**
 
@@ -354,7 +354,7 @@ CyberVerse/
   - Docker Compose env 使用 `DOUBAO_API_KEY`，README/`.env.example`/config 使用 `DOUBAO_ACCESS_TOKEN`，容易误导部署。
   - 文档中历史内容保留了已被重构取代的 Agent Worker 说法，虽然有更新提示，但需要持续清理。
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 
 - **Open issues（真实 issue 4）**：
   - #15 最新版本部署完毕无声音，ICE 报错。
@@ -516,7 +516,7 @@ CyberVerse 是一个很有野心、也已经跑出产品骨架的“实时数字
 - 有 GPU 资源，愿意折腾 FlashHead/LiveAct，并能接受早期项目踩坑的人。
 - 想找一个“数字人陪伴 / 角色复刻 / 语音助手”开源基座做 PoC 的个人或小团队。
 
-### 谁不应该用
+### 谁不应该直接用
 
 - 要马上上生产、要求稳定 SLA / 多租户 / 权限隔离 / 合规审计的团队。
 - 只想要轻量 voice agent SDK 的人；LiveKit Agents / TEN Framework 可能更合适。

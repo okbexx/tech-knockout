@@ -182,7 +182,7 @@ OpenCode 的最小架构内核是：
 | `SystemContext` | `packages/core/src/system-context/index.ts` | 可刷新系统上下文 | `baseline` / `update` / `removed` / `snapshot` | 支持上下文变化检测与 replacement |
 | `SessionRunnerModel` | `packages/core/src/session/runner/model.ts` | provider/model 解析 | catalog + route + API type | 多模型接入不直接散落在 runner 里 |
 
-#### 控制面 / 数据面分离
+#### 控制面 / 数据面
 
 - **控制面：**
   - CLI 入口、HTTP route、desktop/web UI、SDK 只是 transport 与命令分发层。
@@ -502,7 +502,7 @@ packages/core
 - `CONTEXT.md` 提供较完整的项目上下文，有利于 agent/self-hosted development。
 - 对二次开发者来说，源码结构清楚，但 Effect + V1/V2 迁移使“从文档直接理解 runtime”仍有门槛。
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 
 - Open Issues：6,033。
 - Open PRs：1,031。
@@ -627,7 +627,7 @@ OpenCode 最值得看的不是“又一个开源 Claude Code”，而是它把 c
 - 正在设计自有 agent runtime、需要参考 session/event/tool settlement 架构的团队。
 - 可以接受高频迭代和偶发不稳定，并愿意用隔离环境运行 agent 的用户。
 
-### 谁不应该用
+### 谁不应该直接用
 
 - 需要强企业审计、默认沙箱、多租户隔离、稳定 SLA 的团队。
 - 不愿处理 provider 兼容、终端差异、权限配置、状态目录等工程细节的用户。

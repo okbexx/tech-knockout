@@ -8,22 +8,22 @@
 |------|----|
 | 仓库 | `mindfold-ai/Trellis` |
 | URL | `https://github.com/mindfold-ai/Trellis` |
-| Star | 11,043（2026-06-24 观测） |
-| Fork | 631 |
-| Watchers / Open Issues | GitHub `open_issues_count=10`，拆分后 open issues 6、open PRs 4 |
+| Star | 11,891（2026-07-07 观测） |
+| Fork | 671 |
+| Watchers / Open Issues | GitHub `open_issues_count=13`；拆分后 open issues 10、open PRs 3 |
 | 许可证 | AGPL-3.0-only / GitHub API 显示 AGPL-3.0 |
 | 语言 / 运行时 | TypeScript monorepo；Node.js >=18.17；初始化依赖 Python >=3.9 |
-| npm packages | `@mindfoldhq/trellis@0.6.4`、`@mindfoldhq/trellis-core@0.6.4` |
-| npm downloads | `@mindfoldhq/trellis` 最近 7 日约 3,579（2026-06-17 到 2026-06-23） |
+| npm packages | `@mindfoldhq/trellis@0.6.5`、`@mindfoldhq/trellis-core@0.6.5` |
+| npm downloads | `@mindfoldhq/trellis` 最近 7 日约 2,669（2026-07-07 观测） |
 | 默认分支 | `main` |
 | GitHub created_at | 2026-01-26 |
 | 首次提交 | 2026-01-26 `1c61622 taosu <taosu@mindfold.ai> init project` |
-| 最近提交 | 2026-06-24 `e1459dd Merge pull request #362 from mindfold-ai/fix/issue-320-brainstorm-prd-converge` |
-| 最新 Git tag | `v0.6.4`；GitHub latest release API 返回 404（无 latest release） |
-| 贡献者 | GitHub contributors API 返回 32；本地 shortlog 显示 taosu 约 1401 commits，其他贡献者分散 |
-| 本地规模 | 2,294 tracked files；224 `.ts`、71 `.py`、956 `.md`、299 `.jsonl`；约 69 个 test/spec 文件 |
+| 最近提交 | 2026-07-06 `bd0bc80 fix(zcode): align Trellis assets with ZCode layout (#381)` |
+| 最新 Git tag | `v0.6.5`；GitHub latest release API 仍返回 404；远端 `main` 已包含 `0.6.6` migration manifest |
+| 贡献者 | GitHub contributors API 当前页返回 34；本地 shortlog 显示 taosu 双身份合计约 1,043 commits，其他贡献者分散 |
+| 本地规模 | 2,316 tracked files；229 `.ts`、71 `.py`、963 `.md`、303 `.jsonl`；约 72 个 test/spec 文件 |
 | 工作区 | `packages/cli`、`packages/core` |
-| 分析日期 | 2026-06-24 |
+| 分析日期 | 2026-07-07（基于 2026-06-24 首稿复核刷新） |
 | 分类 | AI Coding Workflow / Agent Harness Workflow / Project Memory & Task Substrate |
 
 > 验证边界：本轮按 TK 默认静态边界，只阅读源码、README、AGENTS、package manifests、CI/GitHub API、npm registry、Issue/PR 元信息与本地 git 统计；未安装依赖、未运行 Trellis、未运行其测试/构建、未启动任何 agent workflow。
@@ -56,7 +56,7 @@ Trellis 的答案是：把工程规则和任务状态变成 repo 内的 `.trelli
   - Implement：`trellis-implement` 从 PRD 和 curated context 写代码。
   - Verify：`trellis-check` 对照 specs、diff、lint/typecheck/tests 做检查与自修复。
   - Finish：`trellis-update-spec` 把新学习提升回 `.trellis/spec/`，归档任务并更新 journal。
-- 支持多平台安装。README 声称覆盖 16 个 AI coding platforms；CLI 选项可见 `--cursor`、`--claude`、`--opencode`、`--codex`、`--kilo`、`--kiro`、`--gemini`、`--antigravity`、`--devin`、`--qoder`、`--codebuddy`、`--copilot`、`--droid`、`--pi`、`--reasonix`、`--zcode` 等。
+- 支持多平台安装。远端 README 仍写 **16** 个 AI coding platforms，但 `AI_TOOLS` registry 已出现 **17** 个 target ids，新增 `--trae`；CLI 选项当前可见 `--cursor`、`--claude`、`--opencode`、`--codex`、`--kilo`、`--kiro`、`--gemini`、`--antigravity`、`--devin`、`--qoder`、`--codebuddy`、`--copilot`、`--droid`、`--pi`、`--reasonix`、`--zcode`、`--trae` 等。
 - 用 `@mindfoldhq/trellis-core` 暴露 task/channel/mem primitives，供 CLI 和下游 Node 服务消费。
 - 用 template hash、manifest prune、migration manifests、backup、safe delete 等机制治理安装/更新/卸载副作用。
 - 用 channel event log 支持 worker、thread/forum、message、interrupt、turn lifecycle 等 durable coordination 能力。
@@ -96,18 +96,31 @@ Trellis 的答案是：把工程规则和任务状态变成 repo 内的 `.trelli
 
 | Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
 |------------|------|----------|----------------|----------|--------------|---------|
-| _待补关键依赖_ | | | | | | |
+| `commander` | CLI parsing | `packages/cli/src/cli/index.ts` 的命令树与参数分发 | 把 `init/update/uninstall/channel/workflow/mem` 统一成可维护 CLI 面 | `packages/cli/package.json` 将 `commander@^12.1.0` 作为 direct dependency；README Quick Start 入口直接暴露 `trellis init`/`trellis update` | 适合复用为多命令 agent substrate 的薄 CLI 壳 | 只是命令分发表层，不提供迁移/ownership 语义；别把真正状态机写死在 commander actions 里 |
+| `zod` | schema / validation | CLI 输入、模板上下文和 core 契约的结构化约束 | 让多平台配置和 task/channel/mem 边界不只靠 prompt 文案 | `packages/cli/package.json` 直接依赖 `zod@^4.4.2`；Trellis core 同时导出 `task` / `channel` / `mem` SDK 面 | 适合在 agent workflow 项目里做配置/工件 schema 守门层 | `zod` 只能守输入契约，不能代替 migration / compatibility 测试 |
+| `giget` | remote template/bootstrap fetch | 初始化 / 更新阶段拉取或组装模板资产 | 把“多平台模板分发”从手工复制提升为可脚本化 bootstrap | `packages/cli/package.json` 直接依赖 `giget@^3.1.1`；README/Docs 仍把 `trellis init` 作为第一入口 | 适合需要拉取脚手架或模板包的 agent substrate | 远端模板一旦演化，必须搭配 template hash / manifest / migration 一起用 |
+| `undici` | HTTP client | 与 npm / docs / remote template 之类网络面交互 | 避免 CLI 在 Node 版本差异下依赖不稳定 fetch polyfill | `packages/cli/package.json` 直接依赖 `undici@^6.21.0` | 适合 Node CLI 的稳定网络层 | 网络层本身不解决缓存、一致性和 release 口径错位 |
+| `inquirer` | interactive onboarding | `trellis init` 的平台选择、写入策略、workflow 选项等交互 | 降低重型 workflow substrate 的首次接入门槛 | `packages/cli/package.json` 直接依赖 `inquirer@^9.3.7`；README Quick Start 仍以交互式 `trellis init -u your-name` 为主 | 适合把复杂 scaffold 变成可用产品入口 | 交互式 UX 不能掩盖真实副作用；团队仍需审查生成物 ownership |
+| `@mindfoldhq/trellis-core` | internal SDK / reusable primitives | 对外暴露 `task` / `channel` / `mem` / `testing` | 把 CLI 外围产品和可复用核心原语拆层，避免 workflow 资产与底层状态模型绑死 | `packages/cli/package.json` 通过 workspace 依赖 core；`packages/core/package.json` 独立发布 `channel` / `mem` / `task` 子导出 | 这是 Trellis 最值得复用的层：先抽核心 substrate，再让 CLI/模板围绕它长 | 当前仍受 AGPL 与项目快速演化约束；复用思路比直接拷代码更重要 |
+
+### 近期版本漂移（2026-07-07 复核）
+
+- **npm/tag 已升到 `0.6.5`，但 GitHub latest release API 仍然 404。** 当前发布口径仍要同时看 npm、git tag 和 docs changelog，不能只盯 GitHub Releases。
+- **远端 `main` 已出现 `0.6.6` migration manifest，但尚未看到对应 tag。** 这说明 repo 头部、npm 分发和 tag 在短窗口内可能存在轻微错位。
+- **0.6.5 不是小修补。** migration manifest 明确记录了 `Trae` 平台接入、Pi startup context 修复、Windows channel `.cmd` shim 解析、workflow class-2 implement dispatch 修正。
+- **0.6.6 继续补安装器 ownership。** 重点是把 ZCode 的技能和 sub-agent 布局统一迁到 `.zcode/skills/`、`.zcode/agents/`，并要求旧项目通过 `trellis update --migrate` 做目录迁移。
+- **README 与平台注册面出现可见漂移。** 远端 README 仍写 16 平台，但 `AI_TOOLS` registry 已有 17 个 target ids（新增 `trae`）；这类轻度文档错位本身就是平台矩阵持续扩张的信号。
 
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |
 |--------|------|------|
 | 许可证合规 | ⚠️ 中高 | AGPL-3.0-only。个人/开源项目问题较小；商业闭源、SaaS 或深度嵌入要先做法务判断。 |
-| Bus factor | 🟡 中 | GitHub contributors 32，但本地提交高度集中在 taosu；方向和实现仍由核心维护者主导。 |
-| 维护趋势 | 🟢 活跃 | 2026-06-24 当日仍有多次 CI 成功与 merge；1113 commits；npm latest 0.6.4。 |
+| Bus factor | 🟡 中 | GitHub contributors API 当前页返回 34，但本地 shortlog 仍显示 taosu 双身份合计约 1,043 commits；方向和实现依旧由核心维护者强主导。 |
+| 维护趋势 | 🟢 活跃 | 2026-07-06 仍有主分支修复提交；`e1459dd..bd0bc80` 两周内新增 85 files changed / +2737 -267；commit 总数约 1,141；npm latest 已到 0.6.5。 |
 | 生产成熟度 | 🟡 中 | 项目声量和 CI 活跃，但创建于 2026-01-26，仍处 0.6.x 快速演进期。 |
-| 发布口径 | 🟡 中 | npm latest 清楚为 0.6.4；GitHub latest release API 返回 404，release/changelog 主要看 docs/npm/tags。 |
-| 平台兼容 | ⚠️ 中高 | 16 platform 支持是优势也是维护负担；open issues/PRs 仍集中在 Pi、Trae、Oh My Pi、Hermes 等适配。 |
+| 发布口径 | 🟡 中 | npm latest 与 git tag 已到 0.6.5，但 GitHub latest release API 仍返回 404；远端 `main` 已含 0.6.6 migration manifest，release/changelog 仍要联合看 docs/npm/tags/main。 |
+| 平台兼容 | ⚠️ 中高 | README 仍写 16 平台，但 registry 已到 17 个 target ids；Trae 新增、Pi/ZCode/Windows channel 修复都说明平台覆盖继续扩张，收益和维护成本同时上升。 |
 | 安装/卸载副作用 | 🟡 中 | template hash、manifest prune 和 scrubber 设计较谨慎，但仍会改写项目与宿主配置。关键仓库应先 throwaway repo / worktree 试装。 |
 | 上下文成本 | 🟡 中 | 相比 superpowers 更重；收益来自持久 task/spec/memory，不适合每个微小改动都全流程。 |
 
@@ -119,6 +132,7 @@ Trellis 的答案是：把工程规则和任务状态变成 repo 内的 `.trelli
 
 - Trellis 的核心价值不是“又一套 prompts”，而是把 **spec、task、journal、workflow、platform artifacts、channel events** 变成可版本化、可迁移、可更新的工程 substrate。
 - 对已经重度使用 Claude Code / Codex / Cursor / OpenCode 的团队，它能解决“每个 agent 会话重新学习项目”的浪费，也能让任务 PRD、检查上下文和新学习沉淀成团队资产。
+- 这次复核里最重要的新信号，不是 star 增长，而是 **0.6.5 / 0.6.6 连续围绕 Trae、Pi、ZCode、Windows channel 和 migration manifests 补平台工程**：说明它正在从“架构想法很强”往“多宿主可维护产品”继续推进。
 - 它比 superpowers / loop-engineering 更重，但也更接近“项目级 agent workflow layer”；如果只想轻量提升单次任务纪律，superpowers 更合适；如果要做 recurring loop，loop-engineering 更直指问题；如果要做大型多 harness 工作流资产治理，ECC 仍是更宽的参考。
 - 建议采用路径：先在非关键仓库或 worktree 试 `trellis init --codex/--claude/--cursor`，跑一条小任务的 brainstorm → implement → verify → finish，再决定 `.trellis/spec/`、`.trellis/tasks/`、workspace journal 的团队提交规范。
 
@@ -203,7 +217,7 @@ Trellis 的答案是：把工程规则和任务状态变成 repo 内的 `.trelli
 | Supervisor | `packages/cli/src/commands/channel/supervisor.ts` | fork worker、pump stdout/stderr、tail inbox、写事件 | 把实际 agent 子进程与 durable channel events 桥接起来 |
 | Mem Adapter | `packages/core/src/mem/*` | 读取 Claude/Codex/OpenCode/Pi 持久会话，输出统一 session/context/search 结果 | 复用宿主历史，而不是自建完整记忆系统 |
 
-### 控制面 / 数据面分离
+### 控制面 / 数据面
 
 **控制面：**
 
@@ -355,7 +369,7 @@ feed useful dialogue context back into Trellis workflow
 | Worker runtime | pid/worker-pid/log/inbox-cursor/spawnlock | host-local observation | 运行时辅助，不是 durable truth |
 | Host sessions | `~/.claude/projects`、`~/.codex/sessions`、`~/.pi/agent/sessions` 等 | mem adapters parse/search/context | 外部宿主记忆输入 |
 
-### 失败恢复与降级策略
+### 失败与降级模型
 
 1. **Python 探测失败区分“没安装”和“沙箱阻止”。** `EPERM/EACCES` 会给出 sandbox-restricted warning，而不是误判 Python 不存在。
 2. **manifest 污染可自愈。** `pruneOrphanManifestKeys` 会移除不属于当前 configurator 的历史 hash key，避免 uninstall 删除用户 sessions/custom skills。
@@ -367,29 +381,32 @@ feed useful dialogue context back into Trellis workflow
 8. **runtime observation 不覆盖 durable truth。** liveness reconciliation 默认返回 proposed events，不把 pid 检查直接写成事实。
 9. **mem reader 宽松读取。** JSONL 坏行会跳过；OpenCode 等能力不足时降级并 warning，而不是假装完整支持。
 
-### 质量与成熟度
+## 质量与成熟度
 
-**代码质量：**
+### 代码质量
 
 - monorepo 分层清楚：`packages/cli` 负责安装/迁移/平台适配/命令面，`packages/core` 负责 task/channel/mem domain primitives。
 - CLI installer 不是简单文件复制，已经有 write recorder、template hash、manifest prune、migration manifests、backup、structured scrubber 等生产化设计。
 - core channel 采用 append-only event log + reducer projection，task schema 明确对齐 TS/Python writer，整体状态边界比普通 prompt 包扎实。
 - 部分 CLI 文件较大（如 `init.ts`、`update.ts`），说明平台/模板/迁移逻辑仍在快速堆叠阶段，后续可能需要进一步拆分。
 
-**测试与 CI：**
+### 测试
 
 - 本地统计约 69 个 test/spec 文件，覆盖 core、CLI templates、platform configurators、migration/update/uninstall 等路径。
-- GitHub Actions 最近 10 次 run 中多数 CI 成功，2026-06-24 当日多条 `main` / feature/fix 分支 CI success。
-- package scripts 覆盖 `test`、`typecheck`、`lint`、`lint:py`、`build`、`prepublishOnly`。
 - 本报告未运行 Trellis 测试，因此不对测试通过率做实测背书。
 
-**文档：**
+### CI/CD
+
+- GitHub Actions 最近 10 次 run 中多数 CI 成功，2026-06-24 当日多条 `main` / feature/fix 分支 CI success。
+- package scripts 覆盖 `test`、`typecheck`、`lint`、`lint:py`、`build`、`prepublishOnly`。
+
+### 文档质量
 
 - README 定位清楚：out-of-the-box engineering framework for AI coding；解释了 specs、tasks、workspace memory、multi-platform setup 和四阶段 loop。
 - docs 入口完整：Quick Start、Supported Platforms、Real-World Scenarios、Spec Templates、Changelog。
 - repo 自身也由 Trellis 管理，`AGENTS.md` 包含 Trellis managed block；另有 GitNexus block，说明项目在 dogfood 多种 agent infrastructure。
 
-### 可借鉴的设计不变量
+### 可复刻设计不变量
 
 1. **把 workflow state 放进 repo，不放进 prompt。** 规则、任务和历史学习都应可 diff、可 review、可迁移。
 2. **任务必须有独立 schema。** 没有 `task.json` 这类稳定记录，AI coding 任务无法跨会话/工具/团队协作。
@@ -406,7 +423,7 @@ feed useful dialogue context back into Trellis workflow
 
 ## 社区与生态
 
-### 当前社区信号
+### 社区评价
 
 - Star 11,043、Fork 631，作为 2026-01 创建的新项目，传播速度很快。
 - npm `@mindfoldhq/trellis` latest 0.6.4，最近 7 日 downloads 约 3,579，说明已有真实安装使用。
@@ -426,7 +443,7 @@ Trellis 位在三类项目之间：
 
 ---
 
-## 最终评分
+## 评分
 
 | 维度 | 评分 | 说明 |
 |------|------|------|

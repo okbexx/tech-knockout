@@ -267,7 +267,7 @@ server/
 - **教程/指南**：README 覆盖 CLI、Python API、Jupyter、Docker、自托管、浏览器扩展，结构清晰
 - **Changelog**：由 release-please 自动生成，规范可靠
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 - **Issue 响应速度**：Open issues 仅 4 个（非 PR），30 个近期关闭，维护者响应积极
 - **PR 合并节奏**：Open PRs 13 个，社区贡献活跃（54 位贡献者）
 - **Breaking change 历史**：项目尚年轻（v0.3.1），API 已相对稳定，但处于 Alpha 阶段，未来可能有 breaking changes
@@ -357,7 +357,7 @@ server/
 - 想快速了解陌生代码库结构的工程师
 - 需要在内网自托管代码摄取服务的团队
 
-### 谁不应该用
+### 谁不应该直接用
 - 需要深度代码语义分析（调用图、依赖关系、类型推导）的场景
 - 需要处理非 Git 版本控制系统的场景
 - 对 token 估算精度要求极高且使用非 OpenAI 模型的场景

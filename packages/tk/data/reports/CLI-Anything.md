@@ -80,7 +80,7 @@ CLI-Anything 的判断是：**CLI 是 Agent 与既有软件之间最稳的窄腰
 - 不能保证所有 harness 质量一致。仓库增长极快，多贡献者、多代模板、多 license metadata、多 backend 类型并存，质量离散度天然高。
 - Matrix 不是自动决策 AI。`preflight` 只是可用性检查，不是 provider selector；真正 provider 选择仍依赖 Agent 按成本、质量、离线性、凭证、授权和用户目标判断。
 
-### 采用建议
+### 结论
 
 **结论：推荐学习 / 推荐受控 PoC；生产级直接依赖仍观望。**
 
@@ -205,7 +205,7 @@ CLI-Anything 的方向非常值得学：它抓住了 Agent 时代软件形态的
 | Provider | capability 的实现候选 | `kind`、`requires`、`cost_tier`、`quality_tier`、`offline`、`install_hint` | 让 Agent 能基于环境、成本、质量、凭证选择实现路径 |
 | Recipe | 常见任务的 capability 组合 | `recipes[].capabilities_used` | 给复杂任务默认组合，但不强制固定流程 |
 
-#### 控制面 / 数据面分离
+#### 控制面 / 数据面
 
 **控制面：**
 
@@ -486,7 +486,7 @@ Provider 类型分布（静态统计）：
 - 测试数字和成熟度表述可能过度自信。
 - registry / matrix 的信任边界和 install command 审核规则还没有被提升到足够显眼的位置。
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 
 当前口径：
 
@@ -652,7 +652,7 @@ Provider 类型分布（静态统计）：
 - 不愿维护真实后端、依赖软件、E2E 环境、registry 审核、凭证隔离的人。
 - 期望 public registry 像成熟包管理器一样有签名、沙箱、license provenance 的团队。
 
-### 下一步建议
+### 下一步
 
 1. **学习路线**：精读 `HARNESS.md`、`docs/PREVIEW_PROTOCOL.md`、`cli-hub/cli_hub/matrix.py`、`matrix_skill.py`、`cli-hub-matrix/video-creation/SKILL.md`。
 2. **PoC 路线**：选一个内部工具，按 CLI-Anything 规范做 `--json + session + SKILL.md + TEST.md + preview/summary artifact`。

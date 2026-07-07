@@ -12,7 +12,7 @@ The product is intentionally layered:
 |---|---|
 | Reports and comparisons | Human-readable research, judgment, and architecture analysis |
 | Catalog, source lock, and replication runs | Machine-readable project facts, local source-cache state, and persisted replication artifacts |
-| CLI | Deterministic local operations: plan, brief rendering, verify, catalog, source sync, doctor, run inspection |
+| CLI | Deterministic local operations: plan, brief rendering, verify, catalog, source sync, doctor, report audit/lint/fix, run inspection |
 | MCP | Structured read-mostly access for agents: plan, verify, runs, doctor, context, and evidence |
 | Skills | Agent behavior: when to use TK and how to replicate capabilities with evidence |
 | Codex plugin | Installable distribution unit |
@@ -69,6 +69,21 @@ Agents should use `tk deps <project> --json` or MCP
 `tk_get_dependency_evidence` before recommending new infrastructure. A
 reference dependency is evidence to evaluate, not an automatic install
 recommendation.
+
+## Report Structure Governance
+
+TK now treats report structure as part of the product control plane, not just an editorial preference.
+
+- Contract: [`tk-report-structure-contract-v1.md`](./tk-report-structure-contract-v1.md)
+- Rollout plan: [`tk-report-structure-rollout-plan.md`](./tk-report-structure-rollout-plan.md)
+- Enforcement surface: `tk report audit`, `tk report lint`, `tk report fix-headings`
+- Machine artifact: `packages/tk/data/report-structure-audit.json`
+
+The design rule is:
+
+> strict on the decision skeleton, tolerant on narrative granularity.
+
+Only the minimum cross-report decision frame is hard-gated. Deeper architecture subsections, legacy aliases, and optional deep-dives remain warning-level so the repository can migrate incrementally.
 
 ## Distribution Policy
 
@@ -148,7 +163,7 @@ enough user evidence.
 | Layer | Role |
 |---|---|
 | Skill | Trigger, capability replication workflow, build-vs-buy discipline |
-| CLI | Deterministic local execution, plan, brief rendering, verify, run inspection, source sync, validation |
+| CLI | Deterministic local execution, plan, brief rendering, verify, run inspection, source sync, report governance, validation |
 | MCP | Structured read-mostly context plus plan / verify / runs / doctor tools for agents |
 | Schemas | Stable machine contracts for catalog, source lock, replication plan, verification result, and run trace |
 | Docs | Architecture decisions, runtime artifact rules, safety boundary, and verification contract |
@@ -166,7 +181,7 @@ npm run verify
 npm publish --workspace @jarl_okbe/tk --access public --dry-run
 ```
 
-The verify script covers syntax checks, catalog validation, split doctor scopes, fixture regression, and MCP smoke. Plugin manifest and Skill validation are still run with the Codex creator validators when those surfaces change.
+The verify script covers syntax checks, report lint, catalog validation, split doctor scopes, fixture regression, and MCP smoke. Plugin manifest and Skill validation are still run with the Codex creator validators when those surfaces change.
 
 See [`tk-replication-runtime.md`](./tk-replication-runtime.md) for the detailed plan / verification / trace runtime contract and artifact layout.
 

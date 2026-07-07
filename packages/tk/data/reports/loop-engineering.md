@@ -111,7 +111,7 @@
 | 文档漂移 | 中 | README、docs、registry、starter 同步目前靠脚本和 CI 检查；项目早期快速变化，采用前应锁定 package/tag。 |
 | 成本失控风险 | 中 | 高频 loops 明确被 `loop-cost` 标记 high cadence / early-exit required；如果用户绕过预算文件与 run log，风险仍在。 |
 
-### 采用结论
+### 结论
 
 **🟢 推荐采用（个人/小团队 loop 试点） / 🟡 团队生产化前受控推广。**
 
@@ -199,7 +199,7 @@
 | Cost Model | `tools/loop-cost/src/estimator.ts` | 解析 cadence，估算 no-op/report/action/realistic tokens/day，输出 warnings | 把高频 loop 的 token 风险显式化 |
 | Verifier / Maker-checker | `skills/loop-verifier`、starter agents | L2+ 中独立验证 agent 产物，不让 implementer 自证完成 | 自动修复类 loop 的安全基本盘 |
 
-### 控制面 / 数据面分离
+### 控制面 / 数据面
 
 **控制面：**
 
@@ -438,7 +438,7 @@ target repo files
 
 测试哲学是“核心规则回归”而不是覆盖率优先。对一个早期 toolkit 来说够用，但若要团队生产化，建议补：Windows path、已有 `.claude/.codex` 合并、registry 全 pattern scaffold fixture、Actions workflow dry-run、audit false positive/negative 样本。
 
-### CI/CD 与发布
+### CI/CD
 
 - `.github/workflows/validate-patterns.yml`：校验 registry 和 loop-init sync。
 - `.github/workflows/audit.yml`：dogfood loop readiness audit，构建 `loop-audit` 后审计当前仓库。
@@ -460,7 +460,7 @@ GitHub Actions 最近 10 次 API 观测中，`Changelog Drafter (dogfood)`、`Lo
 
 不足是项目早期文档多、代码少，真实用户 story/adopters 还少；部分模式还更像“高质量模板”而不是大量生产案例沉淀。
 
-### Issue/PR 健康度
+### Issue / PR 健康度
 
 - Open issues 6，多数是 release prep、weekly loop report、docs/adopters、examples/story 补齐类任务。
 - Open PRs 4，均是 Dependabot 版本升级（TypeScript / @types/node）。
@@ -499,7 +499,7 @@ Project Artifacts（STATE.md / LOOP.md / PRs / CI / run log / budget）
 
 它不是 runtime，也不是大一统 workflow substrate；它更像在已有 harness 之上回答：**哪些事该循环跑、怎么跑、多久跑一次、谁来验证、什么时候停。**
 
-### 竞品分层
+### 竞品对比
 
 **直接同层 / 相邻同类：**
 
@@ -564,7 +564,7 @@ Project Artifacts（STATE.md / LOOP.md / PRs / CI / run log / budget）
 
 ---
 
-## 关键文件走读
+## 关键代码走读
 
 ### `patterns/registry.yaml`
 
@@ -600,7 +600,7 @@ scaffold CLI。其价值不在参数解析，而在它知道每个 pattern 的 s
 
 ---
 
-## 评分（1-5）
+## 评分
 
 | 维度 | 分数 | 说明 |
 |------|------|------|
