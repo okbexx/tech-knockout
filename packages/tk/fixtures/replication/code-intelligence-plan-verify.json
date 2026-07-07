@@ -6,20 +6,20 @@
   "expect": {
     "referenceIds": ["codegraph", "gitnexus"],
     "verificationContract": "local-code-intelligence-mcp:v1",
-    "verifyStatus": "warn",
+    "verifyStatus": "pass",
     "checkStatuses": {
       "plan_schema_valid": "pass",
       "reference_projects_present": "pass",
       "kernel_present": "pass",
       "verification_contract_present": "pass",
-      "source_backing": "warn"
+      "source_backing": "pass"
     },
-    "warningIncludes": ["Source cache missing for: codegraph, gitnexus"],
+    "warningIncludes": [],
     "minCounts": {
       "kernel": 2,
       "mustKeep": 2,
       "canAdapt": 2,
-      "risks": 3
+      "risks": 1
     },
     "traceSteps": ["resolve_references", "build_plan", "verify"],
     "traceArtifactsByStep": {

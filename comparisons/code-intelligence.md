@@ -8,9 +8,9 @@
 
 | 项目 | 一句话 | Stars（观测日） |
 |------|--------|----------------|
-| **GitNexus** | 纯客户端深度代码知识图谱引擎，通过 MCP/Web 提供 query/context/impact/rename/process 等能力 | 39.5k（2026-05-21） |
-| **gitingest** | 把 Git 仓库转成 LLM-friendly 文本摘要的代码摄取工具 | 14.7k（2026-05-21） |
-| **CodeGraph** | MIT 本地代码图谱 + MCP Server，用 SQLite/FTS5 和 tree-sitter 给 Agent 降低探索成本 | 11.8k（2026-05-21） |
+| **GitNexus** | 纯客户端深度代码知识图谱引擎，通过 MCP/Web 提供 query/context/impact/trace/PDG/process 等能力 | 43.7k（2026-07-07） |
+| **gitingest** | 把 Git 仓库转成 LLM-friendly 文本摘要的代码摄取工具 | 15.0k（2026-07-07） |
+| **CodeGraph** | MIT 本地代码图谱 + MCP Server，用 SQLite/FTS5 和 tree-sitter/WASM 给 Agent 降低探索成本 | 58.2k（2026-07-07） |
 | **Understand-Anything** | Agent-native 代码 / 文档 / 知识库理解工作流：graph 生成 + dashboard/chat/diff/onboard/domain/knowledge + hook 增量更新 | 71.5k（2026-07-07） |
 
 ---
@@ -27,7 +27,7 @@
 | 文档质量 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
 | 维护持续性 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐☆ |
 | 许可证 | ⚠️ 非商业/商业授权 | ✅ MIT | ✅ MIT | ✅ MIT |
-| **综合推荐度** | 观望（个人学习）/ 企业需授权 | ✅ 推荐 | ✅ 推荐试用 / 企业标准化前观望 | ✅ 个人/小团队推荐试用 / 企业标准化前受控 PoC |
+| **综合推荐度** | 观望（个人/受控团队试点）/ 企业需授权 | ✅ 推荐 | ✅ 推荐试用 / 团队标准化前受控推广 | ✅ 个人/小团队推荐试用 / 企业标准化前受控 PoC |
 
 ### 分项详评
 
@@ -41,29 +41,29 @@
 #### 集成成本
 
 - **gitingest** 最低：装上即用，输出文本，几乎无运行态。
-- **CodeGraph** 接近最低：`npx` installer + `codegraph init -i` + MCP 自动配置；Node 20-24 是主要约束。
+- **CodeGraph** 接近最低：现在有 bundled installer（无需先装 Node）+ `codegraph install` + `codegraph init` + MCP 自动配置；npm 路径才受 Node 20-24 约束。
 - **Understand-Anything** 安装体验很强，`install.sh` / `install.ps1` 现已覆盖 gemini/codex/opencode/pi/openclaw/antigravity/vibe/vscode/hermes/cline/kimi/trae/nanobot/kiro 等平台；但真实运行涉及 Agent 子代理、TypeScript monorepo、tree-sitter grammars、dashboard、Python merge helper、hooks、LLM output cap 和中间产物协议，复杂度明显高于 CodeGraph/gitingest。
 - **GitNexus** 能力更深，但索引、图谱查询、MCP 配置、许可理解成本更高。
 
 #### 社区健康
 
 - **Understand-Anything** 热度最夸张：2026-03 创建，2026-07 已到 71.5k stars / 5.9k forks；但 open issues 96、open PRs 168，核心作者贡献高度集中，过热、review backlog、release 滞后和 bus factor 仍是明显风险。
-- **gitingest** 更成熟，采用面和贡献稳定。
-- **GitNexus** 声量最大之一，但许可证限制企业免费采用。
-- **CodeGraph** 增长快：4 个月内 11k+ stars、npm 最近 30 天 22k+ downloads，open PR 多集中在语言/Agent target 扩展，是强 adoption 信号；风险是 bus factor 和 review backlog。
+- **gitingest** 更成熟，采用面和贡献稳定，但“main 持续活跃”与“稳定 release 更新”节奏并不完全同步。
+- **GitNexus** 声量依然很强，而且已经进入稳定版 + 高频 RC 列车，但许可证继续限制企业免费采用。
+- **CodeGraph** 已经从“增长快的新项目”跃迁到“高采用率候选基础件”：58k+ stars、npm 最近 30 天约 384k downloads、宿主支持面持续扩张；主要风险转成 bus factor、open PR backlog 和轻 CI 面。
 
 #### 文档质量
 
 - **Understand-Anything** 文档最“Agent-native”：README、skills、agents、install script、PowerShell installer、homepage/live demo、dashboard/chat/diff/domain/knowledge/onboard/explain skills 都很完整；同时也把 output cap、context compaction、跨 batch 丢边和 auto-update 流程直接暴露给用户，是少见的高透明度工程文档。
 - **GitNexus** 文档偏平台级，深但有复杂度。
 - **gitingest** 文档最直白，适合单点工具。
-- **CodeGraph** README/CHANGELOG/CLAUDE.md 质量很高，尤其 changelog；但 v0.8 后 README 部分 instructions drift，需要修。
+- **CodeGraph** README/网站/CHANGELOG/CLAUDE.md 在 7 月已明显补齐；现在的短板更多是 repo-level CI / security gate，而不是 README 自相矛盾。
 
 ### 场景一结论
 
 - **要完整本地代码智能平台 / 深图谱分析** → **GitNexus**，但必须接受非商业许可证或购买授权。
 - **要最低成本把仓库喂给 LLM** → **gitingest**。
-- **要给 Claude/Cursor/Codex/opencode 装一个轻量、MIT、本地代码图谱** → **CodeGraph** 是当前最稳的试用方案。
+- **要给 Claude/Cursor/Codex/opencode/Hermes/Gemini 装一个轻量、MIT、本地代码图谱** → **CodeGraph** 是当前最稳的试用方案。
 - **要 Agent-native onboarding、dashboard、chat/diff/explain/domain/knowledge 一整套项目理解工作流** → **Understand-Anything** 最有产品感，个人/小团队值得试。
 - **企业免费长期标准件** → CodeGraph 和 Understand-Anything 都比 GitNexus 许可友好；CodeGraph 更稳，Understand-Anything 体验更完整但更年轻，标准化前要补安全依赖、CI gate、release 治理、模型输出上限 benchmark、内部仓库验证和安装链路审计。
 

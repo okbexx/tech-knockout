@@ -8,15 +8,15 @@
 |------|----|
 | 仓库 | `coderamp-labs/gitingest` |
 | URL | `https://github.com/coderamp-labs/gitingest` |
-| Star | 14,481 (2026-05-02) |
-| Fork | 1,062 |
+| Star | 15,022 (2026-07-07) |
+| Fork | 1,119 |
 | 许可证 | MIT |
 | 语言 | Python |
 | 首次提交 | 2024-11-29 |
-| 最近提交 | 2026-05-02 |
-| 最新 Release | v0.3.1 (PyPI) |
-| 贡献者数 | 54 |
-| 分析日期 | 2026-05-02 |
+| 最近提交 | 2026-07-07 |
+| 最新 Release | `v0.3.1`（PyPI，2025-07-31；稳定版发布时间明显落后于 main 分支活跃度） |
+| 贡献者信号 | API Top 10 中核心：`cyclotruc` 199、`filipchristiansen` 68 |
+| 分析日期 | 2026-07-07 |
 
 ---
 
@@ -36,14 +36,14 @@
   - 尊重 `.gitignore` / `.gitingestignore`
   - 提供 CLI、Python 包、FastAPI Web 服务、浏览器扩展四种入口
   - 支持私有仓库（GitHub PAT）
-  - 支持 partial clone（sparse-checkout）节省带宽
+  - 支持 partial clone（sparse-checkout）节省带宽，并支持 `--include-submodules`
 - **不能做什么：**
   - 不做代码语义分析（AST、调用图、类型推断）
   - 不做向量化/Embedding
   - 不支持 Issue / PR 内容摄取（TODO 标注）
   - 不支持非 Git 的代码托管平台（如 SVN）
 - **与竞品差异：**
-  - vs **Repomix**（24k⭐，JS/TS）：gitingest 是 Python 生态，自带在线服务（gitingest.com）和浏览器扩展；Repomix 功能更全（支持自定义 prompt 模板、统计更丰富），CLI 体验更成熟。
+  - vs **Repomix**（JS/TS 生态代表）：gitingest 是 Python 生态，自带在线服务（gitingest.com）和浏览器扩展；Repomix 功能更全（支持自定义 prompt 模板、统计更丰富），CLI 体验更成熟。
   - vs **git ingest 手工流**：gitingest 自动化了 clone → filter → format → token count 的完整链路。
 
 ### 集成成本
@@ -62,16 +62,20 @@
 
 | Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
 |------------|------|----------|----------------|----------|--------------|---------|
-| _待补关键依赖_ | | | | | | |
+| `GitPython` | Git 操作封装 | clone / sparse-checkout / branch/tag 切换 | 避免直接手搓 git subprocess 编排 | `pyproject.toml`; `src/gitingest/clone.py` | 适合轻量 Git 自动化工具 | 性能和错误语义不如更底层绑定，复杂仓库场景仍要补边界测试 |
+| `pathspec` | ignore / pattern 匹配 | `.gitignore` / `.gitingestignore` / include-exclude 统一过滤 | 避免自己维护 gitignore 语义 | `pyproject.toml`; `src/gitingest/ingestion.py` | 适合做仓库遍历和文本筛选的工具 | 模式链复杂时要防规则冲突和调试困难 |
+| `tiktoken` | token 估算 | 给输出附带上下文成本预估 | 避免把 repo dump 变成“黑盒大文本” | `pyproject.toml`; `src/gitingest/output_formatter.py` | 适合所有“把文本喂给 LLM”的工具 | 默认 `o200k_base` 只近似 OpenAI 口径，对其他模型并不精确 |
+| `click` | CLI 框架 | `gitingest` 命令面 | 避免自己维护参数解析 / help / entrypoint | `pyproject.toml`; `src/gitingest/__main__.py` | 适合 Python 单点工具快速落地 | 命令面一旦复杂，子命令与交互体验会逼近上限 |
+| `fastapi[standard]` + `boto3`（optional） | server / self-hosting 能力 | HTTP 服务、S3/MinIO 存储、生产化部署 | 避免把 server 路线硬塞进核心 CLI 依赖 | `pyproject.toml`; `server/` | 适合把 CLI 扩成服务端能力的轻量产品 | server 路线成熟度明显弱于核心 ingest 路线，生产化前要额外验证 |
 
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |
 |--------|------|------|
 | 许可证合规 | ✅ | MIT，商业使用无限制 |
-| Bus factor | 中 | 核心作者 cyclotruc 贡献 199 commits（占 40%+），但已有 54 位贡献者，filipchristiansen 也是核心维护者 |
+| Bus factor | 中 | 核心仍集中在 `cyclotruc` / `filipchristiansen`，但外部贡献者和 bot 参与度比 5 月更清晰 |
 | 供应商锁定 | 低 | 纯开源工具，自托管无依赖；但 gitingest.com 在线服务由官方运营 |
-| 维护趋势 | 活跃 | 创建不到 6 个月，14k+ stars，日均有 commit，release-please 自动发版 |
+| 维护趋势 | 活跃但 release 有滞后 | main 分支持续活跃到 2026-07-07，但最近稳定版仍停在 `v0.3.1`（2025-07-31），说明“代码前进速度”与“正式 release 节奏”不完全同步 |
 | 安全历史 | 良好 | OpenSSF Scorecard 徽章、CodeQL 自动扫描、Dependency Review、Step Security harden-runner |
 
 ### 结论
@@ -82,10 +86,10 @@
 1. 解决痛点精准——"把代码库喂给 LLM"是高频刚需
 2. 集成成本极低，CLI 和 Python API 都足够简单
 3. MIT 许可证，无商业风险
-4. 社区增长极快（5 个月 14k⭐），生态配套齐全（Chrome/Firefox/Edge 扩展）
-5. 自托管难度低，适合内部部署
+4. 社区增长仍然很快（15k⭐+），生态配套齐全（Chrome/Firefox/Edge 扩展 + gitingest.com）
+5. 核心 ingest 路线已经很稳，适合作为个人/小团队的 repo-to-prompt 基础件
 
-**企业级场景建议观望**：如需大规模自动化摄取、复杂权限管理、与现有 CI/CD 深度集成，Repomix 的成熟度更高；gitingest 的 server 部分相对年轻，S3/MinIO 集成虽存在但文档尚浅。
+**企业级场景建议观望**：如需大规模自动化摄取、复杂权限管理、与现有 CI/CD 深度集成，Repomix 的成熟度更高；gitingest 的 server 路线依然比核心 ingest 路线年轻，而且从“main 持续前进”到“稳定 release 更新”存在节奏差。
 
 ---
 
@@ -338,7 +342,7 @@ server/
 | 功能覆盖度 | 4 | 核心链路完整（URL→文本），但缺少 AST/语义层、Issue/PR 摄取 |
 | 代码质量 | 4 | 类型全面、Ruff 全规则、文档完善；少数 broad except 和 TODO 未清理 |
 | 文档质量 | 5 | README 详尽、多语言、docstring 规范、release-please 自动 CHANGELOG |
-| 社区活跃度 | 5 | 14k⭐/5个月、54 贡献者、Discord、浏览器扩展、持续迭代 |
+| 社区活跃度 | 5 | 15k⭐+、官方 Web/扩展入口、main 持续活跃；但 stable release 节奏慢于源码前进速度 |
 | 架构设计 | 4 | 多入口统一核心、Pydantic 驱动、资源管理规范；server 模块路径略脱节 |
 | 学习价值 | 4 | Git 操作封装、异步资源管理、Pydantic 配置模式都值得借鉴 |
 | 可借鉴度 | 5 | ingest/entrypoint/output_formatter 三层结构可直接复用到类似文本提取工具 |
@@ -350,7 +354,7 @@ server/
 ## 总结
 
 ### 一句话评价
-> **"用 5k 行 Python 把代码库→LLM prompt 这件事做到了极致简洁，配套 Web 服务和浏览器扩展让它从工具变成了产品。"**
+> **"用一套很克制的 Python 内核，把 repo → prompt 这件事做成稳定产品入口；它的强项始终是核心 ingest，而不是更年轻的 server 路线。"**
 
 ### 谁应该用
 - 需要频繁把 Git 仓库/本地项目灌给 ChatGPT/Claude 的开发者

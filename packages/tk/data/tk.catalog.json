@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-07T08:07:45.433Z",
+  "generatedAt": "2026-07-07T12:01:22.446Z",
   "projects": [
     {
       "id": "1shell",
@@ -268,21 +268,181 @@
       "report": "reports/codegraph.md",
       "reportFile": "codegraph",
       "category": "Code Intelligence / RAG / Knowledge",
-      "summary": "一句话定位：CodeGraph 是一个 MIT 许可、本地优先的代码知识图谱库 + CLI + MCP Server，用 tree-sitter 把项目索引成 SQLite/FTS5 符号图，再让 Claude Code、Cursor、Codex CLI、opencode 等 Agent 用少量工具调用完成代码探索。",
-      "adoption": "推荐采用（个人/小团队/内部 PoC） / 企业核心强制标准件暂时观望。",
+      "summary": "一句话定位：CodeGraph 是一个 MIT 许可、本地优先的代码知识图谱库 + CLI + MCP Server，用 tree-sitter/WASM 把项目索引成 SQLite/FTS5 符号图，再让 Claude Code、Cursor、Codex、OpenCode、Hermes Agent、Gemini、Antigravity、Kiro 等 Agent 用少量工具调用完成代码探索。",
+      "adoption": "推荐采用（个人/小团队/内部受控 PoC） / 企业核心强制标准件暂时观望。",
       "architectureValue": 5,
       "license": "MIT",
       "language": "TypeScript",
-      "analysisDate": "2026-05-21",
+      "analysisDate": "2026-07-07",
       "sourceDir": "projects/colbymchenry__codegraph",
       "owner": "colbymchenry",
-      "sourceExists": false,
-      "dependencies": [],
+      "sourceExists": true,
+      "dependencies": [
+        {
+          "name": "@types/better-sqlite3",
+          "version": "^7.6.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/node",
+          "version": "^20.19.30",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/picomatch",
+          "version": "^4.0.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "vitest",
+          "version": "^2.1.9",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@clack/prompts",
+          "version": "^1.3.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "commander",
+          "version": "^14.0.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "fast-string-width",
+          "version": "^3.0.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "fast-wrap-ansi",
+          "version": "^0.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "ignore",
+          "version": "^7.0.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "jsonc-parser",
+          "version": "^3.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "picomatch",
+          "version": "^4.0.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "sisteransi",
+          "version": "^1.0.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "tree-sitter-wasms",
+          "version": "^0.1.11",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "web-tree-sitter",
+          "version": "^0.25.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@astrojs/starlight",
+          "version": "^0.39.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "site/package.json"
+        },
+        {
+          "name": "@fontsource-variable/archivo",
+          "version": "^5.2.8",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "site/package.json"
+        },
+        {
+          "name": "@fontsource/ibm-plex-mono",
+          "version": "^5.2.7",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "site/package.json"
+        },
+        {
+          "name": "astro",
+          "version": "^6.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "site/package.json"
+        },
+        {
+          "name": "sharp",
+          "version": "^0.34.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "site/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "telemetry-worker/package.json"
+        },
+        {
+          "name": "wrangler",
+          "version": "^4.36.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "telemetry-worker/package.json"
+        }
+      ],
       "dependencySummary": {
-        "total": 0,
-        "manifests": 0,
-        "byEcosystem": {},
-        "byScope": {}
+        "total": 22,
+        "manifests": 3,
+        "byEcosystem": {
+          "npm": 22
+        },
+        "byScope": {
+          "development": 7,
+          "runtime": 15
+        }
       },
       "dependencyEvidencePresent": true,
       "dependencyEvidence": [
@@ -534,22 +694,327 @@
       "architectureValue": 4,
       "license": "MIT",
       "language": "Python",
-      "analysisDate": "2026-05-02",
+      "analysisDate": "2026-07-07",
       "sourceDir": "projects/coderamp-labs__gitingest",
       "owner": "coderamp-labs",
-      "sourceExists": false,
-      "dependencies": [],
+      "sourceExists": true,
+      "dependencies": [
+        {
+          "name": "boto3",
+          "version": "boto3>=1.28.0",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "eval-type-backport",
+          "version": "eval-type-backport",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "fastapi",
+          "version": "fastapi[standard]>=0.109.1",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "pre-commit",
+          "version": "pre-commit",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "prometheus-client",
+          "version": "prometheus-client",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "pytest",
+          "version": "pytest",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "pytest-asyncio",
+          "version": "pytest-asyncio",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "pytest-mock",
+          "version": "pytest-mock",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "sentry-sdk",
+          "version": "sentry-sdk[fastapi]",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "slowapi",
+          "version": "slowapi",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "uvicorn",
+          "version": "uvicorn>=0.11.7",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "click",
+          "version": "click>=8.0.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "gitpython",
+          "version": "gitpython>=3.1.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "httpx",
+          "version": "httpx",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "loguru",
+          "version": "loguru>=0.7.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "pathspec",
+          "version": "pathspec>=0.12.1",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "pydantic",
+          "version": "pydantic",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "python-dotenv",
+          "version": "python-dotenv",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "starlette",
+          "version": "starlette>=0.40.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "strenum",
+          "version": "strenum; python_version < '3.11'",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "tiktoken",
+          "version": "tiktoken>=0.7.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "typing_extensions",
+          "version": "typing_extensions>= 4.0.0; python_version < '3.10'",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "boto3",
+          "version": "boto3>=1.28.0  # AWS SDK for S3 support",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "click",
+          "version": "click>=8.0.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "fastapi",
+          "version": "fastapi[standard]>=0.109.1  # Vulnerable to https://osv.dev/vulnerability/PYSEC-2024-38",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "httpx",
+          "version": "httpx",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "loguru",
+          "version": "loguru>=0.7.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "pathspec",
+          "version": "pathspec>=0.12.1",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "prometheus-client",
+          "version": "prometheus-client",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "pydantic",
+          "version": "pydantic",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "python-dotenv",
+          "version": "python-dotenv",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "sentry-sdk",
+          "version": "sentry-sdk[fastapi]",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "slowapi",
+          "version": "slowapi",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "starlette",
+          "version": "starlette>=0.40.0  # Vulnerable to https://osv.dev/vulnerability/GHSA-f96h-pmfr-66vw",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "tiktoken",
+          "version": "tiktoken>=0.7.0  # Support for o200k_base encoding",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "uvicorn",
+          "version": "uvicorn>=0.11.7  # Vulnerable to https://osv.dev/vulnerability/PYSEC-2020-150",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        }
+      ],
       "dependencySummary": {
-        "total": 0,
-        "manifests": 0,
-        "byEcosystem": {},
-        "byScope": {}
+        "total": 36,
+        "manifests": 2,
+        "byEcosystem": {
+          "python": 36
+        },
+        "byScope": {
+          "optional": 11,
+          "runtime": 25
+        }
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "GitPython",
+          "type": "Git 操作封装",
+          "usedFor": "clone / sparse-checkout / branch/tag 切换",
+          "problemSolved": "避免直接手搓 git subprocess 编排",
+          "evidence": "pyproject.toml; src/gitingest/clone.py",
+          "reuseSignal": "适合轻量 Git 自动化工具",
+          "caution": "性能和错误语义不如更底层绑定，复杂仓库场景仍要补边界测试"
+        },
+        {
+          "dependency": "pathspec",
+          "type": "ignore / pattern 匹配",
+          "usedFor": ".gitignore / .gitingestignore / include-exclude 统一过滤",
+          "problemSolved": "避免自己维护 gitignore 语义",
+          "evidence": "pyproject.toml; src/gitingest/ingestion.py",
+          "reuseSignal": "适合做仓库遍历和文本筛选的工具",
+          "caution": "模式链复杂时要防规则冲突和调试困难"
+        },
+        {
+          "dependency": "tiktoken",
+          "type": "token 估算",
+          "usedFor": "给输出附带上下文成本预估",
+          "problemSolved": "避免把 repo dump 变成“黑盒大文本”",
+          "evidence": "pyproject.toml; src/gitingest/output_formatter.py",
+          "reuseSignal": "适合所有“把文本喂给 LLM”的工具",
+          "caution": "默认 o200k_base 只近似 OpenAI 口径，对其他模型并不精确"
+        },
+        {
+          "dependency": "click",
+          "type": "CLI 框架",
+          "usedFor": "gitingest 命令面",
+          "problemSolved": "避免自己维护参数解析 / help / entrypoint",
+          "evidence": "pyproject.toml; src/gitingest/__main__.py",
+          "reuseSignal": "适合 Python 单点工具快速落地",
+          "caution": "命令面一旦复杂，子命令与交互体验会逼近上限"
+        },
+        {
+          "dependency": "fastapi[standard] + boto3（optional）",
+          "type": "server / self-hosting 能力",
+          "usedFor": "HTTP 服务、S3/MinIO 存储、生产化部署",
+          "problemSolved": "避免把 server 路线硬塞进核心 CLI 依赖",
+          "evidence": "pyproject.toml; server/",
+          "reuseSignal": "适合把 CLI 扩成服务端能力的轻量产品",
+          "caution": "server 路线成熟度明显弱于核心 ingest 路线，生产化前要额外验证"
+        }
+      ],
       "tags": [
         "rag",
         "knowledge",
+        "cli",
         "python"
       ]
     },
@@ -563,31 +1028,1077 @@
       "reportFile": "GitNexus",
       "category": "Code Intelligence / RAG / Knowledge",
       "summary": "一句话定位：纯客户端的代码知识图谱引擎，通过 MCP 协议让任意 AI Agent 获得深度代码库感知能力——像 DeepWiki 但更深，像 Sourcegraph 但更轻。",
-      "adoption": "观望（个人/学习）/ 不推荐（企业免费采用）",
+      "adoption": "观望（个人/学习/受控团队试点）/ 不推荐（企业免费采用）",
       "architectureValue": 5,
       "license": "PolyForm Noncommercial 1.0.0（非商业）",
       "language": "TypeScript (主), Python (eval)",
-      "analysisDate": "2026-05-01",
+      "analysisDate": "2026-07-07",
       "sourceDir": "projects/abhigyanpatwari__GitNexus",
       "owner": "abhigyanpatwari",
-      "sourceExists": false,
-      "dependencies": [],
+      "sourceExists": true,
+      "dependencies": [
+        {
+          "name": "typescript",
+          "version": "^6.0.3",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-shared/package.json"
+        },
+        {
+          "name": "@babel/types",
+          "version": "^7.29.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@playwright/test",
+          "version": "^1.61.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@testing-library/jest-dom",
+          "version": "^6.9.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@testing-library/react",
+          "version": "^16.3.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@testing-library/user-event",
+          "version": "^14.6.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@types/dompurify",
+          "version": "^3.2.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@types/node",
+          "version": "^25.9.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@types/react",
+          "version": "^19.2.14",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@types/react-dom",
+          "version": "^19.2.3",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@types/react-syntax-highlighter",
+          "version": "^15.5.13",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@vercel/node",
+          "version": "^5.8.12",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@vitejs/plugin-react",
+          "version": "^5.1.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@vitest/coverage-v8",
+          "version": "^4.1.9",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "jsdom",
+          "version": "^29.1.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "tree-sitter-wasms",
+          "version": "^0.1.13",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.4.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "vite",
+          "version": "^8.0.16",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "vitest",
+          "version": "^4.1.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "wait-on",
+          "version": "^9.0.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@langchain/anthropic",
+          "version": "^1.3.29",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@langchain/core",
+          "version": "^1.1.49",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@langchain/google-genai",
+          "version": "^2.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@langchain/langgraph",
+          "version": "^1.4.7",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@langchain/ollama",
+          "version": "^1.2.7",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@langchain/openai",
+          "version": "^1.5.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@sigma/edge-curve",
+          "version": "^3.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@tailwindcss/vite",
+          "version": "^4.3.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "axios",
+          "version": "^1.16.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "d3",
+          "version": "^7.9.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "dompurify",
+          "version": "^3.4.11",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "gitnexus-shared",
+          "version": "file:../gitnexus-shared",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "graphology",
+          "version": "^0.26.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "graphology-indices",
+          "version": "^0.17.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "graphology-layout-force",
+          "version": "^0.2.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "graphology-layout-forceatlas2",
+          "version": "^0.10.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "graphology-layout-noverlap",
+          "version": "^0.4.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "graphology-utils",
+          "version": "^2.3.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "i18next",
+          "version": "^26.3.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "i18next-browser-languagedetector",
+          "version": "^8.2.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "langchain",
+          "version": "^1.4.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "lru-cache",
+          "version": "^11.5.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "lucide-react",
+          "version": "^1.21.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "mermaid",
+          "version": "^11.15.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "mnemonist",
+          "version": "^0.40.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "pandemonium",
+          "version": "^2.4.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "react",
+          "version": "^19.2.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "^19.2.7",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "react-i18next",
+          "version": "^17.0.8",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "react-markdown",
+          "version": "^10.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "react-syntax-highlighter",
+          "version": "^16.1.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "react-zoom-pan-pinch",
+          "version": "^4.0.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "remark-gfm",
+          "version": "^4.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "sigma",
+          "version": "^3.0.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "tailwindcss",
+          "version": "^4.2.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "uuid",
+          "version": "^14.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "zod",
+          "version": "^4.4.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus-web/package.json"
+        },
+        {
+          "name": "@babel/generator",
+          "version": "^7.29.7",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "@babel/parser",
+          "version": "^7.29.7",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "@babel/traverse",
+          "version": "^7.29.7",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "@babel/types",
+          "version": "^7.29.7",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "@types/busboy",
+          "version": "^1.5.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "@types/cli-progress",
+          "version": "^3.11.6",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "@types/cors",
+          "version": "^2.8.17",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "@types/express",
+          "version": "^5.0.6",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "@types/js-yaml",
+          "version": "^4.0.9",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "@types/node",
+          "version": "^25.6.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "@types/uuid",
+          "version": "^11.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "@vitest/coverage-v8",
+          "version": "^4.0.18",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "gitnexus-shared",
+          "version": "file:../gitnexus-shared",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "tsx",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.4.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "vitest",
+          "version": "^4.0.18",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "@huggingface/transformers",
+          "version": "^4.1.0",
+          "ecosystem": "npm",
+          "scope": "optional",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "onnxruntime-node",
+          "version": "^1.24.0",
+          "ecosystem": "npm",
+          "scope": "optional",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "@ladybugdb/core",
+          "version": "^0.18.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "@modelcontextprotocol/sdk",
+          "version": "^1.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "@scarf/scarf",
+          "version": "^1.4.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "busboy",
+          "version": "^1.6.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "cli-progress",
+          "version": "^3.12.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "commander",
+          "version": "^15.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "cors",
+          "version": "^2.8.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "express",
+          "version": "^5.2.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "express-rate-limit",
+          "version": "^8.4.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "glob",
+          "version": "^13.0.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "graphology",
+          "version": "^0.26.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "graphology-indices",
+          "version": "^0.17.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "graphology-utils",
+          "version": "^2.3.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "ignore",
+          "version": "^7.0.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "js-yaml",
+          "version": "^4.1.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "jsonc-parser",
+          "version": "^3.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "mnemonist",
+          "version": "^0.40.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "node-addon-api",
+          "version": "^8.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "node-gyp-build",
+          "version": "^4.8.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "onnxruntime-common",
+          "version": "^1.26.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "pandemonium",
+          "version": "^2.4.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "pino",
+          "version": "^10.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "pino-pretty",
+          "version": "^13.1.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "tree-sitter",
+          "version": "0.21.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "tree-sitter-c-sharp",
+          "version": "0.23.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "tree-sitter-cpp",
+          "version": "0.23.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "tree-sitter-go",
+          "version": "^0.23.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "tree-sitter-java",
+          "version": "^0.23.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "tree-sitter-javascript",
+          "version": "^0.23.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "tree-sitter-php",
+          "version": "^0.23.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "tree-sitter-python",
+          "version": "0.23.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "tree-sitter-ruby",
+          "version": "^0.23.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "tree-sitter-rust",
+          "version": "0.23.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "tree-sitter-typescript",
+          "version": "^0.23.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "uuid",
+          "version": "^14.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/package.json"
+        },
+        {
+          "name": "expo-router",
+          "version": "^3.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/test/fixtures/expo-app/package.json"
+        },
+        {
+          "name": "next",
+          "version": "14.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/test/fixtures/lang-resolution/api-e2e-test/package.json"
+        },
+        {
+          "name": "react",
+          "version": "18.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "gitnexus/test/fixtures/lang-resolution/api-e2e-test/package.json"
+        },
+        {
+          "name": "@typescript-eslint/eslint-plugin",
+          "version": "^8.57.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@typescript-eslint/parser",
+          "version": "^8.57.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "eslint",
+          "version": "^9.39.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "eslint-config-prettier",
+          "version": "^10.1.8",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "eslint-plugin-react-hooks",
+          "version": "^7.0.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "eslint-plugin-unused-imports",
+          "version": "^4.4.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "husky",
+          "version": "^9.1.7",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "lint-staged",
+          "version": "^15.5.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "prettier",
+          "version": "^3.8.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "prettier-plugin-tailwindcss",
+          "version": "^0.7.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "fastembed",
+          "version": "fastembed>=0.5.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": ".github/scripts/triage/requirements.txt"
+        },
+        {
+          "name": "numpy",
+          "version": "numpy>=1.26.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": ".github/scripts/triage/requirements.txt"
+        },
+        {
+          "name": "scikit-learn",
+          "version": "scikit-learn>=1.4.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": ".github/scripts/triage/requirements.txt"
+        },
+        {
+          "name": "scipy",
+          "version": "scipy>=1.10.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": ".github/scripts/triage/requirements.txt"
+        },
+        {
+          "name": "coverage",
+          "version": "coverage>=7.6.0",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "eval/pyproject.toml"
+        },
+        {
+          "name": "hypothesis",
+          "version": "hypothesis>=6.88.0",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "eval/pyproject.toml"
+        },
+        {
+          "name": "pytest",
+          "version": "pytest>=9.0.3",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "eval/pyproject.toml"
+        },
+        {
+          "name": "ruff",
+          "version": "ruff>=0.5.0",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "eval/pyproject.toml"
+        },
+        {
+          "name": "datasets",
+          "version": "datasets>=3.0.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "eval/pyproject.toml"
+        },
+        {
+          "name": "litellm",
+          "version": "litellm!=1.82.7,!=1.82.8,>=1.83.7",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "eval/pyproject.toml"
+        },
+        {
+          "name": "mini-swe-agent",
+          "version": "mini-swe-agent>=2.0.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "eval/pyproject.toml"
+        },
+        {
+          "name": "pandas",
+          "version": "pandas>=2.0.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "eval/pyproject.toml"
+        },
+        {
+          "name": "python-dotenv",
+          "version": "python-dotenv>=1.2.2",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "eval/pyproject.toml"
+        },
+        {
+          "name": "pyyaml",
+          "version": "pyyaml>=6.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "eval/pyproject.toml"
+        },
+        {
+          "name": "rich",
+          "version": "rich>=13.0.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "eval/pyproject.toml"
+        },
+        {
+          "name": "tabulate",
+          "version": "tabulate>=0.9.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "eval/pyproject.toml"
+        },
+        {
+          "name": "typer",
+          "version": "typer>=0.12.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "eval/pyproject.toml"
+        },
+        {
+          "name": "Django",
+          "version": "Django==6.0.4",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "gitnexus/test/fixtures/lang-resolution/python-django-app-imports/requirements.txt"
+        }
+      ],
       "dependencySummary": {
-        "total": 0,
-        "manifests": 0,
-        "byEcosystem": {},
-        "byScope": {}
+        "total": 141,
+        "manifests": 9,
+        "byEcosystem": {
+          "npm": 123,
+          "python": 18
+        },
+        "byScope": {
+          "development": 46,
+          "runtime": 89,
+          "optional": 6
+        }
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "@ladybugdb/core",
+          "type": "嵌入式图数据库",
+          "usedFor": "本地节点/边/向量索引持久化",
+          "problemSolved": "避免自建图存储与浏览器/本地双实现",
+          "evidence": "gitnexus/package.json; report 架构图；gitnexus/src/core/lbug/*",
+          "reuseSignal": "适合本地优先 code graph / graph-RAG 工具",
+          "caution": "存储层演进快（KuzuDB → LadybugDB 迁移就是先例）"
+        },
+        {
+          "dependency": "tree-sitter + vendored grammars",
+          "type": "语法解析 / 多语言前端",
+          "usedFor": "15+ 语言 AST 与跨文件解析",
+          "problemSolved": "避免为每门语言自写 parser",
+          "evidence": "gitnexus/package.json; gitnexus/vendor/*; README install notes",
+          "reuseSignal": "适合本地多语言静态分析入口层",
+          "caution": "原生/预编译 grammar 带来安装与平台兼容成本"
+        },
+        {
+          "dependency": "@modelcontextprotocol/sdk",
+          "type": "Agent tool protocol",
+          "usedFor": "暴露 query/context/impact/rename 等 MCP 能力",
+          "problemSolved": "避免为每个宿主单写一套专有 API",
+          "evidence": "gitnexus/package.json; README MCP tools section",
+          "reuseSignal": "适合希望“一次接入，多宿主复用”的工具面",
+          "caution": "工具语义一旦扩张，schema 兼容要长期维护"
+        },
+        {
+          "dependency": "onnxruntime-node + @huggingface/transformers（optional）",
+          "type": "本地 embedding/runtime",
+          "usedFor": "语义搜索与 hybrid query",
+          "problemSolved": "避免把 embedding 强绑到安装主路径",
+          "evidence": "gitnexus/package.json; README install problems",
+          "reuseSignal": "适合可选增强能力的本地索引器",
+          "caution": "代理/防火墙环境与 Node 版本容易踩安装坑"
+        },
+        {
+          "dependency": "express + busboy",
+          "type": "local bridge / upload surface",
+          "usedFor": "Web UI 与本地 CLI index 连接",
+          "problemSolved": "避免浏览器端重建所有大仓索引",
+          "evidence": "gitnexus/package.json; README bridge mode",
+          "reuseSignal": "适合本地前后端桥接的开发工具",
+          "caution": "一旦开放到局域网/远端，要额外补安全与运维面"
+        }
+      ],
       "tags": [
         "agent",
         "mcp",
         "rag",
         "knowledge",
+        "cli",
+        "runtime",
         "graph",
+        "browser",
+        "rust",
         "typescript",
-        "python"
+        "python",
+        "go"
       ]
     },
     {
