@@ -164,7 +164,7 @@ npm run verify
 | [jcode](./reports/jcode.md) | Rust terminal Coding Agent runtime：server-owned live session + Swarm + Graph Memory，当前已演进到 v0.37.0 并持续产品化 | 推荐个人隔离试用 / 团队生产化前观望 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [Pi（原 pi-mono）](./reports/pi-mono.md) | Terminal agent harness：coding agent CLI + runtime core + unified AI substrate | 推荐采用（个人主力试用 / 内部 SDK 底座） | ⭐⭐⭐⭐⭐ | 2026-07-07 |
 | [OpenCode](./reports/opencode.md) | 开源 AI coding-agent runtime：durable session + event/projection + tool settlement + 多入口产品面 | 推荐采用（个人/高级开发者）/ 团队生产化前隔离 PoC | ⭐⭐⭐⭐⭐ | 2026-07-08 |
-| [superpowers](./reports/superpowers.md) | 跨平台 Agentic 技能操作系统：零依赖 Skills + bootstrap + hooks + adapters 注入开发纪律 | 推荐采用（个人/小团队）/ 团队生产化前试点 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
+| [superpowers](./reports/superpowers.md) | 跨平台 Agentic 技能操作系统：把先设计、再计划、TDD、工作树隔离、子代理审查和完成前验证编码成可分发 Skills，并通过宿主 hooks / adapters 注入开发纪律 | 推荐采用（个人/小团队）/ 团队生产化前试点 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [ponytail](./reports/ponytail.md) | 跨宿主极简编码纪律插件：以 skills / hooks / AGENTS.md / plugin adapters 把“少写代码但不减安全”的 lazy senior dev ladder 注入 Claude Code、Codex、OpenCode、Hermes 等 agent harness | 推荐采用（个人/小团队）/ 团队标准化前隔离试点 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [Trellis](./reports/Trellis.md) | 项目层 AI coding engineering framework：把 spec、task、workspace memory、四阶段工作流、跨平台 agent 配置和事件溯源 channel runtime 落到仓库与本地状态中 | 推荐采用（团队/高频 AI coding 项目的项目记忆与任务底座）/ 商业生产化前评估 AGPL 与流程迁移成本 | ⭐⭐⭐⭐⭐ | 2026-07-07 |
 | [compound-engineering-plugin](./reports/compound-engineering-plugin.md) | root-native 团队型 AI coding workflow 插件：29-skill CE loop，多宿主 native/plugin manifests + adapter 分发，brainstorm → plan → work → simplify → review → compound 复利闭环；repo 已到 3.19.0 而公开 npm 包仍停 3.8.3 | 推荐采用（团队多 specialist 审查与复利沉淀）/ 企业生产化前隔离试点 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
@@ -173,14 +173,14 @@ npm run verify
 | [loop-engineering](./reports/loop-engineering.md) | Loop engineering toolkit：pattern registry + starters + audit / cost / sync / context / worktree / MCP utilities，把 recurring AI coding 任务变成可审计、可控预算、可逐级放权的工程回路 | 推荐采用（个人/小团队 loop 试点）/ 团队生产化前受控推广 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [agency-agents](./reports/agency-agents.md) | 跨宿主 AI 专家角色库：243 个 Markdown agent、17 个 division、14 个工具安装目标、转换/安装脚本和 Hermes lazy-router plugin | 推荐采用（个人/小团队按需专家池）/ 团队生产化前 fork、筛选、审查 | ⭐⭐⭐⭐ | 2026-07-08 |
 | [last30days-skill](./reports/last30days-skill.md) | 跨 Reddit、X、YouTube、HN、Polymarket、GitHub、Web 的实时社会信号研究 Skill；当前 release / tag / source 已对齐到 v3.11.1，clean-ish 默认可用源更完整 | 推荐采用（个人/小团队）/ 企业生产化前观望 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
-| [Agent Reach](./reports/agent-reach.md) | Agent Internet Capability Layer：给 AI Agent 装互联网读取/搜索能力，核心是 channel registry + active_backend + doctor 路由，而非统一爬虫服务 | 推荐采用（个人/小团队）/ 企业生产化前观望 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
+| [Agent Reach](./reports/agent-reach.md) | Agent Internet Capability Layer：给 AI Agent 装“互联网读取与搜索能力”的本地能力层；为多渠道选择、安装、体检和路由当下最可用的上游工具 | 推荐采用（个人/小团队）/ 企业生产化前观望 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 
 ### Code Intelligence / RAG / Knowledge
 
 | Project | What it is | Adopt? | Architecture value | Date |
 |---|---|---|---|---|
 | [CodeGraph](./reports/codegraph.md) | MIT 本地代码图谱 + MCP Server，用 SQLite/FTS5 和 tree-sitter/WASM 降低 Agent 探索成本 | 推荐采用（个人/小团队/内部受控 PoC）/ 企业标准化前观望 | ⭐⭐⭐⭐⭐ | 2026-07-07 |
-| [Understand-Anything](./reports/Understand-Anything.md) | Agent-native 代码 / 知识库理解工作流：graph 生成 + dashboard/chat/diff/onboard + hook 增量更新 | 推荐试用（个人/小团队）/ 企业标准化前受控 PoC | ⭐⭐⭐⭐⭐ | 2026-07-07 |
+| [Understand-Anything](./reports/Understand-Anything.md) | Agent-native 代码 / 文档 / 知识库理解工作流包：graph 生成 + dashboard/chat/diff/onboard + hook 增量更新 | 推荐试用（个人/小团队）/ 企业标准化前受控 PoC | ⭐⭐⭐⭐⭐ | 2026-07-07 |
 | [AIHub](./reports/AIHub.md) | Chrome 扩展采集多平台 AI 对话，本地构建 AI 对话知识资产库；方向成立，但仓库当前基本停在 2026-05-30 的早期原型态 | 观望（个人 PoC 可试） | ⭐⭐⭐⭐ | 2026-07-08 |
 | [RAGFlow](./reports/ragflow.md) | DeepDoc + 模板化 chunking + 混合检索 + 引用溯源的企业级 RAG 平台；当前远端主线已到 2026-07-08，`nightly` 为 mutable tag | 推荐采用（企业 SOP/复杂文档 RAG） | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [LightRAG](./reports/LightRAG.md) | 四存储层可插拔、实体关系抽取、多模式 GraphRAG 检索内核；当前 latest release 仍是 `v1.5.4`，源码版本已到 `1.5.5` | 推荐采用（图谱增强检索 PoC/内核） | ⭐⭐⭐⭐⭐ | 2026-07-08 |
@@ -191,8 +191,8 @@ npm run verify
 | Project | What it is | Adopt? | Architecture value | Date |
 |---|---|---|---|---|
 | [DESIGN.md](./reports/design.md.md) | Google Labs / Stitch 开源的 agent-readable 设计系统文件格式：YAML tokens + Markdown prose + CLI lint/diff/export，让 coding agent 稳定复用视觉身份 | 推荐采用（个人/小团队）/ 企业作为 AI 设计上下文层试点 | ⭐⭐⭐⭐⭐ | 2026-06-28 |
-| [UI-TARS-desktop](./reports/UI-TARS-desktop.md) | ByteDance Multimodal AI Agent Stack：UI-TARS Desktop + GUIAgent SDK + Operator/browser/remote runtime | 生产采用观望 / 推荐 GUI Agent PoC 与架构学习 | ⭐⭐⭐⭐⭐ | 2026-06-17 |
-| [openhuman](./reports/openhuman.md) | Rust/Tauri 本地优先 personal AI OS：Memory Tree + tools + workflow runtime + 多 Agent 编排 | 观望（隔离试用 / 架构学习 / 外围维护） | ⭐⭐⭐⭐⭐ | 2026-06-15 |
+| [UI-TARS-desktop](./reports/UI-TARS-desktop.md) | ByteDance Multimodal AI Agent Stack：UI-TARS Desktop + GUIAgent SDK + Operator/browser/remote runtime | 生产采用观望 / 推荐 GUI Agent PoC 与架构学习 | ⭐⭐⭐⭐⭐ | 2026-07-07 |
+| [openhuman](./reports/openhuman.md) | Rust/Tauri 本地优先 personal AI OS：Memory Tree + tools + workflow runtime + 多 Agent 编排 | 观望（隔离试用 / 架构学习 / 外围维护） | ⭐⭐⭐⭐⭐ | 2026-07-07 |
 | [openagent](./reports/openagent.md) | Go + React 自托管个人 AI 助手平台；最新已到 v2.83.1，平台面继续高频迭代，但本轮本地 `go test` 被环境缺少 Go 阻断 | 观望（个人/小团队 PoC 可试） | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [CyberVerse](./reports/CyberVerse.md) | Go + Python + Vue 的实时 digital-human Agent 平台：WebRTC / PersonaAgent / RAG / FlashHead / LiveAct / 云端数字人 | 观望（PoC/学习推荐；生产前先做安全收口） | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [open-design](./reports/open-design.md) | 带 Cloud / desktop / MCP / plugin substrate 的 agent-native 设计平台 | 推荐研究与 PoC；生产采用前先当平台底座评估 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
