@@ -171,7 +171,7 @@ npm run verify
 | [ECC](./reports/ECC.md) | 跨 Claude Code / Codex / Cursor / OpenCode 的 workflow 操作系统；主包版本面已收敛到 2.0.0，资产库与安装治理继续膨胀 | 推荐采用（profile/skill/hooks）/ 观望（ECC2） | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [vibecode-pro-max-kit](./reports/vibecode-pro-max-kit.md) | 面向 Claude Code / Codex 的 7 阶段 spec-first workflow kit | 有条件采用（Claude 主路径）/ Codex 暂观望 | ⭐⭐⭐⭐⭐ | 2026-07-07 |
 | [loop-engineering](./reports/loop-engineering.md) | Loop engineering toolkit：pattern registry + starters + audit / cost / sync / context / worktree / MCP utilities，把 recurring AI coding 任务变成可审计、可控预算、可逐级放权的工程回路 | 推荐采用（个人/小团队 loop 试点）/ 团队生产化前受控推广 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
-| [agency-agents](./reports/agency-agents.md) | 跨宿主 AI 专家角色库：233 个 Markdown agent、16 个 division、14 个工具安装目标、转换/安装脚本和 Hermes lazy-router plugin | 推荐采用（个人/小团队按需专家池）/ 团队生产化前 fork、筛选、审查 | ⭐⭐⭐⭐ | 2026-07-03 |
+| [agency-agents](./reports/agency-agents.md) | 跨宿主 AI 专家角色库：243 个 Markdown agent、17 个 division、14 个工具安装目标、转换/安装脚本和 Hermes lazy-router plugin | 推荐采用（个人/小团队按需专家池）/ 团队生产化前 fork、筛选、审查 | ⭐⭐⭐⭐ | 2026-07-08 |
 | [last30days-skill](./reports/last30days-skill.md) | 跨 Reddit、X、YouTube、HN、Polymarket、GitHub、Web 的实时社会信号研究 Skill；当前 release / tag / source 已对齐到 v3.11.1，clean-ish 默认可用源更完整 | 推荐采用（个人/小团队）/ 企业生产化前观望 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [Agent Reach](./reports/agent-reach.md) | Agent Internet Capability Layer：给 AI Agent 装互联网读取/搜索能力，核心是 channel registry + active_backend + doctor 路由，而非统一爬虫服务 | 推荐采用（个人/小团队）/ 企业生产化前观望 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 

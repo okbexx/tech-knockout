@@ -1,6 +1,6 @@
 # agency-agents
 
-> 一句话定位：**agency-agents 是一个跨宿主 AI 专家角色库：用 233 个 Markdown agent、16 个业务 division、14 个工具安装目标、转换/安装脚本和 Hermes lazy-router plugin，把 Claude Code、Codex、Cursor、Gemini、OpenCode、Hermes 等宿主变成“按需调用专家团队”。**
+> 一句话定位：**agency-agents 是一个跨宿主 AI 专家角色库：用 243 个 Markdown agent、17 个业务 division、14 个工具安装目标、转换/安装脚本和 Hermes lazy-router plugin，把 Claude Code、Codex、Cursor、Gemini、OpenCode、Hermes 等宿主变成“按需调用专家团队”。**
 
 ## 基本信息
 
@@ -8,21 +8,22 @@
 |------|----|
 | 仓库 | `msitarzewski/agency-agents` |
 | URL | https://github.com/msitarzewski/agency-agents |
-| Star | 125,636（2026-07-03 查询） |
-| Fork | 20,385（2026-07-03 查询） |
-| Watchers | 928（2026-07-03 查询） |
+| Star | 129,100（2026-07-08 查询） |
+| Fork | 20,990（2026-07-08 查询） |
+| Watchers | 944（2026-07-08 查询） |
 | 许可证 | MIT |
 | 主要语言 | Shell / Markdown / Python（GitHub API 主语言为 Shell；核心资产是 Markdown agent） |
 | 默认分支 | `main` |
 | 首次提交 | 2025-10-13 `98eea4c Initial commit: The Agency - 51 AI Specialist Agents` |
-| 最近提交 | 2026-07-01 `fc5a192 Merge pull request #642 from msitarzewski/feat/antigravity-config-skills` |
-| 最新 Release / Tag | 无 GitHub latest release；本地无 tag（2026-07-03 查询） |
-| 贡献者数 | GitHub contributors API 估算 87；本地 shortlog 显示 Michael Sitarzewski 163 commits 居首 |
-| Open Issues / PRs | 44 issues / 54 PRs（GitHub `open_issues_count=98` 含 PR，2026-07-03 搜索 API 拆分） |
-| Closed Issues / Merged PRs | 77 issues / 182 merged PRs（2026-07-03 查询） |
-| 本地规模 | 300 tracked files；277 Markdown；233 agent files；约 76,823 行 tracked text；agent 正文约 432,972 words |
+| 最近提交 | 2026-07-08 `35548a5 docs: add README roster entries for the gov-tech agent batch (#688)` |
+| 最新 Release / Tag | 主仓库仍无 GitHub latest release，`tags` 为空；版本分发开始转向独立的 `agency-agents-app`，但本仓库本身仍是无 tag 的 asset repo |
+| 贡献者数 | GitHub contributors API 当前可见 93 个贡献者；主维护者 `msitarzewski` 仍以 153 contributions 明显领先 |
+| Open Issues / PRs | 47 issues / 45 PRs（GitHub `open_issues_count=92` 含 PR，2026-07-08 搜索 API 拆分） |
+| Closed Issues / Merged PRs | 83 closed issues / 205 merged PRs（2026-07-08 查询） |
+| 本地旧 clone / 远端 tip | 旧 `repos/agency-agents` 停在 2026-07-01 的 `fc5a192`；远端 `origin/main` 已到 2026-07-08 的 `35548a5`，ahead/behind=`0/23`；machine-readable source cache 已补到 `projects/msitarzewski__agency-agents` |
+| 本地规模 | `origin/main` 视角：314 tracked files；288 Markdown；243 agent files；17 divisions；约 80,223 行 tracked text；agent 正文约 460,222 words |
 | 分类 | AI Agent Role Roster / Cross-Harness Agent Workflow Asset Library |
-| 分析日期 | 2026-07-03 |
+| 分析日期 | 2026-07-08 |
 | 分析边界 | 静态源码 / README / 脚本 / CI / Git 历史 / GitHub API；未安装依赖，未运行转换、安装、测试或构建 |
 
 ---
@@ -64,12 +65,12 @@ Markdown agent corpus
 
 **能做什么：**
 
-- 提供 233 个源码 agent，分布在 16 个 division：engineering、marketing、specialized、testing、security、GIS、finance、support 等。
+- 提供 243 个源码 agent，分布在 17 个 division：engineering、marketing、specialized、testing、security、GIS、finance、support，以及新增并继续扩张的 healthcare、paid-media、spatial-computing、game-development 等。
 - 每个 agent 以 YAML frontmatter + Markdown body 表达：`name`、`description`、`color`、`emoji`、`vibe` 和专家指令正文。
 - 通过 `scripts/convert.sh` 生成多宿主格式：Antigravity/Gemini skill、Codex TOML、Cursor MDC、OpenCode agent、Qwen/Kimi/OpenClaw/Aider/Windsurf 等。
 - 通过 `scripts/install.sh` 自动探测宿主、交互选择 tool/division/agent，并支持 `--dry-run`、`--division`、`--agent`、`--agents-file`、`--link`、`--path`、`--parallel`。
-- `tools.json` 把 14 个宿主的格式、安装机制和目标路径作为单一事实源；`divisions.json` 把 16 个 division 作为单一事实源。
-- Hermes 集成不是 233 个 skills，而是一个 `agency-agents-router` plugin：只暴露 4 个工具，agent roster 存在 `data/agents.json`，按需 search/inspect/load/delegate。
+- `tools.json` 把 14 个宿主的格式、安装机制和目标路径作为单一事实源；`divisions.json` 把 17 个 division 作为单一事实源。
+- Hermes 集成不是 243 个 skills，而是一个 `agency-agents-router` plugin：只暴露 4 个工具，agent roster 存在 `data/agents.json`，按需 search/inspect/load/delegate。
 - `strategy/` 下提供 NEXUS playbook：用阶段、handoff、quality gate 和 Dev↔QA loop 组织多 agent 协作，而不是只堆角色。
 - CI 对 agent frontmatter、division/tool single source of truth、原创性相似度做基础门禁。
 
@@ -79,8 +80,8 @@ Markdown agent corpus
 - 不是硬策略引擎：agent 是否遵守 persona、handoff、quality gate，取决于宿主和模型遵守 prompt 的程度。
 - 不提供任务状态数据库；NEXUS playbook 是 operational doctrine，不是可执行 workflow engine。
 - 不保证各宿主 runtime parity。Claude Code / Copilot / Codex 等是 per-agent 文件；Aider/Windsurf 是 roster 文件；Hermes 是 lazy-router plugin；它们的激活、上下文成本和强制力不同。
-- 不适合盲目全量安装到所有宿主：233 个 agent 的体量会带来选择成本、文件膨胀和 host-specific cap 风险。
-- 当前文档存在轻微漂移：README / Hermes integration README 仍写 232 agents，而当前源码扫描为 233 agents。
+- 不适合盲目全量安装到所有宿主：243 个 agent 的体量会带来选择成本、文件膨胀和 host-specific cap 风险。
+- 当前 README 主文档已经跟上近期 healthcare / gov-tech 批次，但 full catalog 仍主要靠手工 roster 与目录组织表达，不是自动生成 contract；随着角色继续膨胀，文档漂移风险仍在。
 
 **与竞品差异：**
 
@@ -106,14 +107,14 @@ Markdown agent corpus
 | 风险项 | 评估 | 说明 |
 |--------|------|------|
 | 许可证合规 | 🟢 低 | MIT；核心是 Markdown、Shell、Python 标准库脚本。 |
-| Bus factor | 🟡 中 | 贡献者 API 估算 87，但本地 shortlog 显示 Michael Sitarzewski 163 commits 明显主导。 |
+| Bus factor | 🟡 中 | 贡献者 API 当前可见 93，但主维护者 `msitarzewski` 仍以 153 contributions 明显主导。 |
 | 供应商锁定 | 🟢 低 | agent 是 Markdown，转换目标多，Hermes plugin 也可 fork；但 runtime enforcement 取决于具体宿主。 |
-| 维护趋势 | 🟢 活跃 | 2026-07-01 仍有 merge；2026-06 下旬多条 docs/integration/agent PR 合并。 |
-| 社区热度 | 🟢 很高 | 125k+ stars、20k+ forks；派生/翻译仓库活跃，`jnMetaCode/agency-agents-zh` 也有 16k+ stars。 |
-| Backlog 压力 | 🟡 中高 | 44 open issues + 54 open PRs；热度高会带来重复 agent、路径漂移、工具适配请求。 |
+| 维护趋势 | 🟢 活跃 | 2026-07-08 仍持续合并 README roster / 新 agent 批次；相对 7 月初本地旧 clone 已前进 23 commits。 |
+| 社区热度 | 🟢 很高 | 129k+ stars、20k+ forks；派生/翻译仓库活跃，`jnMetaCode/agency-agents-zh` 也仍有高可见度。 |
+| Backlog 压力 | 🟡 中高 | 47 open issues + 45 open PRs；热度高会持续带来重复 agent、路径漂移、工具适配请求。 |
 | 安装攻击面 | 🟡 中 | `install.sh` 写宿主 home/config；Hermes installer 会 `rm -rf` 目标 plugin dir 后复制。建议只在隔离 profile / dry-run 后启用。 |
 | Prompt 安全 | 🟡 中 | `SECURITY.md` 明确 agent 文件非 executable、禁止 secrets、提醒 suspicious prompt injection；但 prompt 资产仍需人工 review。 |
-| 文档漂移 | 🟡 中 | 当前 source scan 为 233 agents；README/集成文档仍有 232 count。`check-agent-originality.sh` 的扫描目录也与 `divisions.json` 不完全一致。 |
+| 文档漂移 | 🟡 中 | 近期 README roster 已跟上 healthcare / gov-tech 增量，`check-agent-originality.sh` 也已改为直接读取 `divisions.json`；但 full-catalog 仍非自动生成，随着角色继续增长仍有 drift risk。 |
 
 ### 结论
 
@@ -122,7 +123,7 @@ Markdown agent corpus
 理由：
 
 - agency-agents 的价值不是“又一堆 prompt”，而是把 agent persona 做成了可版本控制、可 lint、可转换、可安装、可按需加载的角色资产库。
-- 对 Hermes 用户，`agency-agents-router` 是正确路线：固定 4 个工具 + 磁盘 JSON roster + 按需 load/delegate，避免 233 个 skills 污染初始上下文和 prompt cache。
+- 对 Hermes 用户，`agency-agents-router` 是正确路线：固定 4 个工具 + 磁盘 JSON roster + 按需 load/delegate，避免 243 个 skills 污染初始上下文和 prompt cache。
 - 对团队，不能直接全量采用：先挑选高价值 division/agent，做 prompt review，再决定是否纳入默认工作流。
 - 如果目标是工程纪律、TDD、debugging、review gating，superpowers / compound-engineering-plugin / ECC 更强；agency-agents 更适合作为“专家池”和“角色素材库”。
 
@@ -135,7 +136,7 @@ Markdown agent corpus
 ```text
 ┌──────────────────────────────────────────────────────────────────────┐
 │                         Source Agent Corpus                          │
-│  16 divisions · 233 Markdown agents                                  │
+│  17 divisions · 243 Markdown agents                                  │
 │  frontmatter(name/description/color/emoji/vibe) + instruction body    │
 └───────────────────────────────┬──────────────────────────────────────┘
                                 │ scanned by
@@ -201,7 +202,7 @@ Frontmatter Agent Corpus
 
 | 抽象 | 源码位置 | 职责 | 关键字段 / 方法 | 为什么重要 |
 |------|----------|------|-----------------|------------|
-| Agent File | `academic/*.md` 等 16 个 division | 单个专家角色的 source of truth | frontmatter: `name`/`description`/`color`/`emoji`/`vibe`; body: persona/workflow/deliverables | 把角色从临时 prompt 变成可审查、可转换、可版本控制资产 |
+| Agent File | `academic/*.md` 等 17 个 division | 单个专家角色的 source of truth | frontmatter: `name`/`description`/`color`/`emoji`/`vibe`; body: persona/workflow/deliverables | 把角色从临时 prompt 变成可审查、可转换、可版本控制资产 |
 | Division Registry | `divisions.json` | division 名称、显示标签、图标、颜色的单一事实源 | `divisions.<id>.label/icon/color` | 避免目录、README、app、lint、converter 各自维护 division 列表 |
 | Tool Registry | `tools.json` | 14 个宿主的安装目标和格式事实源 | `format`、`installKind`、`dest.user`、`dest.project` | 把“支持某宿主”变成机器可检查契约，而非 README 文案 |
 | Converter | `scripts/convert.sh` | 从 agent corpus 生成各宿主格式 | `convert_codex`、`convert_cursor`、`convert_openclaw`、`accumulate_aider`、`run_conversions` | 让同一角色源资产跨工具复用，降低多平台漂移 |
@@ -433,33 +434,34 @@ agency-agents/
 
 | 维度 | 数值 |
 |------|------|
-| Tracked files | 300 |
-| Markdown files | 277 |
-| Agent files | 233 |
-| Source divisions | 16 |
+| Tracked files | 314 |
+| Markdown files | 288 |
+| Agent files | 243 |
+| Source divisions | 17 |
 | Supported tools in `tools.json` | 14 |
 | Scripts | 12 |
 | Workflows | 3 |
-| Approx tracked text LOC | 76,823 |
-| Agent body words | 432,972 |
+| Approx tracked text LOC | 80,223 |
+| Agent body words | 460,222 |
 
 Division 分布：
 
 | Division | Agent 数 |
 |----------|----------|
-| specialized | 53 |
+| specialized | 54 |
 | marketing | 36 |
-| engineering | 34 |
+| engineering | 40 |
 | game-development | 20 |
 | gis | 13 |
 | security | 10 |
 | design | 9 |
 | sales | 9 |
-| testing | 8 |
+| testing | 9 |
 | paid-media | 7 |
 | project-management | 7 |
 | spatial-computing | 6 |
 | support | 6 |
+| healthcare | 2 |
 | academic | 5 |
 | finance | 5 |
 | product | 5 |
@@ -530,7 +532,7 @@ integrations/*
 - **错误处理：** Shell 脚本普遍使用 `set -euo pipefail`；installer 有 `--dry-run`、backup、warning、路径解析、缺失 integrations 检查。
 - **代码风格：** 脚本注释充分，single source of truth 意识强；`lib.sh` 抽出 frontmatter/body/slug/ANSI/TUI helper，避免完全堆在入口脚本。
 - **数据一致性：** `tools.json` / `divisions.json` + CI checks 是强质量信号。
-- **已发现问题：** `check-agent-originality.sh` 的 `AGENT_DIRS` 与 `divisions.json` 不一致，遗漏 `gis`、`security`，额外包含 `strategy`。这不影响基础 lint，但会削弱重复/reskin 检查覆盖。
+- **已发现问题：** 旧稿里提到的 `check-agent-originality.sh` 目录漂移已经修掉——脚本现在直接读取 `divisions.json`。当前更现实的质量压力转到了 `install.sh` / `convert.sh` 体量继续变大，以及 Hermes installer 的 YAML 缩进修复这类“写宿主配置时容易脆”的边缘问题。
 
 ### 测试 / 验证
 
@@ -557,10 +559,10 @@ integrations/*
 | Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
 |------------|------|----------|----------------|----------|--------------|---------|
 | Bash + POSIX shell utilities (`awk` / `sed` / `grep` / `perl`) | Runtime / scripting substrate | `scripts/install.sh`、`scripts/convert.sh`、`scripts/lint-agents.sh`、`scripts/check-tools.sh`、`scripts/check-divisions.sh` | 用最小依赖完成跨 macOS/Linux/CI 的转换、安装和一致性校验 | 脚本显式注释避免 `jq`，依赖 Bash 3.2 + coreutils；install/convert/lint/check 均为 shell 主体 | 低安装门槛，适合 prompt asset repo；用户无需 Node/Python 包管理器即可使用大部分功能 | 脚本体量已经较大，继续扩展 target 时应补 shellcheck/golden tests 或拆模块 |
-| Python 3 standard library | Build helper / generated integration | `scripts/build-hermes-plugin.py`、Hermes router plugin 生成、agent roster JSON 生成 | 生成 Hermes plugin，把 233 个 agent 变成 4 个 lazy tools，避免全量 skills 注入 | builder 只使用 Python stdlib；installer 在 Hermes 分支调用 `python3` 检查/统计 `agents.json` | 适合作为跨平台生成器；比 Shell 更适合处理 JSON/frontmatter/搜索索引 | 当前不是打包的 Python project；无 pyproject/requirements，也无 Python unit tests |
+| Python 3 standard library | Build helper / generated integration | `scripts/build-hermes-plugin.py`、Hermes router plugin 生成、agent roster JSON 生成 | 生成 Hermes plugin，把 243 个 agent 变成 4 个 lazy tools，避免全量 skills 注入 | builder 只使用 Python stdlib；installer 在 Hermes 分支调用 `python3` 检查/统计 `agents.json` | 适合作为跨平台生成器；比 Shell 更适合处理 JSON/frontmatter/搜索索引 | 当前不是打包的 Python project；无 pyproject/requirements，也无 Python unit tests |
 | Git / GitHub Actions | CI and contribution governance | `check-tools.yml`、`check-divisions.yml`、`lint-agents.yml`、PR changed-file lint | 让工具清单、division 清单、agent frontmatter 和原创性检查进入 PR 门禁 | `.github/workflows/*` 与 `scripts/check-*` 已读；lint workflow 用 `git diff` 找 changed agent files | 对 Markdown agent library 足够轻量，贡献者无需复杂本地环境 | 只覆盖 changed agent files；缺少 generated docs drift、shellcheck、converter golden tests |
-| Markdown + YAML frontmatter | Asset format / public contract | 233 个 agent 文件、`CONTRIBUTING.md` 模板、converter 输入 | 用人类可读、容易贡献的格式承载专家 persona，同时让 converter 能读取 `name/description/color/emoji/vibe` | agent corpus 以 Markdown 为主；`lib.sh` / Python builder 都解析 frontmatter | 极低贡献门槛，便于 fork、本地审查和跨宿主转换 | YAML/frontmatter 解析在 Shell/Python 中是轻量自实现，不等于完整 YAML parser；复杂值需谨慎 |
-| JSON registries (`tools.json` / `divisions.json`) | Single source of truth | 工具目标、安装类型、division metadata、CI drift checks | 防止 README、脚本、workflow 和目录结构各自维护导致漂移 | `tools.json` 14 个工具目标；`divisions.json` 16 个 division；`check-tools.sh` / `check-divisions.sh` 读取它们校验脚本 | 可直接借鉴到内部 prompt library / plugin marketplace | JSON 不是完整 schema-validated；目前靠 Bash 文本解析，复杂字段增长后建议加 JSON schema |
+| Markdown + YAML frontmatter | Asset format / public contract | 243 个 agent 文件、`CONTRIBUTING.md` 模板、converter 输入 | 用人类可读、容易贡献的格式承载专家 persona，同时让 converter 能读取 `name/description/color/emoji/vibe` | agent corpus 以 Markdown 为主；`lib.sh` / Python builder 都解析 frontmatter | 极低贡献门槛，便于 fork、本地审查和跨宿主转换 | YAML/frontmatter 解析在 Shell/Python 中是轻量自实现，不等于完整 YAML parser；复杂值需谨慎 |
+| JSON registries (`tools.json` / `divisions.json`) | Single source of truth | 工具目标、安装类型、division metadata、CI drift checks | 防止 README、脚本、workflow 和目录结构各自维护导致漂移 | `tools.json` 14 个工具目标；`divisions.json` 17 个 division；`check-tools.sh` / `check-divisions.sh` 读取它们校验脚本 | 可直接借鉴到内部 prompt library / plugin marketplace | JSON 不是完整 schema-validated；目前靠 Bash 文本解析，复杂字段增长后建议加 JSON schema |
 
 ### 文档质量
 
@@ -568,13 +570,13 @@ integrations/*
 - **CONTRIBUTING：** 贡献规范较详细，说明 agent 模板、PR 流程、风格要求。
 - **SECURITY：** 明确 agent files 非 executable、脚本需 review、禁止 secrets、提示 prompt injection。
 - **Integration docs：** 每个宿主都有 README；Hermes doc 特别强调不要 `skills.external_dirs` 全量预载。
-- **文档缺口：** 计数漂移；没有一份自动生成的 full catalog / schema docs；NEXUS 文档里的效率/质量数字缺少可验证来源，适合作为内部方法论而非事实指标引用。
+- **文档缺口：** 主 README 已跟上近期 healthcare / gov-tech 增量，但仍没有自动生成的 full catalog / schema docs；NEXUS 文档里的效率/质量数字缺少可验证来源，更适合作为内部方法论而非事实指标引用。
 
 ### Issue / PR 健康度
 
-- **Open issues / PRs：** 44 issues / 54 PRs。
-- **Merged PRs：** 182 merged PRs；近期有 Antigravity path fix、README tool list sync、Network Engineer agent、Hermes router plugin 等合并。
-- **Recent open issues 类型：** 新 agent 请求、AppImage runtime error、接入/使用疑问、routing/index 标准建议。
+- **Open issues / PRs：** 47 issues / 45 PRs。
+- **Merged PRs：** 205 merged PRs；近期合并重点转到 healthcare / gov-tech agent batch、README roster sync 与多宿主接入补边。
+- **Recent open issues 类型：** 新 agent 请求、Windows 终端弹窗、Hermes installer YAML 缩进修复、routing/index 标准建议、行业/地区化新专家申请。
 - **健康判断：** 社区活跃、贡献多、维护者响应仍在；但 backlog 和重复 agent 请求会持续考验治理。
 
 ---
@@ -583,14 +585,14 @@ integrations/*
 
 ### 热度与认可度
 
-- 主仓库 125k+ stars、20k+ forks，属于极高热度的 agent asset repo。
+- 主仓库 129k+ stars、20k+ forks，属于极高热度的 agent asset repo。
 - 派生/翻译生态活跃：`jnMetaCode/agency-agents-zh` 16k+ stars，描述中称 266 个中文 agent、支持 Hermes/Claude/Cursor/Copilot 等 18 种工具。
 - 官方/关联项目：`msitarzewski/agency-agents-app`（约 100 stars）显示有 native app 方向。
 - 生态搜索中还能看到 `Anas-Khan93/ai-agency-agents`、`MarcusRawlins/agency-agents`、`keeply-cn/agency-agents-zh` 等 forks/衍生。
 
 ### 正面评价集中点
 
-1. **角色覆盖面广。** 不只工程，还覆盖 marketing、sales、finance、GIS、spatial computing、support、security、game-development。
+1. **角色覆盖面广。** 不只工程，还覆盖 marketing、sales、finance、GIS、spatial computing、support、security、game-development，并继续扩到 healthcare 与 gov-tech 方向。
 2. **跨宿主安装路径实用。** 对已有 Claude/Codex/Cursor/Gemini/Hermes 用户，迁移成本低。
 3. **Hermes lazy-router 架构正确。** 对大角色库，按需加载明显优于全量 skills。
 4. **社区贡献门槛低。** Markdown 文件贡献比写插件/代码容易。
@@ -598,7 +600,7 @@ integrations/*
 
 ### 真实痛点
 
-1. **质量参差不可避免。** 233 个 agent 平均 1858 words，深度很强，但不同贡献者风格、事实性和可维护性会不同。
+1. **质量参差不可避免。** 243 个 agent 平均约 1894 words，深度很强，但不同贡献者风格、事实性和可维护性会不同。
 2. **Prompt compliance 是软约束。** 没有 runtime 能强制 EvidenceQA、retry limit、handoff template。
 3. **全量安装很重。** 文件和选择面会膨胀；对于部分宿主还可能存在 agent cap。
 4. **脚本维护压力上升。** 每多一个宿主，都要扩展 convert/install/docs/check matrix。
@@ -627,9 +629,9 @@ agency-agents 的社区信号很强，但它的热度主要来自“角色资产
 | 维度 | 分数 | 说明 |
 |------|------|------|
 | 功能覆盖度 | 4.5 / 5 | 角色覆盖极广，多工具安装完整；但不是可执行 workflow engine |
-| 代码质量 | 3.5 / 5 | 脚本注释和一致性门禁好；Shell 文件偏大，originality 目录漂移需修 |
-| 文档质量 | 4 / 5 | README/CONTRIBUTING/SECURITY/Integration docs 完整；计数和部分路径文档有漂移 |
-| 社区活跃度 | 5 / 5 | 125k+ stars、20k+ forks、87 contributors、PR/issue 活跃 |
+| 代码质量 | 3.5 / 5 | 脚本注释和一致性门禁好；但 `install.sh` / `convert.sh` 过大，宿主配置写入边缘仍偏脆 |
+| 文档质量 | 4 / 5 | README/CONTRIBUTING/SECURITY/Integration docs 完整；主 README 已补近期增量，但 full catalog 仍非自动生成 |
+| 社区活跃度 | 5 / 5 | 129k+ stars、20k+ forks、93 contributors、PR/issue 持续活跃 |
 | 架构设计 | 4 / 5 | corpus + registry + converter + installer + lazy router 组合清晰；runtime enforcement 不在本仓库 |
 | 学习价值 | 4 / 5 | 非常适合学习 prompt asset library 产品化、多宿主分发、Hermes 懒加载 |
 | 可借鉴度 | 4.5 / 5 | `tools.json`/`divisions.json`/Hermes router/originality check 都可直接复用 |
