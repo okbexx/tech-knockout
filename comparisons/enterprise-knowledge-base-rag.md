@@ -2,14 +2,14 @@
 
 > 分类：Enterprise Knowledge Base / RAG
 > 项目：[RAGFlow](../reports/ragflow.md) 、 [LightRAG](../reports/LightRAG.md)
-> 更新日期：2026-06-11
+> 更新日期：2026-07-07
 
 ## 横评对象
 
 | 项目 | 一句话 | Stars（观测日） |
 |------|--------|----------------|
-| **RAGFlow** | DeepDoc + 模板化 chunking + 混合检索 + 引用溯源 + UI/API/Agent 的企业级 RAG 知识库平台 | 82,398（2026-06-10） |
-| **LightRAG** | 四存储层可插拔、实体关系抽取、多模式 GraphRAG 检索和多模态文档 pipeline 的图谱增强检索内核 | 36,397（2026-06-10） |
+| **RAGFlow** | DeepDoc + 模板化 chunking + 混合检索 + 引用溯源 + UI/API/Agent / context engine 的企业级 RAG 知识库平台 | 84,515（2026-07-07） |
+| **LightRAG** | 四存储层可插拔、实体关系抽取、多模式 GraphRAG 检索和多模态文档 pipeline 的图谱增强检索内核 | 37,423（2026-07-07） |
 
 ---
 
@@ -26,6 +26,7 @@
 | Hybrid Search 基线 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
 | SOP 问答适配 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
 | 权限/租户产品面 | ⭐⭐⭐☆ | ⭐⭐ |
+| 默认服务安全口径 | 平台面更完整但攻击面大，仍需专项审计 | 默认 server 可绑 `0.0.0.0`，auth/whitelist 必须手配 |
 | 存储后端可插拔 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
 | 部署运维复杂度 | 高 | 中到高 |
 | 二开内核可控性 | ⭐⭐⭐☆ | ⭐⭐⭐⭐☆ |
@@ -36,8 +37,8 @@
 
 #### 产品完整度
 
-- **RAGFlow** 明显领先。它提供 dataset/knowledgebase/document/dialog/task/evaluation、Web UI、Docker Compose、对象存储、搜索后端、Agent workflow、MCP、Langfuse 等完整平台面。
-- **LightRAG** 有 API server、WebUI、图谱浏览、Docker/K8s，但主语还是检索内核。它不是给业务部门直接运营知识库的完整平台。
+- **RAGFlow** 明显领先。它提供 dataset/knowledgebase/document/dialog/task/evaluation、Web UI、Docker Compose、对象存储、搜索后端、Agent workflow、MCP、Langfuse、memory、chat channels 等完整平台面。
+- **LightRAG** 有 API server、WebUI、图谱浏览、Docker/K8s、setup wizard 和 offline deployment，但主语还是检索内核。它不是给业务部门直接运营知识库的完整平台。
 
 #### 文档解析 / ingestion
 
@@ -52,13 +53,13 @@
 
 #### 权限与治理
 
-- **RAGFlow** 至少有 tenant、KB permission、team 可见性等平台模型，但要达到大企业的部门/岗位/区域/文档继承/Chunk 级 ACL，仍需二开。
-- **LightRAG** 主要是 workspace 和存储隔离，企业 IAM、SSO、文档 ACL、审计要外接。
+- **RAGFlow** 至少有 tenant、KB permission、team 可见性等平台模型，但要达到大企业的部门/岗位/区域/文档继承/Chunk 级 ACL，仍需二开；另外 `_prune_deleted_chunks` 这类 retrieval-side safety net 也提醒你必须做删除一致性测试。
+- **LightRAG** 主要是 workspace 和存储隔离，企业 IAM、SSO、文档 ACL、审计要外接；而且默认 server/auth 口径比 RAGFlow 更“框架态”，上公网前必须自己收口。
 
 #### 运维复杂度
 
-- **RAGFlow** 更重：MySQL、MinIO、Redis/Valkey、ES/OpenSearch/Infinity/OceanBase、后端、前端、模型、parser、sandbox 都可能涉及。
-- **LightRAG** 默认轻，但生产 GraphRAG 也不简单：LLM roles、embedding、rerank、parser sidecar、graph/vector/docstatus 后端都要调。
+- **RAGFlow** 更重：MySQL、MinIO、Redis/Valkey、ES/OpenSearch/Infinity/OceanBase、后端、前端、模型、parser、sandbox 都可能涉及，但它的价值也恰恰来自这套重平台。
+- **LightRAG** 默认轻，但生产 GraphRAG 也不简单：LLM roles、embedding、rerank、parser sidecar、graph/vector/docstatus 后端都要调；此外 source 版本经常快于 latest release，升级前最好自建回归。
 
 ### 场景一结论
 
@@ -91,6 +92,7 @@
 | 检索 | BM25/全文 + dense vector + weighted fusion + rerank | local/global/hybrid/naive/mix 多模式，图谱上下文 + 向量 chunk |
 | 引用 | 答案后处理相似度插入 citation | raw retrieval data / context 可输出，图谱和 chunk 数据可解释 |
 | 权限 | tenant + KB me/team 可见性 | workspace/storage 隔离为主 |
+| 服务安全 | 平台面更完整，但攻击面也更大；需专项审计 | 默认 server/auth 需手配，`0.0.0.0` / `WHITELIST_PATHS` 是显式部署决策 |
 | 存储 | 平台绑定的 DB/doc store/search engine 组合 | KV/Graph/Vector/DocStatus 四层可插拔 registry |
 | 产品面 | 完整 Web UI/API/Agent/workflow/evaluation | API server/WebUI/graph browser，但不是完整知识库产品 |
 | 复杂知识关系 | 有 GraphRAG/RAPTOR 能力，但不是主线 | 主线就是实体关系图谱增强检索 |
@@ -103,8 +105,8 @@
 4. **LightRAG 的显式 query mode** —— local/global/hybrid/naive/mix 把检索策略结构化，不全交给 prompt。
 5. **LightRAG 的四存储层解耦** —— KV、Graph、Vector、DocStatus 分离，很适合企业已有基础设施。
 6. **LightRAG 的 heading breadcrumb 抽取上下文** —— 对 SOP、法规、合同、医疗指南非常关键。
-7. **LightRAG 的 `/query/data` 思路** —— 检索结果和答案生成分离，方便评测、调参、审计。
-8. **二者共同说明：Document Intelligence 是企业知识库第一层** —— Docling/MinerU/DeepDoc 比换一个向量库更关键。
+7. **LightRAG 的 `/query/data` + role-specific LLM 思路** —— 检索结果与答案生成分离，且 EXTRACT/QUERY/KEYWORDS/VLM 可独立调参，方便评测和审计。
+8. **二者共同说明：Document Intelligence + 安全收口 是企业知识库第一层** —— Docling/MinerU/DeepDoc 与默认鉴权/公网暴露策略，优先级都高于“再换一个向量库”。
 
 ---
 

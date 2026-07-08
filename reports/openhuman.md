@@ -1,6 +1,6 @@
 # openhuman
 
-> 一句话定位：OpenHuman 是一个 Rust/Tauri 驱动的本地优先个人 AI / Agent OS：它把桌面宿主、Rust Core、长期记忆、Obsidian vault、模型路由、工具执行、MCP、SKILL workflow runtime、连接器同步、语音/Meet、移动端实验入口和多 Agent 编排收进一个完整产品。它的学习价值很高，也适合做外围维护贡献；但因为 GPL-3.0、攻击面大、managed backend 耦合、模块膨胀和高速 beta 演进，直接作为生产底座仍应观望。
+> 一句话定位：OpenHuman 是一个 Rust/Tauri 驱动的本地优先 personal AI / agent harness：它把桌面宿主、in-process Rust core、Memory Tree + Obsidian、tinyagents durable agent graphs、tinyflows workflow、SKILL runtime、模型路由、连接器同步、语音/会议代理和多 Agent 编排收进一个完整产品。它的学习价值依然极高，也适合做隔离试用和外围维护贡献；但 GPL-3.0、managed service 耦合、超宽攻击面、vendored CEF / submodule 复杂度与高速 beta 演进，仍让它不适合作为省心的生产底座。
 
 ## 基本信息
 
@@ -8,34 +8,36 @@
 |------|----|
 | 仓库 | `tinyhumansai/openhuman` |
 | URL | `https://github.com/tinyhumansai/openhuman` |
-| Star | 32,199（2026-06-15 GitHub API 快照） |
-| Fork | 3,120（2026-06-15 GitHub API 快照） |
+| Star | 34,347（2026-07-07 GitHub API 快照） |
+| Fork | 3,357（2026-07-07 GitHub API 快照） |
+| Watchers | 177（2026-07-07 GitHub API 快照） |
 | 许可证 | GPL-3.0 |
 | 主要语言 | Rust |
+| 默认分支 | `main` |
 | GitHub 创建时间 | 2026-02-18 |
-| 本地首次提交 | 2026-01-27，Tauri + React 初始化 |
-| 最近提交 | `27739ee5` / 2026-06-15，`fix(embeddings): prevent + handle custom endpoint with no embeddings API ... (#3629)` |
-| 当前包版本 | `Cargo.toml` / `app/package.json` / `app/src-tauri/Cargo.toml` 均为 `0.57.41` |
-| 最新 GitHub Release | `v0.57.40`（2026-06-12） |
-| 最新 tags | `v0.57.40`, `v0.57.39`, `v0.57.34-staging`, `v0.57.32`, `v0.57.30` 等 |
-| 贡献者 | GitHub contributors API 当前页 100；头部贡献者集中，`senamakel` 约 1054 次贡献 |
-| Issue / PR | open issue 110；open PR 58；repo API `open_issues_count=169` 含 PR 且与搜索快照存在轻微时间差 |
-| 仓库体量 | 4,780 tracked files；Rust 2,173；TS 787；TSX 756；test-like tracked files 1,281；GitHub workflows 28 |
-| 分析日期 | 2026-06-15 |
+| 本地首次提交 | 2026-01-27 / `577ffcd2` / 初始化 Tauri + React + TypeScript 骨架 |
+| 最近提交 | 2026-07-07 / `77639d3bc` / `fix(flows): render + preserve non-cron trigger schedules on the canvas (B9) (#4647)` |
+| 当前包版本 | `Cargo.toml` / `app/package.json` / `app/src-tauri/Cargo.toml` 均为 `0.58.12` |
+| 最新 GitHub Release | `v0.58.7`（2026-06-30 发布） |
+| 最新 tags | `v0.58.7`, `v0.58.1-staging`, `v0.58.0`, `v0.57.56-staging`, `v0.57.53`；自 2026-06-15 以来已新增 9 个 tags |
+| 贡献者 | 本地 `git shortlog -sn --all` 共 151；头部：Steven Enamakel 1222、`github-actions[bot]` 286、`oxoxDev` 268 |
+| Issue / PR | open issue 155；open PR 44；repo API `open_issues_count=199` 含 PR |
+| 仓库体量 | 5,303 tracked files；Rust 2,395；TS 931；TSX 987；test-like tracked files 928；GitHub workflows 20 |
+| 分析日期 | 2026-07-07 |
 | 分析边界 | 只做源码、文档、Git 历史、GitHub API / Release / Issue / PR 静态分析；未运行项目、未启动服务、未跑测试/构建 |
 
 ## 版本变化速读（相对 2026-05 旧报告）
 
-OpenHuman 在一个月内已经从“本地优先桌面 AI 平台”继续膨胀成更完整的 **personal AI OS / agent harness**：
+OpenHuman 在这段时间里继续从“本地优先桌面 AI 平台”长成更像 **personal AI OS / agent harness** 的完整产品：
 
-- **Stars / forks 大幅增长**：从 2026-05-17 的约 11.2k / 973 增至 2026-06-15 的约 32.2k / 3.1k。
-- **版本从 0.53.x 推到 0.57.x**：release / staging tag 高频推进，当前源码包版本为 `0.57.41`。
-- **控制面变宽**：`src/core/all.rs` 已注册 dashboard、task sources、MCP registry、agent registry、agent experience、model council、x402、web3、devices、session_db、agent teams、workflow runs 等新域。
-- **Skill 口径必须改写**：旧 QuickJS runtime 仍然已移除，`src/openhuman/skills/` 仍偏 metadata；但新的 `workflows/` + `skill_runtime/` 已经负责发现、运行、取消、轮询 installed `SKILL.md` workflow，不应再写成“skills 只是 metadata/catalog”。
-- **多 Agent 与后台执行产品化**：`agent_orchestration/`、`session_db/run_ledger`、`command_center`、`agent_teams`、`workflow_runs` 说明后台 agent 工作不再只是一次性 subagent，而是有可查询 ledger 和 UI-facing view。
-- **推理层统一**：`src/openhuman/inference/mod.rs` 明确把 local runtime、cloud provider、routing reliability、STT/TTS、OpenAI-compatible HTTP endpoint 收进 `inference.*`，旧 `local_ai_*` 走 legacy alias。
-- **工具面显著扩张**：除 shell/file/git/http/browser/MCP/Composio 外，已有 codegraph、workflow、skill registry、session/thread、task source、artifact、learning、screen intelligence、presentation、x402/web3 等 agent tools。
-- **安全与 hardening 仍是主线**：近期 merged PR 包括 core RPC auth、inference resilience、secrets、deep-link CSRF、custom embeddings endpoint、memory unrecoverable job failure 等；open issue 仍有 prompt injection、sandbox isolation、context length、backend outage 等风险主题。
+- **Stars / forks 继续高增**：从 2026-05-17 的约 11.2k / 973 增至 2026-07-07 的约 34.3k / 3.36k。
+- **源码已推进到 `0.58.12`，release 仍是 `v0.58.7`**：自 2026-06-15 以来新增 9 个 tags，说明 trunk 继续高速前进，源码与最新 installer/release 之间存在天然时间差。
+- **`flows::` 已成为一等域**：`src/core/all.rs` 明确注册 `flows` controller；`src/openhuman/flows/mod.rs` 说明 saved automation workflows 已由 `tinyflows` graph + SQLite 持久层承接，不再只是“workflow UI 占位”。
+- **`tinyagents` seam 更成熟**：`src/openhuman/tinyagents/mod.rs` 直接写明 chat route 已与 legacy `run_turn_engine` 达到 functional parity，说明 agent 主链已经明确收敛到 published harness。
+- **`skill_runtime` 与 `flows` 需要分开理解**：前者负责 installed `SKILL.md` workflow 的执行、取消、run log；后者负责保存型 automation graph。旧报告里把两者揉成一个“workflow runtime”已经不够精确。
+- **控制面继续变宽**：`src/core/all.rs` 现在把 flows、recall calendar、tinyagents replay、thread goals、memory sync、x402、tool registry、model council 等更多域拉进统一 RPC 控制面。
+- **推理层统一仍在延续**：`src/openhuman/inference/mod.rs` 继续承担 local runtime、cloud provider、routing、voice/STT/TTS 与 OpenAI-compatible HTTP endpoint。
+- **README 仍明确标注 Early Beta**：能力更完整了，但项目方自己并没有把它叙述成稳定产品；这和当前 issue/PR/tag 节奏是吻合的。
 
 ---
 
@@ -53,8 +55,8 @@ OpenHuman 要解决的不是“聊天 UI”问题，而是“个人 AI 怎么持
 - **Agent 工具体系**：filesystem、shell、git、grep/glob、patch、browser、http、curl、web_fetch、MCP、Composio、cron、memory、task board、workflow、screen、voice 等。
 - **模型与推理**：OpenHuman backend、BYO cloud provider、OpenAI-compatible/Anthropic-style、Ollama/local inference、STT/TTS、role-based routing。
 - **连接器与通道**：Gmail、Slack、Notion、GitHub、Linear、Jira、Drive、Calendar、Telegram、WhatsApp、web channel、webhooks、Composio。
-- **Workflow / Skill runtime**：发现 installed workflows，执行单个 `SKILL.md` workflow，写 run log，支持取消、等待、失败 footer、preflight gate 和 degenerate-output detection。
-- **Agent Orchestration**：后台 agent command center、durable run ledger、agent teams、dependency-aware task claiming、running subagents、workflow runs。
+- **Flow / Skill runtime**：`flows::` + `tinyflows` 负责保存型 automation graph、触发器、run state 和可视化 canvas；`skill_runtime` 负责 installed `SKILL.md` workflow 的执行、取消、等待、失败 footer、preflight gate 和 degenerate-output detection。
+- **Agent Orchestration**：`tinyagents` durable graph harness + 后台 agent command center + run ledger + agent teams + dependency-aware task claiming + replay / observability。
 
 ### 核心能力与边界
 
@@ -70,20 +72,21 @@ OpenHuman 要解决的不是“聊天 UI”问题，而是“个人 AI 怎么持
 
 **不能或不应高估的部分：**
 
-- 不是轻量库；它是重型桌面产品和 agent runtime 单体。
-- “Local-first”不是“完全离线”：README 明确说明默认 managed experience 仍用 OpenHuman-hosted services 做账号登录、模型路由、web search proxy、Composio OAuth / managed integration flows。
-- `src/openhuman/skills/` 的旧 QuickJS skill runtime 已移除；当前可执行路径在 `workflows/` + `skill_runtime/`，仍处在快速重建和扩展阶段。
+- 不是轻量库；它是桌面宿主 + 本地 core + durable memory + durable run runtime + managed/local connector/inference 的重型产品单体。
+- “Local-first”不是“完全离线”：README 仍明确默认体验会用 OpenHuman-hosted services 做账号登录、模型路由、web search proxy、Composio OAuth / managed integration flows。
+- `flows`、`skill_runtime`、`tinyagents`、`memory tree` 现在都是真实运行时，不再只是概念；但概念面越多，越要求维护者先理解各自职责边界，否则很容易在错误层面修 bug。
 - 直接闭源二开会碰 GPL-3.0 合规问题。
-- 默认工具面太宽，企业引入前必须重新做 tool policy、网络 egress、sandbox、credential、MCP allowlist、connector OAuth 的安全 profile。
-- 代码和文档都在高速变化，AGENTS.md、README、GitBook、源码之间仍可能出现口径漂移。
+- 默认工具面与连接器面过宽，企业引入前必须重新做 tool policy、网络 egress、sandbox、credential、MCP allowlist、connector OAuth 与 managed-backend 依赖收敛。
+- 文档、release、源码会出现时间差：README / GitBook / AGENTS / manifests / installer 不是同一个节奏，当前源码 `0.58.12` 领先最新 release `v0.58.7` 就是直接例子。
 
 ### 集成成本
 
-- **依赖链重**：Rust 1.93、Node 24、pnpm 10.10、Tauri v2、CEF、React 19、Vite、SQLite、Tokio/Axum、reqwest、socketioxide、whisper-rs、cargo-llvm-cov、WDIO/Appium/tauri-driver。
-- **分发复杂**：macOS x64/ARM、Linux、Windows、Homebrew、apt repo、MSI、CEF cache、installer smoke、release/staging workflow 都要维护。
-- **状态面复杂**：workspace、action_dir、session_db、memory tree、Obsidian vault、credentials/keyring、agent profiles、run logs、connector cache、MCP registry、runtime caches。
-- **安全配置成本高**：readonly/supervised/full、workspace_only、trusted_roots、approval gate、sandbox backend、HTTP/browser allowlist、MCP allowlist 都需要逐项收敛。
-- **从零到 demo**：下载 installer 或 `pnpm dev` 看 UI 不难；完整 desktop + core + CEF + connectors + local/managed provider + e2e 验证明显高于普通 web app。
+- **依赖链重**：Rust 1.93、Node 24、pnpm 10.10、Tauri v2、vendored CEF、React 19、Vite 8、SQLite、Tokio/Axum、reqwest、socketioxide、whisper-rs、Playwright / WDIO / Vitest / cargo test 全都在同一产品里。
+- **源码构建前置多**：README 明确要求 `git submodule update --init --recursive`，否则 vendored `tauri-cef` / `tinyagents` / `tinyflows` / `tinycortex` / `tinyjuice` / `tinychannels` / `tinyplace` 不完整。
+- **分发复杂**：macOS x64/ARM、Linux、Windows、Homebrew、apt、MSI、CEF cache、installer smoke、release/staging workflow 都要维护。
+- **状态面复杂**：workspace、action_dir、session_db、run_ledger、memory tree、Obsidian vault、credentials/keyring、agent profiles、flow state、run logs、connector cache、runtime caches。
+- **安全配置成本高**：readonly/supervised/full、workspace_only、trusted_roots、approval gate、sandbox backend、HTTP/browser allowlist、MCP allowlist、managed-backend 边界都需要逐项收敛。
+- **从零到 demo**：下载安装包试 UI 不难；但从源码跑起完整 desktop + core + CEF + connectors + local/managed provider + e2e 验证，显著重于普通 web app。
 
 
 ### 依赖 / SDK 选型证据
@@ -92,27 +95,34 @@ OpenHuman 要解决的不是“聊天 UI”问题，而是“个人 AI 怎么持
 
 | Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
 |------------|------|----------|----------------|----------|--------------|---------|
-| _待补关键依赖_ | | | | | | |
+| `tauri 2.10` + vendored `tauri-cef` + `cef = 146.4.1` | desktop host / runtime fork | 桌面宿主、CEF-only runtime、通知拦截、深链、单实例、原生窗口能力 | 把 agent 产品直接落到用户桌面，同时保留 Chromium 级浏览器能力 | `app/src-tauri/Cargo.toml` 对 `tauri-runtime-cef`、`cef` 和 `vendor/tauri-cef` 的路径 patch 注释非常直白 | 想做“真实桌面 agent”时很有参考价值 | 分发、签名、缓存、崩溃面都显著变重 |
+| `tinyagents = 1.7` | orchestration harness | agent graph、tool/model registry、retry/fallback、replay、steering、store registry | 把单轮聊天升级成 durable graph turn 与多 agent 编排 | 根 `Cargo.toml` 注释 + `src/openhuman/tinyagents/mod.rs` | “先有 published harness，再做宿主适配”的路线值得学 | 宿主与 SDK 两层抽象叠加，调试复杂度高 |
+| `tinyflows = 0.5` + `@xyflow/react` | workflow engine + canvas | saved automation graph、trigger、compile/run、workflow canvas | 让 workflow 从 prompt 文案变成可视 graph + durable run | 根 `Cargo.toml` 注释 + `src/openhuman/flows/mod.rs` + `app/package.json` | 适合需要 agent-proposed automation 的产品 | graph runtime、UI canvas、approval/trigger 三层要长期一起演进 |
+| `tinycortex = 0.1` + `tinyjuice = 0.2.1` + `rusqlite = 0.40` | memory / token compression / local store | Memory Tree、token compression、session DB、run ledger、本地 durable context | 解决“长期认识用户”与“大上下文成本”问题 | 根 `Cargo.toml` 对 `tinycortex`、`tinyjuice`、`rusqlite` 的注释 | 对 personal AI / local-first agent 极有借鉴价值 | 一旦内存模型或压缩策略出错，影响面遍及全系统 |
+| `tinychannels = 0.1` + `tinyplace = 2.0` + `socketioxide` | channel / A2A / transport | 多消息通道、agent-to-agent、relay/websocket、tiny.place 经济层 | 把 agent 从单桌面扩展到跨通道/跨实例协作 | 根 `Cargo.toml` 直接依赖 + README 的 17 channels / tiny.place 叙事 | 做多通道 agent 产品时很有参考性 | 外部状态、密钥、传输安全、运营复杂度同时上升 |
+| `react 19` + `vite 8` + `redux toolkit` + `tailwind` + `radix` + `playwright/vitest` | UI stack | desktop/web 前端、canvas、command surfaces、test harness | 让 agent OS 有完整可交互产品面，而不只是 CLI | `app/package.json` | 对 UI-first agent 产品可直接借鉴 | 前端面广、组件多、回归成本高 |
 
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |
 |--------|------|------|
-| 许可证合规 | 高 | GPL-3.0；闭源产品二开和分发必须先做合规判断 |
-| Bus factor | 中-高 | contributor 数多，但头部维护者贡献集中，项目方向高度依赖核心团队 |
-| 安全攻击面 | 高 | 桌面宿主、本地 RPC、WebView/CEF、shell/file/browser/http/MCP/Composio/voice/screen/web3/x402 都是边界 |
-| Managed backend 耦合 | 中-高 | 可 BYO provider/Composio/Ollama，但默认账号、模型路由、search proxy、managed OAuth 仍依赖 OpenHuman 服务 |
-| 维护复杂度 | 高 | 单仓承载桌面、core、agent runtime、memory、workflow、connectors、mobile experiment、release matrix |
-| 稳定性 | 中 | CI/测试/发版投入高；但 open issue/PR 多，仍是 early beta 和高速修补状态 |
-| 文档一致性 | 中 | README/AGENTS/源码整体清晰，但 GitBook 和旧叙事可能滞后，需要以源码为准 |
-| 生产安全默认值 | 中 | approval gate、policy、allowlist、sandbox 都在，但宽工具面和 managed flows 需要组织级重配 |
+| 许可证合规 | 高 | GPL-3.0；闭源产品二开、私有分发或深度嵌入前必须先做合规判断 |
+| Bus factor | 中-高 | 作者总数已到 151，但头部提交仍明显集中在核心团队 |
+| 安全攻击面 | 高 | 桌面宿主、本地 RPC、WebView/CEF、shell/file/browser/http/MCP/Composio/voice/screen/钱包/通道 都是边界 |
+| Managed backend 耦合 | 中-高 | 可 BYO provider / local runtime，但默认账号、模型路由、search proxy、managed OAuth 仍依赖 OpenHuman 服务 |
+| Vendored 依赖 / 构建复杂度 | 高 | `tauri-cef`、`tinyagents`、`tinyflows`、`tinycortex` 等 submodule / path patch 让源码构建和升级面更重 |
+| 版本治理 / 发布噪音 | 高 | 当前源码版本 `0.58.12` 已领先最新 release `v0.58.7`；自 2026-06-15 以来新增 9 个 tags，采用方需要固定版本而不是追主干 |
+| 维护复杂度 | 高 | 单仓承载桌面、core、memory、flows、skill runtime、agent orchestration、channels、mobile experiment、release matrix |
+| 稳定性 | 中 | README 仍标 `Early Beta`；工程投入强，但能力面和变更速度都很高 |
+| 文档一致性 | 中 | README / AGENTS / GitBook / manifests / installer 的更新节奏不同，需要以源码和当前 manifests 为准 |
+| 生产安全默认值 | 中 | approval gate、policy、allowlist、sandbox 都在，但默认能力面过宽，组织级收敛工作量不小 |
 
 ### 结论
 
 **结论：观望；推荐隔离试用、架构学习和外围维护，不建议直接作为闭源/企业生产底座。**
 
 - 如果你想做 **个人本地 AI workspace / personal AI OS**，OpenHuman 是当前非常值得拆解的样本。
-- 如果你想找 **长期记忆 + 工具执行 + 桌面宿主 + workflow runtime** 的完整工程参照，它的学习价值很高。
+- 如果你想找 **长期记忆 + 工具执行 + 桌面宿主 + `tinyagents` / `tinyflows` / SKILL runtime** 的完整工程参照，它的学习价值很高。
 - 如果你只是想要一个 **轻量 agent SDK / CLI / RAG 后端 / 企业知识库**，OpenHuman 太重。
 - 如果你要在团队生产化，第一步不是部署，而是做许可证、安全 profile、tool allowlist、credential boundary、connector/OAuth 和 provider routing 的风险收敛。
 
@@ -127,8 +137,8 @@ OpenHuman 要解决的不是“聊天 UI”问题，而是“个人 AI 怎么持
 ### 最适合的首批 PR 切入点
 
 1. **文档口径修正**
-   - 把“QuickJS skills runtime removed”与当前 `workflows/skill_runtime` 的真实执行路径区分清楚。
-   - 明确 `src/openhuman/skills` metadata-only，而 `src/openhuman/workflows` + `src/openhuman/skill_runtime` 负责 `SKILL.md` workflow 执行、run log 和 cancellation。
+   - 把“QuickJS skills runtime removed”与当前 `flows` / `skill_runtime` / `tinyagents` 的真实执行路径区分清楚。
+   - 明确 `src/openhuman/skills` 偏 metadata / discovery，而 `src/openhuman/flows` + `src/openhuman/skill_runtime` 负责 saved flow / `SKILL.md` workflow 的运行、run log 和 cancellation。
 
 2. **安全与隐私 hardening**
    - 近期 merged PR 已在 core RPC auth、secrets、deep-link CSRF、inference resilience 上推进。
@@ -153,7 +163,7 @@ OpenHuman 要解决的不是“聊天 UI”问题，而是“个人 AI 怎么持
 - Tauri core lifecycle、RPC token、stale listener、embedded server 启停主线。
 - CEF / installer / release / signing matrix。
 - Composio managed backend、OAuth、webhooks、billing、web3/x402 这类外部状态耦合重的域。
-- Skill runtime 的整体架构重写，除非先读清 roadmap、现有 PR 和 run ledger 契约。
+- Flows / skill runtime / tinyagents 的整体架构重写，除非先读清 roadmap、现有 PR 和 run ledger 契约。
 
 ### 维护流程建议
 
@@ -185,7 +195,7 @@ graph TD
   Domains --> SessionDB[Session DB WAL + FTS5 + Run Ledger]
   Domains --> Tools[Tool Registry]
   Domains --> Inference[Unified Inference / Provider Routing]
-  Domains --> Workflows[Workflows + Skill Runtime]
+  Domains --> Workflows[Flows + Skill Runtime + Tinyflows]
   Domains --> Orchestration[Agent Orchestration / Teams / Command Center]
   Domains --> Connectors[Composio / Channels / Webhooks / Webviews]
   Domains --> MCP[MCP Client / Registry / Server]
@@ -217,12 +227,12 @@ graph TD
    - 设计点：工具从 baseline coding tools 扩展到 memory、monitor、browser/http/curl、MCP setup/bridge、workflow、skill registry、threads、task sources、artifacts、learning、screen、presentation、x402/web3 等；浏览器 allowlist 明确不继承 fetch 的 `*` wildcard，是一个值得学习的 fail-safe 收敛。
 
 5. **状态层：Memory Tree + Session DB + Run Ledger**
-   - 关键文件：`src/openhuman/memory_tree/mod.rs`、`src/openhuman/session_db/mod.rs`、`src/openhuman/session_db/run_ledger.rs`。
+   - 关键文件：`src/openhuman/memory_tree/mod.rs`、`src/openhuman/session_db/mod.rs`、`src/openhuman/session_db/run_ledger/mod.rs`。
    - 设计点：Memory Tree 负责长期知识；session DB 用 SQLite WAL + FTS5 给 transcript、messages、tool calls、cost、parent/child lineage 做可查询索引；run ledger 给后台 agent/workflow/team 提供 durable 状态。
 
-6. **执行层：Agent harness + workflow runtime + orchestration**
-   - 关键文件：`src/openhuman/agent/`、`src/openhuman/skill_runtime/run_machinery.rs`、`src/openhuman/agent_orchestration/mod.rs`。
-   - 设计点：一次 agent turn、一个 workflow run、一个 background subagent、一个 team task 都逐步进入“可取消、可查询、可恢复、可展示”的 runtime 状态，而不是只靠 prompt 内部记忆。
+6. **执行层：`tinyagents` harness + `flows`/`tinyflows` + `skill_runtime` + orchestration**
+   - 关键文件：`src/openhuman/tinyagents/mod.rs`、`src/openhuman/flows/mod.rs`、`src/openhuman/tinyflows/mod.rs`、`src/openhuman/skill_runtime/run_machinery.rs`、`src/openhuman/agent_orchestration/mod.rs`。
+   - 设计点：一次 agent turn、一个 saved flow run、一个 installed skill workflow run、一个 background subagent、一个 team task 都逐步进入“可取消、可查询、可恢复、可展示”的 runtime 状态，而不是只靠 prompt 内部记忆。
 
 7. **生态层：providers / Composio / MCP / mobile experiment**
    - 关键文件：`src/openhuman/inference/`、`src/openhuman/composio/`、`src/openhuman/mcp_registry/`、`src/openhuman/devices/`。
@@ -471,22 +481,22 @@ await_workflow / command center / recent runs read terminal outcome
 - `app/src-tauri/`：Tauri host，负责 desktop shell、core lifecycle、CEF/WebView、CDP/scanners、dictation、screen capture、Meet/audio/video、native windows。
 - `src/`：Rust crate `openhuman` + `openhuman-core` CLI binary。
 - `src/core/`：transport/control plane：JSON-RPC、auth、controller registry、event bus、logging、observability、CLI adapter。
-- `src/openhuman/`：业务 domains，当前包含 agent、memory、tools、inference、workflow、skill_runtime、session_db、agent_orchestration、security、sandbox、MCP、Composio、channels、devices、web3/x402 等大量模块。
+- `src/openhuman/`：业务 domains，当前包含 agent、memory、tools、inference、flows、skill_runtime、tinyagents、tinyflows、tinycortex、tinyjuice、tinychannels、tinyplace、session_db、agent_orchestration、security、sandbox、MCP、Composio、channels、devices、web3/x402 等大量模块。
 - `docs/` / `gitbooks/`：公开与内部文档；以 repo-local `AGENTS.md` 和源码为当前事实优先级更高。
-- `.github/workflows/`：28 个 workflows，覆盖 build、test、coverage、typecheck、E2E、desktop build、mobile compile、release、installer smoke、weekly review。
+- `.github/workflows/`：20 个 workflows，覆盖 build、test、coverage、typecheck、E2E、desktop build、mobile compile、release、installer smoke、weekly review。
 - `packages/`：deb/homebrew/npm/Tauri plugin 等分发与插件包。
 - `scripts/`：debug runners、mock API、release、CEF、agent batch、test planning、fixtures。
 - `remotion/`：mascot/runtime assets 渲染资源。
 
 ### 技术栈
 
-- **桌面 / 前端**：Tauri v2、CEF、React 19、TypeScript、Redux Toolkit、React Router、Vite、Radix/Tailwind、WDIO、Vitest。
-- **Core**：Rust 2021、Tokio、Axum、reqwest、rusqlite、socketioxide、tokio-tungstenite、clap、tracing、Sentry/OpenTelemetry。
-- **AI / Inference**：OpenHuman backend、OpenAI-compatible、Anthropic-style、Ollama/local runtime、STT/TTS、Whisper/Piper 方向。
-- **Tools / Integrations**：MCP HTTP/stdio、Composio、Gmail/Slack/Notion/GitHub/Linear/Jira/Drive/Calendar、browser/webview、curl/http/web_fetch、screen/voice/Meet。
+- **桌面 / 前端**：Tauri v2、vendored CEF、React 19、TypeScript、Redux Toolkit、React Router 7、Vite 8、Radix/Tailwind、XYFlow、Vitest、Playwright、WDIO。
+- **Core**：Rust 2021、Tokio、Axum、reqwest、rusqlite、socketioxide、tokio-tungstenite、clap、tracing、Sentry/OpenTelemetry、path-patched `tinyagents` / `tinyflows` / `tinycortex` / `tinyjuice` / `tinychannels` / `tinyplace`。
+- **AI / Inference**：OpenHuman backend、OpenAI-compatible、Anthropic-style、Ollama/local runtime、STT/TTS、Whisper/Piper、model routing。
+- **Tools / Integrations**：MCP HTTP/stdio、Composio、Gmail/Slack/Notion/GitHub/Linear/Jira/Drive/Calendar、browser/webview、curl/http/web_fetch、screen/voice/Meet、flows canvas。
 - **Runtime**：managed Node.js、managed Python。
 - **Storage / Security**：SQLite WAL + FTS5、OS keychain、Argon2、AES-GCM/ChaCha20Poly1305、per-launch bearer token、policy/approval/sandbox。
-- **CI/CD**：Vitest、cargo test、cargo-llvm-cov、diff-cover ≥80% changed-line coverage、GitHub Actions reusable workflows、desktop/mobile/release smoke。
+- **CI/CD**：Vitest、Playwright/WDIO、cargo test、cargo-llvm-cov、diff-cover ≥80% changed-line coverage、GitHub Actions workflows、desktop/mobile/release smoke。
 
 ### 模块依赖关系
 
@@ -495,7 +505,7 @@ await_workflow / command center / recent runs read terminal outcome
 - Agent harness 从 config/profile 构造可用 tools、MCP、skills、memory sources、provider choices。
 - Tool registry 依赖 SecurityPolicy、AuditLogger、RuntimeAdapter、Node/Python bootstrap、action_dir、config allowlists。
 - Memory ingest、session DB、run ledger 为 agent 和 UI 提供长期状态与可查询历史。
-- Workflow runtime 复用 agent orchestrator，并通过 run logs 与 command center 进入用户可见面。
+- `flows::` / `tinyflows` 与 `skill_runtime` 都复用 agent / ledger / observability 能力，但前者是保存型 graph automation，后者是 installed `SKILL.md` workflow 执行。
 - Connectors/MCP/Composio/webviews 把外部状态接入 memory 和 tool surface。
 
 ### 扩展机制
@@ -519,31 +529,30 @@ await_workflow / command center / recent runs read terminal outcome
 优点：
 
 - Rust domain 切分明显，`mod.rs` 多数只做 export，业务逻辑放 `ops.rs` / `store.rs` / `schemas.rs` 的约束写进 AGENTS.md。
-- controller registry、tool registry、provider routing、workflow runtime、run ledger 等抽象能看出持续平台化意图。
+- controller registry、tool registry、provider routing、`tinyagents`、`flows` / `tinyflows`、run ledger 等抽象能看出持续平台化意图。
 - 安全路径不是纯文档：policy tests、approval gate、browser allowlist stripping、internal-only controllers、e2e reset feature gate 都是实码。
-- 新增大功能通常伴随 tests 或 debug runner；仓库 test-like tracked files 已达 1,281。
+- 新增大功能通常伴随 tests 或 debug runner；仓库当前仍有 928 个 test-like tracked files，测试投入保持在较高水平。
 - 对失败状态有类型化意识：workflow footer、preflight gate、DEGENERATE detector、run cancel、memory unrecoverable failure 分流。
 
 问题：
 
 - 控制面过宽，`src/core/all.rs` 和 `src/openhuman/tools/ops.rs` 已经是事实上的能力地图，也最容易变成上帝注册表。
-- 产品面过满：desktop、memory、agent、workflow、MCP、connectors、voice、screen、mobile、payments/web3 同仓推进，长期维护压力大。
-- 文档口径仍要经常核实；例如 QuickJS skills removed 与新 workflow/skill_runtime 并存，容易被误读。
+- 产品面过满：desktop、memory、agent、flows、skill runtime、MCP、connectors、voice、screen、mobile、payments/web3 同仓推进，长期维护压力大。
+- 文档口径仍要经常核实；例如 `flows`、`skill_runtime`、`tinyagents`、release/installers 的节奏并不总同步。
 - 默认 managed experience 与 local-first 叙事之间需要持续保持透明，否则用户会误判数据/服务边界。
 - 部分外部状态（Composio、OpenHuman backend、provider webviews、OAuth、MCP packages）难以通过纯单元测试完全覆盖。
 
 ### 测试
 
-- `AGENTS.md` 要求 Vitest、Rust tests、WDIO E2E、mock backend、coverage gate。
+- `AGENTS.md` / README / package scripts 共同指向 Vitest、Rust tests、Playwright / WDIO E2E、mock backend、coverage gate。
 - `.github/workflows/coverage.yml` 对 PR changed lines 要求 ≥80%。
 - `scripts/debug/` 提供 summary-sized stdout 的 unit/e2e/rust/logs runner，适合 agent 维护时降低输出噪音。
-- GitHub workflows 包含 test/typecheck/coverage/e2e/installer smoke/build desktop/iOS/Android compile/release。
+- GitHub workflows（当前 20 个）包含 test/typecheck/coverage/e2e/installer smoke/build desktop/iOS/Android compile/release。
 - 本次未运行测试或构建，结论只来自源码、文档、Git 历史、CI 配置和 GitHub API 静态阅读。
 
 ### CI/CD
 
-- 28 个 workflow 文件，覆盖面比 5 月明显扩大。
-- 包含 desktop build、Windows build、Android/iOS compile、coverage、typecheck、E2E、installer smoke、release packages、release staging/production、uptime monitor、weekly code review。
+- 20 个 workflow 文件，覆盖 desktop build、Windows build、Android/iOS compile、coverage、typecheck、E2E、installer smoke、release packages、release staging/production、uptime monitor、weekly code review。
 - Release automation 成熟度高，但也说明项目分发面已经非常复杂。
 - 对贡献者而言，CI 是优点；对接管者而言，CI matrix 本身也是成本。
 
@@ -556,10 +565,9 @@ await_workflow / command center / recent runs read terminal outcome
 
 ### Issue / PR 健康度
 
-- 2026-06-15 GitHub Search API：open issue 110、open PR 58。
-- 近期 open issue / PR 样本：backend outage、vision sub-agent、Tiny Place / OpenClaw / Hermes 集成、weekly code-review、GMI Cloud AgentBox、Telegram voice transcription、Meet in-call agency、prompt-injection protection。
-- 近期 merged PR 样本：custom embeddings endpoint hardening、core RPC auth/inference/secrets/deep-link CSRF audit、desktop Appium suite 修复、memory unrecoverable failure routing、Claude Code opt-in provider + OpenHuman memory over MCP。
-- 这说明项目维护非常活跃，也说明真实生产边界还在快速补洞。
+- 2026-07-07 快照：open issue 155、open PR 44；repo API `open_issues_count=199` 含 PR。
+- 最近提交与 tags 仍然非常活跃：当前 HEAD 已到 `0.58.12` 源码，最新 release 仍是 `v0.58.7`，自 2026-06-15 以来新增 9 个 tags。
+- 这说明项目维护强度很高，但也意味着 adopting 方必须接受持续 release noise、installer/source 时间差和 trunk 高频变化。
 
 ---
 
@@ -567,29 +575,28 @@ await_workflow / command center / recent runs read terminal outcome
 
 ### 热度与认可度
 
-- 32k+ stars、3k+ forks，且项目创建时间很短，增长速度异常快。
+- 34.3k+ stars、3.3k+ forks、177 watchers，而且项目创建时间很短，增长速度仍然异常快。
 - Product Hunt / Trendshift / Discord / Reddit / X / GitBook 都已接入传播和社区入口。
-- 贡献者页面前 100 已满，PR/issue 量大，说明不是“README 项目”。
+- 本地 `git shortlog -sn --all` 已见 151 位作者，说明它不是“README 项目”，但方向感仍明显集中在核心团队。
 
 ### 正面信号
 
 - 方向清晰：local memory、desktop-first、personal AI、connectors、agent tools、managed/local hybrid。
 - 工程投入强：CI、coverage、desktop release、installer smoke、debug runner、agent workflow docs。
-- 源码持续吸收 coding-agent runtime 模式：todo/task board、workflow runtime、command center、agent teams、run ledger、MCP。
+- 源码持续吸收 coding-agent runtime 模式：todo/task board、`tinyagents`、`flows` / `tinyflows`、command center、agent teams、run ledger、MCP。
 - README 开始明确 managed services 边界，比“纯 local-first”营销更可信。
 
 ### 真实痛点
 
-- Open issue / PR 数量都高，且很多指向 backend outage、安全、sandbox、context length、prompt injection、provider edge case、desktop E2E。
-- 生态仍以官方产品和官方 registries 为中心，第三方插件市场尚未成熟。
-- GitHub topics 仍为空，不利于生态 discoverability。
-- Head contributor 集中，项目方向和速度高度依赖核心团队。
+- issue/PR 与 tag 节奏都高，source/release/installer 时间差会给采用方带来版本治理压力。
+- 生态仍以官方产品、官方 registry 与官方托管体验为中心，第三方插件市场成熟度仍需观察。
+- Head contributor 仍集中，项目方向和速度高度依赖核心团队。
 - 默认功能面太宽，用户和维护者都容易低估安全/状态/发布复杂度。
 
 ### 衍生项目 / 插件生态
 
 - README 提到 `agentmemory` 可作为 optional memory backend，说明它在尝试与其他 coding agents 共享 durable memory。
-- Skills/workflows 生态处在重建中：`workflows/`、`skill_registry/`、`skill_runtime/` 已有执行与安装路径，但第三方生态成熟度仍需观察。
+- Skills / flows 生态仍在快速重构：`flows/`、`skill_registry/`、`skill_runtime/`、`tinyflows/` 都已是活跃主线，但第三方生态成熟度仍需观察。
 - MCP registry / setup tools / generic MCP bridge 是最现实的外部工具生态入口。
 - Composio integrations 给“118+ third-party integrations”提供能力来源，但 managed backend / OAuth / webhook 是真实边界。
 
@@ -621,11 +628,11 @@ await_workflow / command center / recent runs read terminal outcome
 
 | 维度 | 评分(1-5) | 说明 |
 |------|----------|------|
-| 功能覆盖度 | 5 | Memory、tools、providers、channels、voice、MCP、workflow、agent teams、screen、connectors、mobile experiment 等面极广 |
+| 功能覆盖度 | 5 | Memory、tools、providers、channels、voice、MCP、flows、skill runtime、agent teams、screen、connectors、mobile experiment 等面极广 |
 | 代码质量 | 4 | Rust 工程化强、测试多、抽象清晰；但胖核心和中心注册表膨胀明显 |
 | 文档质量 | 4 | README/AGENTS 完整且越来越诚实；历史 GitBook/旧口径仍需源码校验 |
 | 社区活跃度 | 4 | stars/PR/release 活跃；但 issue/PR 堆积、核心贡献集中、深度生态早期 |
-| 架构设计 | 5 | in-process core、RPC registry、tool policy、memory tree、workflow runtime、run ledger 都有学习价值 |
+| 架构设计 | 5 | in-process core、RPC registry、tool policy、memory tree、`tinyagents`、`tinyflows`、run ledger 都有学习价值 |
 | 学习价值 | 5 | 是 personal AI OS / desktop agent harness 的高密度案例 |
 | 可借鉴度 | 4 | 单点模式非常可借鉴；整体复制成本高且 GPL/managed backend 约束强 |
 | 维护可接入度 | 4 | 文档/CI/issues 足够，适合外围贡献；核心模块门槛高 |
@@ -655,7 +662,7 @@ await_workflow / command center / recent runs read terminal outcome
 看点：
 
 - `build_registered_controllers()` 展示真实产品版图。
-- domain 覆盖 about、app_state、audio、composio、cron、task_sources、dashboard、mcp_registry、agent、profiles、agent_registry、agent_experience、health、doctor、security、approval、artifacts、heartbeat、http_host、cost、x402、channels、config、inference、embeddings、screen、sandbox、workflows、skill_runtime、skill_registry、memory、wallet、web3、meet、devices、session_db、agent_orchestration 等。
+- domain 覆盖 about、app_state、audio、composio、cron、flows、task_sources、dashboard、mcp_registry、agent、tinyagents replay、profiles、agent_registry、agent_experience、health、doctor、security、approval、artifacts、heartbeat、http_host、cost、x402、channels、config、inference、embeddings、screen、sandbox、skill_runtime、skill_registry、memory、wallet、web3、meet、devices、session_db、agent_orchestration 等。
 - internal-only controllers 与 agent-facing schema discovery 分开。
 
 评价：比 README 更能说明 OpenHuman 到底已经长成什么平台。
@@ -676,7 +683,7 @@ await_workflow / command center / recent runs read terminal outcome
 
 ### 4. `src/openhuman/skill_runtime/run_machinery.rs`
 
-职责：后台 workflow / skill run 的生成、取消、轮询和终态记录。
+职责：后台 installed `SKILL.md` workflow run 的生成、取消、轮询和终态记录。
 
 看点：
 
@@ -686,7 +693,7 @@ await_workflow / command center / recent runs read terminal outcome
 - max iterations、cancel token、run log drain、DONE/FAILED/CANCELLED/DEGENERATE footer。
 - repeated-line detector 把低熵循环识别为 `DEGENERATE`，避免伪成功。
 
-评价：这是 6 月快照里最重要的新增判断点：OpenHuman 的 skill/workflow 不再只是 metadata，而是进入可运行、可观测、可取消的 runtime。
+评价：这依然是理解 OpenHuman 的关键文件之一，但现在必须与 `flows::` / `tinyflows` 分开看：它负责的是 installed skill workflow runtime，不是保存型 flow graph 本身。
 
 ### 5. `src/openhuman/session_db/mod.rs`
 
@@ -740,13 +747,13 @@ await_workflow / command center / recent runs read terminal outcome
 
 ### 一句话评价
 
-OpenHuman 是一个快速膨胀但工程密度很高的本地优先 personal AI OS：它真正值得学习的不是 UI，而是如何把桌面生命周期、RPC 控制面、权限策略、工具执行、长期记忆、workflow runtime、session/run ledger 和外部连接器整合成一个可长期运行的 agent 产品。
+OpenHuman 是一个快速膨胀但工程密度很高的本地优先 personal AI / agent harness：它真正值得学习的不是 UI，而是如何把桌面生命周期、RPC 控制面、权限策略、工具执行、长期记忆、`tinyagents` / `tinyflows` / `skill_runtime`、session/run ledger 和外部连接器整合成一个可长期运行的 agent 产品。
 
 ### 谁应该用 / 学
 
 - 想做 desktop AI / personal AI workspace / 本地长期记忆产品的人。
 - 想学习 Rust/Tauri + local RPC core 的团队。
-- 想拆 agent tool policy、approval gate、MCP bridge、workflow runtime、run ledger 的工程师。
+- 想拆 agent tool policy、approval gate、MCP bridge、`tinyagents` / `tinyflows` / `skill_runtime`、run ledger 的工程师。
 - 想做开源维护练习，尤其是文档、测试、安全 hardening、小型 UI/state 修复的人。
 
 ### 谁不应该直接用
@@ -759,9 +766,9 @@ OpenHuman 是一个快速膨胀但工程密度很高的本地优先 personal AI 
 
 ### 下一步深挖 / 维护建议
 
-1. 深读 `skill_runtime/run_machinery.rs` 和 `workflows/run_log.rs`，确认 workflow runtime 的状态契约。
-2. 深读 `session_db/run_ledger.rs`，理解 background agent / workflow / team 的 durable state。
+1. 深读 `flows/mod.rs`、`tinyflows/mod.rs` 和 `skill_runtime/run_machinery.rs`，把 saved flows 与 installed skill workflows 的状态契约拆开理解。
+2. 深读 `session_db/run_ledger/mod.rs` 与 `agent_orchestration/run_ledger_finalize.rs`，理解 background agent / flow / team 的 durable state。
 3. 深读 `security/policy/*` + approval gate，抽象本地 agent 工具权限模型。
 4. 深读 `tools/ops.rs`，拆 tool registry 的安全分层和默认工具策略。
 5. 深读 `memory_tree/ingest.rs` / `retrieval.rs`，提炼长期记忆最小可复用模型。
-6. 若要首个 PR，优先做“文档口径修正：旧 QuickJS skills removed vs 新 workflow/skill_runtime active”或为 workflow/run_ledger 增加聚焦测试。
+6. 若要首个 PR，优先做“文档口径修正：`flows` vs `skill_runtime` vs `tinyagents` 的职责边界”或为 flow/run-ledger 增加聚焦测试。

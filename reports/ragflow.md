@@ -1,6 +1,6 @@
 # RAGFlow
 
-> 一句话定位：面向企业级知识库的全栈 RAG 引擎，用 DeepDoc/多解析器、模板化 chunking、混合检索、引用溯源、Agent/工作流和多租户数据集，把复杂企业文档变成可问答、可管理、可二开的知识库产品。
+> 一句话定位：面向企业级知识库的全栈 RAG / context engine 平台，用 DeepDoc/多解析器、模板化 chunking、混合检索、引用溯源、Agent / MCP / 多聊天渠道和多租户数据集，把复杂企业文档变成可问答、可管理、可二开的知识库产品。它的强项不是某个孤立检索算法，而是把 ingestion、retrieval、citation、agent 和部署运维收成一个完整产...[truncated]
 
 ## 基本信息
 
@@ -8,18 +8,33 @@
 |------|----|
 | 仓库 | `infiniflow/ragflow` |
 | URL | `https://github.com/infiniflow/ragflow` |
-| Star | 82,398（2026-06-10 观测；GitHub API 后续触发 rate limit，采用本轮首次采集值） |
-| Fork | 9,501（2026-06-10 观测） |
+| Star | 84,515（2026-07-07 GitHub API 快照） |
+| Fork | 9,844（2026-07-07 GitHub API 快照） |
+| Watchers | 344（2026-07-07 GitHub API 快照） |
 | GitHub 许可证元数据 | Apache-2.0 |
 | 主要语言 | Python + Go + TypeScript/TSX |
-| 首次提交 | 2023-12-12（`93f90bad6`） |
-| 最近提交 | 2026-06-10（`bf59eb77c`，`feat(go-api): port forgot-password flow to Go`） |
-| 最新 Release / Tag | GitHub latest release `v0.25.6`；本地最新 tag 列表含 `nightly`, `v0.25.6` |
-| 贡献者数 | 约 650（`git shortlog -sn HEAD` 口径） |
-| 代码规模 | pygount 口径约 3,352 文件 / 478,848 code LOC；Python 168,932、Go 98,549、TSX 79,952、TypeScript 53,488 |
-| GitNexus 索引 | 尝试执行 `gitnexus analyze --skills --drop-embeddings`，RAGFlow 大仓库触发 worker timeout，600s 未完成；本报告改用源码直读 |
-| 分析日期 | 2026-06-11 |
+| 默认分支 | `main` |
+| 仓库创建时间 | 2023-12-12 |
+| 首次提交 | 2023-12-12（GitHub commits API：`93f90bad6`，`Initial commit`） |
+| 最近提交 | 2026-07-07（`cb93883f3`，`Go: fix cgo build (#16724)`） |
+| 最新 Release / Tag | GitHub latest release `v0.26.4`（2026-07-07）；同日 tag 还包含 `nightly`；自 2026-06-10 以来新增 18 个 tags |
+| 贡献者数 | 668（GitHub contributors API `anon=1` 分页口径） |
+| Issue / PR | open issues 1,999；open PR 330（2026-07-07 GitHub search API） |
+| 代码规模 | 4,441 tracked files；Python 999 / 290,711 行，Go 1,316 / 449,912 行，TS 407 / 80,770 行，TSX 736 / 110,334 行 |
+| 测试 / CI | test-like 文件 446；GitHub workflows 3 |
+| 分析方式 | 本轮使用本地 shallow clone + GitHub API + README / manifest / 关键源码直读 |
+| 分析日期 | 2026-07-07 |
 
+---
+
+## 版本变化速读（相对 2026-06 旧报告）
+
+- **热度继续上行**：stars 从 82.4k 增到 84.5k，forks 从 9.5k 增到 9.84k。
+- **版本已从 `v0.25.6` 推进到 `v0.26.4`**：2026-06-10 以来新增 18 个 tags，今天同时有 `v0.26.4` 和 `nightly`，release 节奏依旧很快。
+- **README 叙事更明确地把项目写成 `context engine + Agent capabilities`**：当前首页直接强调 converged context engine、pre-built agent templates、MCP、memory、chat channels、orchestrable ingestion pipeline，而不再只是“文档问答”。
+- **Go 迁移继续加速**：当前文件数里 Go 已明显超过 Python（1,316 vs 999），最新提交也是 `Go: fix cgo build`，说明 API / service 面仍在持续 Go 化。
+- **平台边界继续变宽**：README 最新更新包含多聊天渠道（Feishu / Discord / Telegram / Line 等）、agent memory、Docling / MinerU、agentic workflow、sandbox code executor，仓库已不是狭义“知识库检索器”。
+- **部署前置依然重**：README 仍要求 Docker 24+、16GB RAM、50GB 磁盘，code executor 还要求 gVisor，且官方预构建镜像仍只提供 x86。
 ---
 
 ## 场景一：是否值得采用
@@ -48,7 +63,7 @@ README 对项目的定位是“open-source RAG engine”，强调适配任意规
 - 支持答案后处理引用插入，便于追溯来源。
 - 支持 dataset / knowledgebase / document / chunk / dialog / tenant / evaluation 等平台级模型。
 - 支持 Elasticsearch、OpenSearch、Infinity、OceanBase 等检索/存储后端部署选项。
-- 支持 Agent、workflow、MCP、sandbox code executor、Langfuse 配置等上层能力。
+- 支持 Agent、workflow、MCP、sandbox code executor、Langfuse、memory、多聊天渠道（Feishu / Discord / Telegram / Line 等）和更宽的数据同步/上下文引擎能力。
 
 **不能稳定保证什么：**
 
@@ -69,10 +84,10 @@ README 对项目的定位是“open-source RAG engine”，强调适配任意规
 
 - **个人/小团队 PoC**：中。Docker Compose 可以启动，但组件多、镜像大、资源占用高。
 - **企业私有化**：中到高。需要数据库、对象存储、检索引擎、模型网关、embedding/rerank 服务、网络安全、备份、监控、权限同步。
-- **依赖链**：重。`pyproject.toml` 要求 Python `>=3.13,<3.15`，依赖覆盖 OCR、PDF、Office、云数据源、LLM provider、数据库、Langfuse、MCP、agent sandbox 等，Python 依赖面非常宽。
-- **部署复杂度**：高于 LightRAG 单服务。`docker/docker-compose-base.yml` 提供 Elasticsearch、OpenSearch、Infinity、OceanBase、MySQL、MinIO、Redis/Valkey 等服务形态。
+- **依赖链**：重。`pyproject.toml` 现要求 Python `>=3.13,<3.14`；依赖覆盖 OCR、PDF、Office、云数据源、LLM provider、数据库、Langfuse、MCP、agent sandbox、browser-use、crawl4ai、多渠道 connector 等，Python 依赖面非常宽。
+- **部署复杂度**：高于 LightRAG 单服务。`docker/` 目录提供 Elasticsearch、OpenSearch、Infinity、OceanBase、MySQL、MinIO、Redis/Valkey 等服务形态；README 还要求 Docker 24+、16GB RAM、50GB 磁盘。
+- **运行前置限制**：code executor 需要 gVisor；官方预构建 Docker images 仍只提供 x86，ARM64 需自行构建镜像。
 - **从零到 demo**：如果只跑官方 Docker，顺利时可在小时级跑通；如果企业内网、国产化环境、私有模型、复杂 PDF 解析都要配置，通常是数天到数周的集成项目。
-
 
 ### 依赖 / SDK 选型证据
 
@@ -80,23 +95,26 @@ README 对项目的定位是“open-source RAG engine”，强调适配任意规
 
 | Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
 |------------|------|----------|----------------|----------|--------------|---------|
-| Elasticsearch / OpenSearch clients | search / document engine | Hybrid retrieval and document index backend | Avoids building a production inverted index and query engine | `pyproject.toml`; `go.mod`; `common/doc_store/es_conn_base.py`; Helm `DOC_ENGINE` config | Reuse when enterprise RAG needs mature filtering, scoring, and ops tooling | Heavy operational dependency; smaller apps may prefer embedded or managed search first |
-| MinIO / S3 clients | object storage SDK | File and artifact storage | Avoids custom binary/object storage layer | `pyproject.toml`; `go.mod`; `internal/storage/minio.go`; Helm MinIO templates | Reuse when documents/artifacts need S3-compatible storage portability | Still requires bucket lifecycle, credentials, backup, and multi-tenant isolation design |
-| Redis clients | cache / queue / lock | Distributed locks, runtime selection, message/task coordination | Avoids inventing ad hoc process coordination and shared state | `go.mod`; `api/ragflow_server.py`; `internal/agent/runtime/selector.go`; Helm Redis templates | Reuse when multi-worker coordination or low-latency shared state is required | Redis is not a durable database; define failure and recovery behavior |
-| SQLAlchemy / relational DB layer | ORM / persistence | Structured platform state and metadata | Avoids hand-writing all SQL persistence plumbing | `pyproject.toml`; `common/doc_store/ob_conn_base.py`; admin CLI docs | Reuse when product state needs migrations, transactions, and query composition | ORM does not replace explicit schema ownership and migration discipline |
+| `onnxruntime(-gpu)` + `opencv-python` + `pypdf` + `pdfplumber` + `python-docx` / `python-pptx` | 文档解析 / OCR / layout stack | DeepDoc、多 parser、复杂 PDF/Office/图片理解 | 避免自研企业文档解析底座 | `pyproject.toml` 直接依赖 + README 的 Deep document understanding / heterogeneous sources 叙事 | 复杂 SOP / 合同 / 扫描件场景很值得复用 | 安装面重，GPU/CPU、OCR、系统库兼容都要单独验证 |
+| `elasticsearch-dsl` + `opensearch-py` + `infinity-sdk` + `go-elasticsearch` | search / hybrid retrieval backend | 全文 + 向量 + fusion 检索、多 doc engine 适配 | 避免从零造生产级 inverted index / vector engine | `pyproject.toml`、`go.mod`、`rag/nlp/search.py`、`docker/` 多后端配置 | 适合已有搜索基础设施的企业私有化 | 运维、容量、索引一致性和权限过滤复杂度都高 |
+| `peewee` + `mysql-connector-python` + `psycopg2-binary` + `pyobvector` | metadata persistence / platform state | tenant / KB / document / task / dialog / evaluation 等平台模型 | 避免手写全套 CRUD / migration / relation plumbing | `pyproject.toml` + `api/db/db_models.py` / services | 多租户知识库产品层很有参考价值 | 当前 Python/Go 双后端并行，数据契约治理更难 |
+| `minio` + `boto3` + AWS S3 / Azure / Google storage clients | object storage / connectors | 文件、解析产物、外部云数据源同步 | 避免自研对象存储与多云接入层 | `pyproject.toml` 里 S3 / Azure / GCS / Dropbox / Box / Office365 / Google Drive 等依赖 | 适合企业“资料源很杂”的场景 | 凭证治理、同步频率、删除一致性和租户隔离是长期成本 |
+| `valkey` + `redis` + `nats.go` | queue / lock / runtime coordination | 分布式锁、缓存、worker 协调、runtime 选择 | 避免用数据库硬扛所有异步任务状态 | `pyproject.toml` + `go.mod` + `docker/` | 对 ingestion-first 平台非常关键 | 失败恢复和可观测性要自己补齐，不能把 Redis/NATS 当持久真相源 |
+| `mcp` + `agentrun-sdk` + `browser-use` + `crawl4ai` + `langfuse` | agent / MCP / web / observability | agentic workflow、外部工具协议、网页/浏览器能力、评测/追踪 | 把 RAG 从“只会答题”扩成“可行动的 context engine” | `pyproject.toml` 直接依赖 + README latest updates | 对需要 agent+KB 一体化的团队很有吸引力 | 平台边界迅速变宽，安全面和稳定性责任同步上升 |
 
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |
 |--------|------|------|
 | 许可证合规 | ✅ 低 | Apache-2.0，企业二开友好；但集成的第三方模型/解析器/数据源仍需单独核。 |
-| Bus factor | ✅ 中低 | 贡献者约 650，提交活跃；但核心架构仍由 InfiniFlow 主导。 |
-| 供应商锁定 | ⚠️ 中 | 开源可自托管，但平台体量大，二开后迁移成本高；默认深度绑定其数据模型和任务系统。 |
-| 维护趋势 | ✅ 活跃 | 2026-06-10 仍有提交，版本更新密集。 |
-| 安全历史 | ⚠️ 需专项审计 | 平台含 sandbox/code executor、文件解析、数据源连接器、认证、多租户；生产前必须做安全审计。 |
-| 权限治理 | ⚠️ 中高 | KB/team 级可见性清晰，但严格企业 ACL/文档继承/Chunk 级过滤需要验证。 |
-| 删除一致性 | ⚠️ 中 | `rag/nlp/search.py` 明确存在 stale chunk fallback。 |
-| 引用可信度 | ⚠️ 中 | citation 为生成后对齐插入，适合作为溯源辅助，不宜作为强审计证明。 |
+| Bus factor | ✅ 中低 | GitHub contributors API 口径约 668，社区面广；但核心架构和发版节奏仍明显由 InfiniFlow 驱动。 |
+| 供应商锁定 | ⚠️ 中 | 开源可自托管，但平台体量大、对象模型深，二开后迁移成本高；默认会把你带进其 KB / task / document / agent 体系。 |
+| 维护趋势 | ✅ 活跃且高频 | 2026-07-07 仍有提交，latest release 同日发出；2026-06-10 以来新增 18 个 tags。 |
+| 安全历史 / 攻击面 | ⚠️ 高 | 平台含 sandbox/code executor、文件解析、数据源连接器、认证、多租户、MCP、聊天渠道；生产前必须做专项安全审计。 |
+| 权限治理 | ⚠️ 中高 | `permission=me|team` 仍是核心口径；复杂企业 ACL/字段级过滤/组织继承权限需要二开和强验证。 |
+| 删除一致性 | ⚠️ 中 | `rag/nlp/search.py` 仍保留 `_prune_deleted_chunks` retrieval-side safety net，说明 stale chunk 风险仍未从根上消失。 |
+| 引用可信度 | ⚠️ 中 | citation 仍是生成后对齐插入，适合作为溯源辅助，不宜作为强审计证明。 |
+| 部署门槛 | ⚠️ 中高 | Docker / 搜索 / 对象存储 / DB / 缓存 / 模型服务齐全时价值最大，但这也意味着企业自运维成本不低。 |
 
 ### 结论
 
@@ -190,12 +208,12 @@ ragflow/
 
 ### 技术栈
 
-- **运行时 / 框架**：Python 3.13+、Go、React/TypeScript、Flask/Quart、Peewee、MinIO、Elasticsearch/OpenSearch/Infinity/OceanBase。
+- **运行时 / 框架**：Python `>=3.13,<3.14`、Go 1.26.4、React/TypeScript、Flask/Quart、Peewee、Gin/GORM、MinIO、Elasticsearch/OpenSearch/Infinity/OceanBase。
 - **文档解析**：DeepDoc、MinerU、Docling、PaddleOCR、pdfplumber、python-docx、python-pptx、mammoth、OpenCV、ONNX Runtime。
-- **RAG/模型**：多 LLM provider、embedding、rerank、Langfuse、MCP、Agent sandbox。
+- **RAG/模型**：多 LLM provider、embedding、rerank、Langfuse、MCP、Agent sandbox、memory、多聊天渠道。
 - **构建 / 打包**：Docker、Docker Compose、Helm、uv/pyproject、Go modules、前端构建。
 - **测试**：pytest、unit/API/E2E、Go tests、Playwright。
-- **CI/CD**：`.github/workflows/tests.yml`、`release.yml`；包含 Ruff、Go build、Docker image、unit/API 测试等。
+- **CI/CD**：当前 `.github/workflows/` 共 3 个 workflow；核心覆盖 tests / release / extra build paths，且大量能力仍依赖重 Docker 环境。
 
 ### 模块依赖关系
 
@@ -231,8 +249,8 @@ web / sdk / openapi: 用户界面与外部集成
 ### 代码质量
 
 - **类型系统**：Python 部分类型标注不均，Peewee model 和服务层偏动态；Go/TS 部分更强类型。
-- **错误处理**：任务执行和检索有大量兜底逻辑；但 stale chunk fallback 说明一致性链路仍需治理。
-- **代码风格一致性**：大仓库快速演进，Python/Go/TS 混合，工程纪律整体较强但复杂度高。
+- **错误处理**：任务执行和检索有大量兜底逻辑；`_prune_deleted_chunks` 仍说明删除一致性链路在工程上靠 safety net 托底。
+- **代码风格一致性**：大仓库快速演进，Python/Go/TS 混合，且当前 Go API 迁移还在进行中；工程纪律整体较强但复杂度显著上升。
 
 ### 测试
 
@@ -255,9 +273,9 @@ web / sdk / openapi: 用户界面与外部集成
 
 ### Issue / PR 健康度
 
-- GitHub API 首次采集显示 `open_issues_count=3345`，该字段包含 issue + PR；后续 API 被 rate limit，未能细拆纯 issue / open PR。
-- 本地提交活跃，最新提交为分析当天。
-- 高 open 数说明社区采用广，也说明维护压力大。
+- GitHub search API 口径：open issues 1,999，open PR 330（2026-07-07）。这是高采用 + 高维护压力并存的典型形态。
+- 最新提交和 latest release 都发生在分析当天，且自 2026-06-10 以来新增 18 个 tags，说明项目并不是“热度大但主线停滞”。
+- 但 backlog 仍非常大：这意味着企业采用时不能假设上游会快速消化所有 parser/backend/provider 组合问题，最好按自己的场景做回归和补丁策略。
 
 ---
 
@@ -265,15 +283,16 @@ web / sdk / openapi: 用户界面与外部集成
 
 ### 社区评价
 
-从 stars、forks、贡献者和提交活跃度看，RAGFlow 是开源 RAG 产品化第一梯队。它的社区吸引力来自“直接可用的企业知识库产品”，而不是单一算法创新。
+从 84.5k stars、9.84k forks、668 位 contributors 和当天仍在发版/打 tag 的节奏看，RAGFlow 仍是开源企业 RAG 产品化第一梯队。它的社区吸引力来自“直接可用的企业知识库产品 + 不断扩宽的 context engine / agent 能力”，而不是单一算法创新。
 
 ### 衍生项目 / 插件生态
 
 - 官方 cloud service。
 - Python/SDK/API 集成。
 - OpenClaw Skill。
-- MCP / Agent workflow。
+- MCP / Agent workflow / memory / sandbox code executor。
 - 多数据源连接器。
+- 多聊天渠道（Feishu / Discord / Telegram / Line 等）。
 - 与 Docling/MinerU 等解析器生态协同。
 
 ### 竞品对比
@@ -405,7 +424,7 @@ RAGFlow 很适合 SOP 问答，尤其是“文档型 SOP 问答”，原因：
 
 ### 一句话评价
 
-RAGFlow 是目前开源企业知识库/RAG 产品化最值得研究的样本之一：它的强项不在“最前沿 GraphRAG 算法”，而在把复杂企业文档处理、知识库管理、混合检索、引用溯源和平台化部署做成一个可落地产品。
+RAGFlow 是目前开源企业知识库 / RAG / context engine 产品化最值得研究的样本之一：它的强项不在“最前沿 GraphRAG 算法”，而在把复杂企业文档处理、知识库管理、混合检索、引用溯源、agent 能力和平台化部署做成一个可落地产品。
 
 ### 谁应该用
 
