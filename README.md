@@ -204,7 +204,6 @@ npm run verify
 | [macshot](./reports/macshot.md) | 原生 macOS 截图与录屏工作台：截图、标注、录屏、OCR/翻译、自动脱敏、上传与历史重编一体化 | 推荐采用（macOS 个人/团队内部工具） / 闭源集成观望 | ⭐⭐⭐⭐⭐ | 2026-07-07 |
 | [1Shell](./reports/1Shell.md) | AgentRun 驱动的 WebSSH + 多 VPS 运维中枢 + Remote MCP Server，当前已演进到 Task/Panel/AI gateway 一体化控制面 | 观望（个人/小团队 PoC 可试） | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [CLI-Anything](./reports/CLI-Anything.md) | Agent-native CLI 方法论、CLI-Hub 注册表与 Matrix 多工具工作流层；当前已进入 v0.4.0，并开始出现 package-manager/analytics 治理问题 | 观望（生产）/ 推荐学习与受控 PoC | ⭐⭐⭐⭐⭐ | 2026-07-08 |
-| [CodexDesktop-Rebuild](./reports/CodexDesktop-Rebuild.md) | 将官方仅 macOS 的 Codex Desktop 重新打包为跨平台安装包 | 不推荐（生产）/ 观望（尝鲜） | ⭐⭐⭐⭐ | 2026-05-09 |
 
 ## Methodology in one screen
 
