@@ -9,21 +9,21 @@
 | 仓库 | `google-labs-code/design.md` |
 | URL | `https://github.com/google-labs-code/design.md` |
 | Homepage | `https://stitch.withgoogle.com/docs/design-md/specification` |
-| Star | 22,697（GitHub API，2026-06-28） |
-| Fork | 1,811（GitHub API，2026-06-28） |
-| Watcher | 118（GitHub API，2026-06-28） |
+| Star | 25,366（GitHub API，2026-07-08） |
+| Fork | 1,969（GitHub API，2026-07-08） |
+| Watcher | 126（GitHub API，2026-07-08） |
 | 许可证 | Apache-2.0 |
 | 主要语言 | TypeScript |
 | 首次提交 | `2cdc1ef` / 2026-04-10：Initial commit |
-| 最近提交 | `2a19f5d` / 2026-06-15：`feat: add token-like-ignored lint rule for silently dropped frontmatter keys (#105)` |
-| 最新 Release | `0.3.0` / 2026-06-15 |
-| npm 包 | `@google/design.md@0.3.0`（npm registry，2026-06-28） |
-| Issue / PR 健康口径 | open issues：24；open PRs：30；repo `open_issues_count=54` 含 PR（GitHub Search/API，2026-06-28） |
-| 贡献者数 | 18（`git shortlog`，2026-06-28） |
-| 本地源码规模 | 123 个 tracked files；约 15,807 行文本；TypeScript 约 8,700 行、Markdown 约 3,299 行、JSON 约 2,849 行（排除 `.git/node_modules/dist/.turbo`，2026-06-28） |
-| 本地实测 | `bun run lint` 通过；`bun run test`：282 pass / 1 skip / 0 fail，283 tests across 34 files；`bun run build` 通过；CLI lint/export smoke 通过 |
-| 分析日期 | 2026-06-28 |
-| 本地分析版本 | `2a19f5d` / tag `0.3.0` |
+| 最近提交 | `ea4a324` / 2026-07-01：`feat: add CSS custom properties export format (--format css-vars) (#109)` |
+| 最新 Release | `0.3.0` / 2026-06-15（GitHub latest release；本轮未变） |
+| npm 包 | `@google/design.md@0.3.0`（npm registry 与 `FETCH_HEAD:packages/cli/package.json`，2026-07-08） |
+| Issue / PR 健康口径 | open issues：19；open PRs：23；repo `open_issues_count=42` 含 PR（GitHub Search/API，2026-07-08） |
+| 贡献者数 | 20（GitHub contributors API，2026-07-08） |
+| 本地源码规模 | `FETCH_HEAD` 下 130 个 tracked files；旧报告中的细分行数统计本轮未重算 |
+| 本地实测 | 本轮按静态源码边界未重跑；沿用 2026-06-28 基线：`bun run lint` 通过；`bun run test`：282 pass / 1 skip / 0 fail，283 tests across 34 files；`bun run build` 通过；CLI lint/export smoke 通过 |
+| 分析日期 | 2026-07-08 |
+| 本轮 freshness 视角 | 本地 `HEAD=2a19f5d`，`FETCH_HEAD=ea4a324`，相对远端 `behind 9 / ahead 0`；latest release 与 package version 仍是 `0.3.0` |
 
 ---
 
@@ -76,6 +76,7 @@ CLI = validation / diff / export / machine-readable report
 - 将 DESIGN.md 导出为：
   - Tailwind v3 `theme.extend` JSON；
   - Tailwind v4 `@theme` CSS；
+  - plain CSS custom properties（`--format css-vars`，支持可选 prefix）；
   - W3C Design Tokens / DTCG JSON。
 - 用 `diff` 比较两个 DESIGN.md 的 token-level 变化和 lint regression。
 - 用 `spec` 输出当前格式规范和规则表，方便 agent / 文档系统读取。
@@ -85,7 +86,7 @@ CLI = validation / diff / export / machine-readable report
 
 - 不生成最终 UI；它只是上下文格式和工具链。
 - 不提供视觉预览、设计画布、组件库 runtime、Figma plugin 或多人协作。
-- 不替代成熟 design token pipeline；当前导出目标有限，主要围绕 Tailwind 与 DTCG。
+- 不替代成熟 design token pipeline；当前导出目标仍有限，主要围绕 Tailwind、plain CSS custom properties 与 DTCG。
 - 不强约束所有设计系统维度；motion、iconography、elevation、layout 等很多内容仍通过 prose / extension keys 表达。
 - 不保证 agent 一定“审美好”；它只把可读上下文和契约变稳定，最终效果仍取决于模型、agent harness 和执行流程。
 
@@ -168,6 +169,7 @@ flowchart TD
 
   State --> TW3[Tailwind v3 Emitter]
   State --> TW4[Tailwind v4 Emitter]
+  State --> CSSV[CSS Vars Emitter]
   State --> DTCG[DTCG Emitter]
 
   Findings --> CLI[CLI commands]
@@ -204,7 +206,7 @@ Markdown/YAML Parser
 | `DesignSystemState` | `packages/cli/src/linter/model/spec.ts` | 统一运行时状态 | `colors/typography/rounded/spacing/components/symbolTable/unknownKeys` | 让规则和 emitter 不再关心 Markdown/YAML 细节，只消费统一模型。 |
 | `RuleDescriptor` / `LintRule` | `packages/cli/src/linter/linter/rules/types.ts`、`runner.ts` | 描述 lint 规则、默认 severity、执行函数 | `name/severity/description/run()` | 把质量检查做成可组合、可输出 spec 的规则表。 |
 | Default rules | `packages/cli/src/linter/linter/rules/index.ts` | 聚合 broken-ref、contrast、orphan、section-order 等规则 | `DEFAULT_RULE_DESCRIPTORS`、`DEFAULT_RULES` | rule registry 是工具可扩展和可解释的控制面。 |
-| Emitters | `tailwind/handler.ts`、`tailwind/v4/handler.ts`、`dtcg/handler.ts` | 从 `DesignSystemState` 输出目标格式 | `execute(state)` | 让 DESIGN.md 不停在文档层，而能进入真实前端 build pipeline。 |
+| `Emitters` | `tailwind/handler.ts`、`tailwind/v4/handler.ts`、`css-vars/handler.ts`、`dtcg/handler.ts` | 从 `DesignSystemState` 输出 Tailwind v3 / v4、CSS custom properties 与 DTCG 目标格式 | `execute(state)` | 让 DESIGN.md 不停在文档层，而能进入真实前端 build pipeline。 |
 | CLI commands | `packages/cli/src/commands/*.ts`、`src/index.ts` | 外部契约：lint/diff/export/spec | `defineCommand()`、`process.exitCode` | agent/CI 调用的稳定边界。 |
 | Spec config | `packages/cli/src/linter/spec-config.ts` + `spec-config.yaml` | 单一规范事实源 | `getSpecConfig()`、`CANONICAL_ORDER`、`VALID_*` | linter 与 docs/spec 共享同一配置，减少规范/实现漂移。 |
 
@@ -258,7 +260,7 @@ TailwindV4EmitterHandler.execute(state)
   ↓ serializeTailwindV4()
 输出 @theme CSS
   ↓
-lint errors > 0 时 exitCode = 1
+export 成功时 exitCode = 0（即使源文件存在 lint findings）；invalid format / emitter error 为 1；输入文件不可读为 2
 ```
 
 本地 smoke test 对 `examples/atmospheric-glass/DESIGN.md` 输出的 `@theme` CSS 前几行：
@@ -304,7 +306,7 @@ regression 为 true 时 exitCode = 1
 - **外部 CLI 契约**
   - `design.md lint <file> [--format json|text|markdown]`
   - `design.md diff <before> <after> [--format json|text]`
-  - `design.md export <file> --format css-tailwind|json-tailwind|tailwind|dtcg`
+  - `design.md export <file> --format css-tailwind|json-tailwind|tailwind|dtcg|css-vars [--prefix <prefix>]`
   - `design.md spec [--rules] [--rules-only] [--format markdown|json]`
   - 输出默认 JSON；错误或 regression 通过 exit code 表达。
 
@@ -325,7 +327,7 @@ regression 为 true 时 exitCode = 1
 | token reference 断裂 / 循环 | `resolveReference()` + component `unresolvedRefs` | broken-ref rule 报 error | 修 `{path.to.token}`；CI 应 fail-closed。 |
 | component contrast 不足 | `contrastCheck` 计算 WCAG ratio | warning | 调色或调整 text/background token。 |
 | unknown token-like key 被 export 忽略 | `tokenLikeIgnoredRule` | warning | 移入支持的 schema key 或明确作为 extension prose 使用。 |
-| Tailwind v4 token name 不合法 | `TailwindV4EmitterHandler` 校验 | export 返回 error | 改 token name，避免生成非法 CSS variable。 |
+| Tailwind v4 / CSS vars emitter 约束不满足 | `TailwindV4EmitterHandler` / `CssVarsEmitterHandler` | export 返回 error | 改 token name 或 emitter 输入，避免生成非法 CSS 输出。 |
 | npm registry / Windows bin resolution | README 专门记录 | 使用 `designmd` alias 或检查 registry | 对平台差异有明确 workaround。 |
 
 #### 可复刻设计不变量
@@ -350,7 +352,7 @@ regression 为 true 时 exitCode = 1
 | schema 策略 | 小核心 + extension-friendly | 一次性标准化所有设计领域 | 让格式先被用户扩展，而不是被 spec 过早锁死。 |
 | 工具入口 | npm CLI | 桌面工作台 / SaaS / 插件优先 | 降低采用门槛，适合 CI 和 agent 调用。 |
 | rule 设计 | descriptor registry | 散落 if/else 检查 | 可输出规则表、可组合、可测。 |
-| export 目标 | Tailwind v3/v4 + DTCG | 全平台 token build | 聚焦前端 agent 高频场景，保持工具轻。 |
+| export 目标 | Tailwind v3/v4 + CSS vars + DTCG | 全平台 token build | 聚焦前端 agent 高频场景，同时补一条 framework-neutral CSS custom properties 出口。 |
 | parser 容忍度 | frontmatter + fenced yaml block | 只允许严格 frontmatter | 支持文档中分段嵌入 token，但用 duplicate key 检查守边界。 |
 
 ### 值得学习的模式
@@ -368,7 +370,7 @@ regression 为 true 时 exitCode = 1
    - 这是“实现即文档”的轻量版本。
 
 4. **Exporters depend on resolved state, not raw YAML**
-   - Tailwind/DTCG emitter 只看 `DesignSystemState`。
+   - Tailwind / CSS vars / DTCG emitter 只看 `DesignSystemState`。
    - 这样 parser、schema、sourceMap、frontmatter 变化不会污染下游 emitter。
 
 5. **早期规范保持 extension seam**
@@ -419,6 +421,7 @@ regression 为 true 时 exitCode = 1
 | `packages/cli/src/linter/linter/` | lint runner、rules、finding spec。 |
 | `packages/cli/src/linter/tailwind/` | Tailwind v3 JSON emitter。 |
 | `packages/cli/src/linter/tailwind/v4/` | Tailwind v4 `@theme` CSS emitter 与 serializer。 |
+| `packages/cli/src/linter/css-vars/` | plain CSS custom properties emitter 与 serializer。 |
 | `packages/cli/src/linter/dtcg/` | W3C Design Tokens / DTCG emitter。 |
 | `packages/cli/src/linter/spec-gen/` | 从 MDX + spec config 生成 spec 文档。 |
 | `examples/*/DESIGN.md` | 示例设计系统：atmospheric-glass、paws-and-paths、totality-festival。 |
@@ -446,6 +449,7 @@ src/index.ts
             │   ├─ linter/runner.ts
             │   └─ tailwind/handler.ts
             ├─ tailwind/v4/handler.ts
+            ├─ css-vars/handler.ts
             ├─ dtcg/handler.ts
             └─ spec-gen/spec-helpers.ts
 ```
@@ -512,7 +516,7 @@ CI 质量不错，尤其是 tarball smoke 和 Windows registry smoke，直接覆
 
 ### Issue / PR 健康度
 
-- Open issues：24；open PRs：30；closed issues：30；closed PRs：63（GitHub Search，2026-06-28）。
+- Open issues：19；open PRs：23；closed issues：37；closed PRs：72（GitHub Search，2026-07-08）。
 - 最新 open issues 包括：token name collision、accessibility considerations、structured shadows/elevation、color-blind contrast lint、missing file ENOENT 等。
 - 这说明社区需求集中在：更强 lint、更多 token 类别、可访问性和更完整 design-system 表达。
 - 合并节奏较快；v0.3.0 前后修复了 nested token、Windows npx、unknown-key、boolean YAML scalars 等现实问题。
@@ -530,12 +534,12 @@ CI 质量不错，尤其是 tarball smoke 和 Windows registry smoke，直接覆
 
 这里需要区分两件事：
 
-- **生态热度很高**：22k+ stars、很多二次 skill / curated DESIGN.md repo。
+- **生态热度很高**：25k+ stars、很多二次 skill / curated DESIGN.md repo。
 - **真实标准化仍早期**：spec alpha、release 0.3.0、企业设计系统迁移实践还需要沉淀。
 
 ### 衍生项目 / 插件生态
 
-GitHub Search 样本（2026-06-28）：
+GitHub Search 样本（2026-07-08）：
 
 - `eveiljuice/claude-plugin-design-md`：Claude Code plugin，scaffold DESIGN.md。
 - `minsu42/claude-skill-design-md`：从截图自动生成 DESIGN.md。
@@ -609,11 +613,13 @@ GitHub Search 样本（2026-06-28）：
 - 路径：
   - `packages/cli/src/linter/tailwind/handler.ts`
   - `packages/cli/src/linter/tailwind/v4/handler.ts`
+  - `packages/cli/src/linter/css-vars/handler.ts`
   - `packages/cli/src/linter/dtcg/handler.ts`
 - 职责：将 resolved state 转成外部 token format。
 - 实现要点：
   - Tailwind v3 输出 `theme.extend.colors/fontFamily/fontSize/borderRadius/spacing`。
   - Tailwind v4 输出分类 theme data，再序列化为 `@theme` CSS variables。
+  - `css-vars` 输出 plain CSS custom properties，并支持可选 prefix。
   - DTCG 输出 `$schema`、color/spacing/rounded/typography groups。
 
 ---
@@ -625,7 +631,7 @@ GitHub Search 样本（2026-06-28）：
 | 功能覆盖度 | 4 | 对“agent-readable design context + lint/export”覆盖很完整；但还不是全量 design token pipeline。 |
 | 代码质量 | 4 | TypeScript 分层清楚、测试多、错误处理实际；alpha 项目仍有启发式和早期边界。 |
 | 文档质量 | 5 | README、spec、PHILOSOPHY 都有高价值，尤其 prose-first 理念写得清楚。 |
-| 社区活跃度 | 5 | 22k+ stars、衍生 skill/目录快速出现；但真实生产 adoption 仍需观察。 |
+| 社区活跃度 | 5 | 25k+ stars、衍生 skill/目录快速出现；但真实生产 adoption 仍需观察。 |
 | 架构设计 | 4 | parser/model/rule/emitter/CLI 分层稳；scope 控制得好。缺少更成熟的 plugin/custom schema story。 |
 | 学习价值 | 5 | 对 agent-native 文件协议、设计上下文工程化、prose+token 双层契约非常有启发。 |
 | 可借鉴度 | 5 | 任何前端/内容/品牌型 agent workflow 都可以直接复用 DESIGN.md 思路。 |
