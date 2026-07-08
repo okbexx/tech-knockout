@@ -9,20 +9,20 @@
 | 仓库 | `the-open-agent/openagent` |
 | URL | `https://github.com/the-open-agent/openagent` |
 | 官网 / Docs | `https://www.openagentai.org/` |
-| Star | 5,358（2026-07-07 GitHub API 快照） |
-| Fork | 615（2026-07-07 GitHub API 快照） |
-| Watchers | 57（2026-07-07 GitHub API 快照） |
+| Star | 5,361（2026-07-08 GitHub API 快照） |
+| Fork | 619（2026-07-08 GitHub API 快照） |
+| Watchers | 57（2026-07-08 GitHub API 快照） |
 | 许可证 | Apache-2.0 |
 | 主要语言 | Go |
 | 默认分支 | `master` |
 | GitHub 创建时间 | 2020-05-29 |
 | 本地首次提交 | 2023-06-22 / `1bbf9d2c` / `Initial commit` |
-| 最近提交 | 2026-07-07 / `6c85d7ea` / `fix: improve PDF viewer UI (#2454)` |
-| 最新 Git tag | `v2.82.1`（本地 tag 时间 2026-07-07 15:14:42 +0800） |
-| 贡献者 | 本地 `git shortlog -sn --all` 76；头部集中：Yang Luo 1820、IsAurora6 178、Copilot 105 |
-| Issue / PR | open issue 42；open PR 2；repo API `open_issues_count=44` 含 PR |
+| 最近提交 | 2026-07-08 / `72113280` / `fix: contain file preview so wide content can't overlap the About panel (#2455)` |
+| 最新 Git tag | `v2.83.1`（GitHub latest release published_at 2026-07-08T03:55:03Z） |
+| 贡献者 | GitHub contributors API 首屏 10；头部集中：`hsluoyz` 1537、`IsAurora6` 149、`Copilot` 103 |
+| Issue / PR | open issue 42；open PR 3；repo API `open_issues_count=45` 含 PR |
 | 仓库体量 | 693 tracked files；controllers 58；object 80；model 36；web 236；Go tests 26；web tests 2 |
-| 分析日期 | 2026-07-07 |
+| 分析日期 | 2026-07-08 |
 
 ## 场景一：是否值得采用
 
@@ -66,7 +66,7 @@ OpenAgent 解决的是“我不想自己拼 LangChain/LangGraph + 管理后台 +
 - **最快 demo**：README 给出一行 installer，默认 14000 端口；Docker Compose 也提供 `openagent + mysql` 组合。
 - **部署形态**：单二进制、Docker standard、Docker all-in-one、Helm，CI 里有 GoReleaser 和 Docker multi-arch 发布。
 - **运行依赖**：Go 后端 + CRA/React 前端 + DB；`docker-compose.yml` 默认 MySQL 8.0.25；`go.mod` 同时带 `modernc.org/sqlite`、`go-sql-driver/mysql`、`lib/pq`、`go-mssqldb`，说明数据库适配面较宽，但默认落点仍是 MySQL 自托管。
-- **源码构建成本**：需要 Go 1.25.x、Node 22、Yarn（`web/package.json` 明确拒绝 npm install）、前端 `craco build`、后端 `build.sh` 输出多架构二进制；本次按静态分析边界未执行本地构建/测试，只核对了源码与 CI/打包脚本。
+- **源码构建成本**：需要 Go 1.25.x、Node 22、Yarn（`web/package.json` 明确拒绝 npm install）、前端 `craco build`、后端 `build.sh` 输出多架构二进制；本轮尝试本地 `go test ./...`，但当前环境直接报 `go: command not found`，因此仍以源码与 CI/打包脚本为主，不伪造本地运行验证。
 - **学习曲线**：如果只用 UI 配模型和知识库，中等；如果要改核心，需要理解 Beego controller、object 业务层、provider factory、MCP toolset、RAG vector、前端 SSE、Casdoor/authz、CI/release。
 - **维护成本**：中高。它不是“agent SDK + 示例工程”，而是一个把 Provider、RAG、MCP、工具、渠道连接、管理后台和发布链全部打包进来的宽单体。
 
@@ -90,9 +90,9 @@ OpenAgent 解决的是“我不想自己拼 LangChain/LangGraph + 管理后台 +
 | 风险项 | 评估 | 说明 |
 |--------|------|------|
 | 许可证合规 | 低 | Apache-2.0，商业二开友好 |
-| Bus factor | 中 | 本地作者数 76，但提交明显头部集中；第一作者 Yang Luo 1820 commits，后续长尾明显下降 |
+| Bus factor | 中 | GitHub contributors API 首屏显示 `hsluoyz` 1537、`IsAurora6` 149、`Copilot` 103；贡献者面不算小，但提交权重仍明显头部集中 |
 | 供应商锁定 | 中 | 支持多 provider / Ollama / OpenAI-compatible / MCP，但 Store / Provider / Casdoor / Casibase 这一套对象模型有自己的平台耦合 |
-| 维护趋势 | 活跃但带版本治理压力 | 2026-07-01 以来本地 tag 30 个，2026-07-07 仍持续提交；活跃是优点，但版本噪音也更高 |
+| 维护趋势 | 活跃但带版本治理压力 | 2026-07-01 以来 tag 仍有 30 个，且 2026-07-08 继续发到 `v2.83.1`；活跃是优点，但版本噪音也更高 |
 | 安全攻击面 | 高 | shell、本地文件、浏览器、GUI、MCP、webhook、多租户、session/auth、RAG 文件解析，组合面大 |
 | 产品叙事一致性 | 中 | 主聊天链路强，OpenAI API 已接近但仍不等价；workflow/BPMN 也有代码，但离“成熟编排平台”仍有距离 |
 | 规模化 RAG | 中-高 | 向量仍以数据库行 + `mediumtext` 方式落地，适合起步，但重知识库负载要关注性能和迁移路径 |
@@ -274,7 +274,7 @@ openagent/
 
 - Go `_test.go` 26 个；web 只有 2 个 `.test.js`；未见 TS/Playwright/Cypress 一类前端回归套件。
 - CI 明确跑 `go test -v ... $(go list ./...) -tags skipCi` 和 frontend build。
-- 本次按静态分析边界未执行本地 `go test` / `yarn test`；本报告基于源码、CI 配置与打包脚本，不冒充运行验证通过。
+- 本轮**尝试**本地 `go test ./...`，但当前环境直接返回 `go: command not found`；因此本报告仍不冒充本地运行验证通过。
 - 覆盖重心仍偏后端对象/解析/工具函数；前端交互和复杂状态回归保障偏弱。
 
 ### CI/CD
@@ -301,8 +301,8 @@ openagent/
 
 ### Issue / PR 健康度
 
-- 2026-07-07 快照：open issue 42、open PR 2；repo API `open_issues_count=44` 含 PR。
-- 更强的健康信号来自提交 / 发版密度：2026-07-01 以来本地 tag 30 个，2026-07-07 仍持续推新提交。
+- 2026-07-08 快照：open issue 42、open PR 3；repo API `open_issues_count=45` 含 PR。
+- 更强的健康信号来自提交 / 发版密度：2026-07-01 以来 tag 仍有 30 个，2026-07-08 已推进到 `v2.83.1`。
 - 这说明维护极活跃，但也意味着外部采用者要接受更高的版本噪音和回归窗口。
 - 如果要生产试用，更适合固定 tag / 小版本，而不是直接追 `master`。
 
@@ -312,8 +312,8 @@ openagent/
 
 **热度与认可度：**
 
-- 5.3k stars / 615 forks / 57 watchers，对 self-hosted AI assistant platform 已属高可见度。
-- GitHub 仓库本身的维护信号很强：2026-07-01 以来本地 tag 30 个，2026-07-07 仍在持续提交。
+- 5.36k stars / 619 forks / 57 watchers，对 self-hosted AI assistant platform 已属高可见度。
+- GitHub 仓库本身的维护信号很强：2026-07-01 以来 tag 仍有 30 个，2026-07-08 已发布 `v2.83.1` 并继续推新提交。
 - 官网声称 2.8k+ Discord members、50k+ self-hosted、90+ countries；这些是项目方数据，未独立验证。
 
 **正面信号：**

@@ -193,7 +193,7 @@ npm run verify
 | [DESIGN.md](./reports/design.md.md) | Google Labs / Stitch 开源的 agent-readable 设计系统文件格式：YAML tokens + Markdown prose + CLI lint/diff/export，让 coding agent 稳定复用视觉身份 | 推荐采用（个人/小团队）/ 企业作为 AI 设计上下文层试点 | ⭐⭐⭐⭐⭐ | 2026-06-28 |
 | [UI-TARS-desktop](./reports/UI-TARS-desktop.md) | ByteDance Multimodal AI Agent Stack：UI-TARS Desktop + GUIAgent SDK + Operator/browser/remote runtime | 生产采用观望 / 推荐 GUI Agent PoC 与架构学习 | ⭐⭐⭐⭐⭐ | 2026-06-17 |
 | [openhuman](./reports/openhuman.md) | Rust/Tauri 本地优先 personal AI OS：Memory Tree + tools + workflow runtime + 多 Agent 编排 | 观望（隔离试用 / 架构学习 / 外围维护） | ⭐⭐⭐⭐⭐ | 2026-06-15 |
-| [openagent](./reports/openagent.md) | Go + React 自托管个人 AI 助手平台 | 观望（个人/小团队 PoC 可试） | ⭐⭐⭐⭐⭐ | 2026-05-20 |
+| [openagent](./reports/openagent.md) | Go + React 自托管个人 AI 助手平台；最新已到 v2.83.1，平台面继续高频迭代，但本轮本地 `go test` 被环境缺少 Go 阻断 | 观望（个人/小团队 PoC 可试） | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [CyberVerse](./reports/CyberVerse.md) | Go + Python + Vue 的实时 digital-human Agent 平台：WebRTC / PersonaAgent / RAG / FlashHead / LiveAct / 云端数字人 | 观望（PoC/学习推荐；生产前先做安全收口） | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [open-design](./reports/open-design.md) | 带 Cloud / desktop / MCP / plugin substrate 的 agent-native 设计平台 | 推荐研究与 PoC；生产采用前先当平台底座评估 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 
