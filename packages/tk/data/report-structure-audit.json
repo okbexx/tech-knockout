@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "contractVersion": "report-structure-v1",
-  "generatedAt": "2026-07-08T10:28:39.833Z",
+  "generatedAt": "2026-07-08T10:38:57.827Z",
   "reportRoot": "reports",
   "summary": {
     "totalReports": 28,
@@ -11111,7 +11111,7 @@
         },
         {
           "level": 2,
-          "line": 40,
+          "line": 41,
           "title": "场景一：是否值得采用",
           "canonicalTitle": "场景一：是否值得采用",
           "parentH2": "场景一：是否值得采用",
@@ -11119,7 +11119,7 @@
         },
         {
           "level": 3,
-          "line": 42,
+          "line": 43,
           "title": "解决的问题",
           "canonicalTitle": "解决的问题",
           "parentH2": "场景一：是否值得采用",
@@ -11127,7 +11127,7 @@
         },
         {
           "level": 3,
-          "line": 55,
+          "line": 56,
           "title": "核心能力与边界",
           "canonicalTitle": "核心能力与边界",
           "parentH2": "场景一：是否值得采用",
@@ -11135,7 +11135,7 @@
         },
         {
           "level": 3,
-          "line": 83,
+          "line": 84,
           "title": "集成成本",
           "canonicalTitle": "集成成本",
           "parentH2": "场景一：是否值得采用",
@@ -11143,7 +11143,7 @@
         },
         {
           "level": 3,
-          "line": 92,
+          "line": 93,
           "title": "依赖 / SDK 选型证据",
           "canonicalTitle": "依赖 / SDK 选型证据",
           "parentH2": "场景一：是否值得采用",
@@ -11151,7 +11151,7 @@
         },
         {
           "level": 3,
-          "line": 105,
+          "line": 106,
           "title": "风险评估",
           "canonicalTitle": "风险评估",
           "parentH2": "场景一：是否值得采用",
@@ -11159,7 +11159,7 @@
         },
         {
           "level": 3,
-          "line": 119,
+          "line": 120,
           "title": "结论",
           "canonicalTitle": "结论",
           "parentH2": "场景一：是否值得采用",
@@ -11167,7 +11167,7 @@
         },
         {
           "level": 2,
-          "line": 127,
+          "line": 128,
           "title": "场景二：技术架构学习",
           "canonicalTitle": "场景二：技术架构学习",
           "parentH2": "场景二：技术架构学习",
@@ -11175,7 +11175,7 @@
         },
         {
           "level": 3,
-          "line": 129,
+          "line": 130,
           "title": "核心架构图",
           "canonicalTitle": "核心架构图",
           "parentH2": "场景二：技术架构学习",
@@ -11183,7 +11183,7 @@
         },
         {
           "level": 3,
-          "line": 149,
+          "line": 150,
           "title": "关键设计决策与 trade-off",
           "canonicalTitle": "关键设计决策与 trade-off",
           "parentH2": "场景二：技术架构学习",
@@ -11191,7 +11191,7 @@
         },
         {
           "level": 3,
-          "line": 161,
+          "line": 162,
           "title": "值得学习的模式",
           "canonicalTitle": "值得学习的模式",
           "parentH2": "场景二：技术架构学习",
@@ -11199,7 +11199,7 @@
         },
         {
           "level": 3,
-          "line": 170,
+          "line": 171,
           "title": "反模式 / 踩坑点",
           "canonicalTitle": "反模式 / 踩坑点",
           "parentH2": "场景二：技术架构学习",
@@ -11207,7 +11207,7 @@
         },
         {
           "level": 3,
-          "line": 178,
+          "line": 179,
           "title": "可借鉴的具体技术点",
           "canonicalTitle": "可借鉴的具体技术点",
           "parentH2": "场景二：技术架构学习",
@@ -11215,7 +11215,7 @@
         },
         {
           "level": 2,
-          "line": 188,
+          "line": 189,
           "title": "架构解剖",
           "canonicalTitle": "架构解剖",
           "parentH2": "架构解剖",
@@ -11223,7 +11223,7 @@
         },
         {
           "level": 3,
-          "line": 190,
+          "line": 191,
           "title": "目录结构",
           "canonicalTitle": "目录结构",
           "parentH2": "架构解剖",
@@ -11231,7 +11231,7 @@
         },
         {
           "level": 3,
-          "line": 209,
+          "line": 210,
           "title": "技术栈",
           "canonicalTitle": "技术栈",
           "parentH2": "架构解剖",
@@ -11239,7 +11239,7 @@
         },
         {
           "level": 3,
-          "line": 218,
+          "line": 219,
           "title": "模块依赖关系",
           "canonicalTitle": "模块依赖关系",
           "parentH2": "架构解剖",
@@ -11247,7 +11247,7 @@
         },
         {
           "level": 3,
-          "line": 236,
+          "line": 237,
           "title": "扩展机制",
           "canonicalTitle": "扩展机制",
           "parentH2": "架构解剖",
@@ -11255,7 +11255,7 @@
         },
         {
           "level": 2,
-          "line": 247,
+          "line": 248,
           "title": "质量与成熟度",
           "canonicalTitle": "质量与成熟度",
           "parentH2": "质量与成熟度",
@@ -11263,7 +11263,7 @@
         },
         {
           "level": 3,
-          "line": 249,
+          "line": 250,
           "title": "代码质量",
           "canonicalTitle": "代码质量",
           "parentH2": "质量与成熟度",
@@ -11271,7 +11271,7 @@
         },
         {
           "level": 3,
-          "line": 255,
+          "line": 256,
           "title": "测试",
           "canonicalTitle": "测试",
           "parentH2": "质量与成熟度",
@@ -11279,7 +11279,7 @@
         },
         {
           "level": 3,
-          "line": 261,
+          "line": 262,
           "title": "CI/CD",
           "canonicalTitle": "CI/CD",
           "parentH2": "质量与成熟度",
@@ -11287,7 +11287,7 @@
         },
         {
           "level": 3,
-          "line": 267,
+          "line": 269,
           "title": "文档质量",
           "canonicalTitle": "文档质量",
           "parentH2": "质量与成熟度",
@@ -11295,7 +11295,7 @@
         },
         {
           "level": 3,
-          "line": 274,
+          "line": 276,
           "title": "Issue / PR 健康度",
           "canonicalTitle": "Issue / PR 健康度",
           "parentH2": "质量与成熟度",
@@ -11303,7 +11303,7 @@
         },
         {
           "level": 2,
-          "line": 282,
+          "line": 285,
           "title": "社区与生态",
           "canonicalTitle": "社区与生态",
           "parentH2": "社区与生态",
@@ -11311,7 +11311,7 @@
         },
         {
           "level": 3,
-          "line": 284,
+          "line": 287,
           "title": "社区评价",
           "canonicalTitle": "社区评价",
           "parentH2": "社区与生态",
@@ -11319,7 +11319,7 @@
         },
         {
           "level": 3,
-          "line": 288,
+          "line": 291,
           "title": "衍生项目 / 插件生态",
           "canonicalTitle": "衍生项目 / 插件生态",
           "parentH2": "社区与生态",
@@ -11327,7 +11327,7 @@
         },
         {
           "level": 3,
-          "line": 298,
+          "line": 301,
           "title": "竞品对比",
           "canonicalTitle": "竞品对比",
           "parentH2": "社区与生态",
@@ -11335,7 +11335,7 @@
         },
         {
           "level": 2,
-          "line": 308,
+          "line": 311,
           "title": "关键代码走读",
           "canonicalTitle": "关键代码走读",
           "parentH2": "关键代码走读",
@@ -11343,7 +11343,7 @@
         },
         {
           "level": 3,
-          "line": 310,
+          "line": 313,
           "title": "1. Knowledgebase / Document 数据模型",
           "canonicalTitle": "1. Knowledgebase / Document 数据模型",
           "parentH2": "关键代码走读",
@@ -11351,7 +11351,7 @@
         },
         {
           "level": 3,
-          "line": 320,
+          "line": 323,
           "title": "2. 异步解析与 chunk 构建",
           "canonicalTitle": "2. 异步解析与 chunk 构建",
           "parentH2": "关键代码走读",
@@ -11359,7 +11359,7 @@
         },
         {
           "level": 3,
-          "line": 330,
+          "line": 333,
           "title": "3. DeepDoc / Naive parser 聚合",
           "canonicalTitle": "3. DeepDoc / Naive parser 聚合",
           "parentH2": "关键代码走读",
@@ -11367,7 +11367,7 @@
         },
         {
           "level": 3,
-          "line": 338,
+          "line": 341,
           "title": "4. 混合检索与 fallback",
           "canonicalTitle": "4. 混合检索与 fallback",
           "parentH2": "关键代码走读",
@@ -11375,7 +11375,7 @@
         },
         {
           "level": 3,
-          "line": 348,
+          "line": 351,
           "title": "5. Citation 插入",
           "canonicalTitle": "5. Citation 插入",
           "parentH2": "关键代码走读",
@@ -11383,7 +11383,7 @@
         },
         {
           "level": 3,
-          "line": 358,
+          "line": 361,
           "title": "6. KB 访问控制",
           "canonicalTitle": "6. KB 访问控制",
           "parentH2": "关键代码走读",
@@ -11391,7 +11391,7 @@
         },
         {
           "level": 3,
-          "line": 369,
+          "line": 372,
           "title": "7. Evaluation 初版能力",
           "canonicalTitle": "7. Evaluation 初版能力",
           "parentH2": "关键代码走读",
@@ -11399,7 +11399,7 @@
         },
         {
           "level": 2,
-          "line": 380,
+          "line": 383,
           "title": "SOP / 标准操作手册问答专项评估",
           "canonicalTitle": "SOP / 标准操作手册问答专项评估",
           "parentH2": "SOP / 标准操作手册问答专项评估",
@@ -11407,7 +11407,7 @@
         },
         {
           "level": 3,
-          "line": 382,
+          "line": 385,
           "title": "适合度：4.0/5",
           "canonicalTitle": "适合度：4.0/5",
           "parentH2": "SOP / 标准操作手册问答专项评估",
@@ -11415,7 +11415,7 @@
         },
         {
           "level": 3,
-          "line": 391,
+          "line": 394,
           "title": "最推荐场景",
           "canonicalTitle": "最推荐场景",
           "parentH2": "SOP / 标准操作手册问答专项评估",
@@ -11423,7 +11423,7 @@
         },
         {
           "level": 3,
-          "line": 399,
+          "line": 402,
           "title": "不建议单独承担的场景",
           "canonicalTitle": "不建议单独承担的场景",
           "parentH2": "SOP / 标准操作手册问答专项评估",
@@ -11431,7 +11431,7 @@
         },
         {
           "level": 2,
-          "line": 409,
+          "line": 412,
           "title": "评分",
           "canonicalTitle": "评分",
           "parentH2": "评分",
@@ -11439,7 +11439,7 @@
         },
         {
           "level": 2,
-          "line": 423,
+          "line": 426,
           "title": "总结",
           "canonicalTitle": "总结",
           "parentH2": "总结",
@@ -11447,7 +11447,7 @@
         },
         {
           "level": 3,
-          "line": 425,
+          "line": 428,
           "title": "一句话评价",
           "canonicalTitle": "一句话评价",
           "parentH2": "总结",
@@ -11455,7 +11455,7 @@
         },
         {
           "level": 3,
-          "line": 429,
+          "line": 432,
           "title": "谁应该用",
           "canonicalTitle": "谁应该用",
           "parentH2": "总结",
@@ -11463,7 +11463,7 @@
         },
         {
           "level": 3,
-          "line": 436,
+          "line": 439,
           "title": "谁不应该直接用",
           "canonicalTitle": "谁不应该直接用",
           "parentH2": "总结",
@@ -11471,7 +11471,7 @@
         },
         {
           "level": 3,
-          "line": 443,
+          "line": 446,
           "title": "下一步",
           "canonicalTitle": "下一步",
           "parentH2": "总结",

@@ -8,31 +8,32 @@
 |------|----|
 | 仓库 | `infiniflow/ragflow` |
 | URL | `https://github.com/infiniflow/ragflow` |
-| Star | 84,515（2026-07-07 GitHub API 快照） |
-| Fork | 9,844（2026-07-07 GitHub API 快照） |
-| Watchers | 344（2026-07-07 GitHub API 快照） |
+| Star | 84,586（2026-07-08 GitHub API 快照） |
+| Fork | 9,867（2026-07-08 GitHub API 快照） |
+| Watchers | 345（2026-07-08 GitHub API 快照） |
 | GitHub 许可证元数据 | Apache-2.0 |
 | 主要语言 | Python + Go + TypeScript/TSX |
 | 默认分支 | `main` |
 | 仓库创建时间 | 2023-12-12 |
 | 首次提交 | 2023-12-12（GitHub commits API：`93f90bad6`，`Initial commit`） |
-| 最近提交 | 2026-07-07（`cb93883f3`，`Go: fix cgo build (#16724)`） |
-| 最新 Release / Tag | GitHub latest release `v0.26.4`（2026-07-07）；同日 tag 还包含 `nightly`；自 2026-06-10 以来新增 18 个 tags |
+| 最近提交 | 2026-07-08（`330033d7c`，`Fix(go): adapt to new db columns (#16745)`） |
+| 最新 Release / Tag | GitHub latest release `v0.26.4`（2026-07-07）；远端 `nightly` 仍在移动，`dev-20260708` 已出现；自 2026-06-10 以来新增 20 个 tags |
 | 贡献者数 | 668（GitHub contributors API `anon=1` 分页口径） |
-| Issue / PR | open issues 1,999；open PR 330（2026-07-07 GitHub search API） |
+| Issue / PR | open issues 1,993；open PR 335（2026-07-08 GitHub search API） |
 | 代码规模 | 4,441 tracked files；Python 999 / 290,711 行，Go 1,316 / 449,912 行，TS 407 / 80,770 行，TSX 736 / 110,334 行 |
 | 测试 / CI | test-like 文件 446；GitHub workflows 3 |
-| 分析方式 | 本轮使用本地 shallow clone + GitHub API + README / manifest / 关键源码直读 |
-| 分析日期 | 2026-07-07 |
+| 分析方式 | 本轮使用本地旧 clone + 远端 `origin/main` fetch + GitHub API + README / manifest / 关键源码直读 |
+| 分析日期 | 2026-07-08 |
 
 ---
 
 ## 版本变化速读（相对 2026-06 旧报告）
 
-- **热度继续上行**：stars 从 82.4k 增到 84.5k，forks 从 9.5k 增到 9.84k。
-- **版本已从 `v0.25.6` 推进到 `v0.26.4`**：2026-06-10 以来新增 18 个 tags，今天同时有 `v0.26.4` 和 `nightly`，release 节奏依旧很快。
+- **热度继续上行**：stars 从 82.4k 增到 84.6k，forks 从 9.5k 增到 9.87k。
+- **版本已从 `v0.25.6` 推进到 `v0.26.4`，且 release/tag 面继续活跃**：2026-06-10 以来新增 20 个 tags；GitHub latest release 仍是 `v0.26.4`，同时远端已出现 `dev-20260708`。
+- **`nightly` 是可漂移 tag，不是固定锚点**：本地旧 clone 在 `fetch --tags` 时直接报 `would clobber existing tag`，说明 `nightly` 指向会前移，运维和自动化不能把它当 immutable release artifact。
 - **README 叙事更明确地把项目写成 `context engine + Agent capabilities`**：当前首页直接强调 converged context engine、pre-built agent templates、MCP、memory、chat channels、orchestrable ingestion pipeline，而不再只是“文档问答”。
-- **Go 迁移继续加速**：当前文件数里 Go 已明显超过 Python（1,316 vs 999），最新提交也是 `Go: fix cgo build`，说明 API / service 面仍在持续 Go 化。
+- **Go 迁移继续加速**：当前文件数里 Go 已明显超过 Python（1,316 vs 999），远端最新提交也已变成 `Fix(go): adapt to new db columns`，说明 API / service 面仍在持续 Go 化。
 - **平台边界继续变宽**：README 最新更新包含多聊天渠道（Feishu / Discord / Telegram / Line 等）、agent memory、Docling / MinerU、agentic workflow、sandbox code executor，仓库已不是狭义“知识库检索器”。
 - **部署前置依然重**：README 仍要求 Docker 24+、16GB RAM、50GB 磁盘，code executor 还要求 gVisor，且官方预构建镜像仍只提供 x86。
 ---
@@ -262,6 +263,7 @@ web / sdk / openapi: 用户界面与外部集成
 
 - `.github/workflows/tests.yml` 包含 Ruff、Go build、Docker image build、unit tests、HTTP API tests 等。
 - `release.yml` 支撑发布流程。
+- 最近 12 条 Actions runs 里，`sep-tests` 在 `main` push 上保持 success；PR 侧能看到大量 skipped/cancelled/in_progress，说明仓库在高频迭代下仍有较重的条件执行与 CI 噪音。
 - 风险：CI 使用自托管 runner 和重 Docker 环境，外部 fork/企业二开复现成本较高。
 
 ### 文档质量
@@ -273,9 +275,10 @@ web / sdk / openapi: 用户界面与外部集成
 
 ### Issue / PR 健康度
 
-- GitHub search API 口径：open issues 1,999，open PR 330（2026-07-07）。这是高采用 + 高维护压力并存的典型形态。
-- 最新提交和 latest release 都发生在分析当天，且自 2026-06-10 以来新增 18 个 tags，说明项目并不是“热度大但主线停滞”。
-- 但 backlog 仍非常大：这意味着企业采用时不能假设上游会快速消化所有 parser/backend/provider 组合问题，最好按自己的场景做回归和补丁策略。
+- GitHub search API 口径：open issues 1,993，open PR 335（2026-07-08）。这是高采用 + 高维护压力并存的典型形态。
+- 远端最新提交已经推进到 2026-07-08，latest release 仍是 2026-07-07 的 `v0.26.4`；自 2026-06-10 以来 tags 已增至 20 个。
+- 需要特别注意：`nightly` 为 mutable tag，本地旧 clone `fetch --tags` 会因 `would clobber existing tag` 失败。这是“高频发布”之外的额外运维噪音信号。
+- backlog 仍非常大：这意味着企业采用时不能假设上游会快速消化所有 parser/backend/provider 组合问题，最好按自己的场景做回归和补丁策略。
 
 ---
 
@@ -283,7 +286,7 @@ web / sdk / openapi: 用户界面与外部集成
 
 ### 社区评价
 
-从 84.5k stars、9.84k forks、668 位 contributors 和当天仍在发版/打 tag 的节奏看，RAGFlow 仍是开源企业 RAG 产品化第一梯队。它的社区吸引力来自“直接可用的企业知识库产品 + 不断扩宽的 context engine / agent 能力”，而不是单一算法创新。
+从 84.6k stars、9.87k forks、668 位 contributors 和 2026-07-08 仍在推主线 / 漂移 `nightly` tag 的节奏看，RAGFlow 仍是开源企业 RAG 产品化第一梯队。它的社区吸引力来自“直接可用的企业知识库产品 + 不断扩宽的 context engine / agent 能力”，而不是单一算法创新。
 
 ### 衍生项目 / 插件生态
 
