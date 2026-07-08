@@ -1,6 +1,6 @@
 # Coding Agents 横评
 
-> 更新日期：2026-07-07（本次重点刷新 Pi 行；OpenCode / jcode 其余基础画像沿用最近一次核验数据）
+> 更新日期：2026-07-08（主三方矩阵沿用 OpenCode / Pi / jcode 最近一次核验数据；补齐 `compound-engineering-plugin` 参照项口径）
 > 涉及项目：OpenCode、Pi（原 pi-mono）、jcode
 > 参考竞品：Claude Code、Codex CLI、Cline、Aider、Continue、OpenHands、Gemini CLI
 
@@ -156,10 +156,10 @@
 
 ### 相关但非同类项目：compound-engineering-plugin
 
-[compound-engineering-plugin](../reports/compound-engineering-plugin.md) 不是独立 Coding Agent 平台，而是 **AI 编码工作流插件 / 编排层**，依赖 Claude Code、Cursor、Codex 等宿主平台。它解决的问题和上述平台不同：
+[compound-engineering-plugin](../reports/compound-engineering-plugin.md) 当前更准确的定位是：**root-native 团队型 AI coding workflow 插件 / 编排层**。它以顶层 `skills/` 和多份 native plugin manifests 为事实源，向 Claude、Cursor、Codex、Kimi 与 adapter targets 分发 `brainstorm → plan → work → simplify → review → compound` 的复利工程闭环；它依赖 Claude Code、Cursor、Codex 等宿主平台，而不是自己提供独立 agent runtime。
 
 - **OpenCode / Pi / jcode 是“做一个 agent 平台或 runtime”**。
-- **compound-engineering-plugin 是“在现有平台上加工作流编排和复利工程协议”**。
+- **compound-engineering-plugin 是“在现有平台上加工作流编排、review loop 与复利工程协议”**。
 - 它与 OpenCode / Pi 更可能互补：一个提供执行底座，一个提供工作流协议。
 
 ### 闭源 / 邻近对标检查表
