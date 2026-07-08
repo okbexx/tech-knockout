@@ -8,18 +8,19 @@
 |------|----|
 | 仓库 | `DietrichGebert/ponytail` |
 | URL | `https://github.com/DietrichGebert/ponytail` |
-| Star | 60,790（截至 2026-06-27） |
-| Fork | 3,109 |
+| Star | 77,556（截至 2026-07-08） |
+| Fork | 4,134 |
 | 许可证 | MIT |
 | 语言 | JavaScript / Python / Markdown；核心资产是 skills、AGENTS.md 与多宿主 adapter |
 | 默认分支 | `main` |
 | 首次提交 | 2026-06-12 `3a3d78d Initial commit` |
-| 最近提交 | 2026-06-26 `c4d1925 Merge pull request #323 from DietrichGebert/hermes-plugin` |
-| 最新 Release | v4.8.3（2026-06-24） |
-| Open Issues / PRs | 27 issues / 54 PRs（分别查询 Issues 与 Pulls，不混用 GitHub `open_issues_count`） |
-| 贡献者数 | GitHub API 返回 41 个贡献者；主导者 `DietrichGebert` 86 contributions |
-| 本地规模 | 149 个 tracked files；测试文件 16 个；根包版本 `4.8.3` |
-| 分析日期 | 2026-06-27 |
+| 最近提交 | 2026-07-07 `1b2760d feat: hide the pi status bar indicator while keeping ponytail active (#324) (#544)` |
+| 最新 Release | `v4.8.4`（2026-06-29，`v4.8.4: lazy in Hermes now`） |
+| Open Issues / PRs | 31 issues / 104 PRs（GitHub Search API 分别查询 `is:issue` 与 `is:pr`） |
+| 贡献者数 | GitHub contributors API 当前可见 44 个贡献者；项目方向仍明显由 `DietrichGebert` 主导 |
+| 本地旧 clone / 远端 tip | 本地 `HEAD` 停在 2026-06-26 的 `c4d1925`；`origin/main` 已到 2026-07-07 的 `1b2760d`，ahead/behind=`0/24` |
+| 本地规模 | `origin/main` 视角：150 个 tracked files；55 Markdown；49 JS/TS/Shell/Python；17 个 test-ish files；根包与 `ponytail-mcp` 版本都已到 `4.8.4` |
+| 分析日期 | 2026-07-08 |
 | 分析边界 | 静态源码 / 文档 / Git 历史 / GitHub API；未安装依赖，未运行项目、测试或构建 |
 
 ---
@@ -465,7 +466,7 @@ pi-extension/index.js ──► Pi commands / session state / before_agent_start
 ### 代码质量
 
 - **类型系统：** JavaScript 为主，无 TypeScript；代码偏小而直接，依赖少。Python Hermes plugin 使用类型注解但不是重型类型驱动。
-- **错误处理：** hooks 普遍采用 best-effort + silent catch，符合 “插件不能阻塞宿主” 的目标；但也牺牲一些可观测性。
+- **错误处理：** hooks 普遍采用 best-effort + silent catch，符合 “插件不能阻塞宿主” 的目标；但也牺牲一些可观测性。6 月底到 7 月初新增的修复也集中在这里：Windows stdin EOF、BOM/CRLF、malformed settings、Pi `before_agent_start`、OpenCode 参数类型、default-mode 写入异常等都被补进防御逻辑。
 - **代码风格一致性：** 共享逻辑集中在 `hooks/ponytail-config.js` / `ponytail-instructions.js`；多宿主 adapter 风格一致，薄而明确。
 - **安全意识：** 对 shell snippet 路径做 allowlist；Hermes gateway rewrite 尊重 slash access；deactivation command 防误触。
 
@@ -478,8 +479,9 @@ pi-extension/index.js ──► Pi commands / session state / before_agent_start
   - host adapter：Hermes plugin、OpenCode plugin、Gemini extension、Copilot plugin、OpenClaw skills。
   - command behavior：mode parsing、slash command、skill command。
   - uninstall / Windows path / statusline safety。
+  - persistent default mode、Hermes/Windows compatibility、Pi extension 行为回归。
   - benchmark utilities：LOC/correctness。
-- **静态判断：** 对这种 prompt/plugin distribution 项目而言，测试重点放在 adapter 契约和规则漂移上是正确的；不足是没有多 OS CI matrix。
+- **静态判断：** 对这种 prompt/plugin distribution 项目而言，测试重点放在 adapter 契约和规则漂移上是正确的；近 24 个提交也继续往 Windows/Hermes/Pi/uninstall 这些跨宿主边界补测试。但 CI 仍未扩成真正的多 OS matrix。
 
 ### CI/CD
 
@@ -501,10 +503,10 @@ pi-extension/index.js ──► Pi commands / session state / before_agent_start
 
 ### Issue / PR 健康度
 
-- 开放 issue：27；开放 PR：54。对一个 2026-06-12 创建的新项目来说，社区热度非常高，维护队列压力也很高。
-- 高频主题：新平台 adapter 请求、Windows/PowerShell/path 兼容、benchmark 计量、CJK 语言上下文、插件冲突、statusline/Hook UX。
+- 开放 issue：31；开放 PR：104。对一个 2026-06-12 创建的新项目来说，社区热度极高，但维护队列压力也进一步抬升。
+- 高频主题：新平台 adapter 请求、Windows/PowerShell/path 兼容、benchmark 计量、CJK 语言上下文、插件冲突、statusline/Hook UX，以及默认 mode 持久化、Pi/OpenCode 参数健壮性等跨宿主边缘问题。
 - issue/PR 多数无 label / assignee / milestone，triage 体系较轻。
-- 维护模式是 “强单核 + 大量外部贡献”，短期迭代快，长期看 bus factor 和 backlog 需要观察。
+- 维护模式是 “强单核 + 大量外部贡献”，短期迭代快，长期看 bus factor 和 backlog 需要观察；当前 24 commits 的增量里，明显能看到作者在持续收 Pi、Hermes、Windows、uninstall 等适配债。
 
 ---
 
@@ -516,8 +518,8 @@ pi-extension/index.js ──► Pi commands / session state / before_agent_start
 
 - **认可点：** 开发者对 “AI agent 过度工程” 有强共鸣；ponytail 用一个好记的 senior-dev persona 把问题讲清楚，传播性极强。
 - **真实痛点：** 宿主适配面太宽，平台差异持续制造 bug；CJK/非英语上下文、Windows、hook timeout、冲突插件是实际使用中的痛点。
-- **可信信号：** 项目没有回避 benchmark 质疑，而是在 README 中承认旧口径夸大，并补 agentic benchmark。
-- **风险信号：** 爆火很快，open PR backlog 高，长期维护和 governance 还没被时间验证。
+- **可信信号：** 项目没有回避 benchmark 质疑，而是在 README 中承认旧口径夸大，并补 agentic benchmark；近 24 个提交也主要在补真实跨宿主/跨平台毛边，而不是只堆营销文案。
+- **风险信号：** 爆火很快，open PR backlog 已到 104，长期维护和 governance 还没被时间验证。
 
 ### 衍生项目 / 插件生态
 
@@ -601,7 +603,7 @@ ponytail 自己就是跨宿主分发包，生态主要体现为 host adapters，
 | 功能覆盖度 | 4 | 对 anti-overengineering / 少写正确代码覆盖很完整；不覆盖完整工程流程和 runtime policy |
 | 代码质量 | 4 | 代码小、模块边界清楚、依赖少；JS 无类型系统，Hermes process-global mode 有隔离风险 |
 | 文档质量 | 5 | README、agent portability、benchmark limitations 写得很完整；但高速演进带来漂移风险 |
-| 社区活跃度 | 5 | 60k+ stars、PR/issue 活跃；但项目极新，backlog 高 |
+| 社区活跃度 | 5 | 77k+ stars、104 个 open PR、31 个 open issues，GitHub-native 热度极强；但项目极新，backlog 也更高 |
 | 架构设计 | 5 | Skill corpus + instruction builder + thin adapters + soft-fail contract 非常清晰 |
 | 学习价值 | 5 | 非常适合学习 agent behavior 产品化、跨宿主 prompt distribution、软约束降级设计 |
 | 可借鉴度 | 5 | 可直接借鉴到内部 agent skill library：mode、adapter、fallback、debt comment、rule drift checks |
@@ -633,4 +635,4 @@ ponytail 自己就是跨宿主分发包，生态主要体现为 host adapters，
 1. **个人试用：** 推荐 `full` 默认，`ultra` 只在 throwaway / 小改动中使用。
 2. **团队试点：** 先在非关键仓库启用，规定 validation/security/accessibility 不可被简化。
 3. **架构借鉴：** 内部 agent skill library 可以直接复制 “single skill source + mode resolver + thin adapters + soft-fail injection” 模式。
-4. **继续观察：** 关注 open PR backlog、Windows/CJK/插件冲突修复、Hermes 多会话隔离是否演进。
+4. **继续观察：** 关注 open PR backlog、Windows/CJK/插件冲突修复、Pi/OpenCode edge-case hardening、Hermes 多会话隔离是否演进。

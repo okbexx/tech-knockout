@@ -165,7 +165,7 @@ npm run verify
 | [Pi（原 pi-mono）](./reports/pi-mono.md) | Terminal agent harness：coding agent CLI + runtime core + unified AI substrate | 推荐采用（个人主力试用 / 内部 SDK 底座） | ⭐⭐⭐⭐⭐ | 2026-07-07 |
 | [OpenCode](./reports/opencode.md) | 开源 AI coding-agent runtime：durable session + event/projection + tool settlement + 多入口产品面 | 推荐采用（个人/高级开发者）/ 团队生产化前隔离 PoC | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [superpowers](./reports/superpowers.md) | 跨平台 Agentic 技能操作系统：零依赖 Skills + bootstrap + hooks + adapters 注入开发纪律 | 推荐采用（个人/小团队）/ 团队生产化前试点 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
-| [ponytail](./reports/ponytail.md) | 跨宿主极简编码纪律插件：以 skills / hooks / AGENTS.md / plugin adapters 把“少写代码但不减安全”的 lazy senior dev ladder 注入 Claude Code、Codex、OpenCode、Hermes 等 agent harness | 推荐采用（个人/小团队）/ 团队标准化前隔离试点 | ⭐⭐⭐⭐⭐ | 2026-06-27 |
+| [ponytail](./reports/ponytail.md) | 跨宿主极简编码纪律插件：以 skills / hooks / AGENTS.md / plugin adapters 把“少写代码但不减安全”的 lazy senior dev ladder 注入 Claude Code、Codex、OpenCode、Hermes 等 agent harness | 推荐采用（个人/小团队）/ 团队标准化前隔离试点 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [Trellis](./reports/Trellis.md) | 项目层 AI coding engineering framework：把 spec、task、workspace memory、四阶段工作流、跨平台 agent 配置和事件溯源 channel runtime 落到仓库与本地状态中 | 推荐采用（团队/高频 AI coding 项目的项目记忆与任务底座）/ 商业生产化前评估 AGPL 与流程迁移成本 | ⭐⭐⭐⭐⭐ | 2026-07-07 |
 | [compound-engineering-plugin](./reports/compound-engineering-plugin.md) | root-native 团队型 AI coding workflow 插件：29-skill CE loop，多宿主 native/plugin manifests + adapter 分发，brainstorm → plan → work → simplify → review → compound 复利闭环；repo 已到 3.19.0 而公开 npm 包仍停 3.8.3 | 推荐采用（团队多 specialist 审查与复利沉淀）/ 企业生产化前隔离试点 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [ECC](./reports/ECC.md) | 跨 Claude Code / Codex / Cursor / OpenCode 的 workflow 操作系统；主包版本面已收敛到 2.0.0，资产库与安装治理继续膨胀 | 推荐采用（profile/skill/hooks）/ 观望（ECC2） | ⭐⭐⭐⭐⭐ | 2026-07-08 |
