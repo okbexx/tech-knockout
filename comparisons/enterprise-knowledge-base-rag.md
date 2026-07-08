@@ -2,14 +2,14 @@
 
 > 分类：Enterprise Knowledge Base / RAG
 > 项目：[RAGFlow](../reports/ragflow.md) 、 [LightRAG](../reports/LightRAG.md)
-> 更新日期：2026-07-07
+> 更新日期：2026-07-08
 
 ## 横评对象
 
 | 项目 | 一句话 | Stars（观测日） |
 |------|--------|----------------|
-| **RAGFlow** | DeepDoc + 模板化 chunking + 混合检索 + 引用溯源 + UI/API/Agent / context engine 的企业级 RAG 知识库平台 | 84,515（2026-07-07） |
-| **LightRAG** | 四存储层可插拔、实体关系抽取、多模式 GraphRAG 检索和多模态文档 pipeline 的图谱增强检索内核 | 37,423（2026-07-07） |
+| **RAGFlow** | DeepDoc + 模板化 chunking + 混合检索 + 引用溯源 + UI/API/Agent / context engine 的企业级 RAG 知识库平台 | 84,586（2026-07-08） |
+| **LightRAG** | 四存储层可插拔、实体关系抽取、多模式 GraphRAG 检索和多模态文档 pipeline 的图谱增强检索内核 | 37,454（2026-07-08） |
 
 ---
 

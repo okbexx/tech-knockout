@@ -8,29 +8,29 @@
 |------|----|
 | 仓库 | `HKUDS/LightRAG` |
 | URL | `https://github.com/HKUDS/LightRAG` |
-| Star | 37,423（2026-07-07 GitHub API 快照） |
-| Fork | 5,267（2026-07-07 GitHub API 快照） |
-| Watchers | 208（2026-07-07 GitHub API 快照） |
+| Star | 37,454（2026-07-08 GitHub API 快照） |
+| Fork | 5,277（2026-07-08 GitHub API 快照） |
+| Watchers | 208（2026-07-08 GitHub API 快照） |
 | GitHub 许可证元数据 | MIT |
 | 主要语言 | Python + TypeScript/TSX |
 | 默认分支 | `main` |
 | 仓库创建时间 | 2024-10-02 |
 | 首次提交 | 2024-10-07（GitHub commits API：`25df09a8`，`first commit`） |
 | 最近提交 | 2026-07-07（`fedd95ce7`，merge `perf/nvidia-embed-close-client`） |
-| 最新 Release / Tag | GitHub latest release `v1.5.4`（2026-06-24）；源码包版本 `1.5.5`（`lightrag/_version.py`）已领先 release；自 2026-06-10 以来新增 4 个 tags |
+| 最新 Release / Tag | GitHub latest release `v1.5.4`（2026-06-24）；源码包版本 `1.5.5`（`lightrag/_version.py`）已领先 release；自 2026-06-10 以来新增 4 个 tags，且同日还出现 `temp` tag |
 | 贡献者数 | 291（GitHub contributors API `anon=1` 分页口径） |
-| Issue / PR | open issues 196；open PR 29（2026-07-07 GitHub search API） |
+| Issue / PR | open issues 198；open PR 33（2026-07-08 GitHub search API） |
 | 代码规模 | 720 tracked files；Python 412 / 198,688 行，TS 26 / 4,774 行，TSX 75 / 14,021 行，Shell 23 / 7,648 行 |
 | 测试 / CI | test-like 文件 251；GitHub workflows 8 |
-| 分析方式 | 本轮使用本地 shallow clone + GitHub API + README / manifest / 关键源码直读 |
-| 分析日期 | 2026-07-07 |
+| 分析方式 | 本轮使用本地 clone（与远端 `origin/main` 对齐）+ GitHub API + README / manifest / 关键源码直读 |
+| 分析日期 | 2026-07-08 |
 
 ---
 
 ## 版本变化速读（相对 2026-06 旧报告）
 
-- **热度继续上行**：stars 从 36.4k 增到 37.4k，forks 从 5.14k 增到 5.27k。
-- **release 从 `v1.5.1` 推进到 `v1.5.4`，源码已到 `1.5.5`**：说明项目仍在快速推进，而且 source / release 之间开始出现轻微时间差。
+- **热度继续上行**：stars 从 36.4k 增到 37.45k，forks 从 5.14k 增到 5.28k。
+- **release 从 `v1.5.1` 推进到 `v1.5.4`，源码仍到 `1.5.5`**：说明项目仍在快速推进，而且 source / release 之间继续存在轻微时间差；2026-06-24 同日还能看到 `temp` tag，发布治理上存在少量噪音。
 - **README 的产品边界比上月更宽**：RagAnything 已并入，多模态解析（MinerU / Docling）、四种 chunking 策略、role-specific LLM 配置、OpenSearch unified storage、setup wizard 都已经成为主线叙事的一部分。
 - **服务安全口径更值得注意**：README 当前明确写 `lightrag-server` 默认绑定 `0.0.0.0`，若不配置 `LIGHTRAG_API_KEY` / `AUTH_ACCOUNTS` / `TOKEN_SECRET`，所有 endpoint 默认公开；`/api/*` 路由还要额外用 `WHITELIST_PATHS` 收紧。
 - **项目仍是“框架核”而不是“产品壳”**：尽管有 WebUI、API、Docker、K8s、offline deployment 和 setup wizard，但核心价值依旧是图谱检索内核与多后端 registry，而不是 RAGFlow 那种完整知识库产品层。
@@ -276,6 +276,7 @@ FastAPI / WebUI / Ollama API
 
 - `tests.yml` 仍是核心 offline/unit 主线。
 - 其余 workflow 覆盖 Docker publish、PyPI publish、linting、stale 等，共 8 条自动化路径。
+- 最近 12 条 Actions runs 里，Offline Unit Tests 与 Linting/Formatting 大多 success，但也已出现 `action_required` 的 PR run，说明仓库活跃且 CI 确实在拦截变化，不是纯装饰。
 - 风险：CI 宽度不小，但仍不能代表所有 storage/parser/provider 组合都被回归；source 版本比 latest release 先行时，升级前更该自己做矩阵验证。
 
 ### 文档质量
@@ -286,9 +287,9 @@ FastAPI / WebUI / Ollama API
 
 ### Issue / PR 健康度
 
-- GitHub search API 口径：open issues 196，open PR 29（2026-07-07）。backlog 明显存在，但不像超大平台那样失控。
-- 最新提交发生在分析当天；latest release 为 2026-06-24 的 `v1.5.4`，源码版本已到 `1.5.5`，说明主线仍快于正式发版。
-- 项目从 2024-10 起高速增长，版本密度高；采用方要特别警惕 minor 版本里的行为变化和配置语义漂移。
+- GitHub search API 口径：open issues 198，open PR 33（2026-07-08）。backlog 明显存在，但不像超大平台那样失控。
+- 本地 clone 与远端 `origin/main` 当前对齐（ahead/behind = `0/0`）；最新提交仍是 2026-07-07 的 `fedd95ce7`，latest release 为 2026-06-24 的 `v1.5.4`，源码版本已到 `1.5.5`。
+- `temp` tag 与 source>release 的状态说明主线仍快于正式发版，采用方要特别警惕 minor 版本里的行为变化和配置语义漂移。
 
 ---
 
@@ -301,7 +302,7 @@ LightRAG 的热度来自两个方向：
 1. GraphRAG 被视为普通向量 RAG 的升级路线。
 2. 它比 Microsoft GraphRAG 更轻，同时又比很多“只给算法 demo”的项目更工程化。
 
-从 37.4k stars、5.27k forks、291 位 contributors、2026-07-07 仍有提交的节奏看，LightRAG 已经不是单篇论文 demo，而是快速产品化中的开源 GraphRAG 基础设施。
+从 37.45k stars、5.28k forks、291 位 contributors、2026-07-07 仍有提交且 CI 持续有真实拦截的节奏看，LightRAG 已经不是单篇论文 demo，而是快速产品化中的开源 GraphRAG 基础设施。
 
 ### 衍生项目 / 插件生态
 
