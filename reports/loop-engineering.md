@@ -1,6 +1,6 @@
 # loop-engineering
 
-> 一句话定位：**loop-engineering 是一套面向 AI coding agent 的“循环工程”参考实现与工具箱：用机器可读 pattern registry、Grok / Claude Code / Codex / GitHub Actions starters，以及 `loop-audit` / `loop-init` / `loop-cost` 三个 npm CLI，把 triage、PR babysitting、CI sweeping、dependency sweeping、changelog drafting 等 recurring engineering tasks 产品化为可审计、可控成本、可逐级放权的工程回路。**
+> 一句话定位：**loop-engineering 是一套面向 AI coding workflow 的“循环工程”工具箱与参考实现：用机器可读 pattern registry、interactive showcase、multi-host starters，以及 `loop-audit` / `loop-init` / `loop-cost` / `loop-sync` / `loop-context` / `loop-worktree` / `loop-mcp-server` / `goal-audit` 等 npm 工具，把 triage、PR babysitting、CI sweeping、dependency sweeping、changelog drafting 和 bounded goal finishing 产品化为可审计、可控成本、可逐级放权的工程回路。**
 
 ## 基本信息
 
@@ -8,21 +8,23 @@
 |------|----|
 | 仓库 | `cobusgreyling/loop-engineering` |
 | URL | `https://github.com/cobusgreyling/loop-engineering` |
-| Star | 262（2026-06-16 观测） |
-| Fork | 37 |
+| Star | 6,545（2026-07-08 观测） |
+| Fork | 838（2026-07-08 观测） |
+| Watchers | 38（2026-07-08 观测） |
 | 许可证 | MIT |
-| 主要语言 | JavaScript / TypeScript / Shell；核心资产是 Markdown patterns / starters |
+| 主要语言 | JavaScript / TypeScript / Markdown / YAML；核心资产是 patterns、starters、skills、Pages showcase 与多 npm CLI |
 | 默认分支 | `main` |
 | GitHub created_at | 2026-06-09 |
 | 首次提交 | 2026-06-09 `789233c Cobus Greyling Initial commit: loop-engineering reference repo` |
-| 最近提交 | 2026-06-15 `8710657 github-actions[bot] chore(loop): daily triage update STATE.md + run log [automated] (#36)` |
-| 最新 Git tag | `loop-audit-v1.4.1`、`loop-init-v1.2.1`、`loop-cost-v1.0.2`（均指向 `dafabcb`） |
-| GitHub latest release | 无；`/releases/latest` 返回 404（项目使用 package-specific tags + npm 发布） |
-| npm packages | `@cobusgreyling/loop-audit@1.4.1`、`@cobusgreyling/loop-init@1.2.1`、`@cobusgreyling/loop-cost@1.0.2` |
-| Open Issues / PRs | 6 issues / 4 PRs；GitHub `open_issues_count=10` 含 PR |
-| 贡献者 | GitHub contributors API 返回 2；本地 shortlog：Cobus Greyling 40、github-actions[bot] 3、loop-engineering-bot 1 |
-| 本地规模 | 222 tracked files；121 Markdown；30 TS/JS/MJS/Shell；核心 CLI 与脚本约 1,566 行 |
-| 分析日期 | 2026-06-16 |
+| 最近提交 | 2026-07-08 `8bce2fb github-actions[bot] chore(loop): daily triage update STATE.md + run log [automated] (#215)` |
+| 最新 Git tags | `v1.5.0`、`loop-audit-v1.5.3`、`loop-init-v1.3.3`、`loop-worktree-v1.0.0`、`loop-mcp-server-v1.0.0` |
+| GitHub latest release | `v1.5.0 — Community Tools Drop`（2026-06-30 发布） |
+| npm packages | `@cobusgreyling/loop-audit@1.5.3`、`@cobusgreyling/loop-init@1.3.3`、`@cobusgreyling/loop-cost@1.0.3`、`@cobusgreyling/loop-sync@1.0.0`、`@cobusgreyling/loop-context@1.0.0`、`@cobusgreyling/loop-mcp-server@1.0.0`、`@cobusgreyling/loop-worktree@1.0.0`、`@cobusgreyling/goal-audit@1.0.2` |
+| Open Issues / PRs | 19 issues / 7 PRs；GitHub `open_issues_count=26` 含 PR |
+| 贡献者 | GitHub contributors API 当前可见 14；提交仍明显集中在 Cobus 主线与机器人 dogfood 提交 |
+| 本地旧 clone / 远端 tip | 本地 `HEAD` 停在 2026-06-15 的 `8710657`；`origin/main` 已到 2026-07-08 的 `8bce2fb`，ahead/behind=`0/129` |
+| 远端规模 | `origin/main` 视角：452 tracked files；235 Markdown；77 TS/JS/MJS/Shell；13 test files；8 个 tool packages |
+| 分析日期 | 2026-07-08 |
 | 分类 | AI Coding Workflow / Loop Engineering Toolkit |
 
 > 验证边界：本轮按 TK 默认静态边界，只阅读源码、文档、Git 历史、GitHub API、Actions 元信息、npm registry 元信息；未安装依赖、未运行项目测试/构建、未启动服务。
@@ -56,13 +58,15 @@
 
 **能做什么：**
 
-- 提供 7 个已登记 loop pattern：`daily-triage`、`pr-babysitter`、`issue-triage`、`ci-sweeper`、`post-merge-cleanup`、`dependency-sweeper`、`changelog-drafter`。
-- 用 `patterns/registry.yaml` 记录每个 pattern 的 cadence、risk、readiness level、token cost、suggested daily cap、required skills、state file、human gates、tools 支持。
-- 用 `loop-init` 根据 `--pattern` 与 `--tool` 将 starter、state file、`LOOP.md`、skills / agents、`loop-budget.md`、`loop-run-log.md` 落盘到目标项目。
-- 用 `loop-audit` 检查一个项目是否具备 loop readiness：state file、triage/verifier skill、`LOOP.md`、AGENTS/CLAUDE、safety doc、GitHub workflows、MCP、worktree、registry、budget/run-log、真实 loop activity。
-- 用 `loop-cost` 基于 registry 估算不同 cadence 与 L1/L2/L3 readiness level 的 tokens/day，并对 high cadence、early-exit 缺失、超 daily cap 发 warning。
-- 提供 Grok / Claude Code / Codex / GitHub Actions 的 starters 和 examples，将同一 loop 模式映射到不同宿主。
-- 项目自身 dogfood：`STATE.md`、`loop-budget.md`、`loop-run-log.md`、daily triage / readiness audit / changelog drafter Actions、自动 PR 合并记录都在仓库内可见。
+- 提供 7 个已登记 loop pattern：`daily-triage`、`pr-babysitter`、`issue-triage`、`ci-sweeper`、`post-merge-cleanup`、`dependency-sweeper`、`changelog-drafter`，并通过 `patterns/registry.yaml` 暴露 cadence、risk、week-one mode、token cost、state file、skills、human gates、tools 支持。
+- `loop-init` 已不只是拷 starter：它会根据 `--pattern` 与 `--tool` 落盘 `STATE.md`、`LOOP.md`、`loop-budget.md`、`loop-run-log.md`、skills、constraints，并在 scaffold 后直接打印 Loop Ready score；当前原生 scaffold 宿主是 Grok / Claude / Codex / Opencode。
+- `loop-audit` 检查一个项目是否具备 loop readiness：state / skills / verifier / `LOOP.md` / workflows / safety docs / MCP hints / worktree evidence / budget / run-log / 真实活动信号，并可输出建议、JSON 和 badge。
+- `loop-cost` 基于 registry 估算不同 cadence 与 L1/L2/L3 readiness level 的 tokens/day，对高频 cadence、daily cap、early-exit requirement 做显式告警。
+- `loop-sync` 用来检查 `STATE.md ↔ LOOP.md`、skills 结构与配置漂移，支持 JSON 输出和实验性的 auto-fix / dry-run。
+- `loop-context` 提供 deterministic ledger pruning + circuit breaker：检测 stagnation、no-progress、iteration cap、token budget，避免 L2/L3 loop 无意义重试烧 token。
+- `loop-worktree` 为每次 fix attempt 管理隔离 git worktree，支持 `create / mark / cleanup / gc / list`，把“每轮修复一个工作树”产品化。
+- `loop-mcp-server` 把 patterns、skills、state、budget、run-log 暴露成 MCP resources/tools，让 agent 按需读取 loop 资产，而不是把所有文档硬塞进 prompt。
+- 文档与分发层也已产品化：GitHub Pages interactive showcase、pattern picker、quickstart、star-history 页面、per-tool npm 包和 dogfood workflows 一起构成完整 adoption surface。
 
 **不能做什么 / 边界：**
 
@@ -83,11 +87,11 @@
 
 ### 集成成本
 
-- **依赖链低。** 三个 npm CLI 都是 Node/TypeScript 小包。`loop-audit` / `loop-init` 无 runtime deps；`loop-cost` 仅依赖 `yaml`。
-- **安装方式轻。** README 推荐 `npx @cobusgreyling/loop-audit . --suggest`、`npx @cobusgreyling/loop-init . --pattern <name> --tool <grok|claude|codex>`、`npx @cobusgreyling/loop-cost --pattern <name>`。
-- **落地副作用可控但真实存在。** `loop-init` 会在目标项目写入 `.grok/.claude/.codex` skills/agents、state file、`LOOP.md`、`loop-budget.md`、`loop-run-log.md`、`AGENTS.md` 模板。虽然不是重型 installer，但仍应先 `--dry-run`。
-- **学习成本来自 loop operation。** 用户需要理解 pattern、cadence、L1/L2/L3、state、human gates、verifier、budget 和 run log；不是装一个 CLI 就自动安全。
-- **从零到 demo：** 个人项目可当天跑 L1 report-only；团队要进入 L2/L3，至少需要一周报告模式校准、MCP/权限/CI/worktree gate 审计。
+- **依赖链仍然偏轻，但已从 3 个 CLI 扩成多小包矩阵。** 大多数工具仍是 Node/TypeScript 小包；新增重量主要来自 `@modelcontextprotocol/sdk`（MCP server）和更多 per-tool publish/release workflows。
+- **安装方式仍然轻。** README 与 Quickstart 以 `npx` 为主：`loop-init`、`loop-audit`、`loop-cost`、`loop-sync`、`loop-context`、`loop-mcp-server`、`loop-worktree` 都能按工具单独使用；不 clone 也能体验大部分 adoption path。
+- **落地副作用比旧稿更明确。** `loop-init` 会写入 state / budget / run-log / skills / constraints；`loop-worktree` 会创建 `.loop-worktrees/` 与 manifest；`loop-mcp-server` 需要 `LOOP_PROJECT_ROOT`；因此更应该先 dry-run、先 L1 report-only。
+- **学习成本来自“多工具 + loop operation 心智”。** 用户不只要理解 pattern、cadence、L1/L2/L3、human gates，还要理解 drift、context breaker、MCP lookup、worktree isolation 在什么阶段接入。
+- **从零到 demo：** 个人项目可当天跑 L1 report-only；团队若要进入 L2/L3，至少要用一周以上时间验证 constraints、verifier、budget、CI/worktree、MCP scope 与人工审批链。
 
 
 ### 依赖 / SDK 选型证据
@@ -96,20 +100,24 @@
 
 | Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
 |------------|------|----------|----------------|----------|--------------|---------|
-| _待补关键依赖_ | | | | | | |
+| `yaml` | runtime dep | `loop-cost`、`loop-mcp-server` 解析 registry / config | 让 token cost、pattern metadata、MCP lookup 能直接读取 YAML 事实源 | `tools/loop-cost/package.json`、`tools/mcp-server/package.json` | 如果你也想把 workflow contract 放进 repo，可直接复用 | YAML 作为事实源时，schema / validation 仍要另补 |
+| `@modelcontextprotocol/sdk` | runtime dep | `loop-mcp-server` 暴露 patterns / skills / state / budget / run-log | 给 agent 提供 runtime-queryable loop resources，而不是把所有 docs 塞进 prompt | `tools/mcp-server/package.json`、`tools/mcp-server/src/index.ts` | 适合把静态 workflow 资产变成 agent 可查询的资源层 | 会把项目根目录解析与路径安全带进攻击面 |
+| `ajv` | dev dep | registry/schema 校验 | 防止 pattern registry 与 docs/starter 漂移 | 根 `package.json` 的 `validate:registry` + `ajv` | 任何 machine-readable pattern catalog 都值得配 schema gate | 只校验结构，不保证语义质量 |
+| `@cobusgreyling/loop-audit` | internal package dep | `loop-init` scaffold 后立刻给出 Loop Ready score | 把“装完再审计”缩成一次命令，形成闭环 onboarding | `tools/loop-init/package.json` 依赖 `@cobusgreyling/loop-audit` | 很适合把 doctor / bootstrap 组合成 first-run experience | 内部包版本如果落后，init 与 audit 口径会漂移 |
+| TypeScript + Node built-ins (`node:test`) | build/test toolchain | 所有 CLI 包的 deterministic util / test harness | 维持轻依赖、多小包、可预测 CLI 行为 | 各 `tools/*/package.json` + `test/*.test.mjs` | 适合做 agent workflow 小工具，不必上重型框架 | 多包分散 build/test 脚本后，release matrix 会更碎 |
 
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |
 |--------|------|------|
-| 许可证合规 | 低 | MIT；npm packages 也声明 MIT。 |
-| Bus factor | 高 | 项目创建不足 10 天，主要由 Cobus Greyling 提交，机器人提交辅助 dogfood；贡献者样本很少。 |
-| 供应商锁定 | 低 | 核心是 Markdown + YAML + npm CLI；Grok/Claude/Codex starter 可手动迁移。 |
-| 维护趋势 | 活跃但样本短 | 2026-06-09 创建，44 commits，近期 Actions/PR/dogfood 活跃；但长期维护尚未被时间验证。 |
-| 安全攻击面 | 中 | CLI 写入 workflow/skill/state 文件，L2/L3 loop 可能触发自动改代码；需要严格审 `LOOP.md`、MCP scope、auto-merge、人类 gate。 |
-| 生产成熟度 | 中低 | 适合 pattern/starter 参考和 L1/L2 试点；不是企业级控制面，也没有成熟权限/审计/多租户能力。 |
-| 文档漂移 | 中 | README、docs、registry、starter 同步目前靠脚本和 CI 检查；项目早期快速变化，采用前应锁定 package/tag。 |
-| 成本失控风险 | 中 | 高频 loops 明确被 `loop-cost` 标记 high cadence / early-exit required；如果用户绕过预算文件与 run log，风险仍在。 |
+| 许可证合规 | 低 | MIT；当前公开 npm packages 也统一声明 MIT。 |
+| Bus factor | 中高 | contributors API 已到 14，但核心提交、taxonomy 与发布节奏仍明显由 Cobus 主线驱动，机器人提交辅助 dogfood。 |
+| 供应商锁定 | 低 | 核心仍是 Markdown/YAML/state files + npm CLI；即使不用这些 CLI，也能手动迁移 pattern、skills、LOOP/STATE 结构。 |
+| 维护趋势 | 很活跃 | 本地旧 clone 相对远端已落后 129 commits；`v1.5.0`、`loop-worktree`、`loop-mcp-server`、star-history/pages 等都在 6 月底到 7 月初连续推进。 |
+| 安全攻击面 | 中 | 现在不仅有 scaffold，还加入了 MCP server、worktree、context breaker 等本地工具面；L2/L3 loop 仍需要严格审 `LOOP.md`、`loop-constraints.md`、MCP scope、auto-merge 与 human gates。 |
+| 生产成熟度 | 中 | 适合个人/小团队 L1/L2 loop 试点；比 6 月中旬更完整，但依旧不是企业级集中权限、审计、告警、多租户控制面。 |
+| 文档漂移 | 中低 | registry/schema gate、quickstart、GitHub Pages showcase、README badge 与 per-tool docs 明显加强；但多 surface（README / docs / starters / npm / release notes）快速演进，仍应锁定版本。 |
+| 成本失控风险 | 中 | `loop-cost` 之外现在又补了 `loop-context` circuit breaker、`loop-budget.md`、`loop-constraints.md` 与 run-log；若团队绕过这些约束，风险仍会回到人工治理。 |
 
 ### 结论
 
@@ -131,41 +139,40 @@
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
 │                       Loop Engineering Repo                         │
-│       reference repo + dogfooded loop operation toolkit              │
+│   reference repo + showcase + dogfooded loop operation toolkit      │
 └──────────────────────────────────┬─────────────────────────────────┘
                                    │
 ┌──────────────────────────────────▼─────────────────────────────────┐
 │                     Pattern Source of Truth                         │
-│ patterns/registry.yaml + patterns/*.md                              │
-│ - id / cadence / risk / readiness / cost / state_file               │
-│ - required skills / human gates / tool support                      │
+│ patterns/registry.yaml + patterns/*.md + docs/QUICKSTART.md         │
+│ - cadence / risk / week-one mode / token cost / state / skills      │
+│ - human gates / tool support / starter links / quickstart surface   │
 └──────────────────────────────────┬─────────────────────────────────┘
-                                   │ read/bundle
+                                   │ read / bundle / publish
 ┌──────────────────────────────────▼─────────────────────────────────┐
-│                          CLI Tool Plane                             │
-│ loop-init              loop-audit               loop-cost           │
-│ scaffold assets        score readiness          estimate tokens/day │
-└───────────────┬──────────────────┬──────────────────┬──────────────┘
-                │                  │                  │
-                │ writes           │ scans            │ calculates
-                ▼                  ▼                  ▼
+│                        Utility & Delivery Plane                     │
+│ loop-init   loop-audit   loop-cost   loop-sync                      │
+│ loop-context   loop-worktree   loop-mcp-server   goal-audit         │
+└───────────────┬───────────────┬───────────────┬────────────────────┘
+                │ writes        │ scans/checks  │ serves / isolates
+                ▼               ▼               ▼
 ┌────────────────────────────────────────────────────────────────────┐
 │                         Target Project                              │
-│ AGENTS.md / CLAUDE.md · LOOP.md · STATE.md                          │
-│ loop-budget.md · loop-run-log.md                                    │
-│ .grok/.claude/.codex skills + verifier agents                       │
+│ LOOP.md · STATE.md · loop-constraints.md                            │
+│ loop-budget.md · loop-run-log.md · loop-ledger.json                 │
+│ skills/ / tool-specific assets / .loop-worktrees/manifest.json      │
 └──────────────────────────────────┬─────────────────────────────────┘
-                                   │ scheduled by
+                                   │ scheduled / executed by
 ┌──────────────────────────────────▼─────────────────────────────────┐
 │                         Host Harnesses                              │
-│ Grok loop · Claude Code loop · Codex Automation · GitHub Actions     │
-│ - own LLM/tool execution, permissions, CI, PR comments, scheduling   │
+│ Grok · Claude Code · Codex · Opencode · GitHub Actions              │
+│ Cursor / Windsurf / OpenClaw / Hermes（当前多为 examples/manual）   │
 └──────────────────────────────────┬─────────────────────────────────┘
-                                   │ updates
+                                   │ updates / observes
 ┌──────────────────────────────────▼─────────────────────────────────┐
-│                         Loop Observability                          │
-│ STATE.md status · loop-run-log.md run history · budget caps          │
-│ GitHub PRs/issues/comments · workflow logs                           │
+│                        Loop Observability Layer                     │
+│ STATE.md · run-log · budget / constraints · audit score             │
+│ GitHub PRs/issues/comments · workflow logs · star-history / pages   │
 └────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -173,31 +180,35 @@
 
 脱掉 README、品牌和具体宿主之后，`loop-engineering` 的最小可复刻内核是：
 
-> **Pattern Registry + Tool-specific Starters + Durable Loop State + Budget/Run-log Observability + Readiness Audit + Cost Estimator + L1/L2/L3 Rollout Contract**
+> **Pattern Registry + Tool-specific Starters + Durable Loop State/Constraints + Budget/Run-log Observability + Audit/Cost/Sync/Context/Worktree Utilities + MCP Lookup Surface + L1/L2/L3 Rollout Contract**
 
 它不是“一个 agent”，而是一个 **loop operation protocol**：
 
 1. 先把适合循环运行的工程任务抽成 pattern。
-2. 用 registry 给 pattern 加 cadence、risk、cost、state file、human gates、skills、tool support。
-3. 用 starter 将 pattern 物化到目标项目。
-4. 用 audit 判断项目是否 ready。
+2. 用 registry 给 pattern 加 cadence、risk、week-one mode、cost、state file、human gates、skills、tool support。
+3. 用 starter / init 把 pattern 物化到目标项目。
+4. 用 audit 判断项目是否 ready，用 sync 检查 state/loop/skills 是否漂移。
 5. 用 cost estimator 判断 cadence 是否会烧穿预算。
-6. 用 state/run-log/budget 把每次循环变成可审计事实。
-7. 用 L1/L2/L3 分阶段放权，而不是一上来 unattended。
+6. 用 context breaker 与 loop ledger 限制无意义重试。
+7. 用 worktree manager 把 L2/L3 的修复尝试隔离出来。
+8. 用 MCP server 把静态 loop 资产变成 agent 按需查询的资源层。
+9. 用 state/run-log/budget/constraints 把每次循环变成可审计事实。
+10. 用 L1/L2/L3 分阶段放权，而不是一上来 unattended。
 
 ### 核心抽象
 
 | 抽象 | 文件 / 目录 | 职责 | 为什么重要 |
 |------|-------------|------|------------|
 | Pattern | `patterns/*.md`、`patterns/registry.yaml` | 描述一个 recurring loop 的目标、调度、状态、技能、验证、人类交接、失败模式和成功指标 | 把“让 agent 定期做事”从口头命令变成可复用 SOP |
-| Registry Entry | `patterns/registry.yaml` + schema | 机器可读的 pattern metadata：cadence、risk、readiness、token cost、required skills、state file、human gates、tools | CLI、docs、cost estimator 与 future tooling 的共同事实源 |
-| Starter | `starters/*`、`templates/*` | 将 pattern 预制成 Grok/Claude/Codex 可用的 skills、agents、state examples、`LOOP.md` | 降低从理念到落地的第一步成本 |
+| Registry Entry | `patterns/registry.yaml` + schema | 机器可读的 pattern metadata：cadence、risk、week-one mode、token cost、skills、state、human gates、tools | CLI、docs、quickstart、cost estimator 与 future tooling 的共同事实源 |
+| Starter / Scaffold | `starters/*`、`templates/*`、`tools/loop-init` | 将 pattern 预制成可落盘的 skills、state、constraints、budget、run-log、first-run command | 降低从理念到可运行 loop 的第一步成本 |
 | Loop State | `STATE.md` / pattern-specific state | 记录 watchlist、last run、loop action、human decision、resolved/noise | 没有 durable state，loop 每次都从零开始，无法交接或复盘 |
-| Loop Config | `LOOP.md` | 记录 cadence、scope、denylist、human gates、budget、kill switch、MCP/权限边界 | 把 loop 的控制面放进 repo，可 review、可 diff、可被 agent 读取 |
-| Readiness Audit | `tools/loop-audit/src/auditor.ts` | 扫描 target repo 的 state、skills、verifier、safety、workflows、budget、run-log、real activity 并给 L0-L3 | 避免团队在没有状态/验证/预算时误开自动 loop |
-| Initializer | `tools/loop-init/src/cli.ts` | 根据 pattern + tool 拷贝 starter、生成 budget/run-log、补 minimal-fix/verifier/AGENTS | 把 loop pattern 从文档变成 target repo 内的实际文件 |
-| Cost Model | `tools/loop-cost/src/estimator.ts` | 解析 cadence，估算 no-op/report/action/realistic tokens/day，输出 warnings | 把高频 loop 的 token 风险显式化 |
-| Verifier / Maker-checker | `skills/loop-verifier`、starter agents | L2+ 中独立验证 agent 产物，不让 implementer 自证完成 | 自动修复类 loop 的安全基本盘 |
+| Loop Contract | `LOOP.md`、`loop-constraints.md` | 记录 cadence、scope、denylist、human gates、budget、kill switch、approval boundary | 把 loop 的控制面放进 repo，可 review、可 diff、可被 agent 读取 |
+| Audit Engine | `tools/loop-audit/src/auditor.ts` | 扫描 target repo 的 state、skills、verifier、safety、workflows、budget、run-log、real activity 并给 L0-L3 | 避免团队在没有状态/验证/预算时误开自动 loop |
+| Sync Checker | `tools/loop-sync/src/sync.ts` | 比对 `STATE.md`、`LOOP.md`、skills、required files 的一致性，输出 drift report | 解决“文件都在，但 contract 已经漂移”的中期维护问题 |
+| Context Ledger / Breaker | `tools/loop-context/src/context-manager.ts` | 压缩尝试历史、归一化错误、检测 stagnation/no-progress/token cap 并决定是否继续 | 给 fix-capable loop 一个 deterministic 的停手机制 |
+| Worktree Manager | `tools/loop-worktree/src/worktree.ts` / `cli.ts` | 为每次尝试创建、标记、回收独立 git worktree | 把 L2/L3 的隔离执行从约定升级为工具能力 |
+| MCP Resource Surface | `tools/mcp-server/src/index.ts` | 把 patterns、skills、state、budget、run-log 暴露为 MCP resources/tools | 让外部 agent 在运行时按需查询 loop 资产，降低 prompt 填充成本 |
 
 ### 控制面 / 数据面
 
@@ -286,7 +297,7 @@ GitHub schedule fires daily triage / readiness audit / changelog drafter
 → next audit sees state + workflows + git activity as real loop usage
 ```
 
-仓库最新提交 `8710657` 就是 daily triage 自动更新 `STATE.md` + run log 的结果。这是它比纯文档项目更可信的地方：它用自己的 loop 工具维护自己。
+仓库最新提交 `8bce2fb` 依然是 daily triage 自动更新 `STATE.md` + run log 的结果，而 7 月 7-8 日连续合入的 `loop-worktree`、star-history、MCP server docs 也说明它不只是写文档，而是在持续用自己的 loop/tooling 维护自己。
 
 ### 状态模型
 
@@ -295,7 +306,7 @@ GitHub schedule fires daily triage / readiness audit / changelog drafter
 3. **Loop runtime state（运行状态）**：`STATE.md` / pattern-specific state。每次 loop 必须更新 last run、action、human decision、resolved/noise。
 4. **Observability state（审计状态）**：`loop-run-log.md` 记录 run history；`loop-budget.md` 记录 cap、kill switch、预算策略。
 5. **External state（外部事实）**：GitHub issue/PR/CI、MCP connector、Linear/Slack 等；loop 读取和评论，但事实源不在本仓库。
-6. **Release/package state（分发状态）**：package-specific tags + npm registry；GitHub Releases 目前为空。
+6. **Release/package state（分发状态）**：GitHub latest release `v1.5.0` + per-tool npm dist-tags + package-specific tags；必须分开看 repo release 与各子工具发版。
 
 状态模型的核心不变量：**loop 的长期记忆必须在 repo 或共享系统里，而不是只留在某个 agent 会话里。**
 
@@ -304,10 +315,14 @@ GitHub schedule fires daily triage / readiness audit / changelog drafter
 - **Registry 契约：** `registry.yaml` 必须符合 `patterns/registry.schema.json`；每个 pattern 需要 id、name、cadence、risk、readiness、cost、skills、state_file 等关键字段。
 - **Pattern 文档契约：** 每个 pattern 应覆盖 goal、scheduling、required skills、state schema、cycle、verification、human handoff、tool notes、failure modes、success metrics。
 - **CLI 契约：**
-  - `loop-init [target-dir] --pattern <name> --tool <grok|claude|codex> [--dry-run]`
+  - `loop-init [target-dir] --pattern <name> --tool <grok|claude|codex|opencode> [--dry-run]`
   - `loop-audit <target> [--json|--markdown|--suggest]`
   - `loop-cost --pattern <id> [--cadence <interval>] [--level L1|L2|L3] [--conservative]`
-- **Target repo 契约：** 若想进入 L2/L3，必须有 state file、triage skill、verifier、safety gates、budget、run log、真实 loop run 证据。
+  - `loop-sync [target-dir] [--json|--dry-run|--auto-fix]`
+  - `loop-context --check --ledger <path>`
+  - `loop-worktree create|mark|cleanup|gc|list ...`
+  - `LOOP_PROJECT_ROOT=<repo> loop-mcp-server`
+- **Target repo 契约：** 若想进入 L2/L3，必须有 state file、triage skill、verifier、constraints、safety gates、budget、run log、真实 loop run 证据；fix-capable loop 还应有 worktree / ledger / approval boundary。
 - **Agent-facing 契约：** skills 明确要求 report-only week one、maker/checker、human handoff、denylist、不要 auto-merge；`LOOP.md` 是 agent 每轮读取的 operational contract。
 - **Human gate 契约：** 安全、auth、payments、infra、multi-file refactor、auto-merge、超过尝试次数等必须交给人。
 
@@ -317,14 +332,14 @@ GitHub schedule fires daily triage / readiness audit / changelog drafter
 |----------|----------|-------------|
 | 没有 state file | `loop-audit` fail | 从 starter 复制 `STATE.md.example`，先 L1 report-only |
 | 没有 triage/verifier | `loop-audit` warn | 安装 `loop-triage` / `loop-verifier`，L2 前必须补 maker/checker |
-| 没有 budget/run-log | `loop-audit` warn，L3 cap | 生成 `loop-budget.md`、`loop-run-log.md`，记录 kill switch |
+| 没有 budget/run-log/constraints | `loop-audit` warn，L3 cap | 生成 `loop-budget.md`、`loop-run-log.md`、`loop-constraints.md`，记录 kill switch |
 | 高频 cadence 烧 token | `loop-cost` high cadence / cap warning | 降低 cadence、加 early-exit、收紧 watchlist、设 daily cap |
-| loop 空转 / 噪音 | state/run-log 中 unresolved/noise 增长 | tighten skill rules，增加 noise section，降低运行频率 |
-| auto-fix 错误 | verifier / human gate | 降级到 L1/L2，限制 allowlist，停止 auto-merge |
-| MCP/connector 权限过大 | `docs/safety.md` / `LOOP.md` scope review | L1 只读，L2 只 comment/draft PR，写权限最小化 |
-| 状态膨胀 | state 文件越来越长 | 每轮 prune merged/closed/resolved，保留 watchlist + decisions |
-| workflow 同日重跑冲突 | closed PR #29/#28 说明已遇到 | 修 checkout/push 同步逻辑，将 PR merge 与 run-log 更新一致化 |
-| package/release 口径混乱 | GitHub release 404，但 npm/tag 有版本 | 报告中分开 Git tag、npm latest、GitHub Release，不混用 |
+| loop 空转 / 噪音 | `loop-context` breaker、state/run-log 中 unresolved/noise 增长 | tighten skill rules，增加 breaker 与 ledger，必要时降回 L1 |
+| auto-fix 错误 | verifier / human gate / worktree review | 降级到 L1/L2，限制 allowlist，停止 auto-merge |
+| MCP/connector 权限过大 | `docs/safety.md` / `LOOP.md` / MCP config review | L1 只读，L2 只 comment/draft PR，写权限最小化 |
+| state/loop/skills 漂移 | `loop-sync` warning / critical | 先修 contract drift，再恢复调度 |
+| worktree 残留或脏状态 | `loop-worktree gc/list` | 回收 orphan worktree，必要时 `--force` 清理后再继续 |
+| package/release 口径混乱 | repo release 与 npm/tool tags 不一致 | 报告中分开 repo release、Git tag、per-tool npm latest，不混用 |
 
 `loop-engineering` 的降级哲学很清楚：**先 L1 看见问题，再 L2 辅助修复，最后才 L3 unattended。任何结构或证据缺失都应向低等级降级。**
 
@@ -349,63 +364,71 @@ GitHub schedule fires daily triage / readiness audit / changelog drafter
 
 ```text
 loop-engineering/
-├── README.md                  # 项目定位、安装、quick start、pattern 导览
-├── LOOP.md                    # 仓库自身 loop contract：cadence、budget、human gates
-├── STATE.md                   # 仓库自身 daily triage / loop 状态
+├── README.md                  # 项目定位、quickstart、pattern links、工具入口、showcase 链接
+├── LOOP.md / STATE.md         # 仓库自身 dogfood contract 与当前 loop state
 ├── loop-budget.md             # 仓库自身 token cap、kill switch、预算策略
 ├── loop-run-log.md            # 仓库自身 loop 运行记录
-├── patterns/                  # pattern 文档与 registry/schema
+├── patterns/                  # 7 个 patterns + registry/schema
 │   ├── registry.yaml
 │   ├── registry.schema.json
 │   └── *.md                   # daily-triage, pr-babysitter, ci-sweeper 等
-├── starters/                  # 可复制到目标项目的 Grok/Claude/Codex starter
-├── templates/                 # skill/state/budget/run-log 模板
-├── skills/                    # 仓库自身 loop skills：triage/verifier/budget 等
+├── starters/                  # clone-and-run starter kits（109 tracked files）
+├── templates/                 # state / budget / run-log / constraints 模板
+├── skills/                    # root-native loop skills：triage/verifier/minimal-fix/budget/constraints
 ├── tools/
 │   ├── loop-audit/            # readiness audit CLI
 │   ├── loop-init/             # scaffold CLI
-│   └── loop-cost/             # token/cadence cost CLI
-├── scripts/                   # registry validation、CI gates、bundle assets、run-log append
-├── docs/                      # primitives、safety、operating loops、release、MCP cookbook
-├── examples/                  # GitHub Actions、MCP、tool-specific examples
-├── stories/                   # production story 模板/示例入口
-└── .github/workflows/         # validate、audit、daily triage、release、dogfood workflows
+│   ├── loop-cost/             # token/cadence cost CLI
+│   ├── loop-sync/             # drift checker
+│   ├── loop-context/          # deterministic memory manager + circuit breaker
+│   ├── mcp-server/            # MCP server for patterns / skills / state lookup
+│   └── loop-worktree/         # isolated git worktree manager
+├── docs/                      # quickstart、interactive showcase、pages、primitives、safety、release、star-history
+├── examples/                  # host-specific examples: Grok / Claude / Codex / Opencode / Cursor / Windsurf / OpenClaw / Hermes / GitHub Actions
+├── assets/ / stories/ / resources/   # visuals、故事样板、社区补充资产
+├── scripts/                   # registry validation、CI gates、bundle assets、contributors/star-history 脚本
+└── .github/workflows/         # 15 个 workflows：validate、audit、daily triage、star-history、welcome-contributors、per-tool release
 ```
 
 ### 技术栈
 
-- **运行时 / 语言：** Node.js + TypeScript；辅助脚本为 JavaScript/MJS/Shell；核心内容资产为 Markdown/YAML。
-- **构建：** 每个 CLI 包独立 `tsc`；`loop-init` 与 `loop-cost` 在 build 前 bundle starters/registry。
-- **测试：** Node 内置 `node:test` + `assert`；三个工具包各有独立测试。
-- **发布：** package-specific Git tags + GitHub Actions 发布到 npm，使用 npm provenance / OIDC；GitHub Releases 未使用。
-- **CI：** registry/schema 校验、loop-init sync 检查、loop readiness audit dogfood、daily triage dogfood、changelog drafter dogfood、release workflows。
+- **运行时 / 语言：** Node.js + TypeScript；辅助脚本为 JavaScript/MJS/Shell；核心内容资产仍是 Markdown/YAML/HTML。
+- **构建：** 每个工具包独立 `tsc`；`loop-init` / `loop-cost` 在 build 前 bundle starters/registry；Pages 展示层直接从 `docs/` 发布。
+- **测试：** Node 内置 `node:test` + `assert`；目前 7 个工具包各有独立测试文件。
+- **发布：** repo 级 latest release `v1.5.0` + per-tool Git tags + GitHub Actions 发布到 npm，使用 npm provenance / OIDC。
+- **CI：** registry/schema 校验、loop-init sync、readiness audit dogfood、daily triage、star-history 更新、welcome-contributors、per-tool release workflows。
 
 ### 模块依赖关系
 
 ```text
 patterns/registry.yaml
-  ├─ scripts/validate-registry.mjs      # schema + docs consistency gate
+  ├─ scripts/validate-registry.mjs           # schema + docs consistency gate
   ├─ tools/loop-cost/scripts/bundle-registry.mjs
-  │   └─ tools/loop-cost/src/estimator.ts
-  └─ docs/patterns/starter docs
+  │   └─ tools/loop-cost/src/estimator.ts    # cadence / token estimator
+  ├─ tools/mcp-server/src/resolver.ts        # MCP lookup resolver
+  └─ docs/QUICKSTART.md / showcase           # picker / docs surface
 
-starters/ + templates/
+starters/ + templates/ + skills/
   ├─ tools/loop-init/scripts/bundle-assets.mjs
   └─ tools/loop-init/src/cli.ts
-      └─ writes target repo assets
+      └─ writes target repo state / constraints / run-log / skills
 
 target repo files
-  ├─ tools/loop-audit/src/auditor.ts scans readiness
-  └─ host harness / GitHub Actions reads and executes loop contracts
+  ├─ tools/loop-audit/src/auditor.ts         # scans readiness level
+  ├─ tools/loop-sync/src/sync.ts             # detects drift
+  ├─ tools/loop-context/src/context-manager.ts # breaker / pruning / ledger
+  ├─ tools/loop-worktree/src/worktree.ts     # isolate fix attempts
+  └─ host harness / GitHub Actions / MCP client reads & executes loop contracts
 ```
 
 ### 扩展机制
 
 1. **新增 pattern：** 添加 `patterns/<id>.md`，并在 `patterns/registry.yaml` 注册；通过 `registry.schema.json` 与 `scripts/validate-registry.mjs` 校验。
 2. **新增 starter：** 在 `starters/<pattern>` 或 tool-specific variant 中加入 skills/agents/state/LOOP 模板，并同步 `loop-init` 的 pattern mapping。
-3. **新增宿主工具：** 扩展 `Tool` 类型、`TOOL_SUFFIX`、destination paths、first loop command、starter layout；目前显式支持 Grok / Claude / Codex，GitHub Actions 通过 examples/workflows 体现。
+3. **新增宿主工具：** 扩展 `Tool` 类型、`TOOL_SUFFIX`、destination paths、first loop command、starter layout；当前原生 scaffold 支持 Grok / Claude / Codex / Opencode，Cursor / Windsurf / OpenClaw / Hermes / GitHub Actions 主要通过 examples/manual path 体现。
 4. **新增 cost policy：** 在 registry 与 `PATTERN_BUDGET`/bundle 中更新 tokens/noop/report/action、daily cap、early-exit requirement。
 5. **新增 audit signal：** 在 `LoopSignals`、`auditProject()`、`computeScore()` 和 reporter 中增加扫描项与评分规则。
+6. **新增 utility package：** 按问题域分出 `loop-sync` / `loop-context` / `loop-worktree` / `loop-mcp-server`，尽量保持 deterministic、单用途、小包发布。
 
 ---
 
@@ -415,59 +438,65 @@ target repo files
 
 优点：
 
-- **代码面很小、职责集中。** 核心 TypeScript/MJS/Shell 约 1,566 行，读完主要执行链路成本低。
-- **类型边界清楚。** `LoopSignals`、`AuditResult`、`RegistryPattern`、`EstimateInput/Result` 等 interface 明确表达数据模型。
-- **零/低依赖策略好。** `loop-audit` / `loop-init` 无 runtime deps；`loop-cost` 仅 `yaml`，降低供应链面。
-- **policy 写进代码。** `computeScore()` 对 L3 的 costReady / hasRealActivity 限制，是一个小但重要的安全设计。
-- **dogfood 证据真实。** 仓库内 `STATE.md`、`loop-run-log.md`、Actions、自动 PR/merge 记录说明项目确实在跑自己的 loop。
+- **代码面扩了，但仍然可读。** `origin/main` 视角是 452 tracked files、77 个 TS/JS/MJS/Shell 文件、7 个工具包测试文件；相比 6 月中旬已大很多，但主链路仍能在一次源码阅读里看清。
+- **deterministic 小工具哲学保持一致。** `loop-sync`、`loop-context`、`loop-worktree` 都尽量把逻辑做成无需 LLM 的可测试 utility，而不是再造一个重 runtime。
+- **类型/契约边界比旧稿更完整。** 现在除了 `RegistryPattern`、`AuditResult` 外，还有 breaker decision、MCP resource/tool schema、worktree manifest 等明确结构面。
+- **policy 不只写在文档里。** audit、sync、breaker、daily-triage、PR comment、inline gate status 都把“先报告、再放权、遇错停机”的治理逻辑写进代码和 workflow。
+- **dogfood 证据更强。** `STATE.md`、`loop-run-log.md`、audit workflow、daily triage、star-history、Pages、recent merged PR 一起说明项目在持续用自己的 loop/tooling 维护自己。
 
 问题：
 
-- **项目非常新。** 2026-06-09 创建，样本期不足一周，长期代码质量和维护节奏仍待观察。
-- **CLI 不是平台级抽象。** `loop-init` 中 pattern/tool 映射偏硬编码；未来 pattern/tool 增多后需要更数据驱动。
-- **registry 与 `PATTERN_BUDGET` 有重复。** `loop-init` 内部 mirror registry cost cap，长期可能漂移；更理想是从 bundled registry 统一读取。
-- **测试覆盖集中在核心 happy path。** 有单元/CLI smoke，但缺少更丰富的 fixture matrix、跨平台路径、真实 target repo audit regression。
+- **项目仍然年轻。** 创建于 2026-06-09；虽然已不是“刚一周”的状态，但长期维护、版本兼容和真实企业 adoption 还缺时间证明。
+- **工具面增长快于统一抽象。** 包数量与 workflow 数量都在上升，build/release/docs 口径碎片化风险也在上升。
+- **宿主支持仍有一层不对称。** Grok/Claude/Codex/Opencode 是原生 scaffold 路径，Cursor/Windsurf/OpenClaw/Hermes 仍更多依赖 examples/manual copy。
+- **docs/showcase 面已经大于 runtime core。** 这有利于传播，但也意味着 narrative、模板和真实长期使用案例之间可能出现剪刀差。
+- **bus factor 仍偏高。** contributors API 虽已有 14，但核心 taxonomy、release cadence 与 dogfood 方向仍强依赖 Cobus 主线。
 
 ### 测试
 
 本轮未运行项目测试；静态读取到的测试结构：
 
 - `tools/loop-audit/test/auditor.test.mjs`：测试空目录 readiness、minimal-loop scoring、cost observability、loop activity、markdown/json output、`--suggest` 等。
-- `tools/loop-init/test/cli.test.mjs`：测试 `--help`、dry-run scaffold、`ci-sweeper` bundled assets 是否包含 state、skills、budget、run-log、loop-budget skill。
+- `tools/loop-init/test/cli.test.mjs`：测试 `--help`、dry-run scaffold、bundled assets 是否包含 state / skills / budget / run-log / constraints。
 - `tools/loop-cost/test/estimator.test.mjs`：测试 cadence interval、range conservative、CI sweeper 高频 warning、daily triage 低成本估算。
+- `tools/loop-sync/test/sync.test.mjs`：测试 drift detection、required files、score/level 输出。
+- `tools/loop-context/test/context-manager.test.mjs`：测试 error normalization、stagnation / no-progress / token-budget / max-iterations breaker。
+- `tools/mcp-server/test/server.test.mjs`：测试 MCP resources/tools 暴露与 resolver 行为。
+- `tools/loop-worktree/test/worktree.test.mjs`：测试 worktree create/mark/cleanup/gc/list 的 manifest 逻辑。
 
-测试哲学是“核心规则回归”而不是覆盖率优先。对一个早期 toolkit 来说够用，但若要团队生产化，建议补：Windows path、已有 `.claude/.codex` 合并、registry 全 pattern scaffold fixture、Actions workflow dry-run、audit false positive/negative 样本。
+测试哲学仍是“deterministic utility regression”而不是 coverage-first。对 reference toolkit 来说合理，但若要团队生产化，仍建议补：跨平台路径与 shell 差异、更多 host scaffold matrix、MCP root/path safety fixture、worktree 脏状态与 orphan recovery、audit false positive/negative 样本。
 
 ### CI/CD
 
-- `.github/workflows/validate-patterns.yml`：校验 registry 和 loop-init sync。
-- `.github/workflows/audit.yml`：dogfood loop readiness audit，构建 `loop-audit` 后审计当前仓库。
-- `.github/workflows/daily-triage.yml`：定时 triage，更新 state/run log 并开 PR。
-- `.github/workflows/release-loop-audit.yml` / `release-loop-init.yml` / `release-loop-cost.yml`：tag 触发测试、构建、`npm publish --provenance`。
+- `.github/workflows/validate-patterns.yml`：校验 registry/schema、loop-init sync 和文档一致性。
+- `.github/workflows/audit.yml`：构建并运行 `loop-audit` dogfood，对当前仓库输出 readiness score / badge / comment 证据。
+- `.github/workflows/daily-triage.yml` + `changelog-drafter.yml`：定时 triage、更新 state/run log、起 PR、生成 changelog 草案。
+- `release-loop-audit.yml`、`release-loop-init.yml`、`release-loop-cost.yml`、`release-loop-sync.yml`、`release-loop-context.yml`、`release-loop-mcp-server.yml`、`release-loop-worktree.yml`、`release-goal-audit.yml`：按工具拆分的 tag→test→build→`npm publish --provenance` 发布链。
+- `update-star-history.yml`、`welcome-contributors.yml`、`publish-goal-audit-bootstrap.yml`：社区/分发辅助流水线；`docs/` 与 Pages 展示层也通过这套 CI 节奏持续更新。
 - `.github/ruleset-main-protection.json`：有 main protection 规则快照。
 
-GitHub Actions 最近 10 次 API 观测中，`Changelog Drafter (dogfood)`、`Loop Readiness Audit (dogfood)`、`Daily Triage (dogfood)`、release package workflows 均有 success 记录。closed PR #28/#29 也显示项目在修 dogfood workflow 的同日重跑、checkout/push 问题。
+GitHub Actions 最近 10 次 API 观测中，`Pages build and deployment`、`Update Star History`、`Loop Readiness Audit (dogfood)`、`Daily Triage (dogfood)`、release workflows 均有 success；这说明项目已从“只有 dogfood”扩到“dogfood + 分发 + 展示层”的完整流水线。
 
 ### 文档质量
 
 文档是项目的主体，质量较高：
 
-- `README.md` 定位清楚，能快速引导到 patterns、starters、CLI。
-- `docs/primitives.md` 将 loops 拆成 state、cadence、skills、verification、budget 等 primitives。
+- `README.md` + `docs/QUICKSTART.md` + GitHub Pages interactive showcase 能把 pattern、tool、host support 和 adoption path 一次讲清。
+- `docs/primitives.md` 将 loops 拆成 state、cadence、skills、verification、budget 等 primitives，而且 host appendix 持续扩到 Windsurf / Zed / Gemini CLI 等邻近宿主。
 - `docs/operating-loops.md` / `docs/loop-design-checklist.md` 给出运行和设计检查表。
 - `docs/safety.md` / `SECURITY.md` 对 unattended automation、MCP scope、secret exfiltration、auto-merge、kill switch 有明确风险提示。
-- `examples/mcp/README.md` 强调 read + comment 优先、最小权限、human gate、safe propose flow。
+- `docs/GITHUB_PAGES.md`、star-history、community update、`examples/mcp/README.md` 让“如何展示 / 如何最小权限接入 / 如何对外传播”也变成一等文档面。
 
-不足是项目早期文档多、代码少，真实用户 story/adopters 还少；部分模式还更像“高质量模板”而不是大量生产案例沉淀。
+不足是 showcase / 模板 / 指南仍多于长期生产案例；adopters、真实 team story、host-specific hard-failure 案例还需要继续累积。
 
 ### Issue / PR 健康度
 
-- Open issues 6，多数是 release prep、weekly loop report、docs/adopters、examples/story 补齐类任务。
-- Open PRs 4，均是 Dependabot 版本升级（TypeScript / @types/node）。
-- Closed PR page 最近 10 个里 9 个 merged，包含 daily triage、discoverability、workflow fix、package metadata、release prep 等。
-- API contributors 仅 2，真实 bus factor 仍高。
+- Open issues 当前 19；多是 docs/examples/showcase、adopter surface、tooling polish，而不是系统性 crash backlog。
+- Open PR 当前 7；除 Dependabot 外，已经出现真实 docs/example 贡献（如 Windsurf、Zed、badge 目录补齐）。
+- recent merged PR 包含 `loop-worktree`、`loop-mcp-server` 文档、star-history、Pages/community surface 与持续的 daily triage 更新，说明主线不是停在 6 月中旬那组三工具状态。
+- contributors API 已到 14，但方向与合并节奏仍是 founder-led。
 
-健康度判断：**活跃、会 dogfood、治理入口清楚，但社区成熟度仍很早期。** 不应因短期 PR/Actions 活跃而高估生产稳定性。
+健康度判断：**活跃、欢迎外部小贡献、dogfood 很真，但还没有进入“大量陌生贡献者自驱维护”的成熟阶段。** 不应因短期增长而高估企业级稳定性。
 
 ---
 
@@ -475,11 +504,11 @@ GitHub Actions 最近 10 次 API 观测中，`Changelog Drafter (dogfood)`、`Lo
 
 ### 热度与认可度
 
-项目创建一周内达到 262 stars / 37 forks，对 niche workflow toolkit 来说传播不错，但还不能视为成熟 adoption。
+截至 2026-07-08，项目已到 **6,545 stars / 838 forks / 38 watchers**。对一个 2026-06-09 才创建、且高度方法论导向的 workflow toolkit 来说，这已经不是“小圈子 seed”级别，而是明显的 breakout niche adoption。
 
-GitHub search `"loop-engineering"` 显示同名/相关仓库已有 100+ 搜索结果，其中 `cobusgreyling/loop-engineering` 是 canonical；另有 `loop-engineering-orange-book` 等内容型衍生，但还没有形成稳定插件生态。
+GitHub search `"loop-engineering"` 相关仓库已超过 100 个，其中 `cobusgreyling/loop-engineering` 是 canonical；另有 `loop-engineering-orange-book` 等内容衍生。真正的插件生态还谈不上成熟，但 docs/examples/showcase/community-update 已经形成“内容生态先行”的扩散态势。
 
-HN/公开社交搜索信号很弱，本轮只看到非常稀疏的“loop engineering”相关命中，不能据此推断广泛社区评价。当前更应把它看作 **早期、高质量、作者驱动的 reference toolkit**。
+公开社交搜索信号依旧不如 GitHub 内部信号强；因此更稳妥的结论不是“全民 adoption”，而是：**GitHub-native 关注度很高、社区入口在形成、但真实长期生产面案例仍少于热度。**
 
 ### 生态位置
 
@@ -488,7 +517,7 @@ HN/公开社交搜索信号很弱，本轮只看到非常稀疏的“loop engine
 ```text
 Model Provider
   ↓
-Coding Agent Runtime / Harness（Grok / Claude Code / Codex / GitHub Actions）
+Coding Agent Runtime / Harness（Grok / Claude Code / Codex / Opencode / GitHub Actions）
   ↓
 Workflow Discipline / Harness Assets（superpowers / ECC / CE / vibecode）
   ↓
@@ -522,7 +551,7 @@ Project Artifacts（STATE.md / LOOP.md / PRs / CI / run log / budget）
 
 ### 社区结论
 
-`loop-engineering` 目前更像一个 **方向清楚、文档与 dogfood 很强、但仍处早期的 loop engineering seed project**。它值得进入 TK 的 AI Coding Workflow 横评，但结论必须区分：
+`loop-engineering` 现在更准确的定位是：**已经跑出明显 GitHub-native traction、docs/showcase/工具面同步扩张，但控制面仍明显 founder-led 的 loop engineering toolkit。** 它值得进入 TK 的 AI Coding Workflow 横评，但结论必须区分：
 
 - 作为个人/小团队试点工具：值得用。
 - 作为企业 unattended automation 控制面：不够，需要叠加权限、审计、告警、回滚和组织流程。
@@ -539,13 +568,13 @@ Project Artifacts（STATE.md / LOOP.md / PRs / CI / run log / budget）
 
 ### 最佳首批 PR 切入点
 
-1. **registry 单源化**：减少 `loop-init` 中 `PATTERN_BUDGET` 与 `patterns/registry.yaml` 的重复，避免 cost cap 漂移。
-2. **audit fixture 扩展**：增加多个 target repo fixture，覆盖 false positive/negative、无 Git 仓库、Windows path、已有 `.claude/.codex` 场景。
-3. **loop-init dry-run 更结构化**：输出 JSON plan 或 operation count，方便团队审副作用。
-4. **package release docs 对齐**：明确 GitHub Release 为空、tag/npm 是真实版本口径，减少用户困惑。
-5. **examples 补齐**：open issue #19 指向 issue-triage examples；这是低风险高价值文档贡献。
-6. **adopters/story 模板补强**：open issue #20/#18 需要真实 adoption/story；可以贡献匿名生产案例。
-7. **MCP safe config 扩展**：补更多 read-only / propose-only connector examples。
+1. **registry 单源化**：继续减少 `loop-init` 中 `PATTERN_BUDGET` / first-run mapping 与 `patterns/registry.yaml` 的重复，避免 cost cap 和 docs 漂移。
+2. **fixture matrix 扩展**：给 `loop-sync`、`loop-context`、`loop-worktree`、`loop-mcp-server` 补 target repo fixtures，覆盖 false positive/negative、无 Git 仓库、Windows path、脏 worktree、ledger stagnation、path safety。
+3. **structured dry-run / plan 输出**：让 `loop-init`、`loop-worktree` 输出更稳定的 JSON/operation plan，方便团队审副作用。
+4. **宿主支持补强**：把 Cursor / Windsurf / OpenClaw / Hermes 从 examples/manual 路径逐步推向更一等的 scaffold 或至少更完整的 migration guide。
+5. **MCP/root safety 强化**：补更多 `LOOP_PROJECT_ROOT`、path traversal、read-only / propose-only connector examples 与测试。
+6. **adopters / hard-failure 案例补强**：补真实 production story、失败复盘、rollback playbook，比继续堆 showcase 更能提升信度。
+7. **release/docs matrix 去重**：随着 per-tool workflows 增多，适合抽公共 release/build/docs 骨架，减少维护碎片。
 
 ### 不建议一开始碰的区域
 
@@ -586,9 +615,21 @@ scaffold CLI。其价值不在参数解析，而在它知道每个 pattern 的 s
 
 成本估算器。它将 cadence 解析为 runs/day，再按 noop/report/action/realistic blend 估算 token/day。虽然模型简单，但抓住了 loop 成本管理的核心：**最坏情况、现实混合、高频 warning、early-exit requirement**。
 
+### `tools/loop-context/src/context-manager.ts`
+
+这是 7 月版本最关键的新补丁之一。它把 loop 内“重复失败 / 无进展 / token 透支 / 迭代过多”从主观感受变成 deterministic breaker：归一化 error、压缩 ledger、检测 stagnation/no-progress，必要时直接阻止 loop 继续烧钱。
+
+### `tools/mcp-server/src/index.ts`
+
+这说明项目边界已经从“只会写文件的 starter”扩到“可被外部 agent 运行时查询的 loop resource surface”。它不是执行 runtime，但让 patterns、skills、state、budget、run-log 能按需暴露给 MCP client，是把静态文档层变成可编程资源层的关键一步。
+
+### `tools/loop-worktree/src/cli.ts`
+
+worktree 管理器把“每次修复在独立工作树里做”从流程建议升级为工具能力：create/mark/cleanup/gc/list + manifest 让 L2/L3 loop 的隔离执行、回收和复盘更容易工程化。
+
 ### `.github/workflows/daily-triage.yml`
 
-项目自身 dogfood 的核心 workflow。它说明 loop-engineering 不是只写模板，而是把 daily triage 真实跑在本仓库上，并通过 PR 更新 `STATE.md` 与 run log。closed PR #28/#29/#36 都是这条链路的运行证据。
+项目自身 dogfood 的核心 workflow。它说明 loop-engineering 不是只写模板，而是把 daily triage 真实跑在本仓库上，并通过 PR 更新 `STATE.md` 与 run log；最新 `8bce2fb` 仍是这条链路的直接产物。
 
 ### `docs/safety.md` / `SECURITY.md`
 
@@ -604,15 +645,15 @@ scaffold CLI。其价值不在参数解析，而在它知道每个 pattern 的 s
 
 | 维度 | 分数 | 说明 |
 |------|------|------|
-| 功能覆盖度 | 4 | 覆盖 patterns、starters、audit、init、cost、dogfood；但不是 runtime/control plane。 |
-| 代码质量 | 4 | 代码小、类型清楚、依赖少、policy 明确；早期项目，映射仍有硬编码和重复源。 |
-| 文档质量 | 5 | primitives、safety、operating loops、pattern docs、MCP cookbook 都很清楚。 |
-| 社区活跃度 | 2 | 一周内传播不错，但 contributors/issue/adoption 样本太少。 |
-| 架构设计 | 5 | pattern registry + state/budget/run-log + audit/cost/L1-L3 组合很完整。 |
+| 功能覆盖度 | 5 | 从 patterns/starters 到 audit、init、cost、sync、context、worktree、MCP、Pages/showcase，loop operation surface 已很完整。 |
+| 代码质量 | 4 | deterministic 小工具策略清楚、类型边界好；但包/文档/release 面增长快，统一抽象与维护碎片仍要持续收敛。 |
+| 文档质量 | 5 | README、Quickstart、Pages、primitives、safety、examples、release/community surface 都很强。 |
+| 社区活跃度 | 4 | GitHub-native traction 很强（6545 stars / 838 forks / contributors API 14），但仍明显 founder-led，真实长期案例少于热度。 |
+| 架构设计 | 5 | pattern registry + state/constraints/budget/run-log + audit/cost/sync/context/worktree/MCP 组合非常完整。 |
 | 学习价值 | 5 | 非常适合学习 recurring agent loop 如何产品化和运营化。 |
-| 可借鉴度 | 5 | registry、readiness audit、cost estimator、state/run-log/budget 模式可直接迁移。 |
+| 可借鉴度 | 5 | registry、readiness audit、cost estimator、state/run-log/budget、breaker、worktree、MCP resource surface 都可直接迁移。 |
 
-**总分：30/35**
+**总分：33/35**
 
 ---
 
@@ -620,12 +661,12 @@ scaffold CLI。其价值不在参数解析，而在它知道每个 pattern 的 s
 
 ### 一句话评价
 
-`loop-engineering` 是 AI coding workflow 里少见的 **loop operation toolkit**：它不发明新 agent，而是把已有 agent harness 的周期性使用，拆成 pattern、starter、state、budget、run-log、audit、cost、human gate 这些可工程化对象。
+`loop-engineering` 是 AI coding workflow 里少见的 **loop operation toolkit**：它不发明新 agent，而是把已有 agent harness 的周期性使用，拆成 pattern、starter、state、constraints、budget、run-log、audit、cost、sync、context breaker、worktree、MCP resource 这些可工程化对象。
 
 ### 谁应该用
 
 - 想把 daily triage、PR babysitter、CI sweeper、dependency sweeper 做成 L1/L2 试点的个人或小团队。
-- 已经有 Grok / Claude Code / Codex 使用习惯，但缺少 loop 状态、预算和验证纪律的团队。
+- 已经有 Grok / Claude Code / Codex / Opencode 使用习惯，但缺少 loop 状态、预算、breaker 和验证纪律的团队。
 - 想学习 agent loop 运营系统如何设计的人。
 
 ### 谁不应该直接用
@@ -637,6 +678,6 @@ scaffold CLI。其价值不在参数解析，而在它知道每个 pattern 的 s
 ### 下一步
 
 1. **试用：** 从 `daily-triage` 或 `pr-babysitter` 的 L1 report-only 开始，先 `loop-init --dry-run`，再落盘。
-2. **架构学习：** 优先读 `patterns/registry.yaml`、`tools/loop-audit/src/auditor.ts`、`tools/loop-init/src/cli.ts`、`tools/loop-cost/src/estimator.ts`、`docs/safety.md`。
-3. **内部借鉴：** 把 `STATE.md + LOOP.md + loop-budget.md + loop-run-log.md + readiness audit` 这套状态面迁移到自己的 Hermes/agent workflow 体系。
-4. **生产化前补强：** 接入权限最小化、worktree isolation、CI verifier、token budget alert、manual approval、run log retention 和 rollback。
+2. **架构学习：** 优先读 `patterns/registry.yaml`、`tools/loop-audit/src/auditor.ts`、`tools/loop-context/src/context-manager.ts`、`tools/mcp-server/src/index.ts`、`tools/loop-worktree/src/cli.ts`、`docs/safety.md`。
+3. **内部借鉴：** 把 `STATE.md + LOOP.md + loop-constraints.md + loop-budget.md + loop-run-log.md + readiness audit + breaker` 这套状态面迁移到自己的 Hermes/agent workflow 体系。
+4. **生产化前补强：** 接入权限最小化、worktree isolation、CI verifier、token budget alert、manual approval、run log retention、rollback 和 case-study 驱动的安全演练。
