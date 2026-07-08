@@ -1,28 +1,29 @@
 # CyberVerse
 
-> 一句话定位：CyberVerse 是一个开源实时音视频数字人 Agent 平台，用 Go 编排 WebRTC / 会话 / 媒体管线，用 Python gRPC 推理服务承载 ASR、TTS、Omni、RAG、PersonaAgent 和 FlashHead / LiveAct 头像视频插件，用 Vue 前端提供角色、会话、设置、知识库和任务 UI；它更像“可自托管的实时语音/视频数字人基座”，不是通用 workflow 平台，也不是单纯 avatar demo。
+> 一句话定位：CyberVerse 是一个开源实时数字人 Agent framework，用 Go 编排 WebRTC / 会话 / 媒体与任务投影，用 Python gRPC 推理层承载 ASR、TTS、Omni、RAG、PersonaAgent、FlashHead / LiveAct 以及云端数字人 provider，用 Vue 前端提供角色、会话、设置、知识库和任务 UI；它更像“可自托管的 voice-first digital-human 平台雏形”，不是通用 workflow 平台，也不是单纯 avatar demo。
 
 ## 基本信息
 
 | 项目 | 值 |
 |------|----|
-| 仓库 | `dsd2077/CyberVerse` |
-| URL | `https://github.com/dsd2077/CyberVerse` |
-| Star | 626（2026-05-20 GitHub API 快照） |
-| Fork | 91（2026-05-20 GitHub API 快照） |
-| Watchers | 626（GitHub API watchers_count；2026-05-20） |
+| 仓库 | `Lynpoint/CyberVerse`（legacy slug：`dsd2077/CyberVerse`） |
+| URL | `https://github.com/Lynpoint/CyberVerse` |
+| Star | 1,382（2026-07-08 GitHub API 快照） |
+| Fork | 189（2026-07-08 GitHub API 快照） |
+| Watchers | 9 subscribers / 1,382 watchers_count（2026-07-08） |
 | 许可证 | GPL-3.0 |
 | 主要语言 | Python（GitHub API）；实际是 Python + Go + Vue/TypeScript |
 | GitHub 创建时间 | 2026-04-18 |
-| 本地首次提交 | 2026-04-18 / `dsd2077 <344887649@qq.com>` |
-| 最近提交 | 2026-05-19 / `dc1657e` / `dsd2077 <344887649@qq.com>` |
+| canonical repo 信号 | GitHub repo API 已将旧 slug `dsd2077/CyberVerse` 解析到 `Lynpoint/CyberVerse`，说明项目发生了 org/branding 迁移 |
+| 最近提交 | 2026-07-06 / `733cbd5` / `Update README files to reflect changes in digital human framework and interaction features` |
 | 最新 Release | `v0.1.0`（GitHub latest release，2026-05-16 发布） |
-| 贡献者 | GitHub contributors API 当前页 2；本地 shortlog：dsd2077 75、dsd 19、david 12、shudong 2、Xiaojiang Liu 1 |
-| Issue / PR | repo API `open_issues_count=5` 含 PR；真实 open issue 4，open PR 1（2026-05-20） |
-| 仓库体量 | 379 tracked files；约 87,025 行 tracked text；排除生成 pb 与 vendored model 目录后约 57,253 行 |
-| GitNexus 索引 | 351 files / 11,805 nodes / 20,440 edges / 366 clusters / 300 flows（2026-05-20，本地索引成功） |
+| 贡献者 | GitHub contributors API 7（2026-07-08） |
+| Issue / PR | repo API `open_issues_count=5` 含 PR；真实 open issue 4，open PR 1（2026-07-08） |
+| 仓库体量 | 519 tracked files；Python 57,603 行、Go 37,291 行、Vue 11,526 行、TS 6,228 行、Proto 312 行（不含 Markdown） |
+| 测试面 | 73 test-like files；其中 Go `*_test.go` 40 个、Python `tests/` 31 个；frontend 未见独立测试文件 |
+| CI | `.github/workflows/` 仍为空 |
 | 项目分类 | Realtime Voice/Video Agent Platform / Digital Human Agent Platform |
-| 分析日期 | 2026-05-20 |
+| 分析日期 | 2026-07-08 |
 
 ---
 
@@ -44,35 +45,37 @@ CyberVerse 解决的是“我想搭一个能听、能说、能看，必要时还
 
 **能做什么：**
 
-- 实时语音 Agent：Qwen Omni / Doubao realtime provider，支持语音打断、文本混入、会话暂停/恢复。
+- 实时数字人视频交互：README 现已把“one photo → digital human”放到产品主叙事，支持本地 FlashHead / LiveAct，也支持 Baidu Xiling、Xunfei Digital Human 等云端数字人 provider。
+- 实时语音 Agent：Qwen Omni、Doubao、OpenAI Realtime、Gemini、Grok 等 omni/provider 定义已经进入 `infra/config/omni_models/`；PersonaAgent 在前台保持低延迟对话。
 - WebRTC 音视频：direct P2P 模式内置 TURN，也支持 LiveKit SFU 模式。
 - 视觉输入：标准模式和支持的 omni session 可以接收摄像头/屏幕帧。
 - 角色系统：角色 CRUD、头像图、多图随机/固定、voice type、personality/system prompt/welcome message。
 - 角色记忆与知识库：会话历史落盘；知识文件上传、索引、Chroma 检索；PersonaAgent 可通过 `retrieve_character_knowledge` hidden tool 检索素材。
 - 前台 PersonaAgent + 后台 SubAgent：前台语音不被长任务阻塞，任务事件和 artifact 推到聊天 UI。
-- 可插拔推理栈：YAML 配置 `plugin_class` 动态导入 ASR/TTS/LLM/Omni/Persona/Avatar 插件。
-- 数字人视频：FlashHead / LiveAct 插件封装 GPU 模型，支持 idle video cache、audio → video stream、分布式 world_size 配置。
-- 部署形态：本地三进程开发（inference/server/frontend）与 Docker Compose（LiveKit/Redis/Go server/Python inference/nginx）。
+- 可插拔推理栈：YAML `plugin_class` 动态导入插件；`InferenceServer` 对 LLM/TTS/ASR/omni/persona/voice_llm 全量初始化，对 avatar 只初始化默认项以节约 GPU。
+- Provider 扩展面比旧版更宽：除 OpenAI/Qwen/Doubao 外，README 与 `infra/config/*_models/` 已纳入 LiteLLM、Gemini、Grok、Baidu/Xunfei 等配置入口。
+- 部署形态：本地三进程开发（inference/server/frontend）、Docker Compose、AutoDL cloud image。
+- 纯语音模式：`infra/config/cyberverse.yaml` 仍支持 `inference.avatar.enabled=false`，先跑 voice-only 再接视频链路。
 
 **不能或不应高估的部分：**
 
-- 不是成熟 SaaS / 企业多租户平台。当前 CORS 默认 `*`，认证/租户/权限隔离不是主线。
-- 不是通用 agent workflow engine。后台任务主要围绕 PersonaAgent 的 research / Zhihu / HTML report 场景，尚不是可视化 DAG 或插件市场。
-- 不是低成本一键部署产品。纯语音可相对轻量，但数字人视频需要 CUDA 12.8、PyTorch 2.8、模型权重、FFmpeg/libvpx、GPU，并且 LiveAct 是 18B 级模型。
-- 不是完全 vendor-neutral。核心 realtime voice/omni 默认强依赖 DashScope Qwen / 火山 Doubao；OpenAI 主要在标准 LLM/TTS 和 embedding 路径。
-- 模型代码边界较重。仓库直接包含 FlashHead / LiveAct 相关模型实现/包装，后续升级上游模型或治理许可证时成本不低。
-- 工程成熟度还在早期。项目创建仅约 1 个月，缺 CI workflow，issue 里集中出现 ICE、无声音、FlashHead 灰屏、LiveAct 花屏、依赖版本等部署痛点。
+- 不是成熟 SaaS / 企业多租户平台。权限、租户、审计、细粒度文档/角色 ACL 不是主线。
+- 不是安全默认值收紧的产品。示例配置 `server.host=0.0.0.0`、`cors_origins=["*"]`，且 internal task API 只有在显式设置 `AGENT_INTERNAL_TOKEN` 时才鉴权；默认是 fail-open。
+- 不是通用 agent workflow engine。后台任务仍主要围绕 PersonaAgent 的 research / report /知识检索场景，而不是通用 DAG 平台。
+- 不是低成本一键部署产品。纯语音可相对轻量，但数字人视频需要 CUDA 12.8、PyTorch 2.8、模型权重、FFmpeg/libvpx、GPU，并且 LiveAct 仍是重模型路径。
+- 不是完全 vendor-neutral。虽然 provider 矩阵扩大了，但 realtime/omni/persona 主路径仍围绕 Qwen / Doubao / OpenAI compatible 能力设计。
+- 不是轻量代码库。仓库已扩到 519 tracked files，FlashHead/LiveAct 与云端 avatar/provider 的组合让维护面明显变大。
+- 工程成熟度仍在早期。项目创建未满 3 个月，仍无 CI workflow；issue 主要集中在 GPU、分辨率、闪屏、部署和 provider 适配。
 
 ### 集成成本
 
 - **最快可跑路径**：按 README，`make setup`、`make inference`、`make server`、`make frontend`；若只跑纯语音，把 `inference.avatar.enabled=false`。
-- **基础依赖**：Node、Go 1.25、Conda、Python 3.10+、FFmpeg、protoc；仓库 `.nvmrc` 是 Node 22，Makefile 也优先找 Node 22，但 README 写 Node 18+，这里存在口径不一致。
-- **Python 依赖**：base 很轻，但 `[all]` 会拉入 grpc、LangChain/Chroma、OpenAI、websockets、Whisper、FlashHead、LiveAct、xformers、NCCL 等重依赖。
+- **基础依赖**：README 写 Node 18+、Go 1.25、Conda、Python 3.10+、FFmpeg、`libopus-dev` / `libopusfile-dev` / `libsoxr-dev`、pkg-config；但 `.nvmrc` 固定 Node 22，Makefile 也优先找 Node 22+。
+- **Python 依赖**：base 很轻，但 `[all]` 会拉入 grpc、LangChain/Chroma、OpenAI、websockets、Whisper、LiteLLM、FlashHead、LiveAct、xformers、NCCL 等重依赖。
 - **Go 依赖**：Pion WebRTC、LiveKit SDK/media-sdk、gRPC、modernc SQLite；构建 orchestrator/api 需要系统 `opus`、`opusfile`、`soxr` 的 pkg-config 包或 conda lib path。
-- **GPU 部署**：FlashHead Pro / LiveAct 对显存和 CUDA 要求高。README benchmark 显示 FlashHead Lite 在 4090 可实时，Pro 在单 4090 约 10.8 FPS；LiveAct 推荐工作站级 GPU。
+- **GPU 部署**：README benchmark 已升级到 RTX 5090 / RTX PRO 6000 口径；FlashHead 1.3B 与 LiveAct 18B 都被写成可实时，但硬件门槛依然高。
 - **从零到 demo 时间**：纯语音在依赖齐全和 API key 可用时可按小时级跑通；数字人视频更接近半天到数天，取决于 CUDA/模型权重/驱动/FFmpeg/网络。
-- **二开学习曲线**：中高。要同时理解 Vue UI、Go HTTP/WebRTC/session/orchestrator、Python gRPC/plugin/runtime、LLM/ASR/TTS/Avatar provider、RAG 与任务事件。
-
+- **二开学习曲线**：高。要同时理解 Vue UI、Go HTTP/WebRTC/session/orchestrator、Python gRPC/plugin/runtime、LLM/ASR/TTS/Avatar provider、RAG、SubAgent task runtime 与云端 avatar provider。
 
 ### 依赖 / SDK 选型证据
 
@@ -80,21 +83,27 @@ CyberVerse 解决的是“我想搭一个能听、能说、能看，必要时还
 
 | Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
 |------------|------|----------|----------------|----------|--------------|---------|
-| _待补关键依赖_ | | | | | | |
+| Pion WebRTC / ICE / TURN | Go SDK | Direct WebRTC、ICE、TURN、媒体收发 | 自建实时音视频链路，不依赖单一云 RTC | `server` 依赖 + `server/internal/direct/*` + `session/orchestrator` | 高：做 voice/video agent 时很值得复用这套抽象 | NAT / ICE / TURN / 公网 IP 是高频故障源 |
+| LiveKit SDK / media-sdk | Go SDK | SFU 模式、token、房间与媒体桥接 | 为复杂网络/多人场景提供替代 direct P2P 的媒体平面 | `Makefile` 使用 `-tags livekit`；`server/internal/livekit/*` | 高：适合把 direct / SFU 做成双后端 | 仍引入 `opus/soxr` 系统依赖和部署复杂度 |
+| grpcio / protobuf | Python + Go RPC | Go orchestrator ↔ Python inference service | 把媒体/会话控制面与模型生态分层 | `proto/*`、`inference/server.py`、`server/internal/inference/*` | 很高：这是本项目最核心的语言边界设计 | 生成代码、版本同步和 message size 都要治理 |
+| LangChain + Chroma | Python libs | 角色级文档导入、切块、embedding、检索 | 为每个 character 提供本地 RAG 和记忆素材库 | `pyproject.toml` `rag` extra；`inference/rag/engine.py` | 中高：角色知识库场景可直接借鉴 | 生产规模、并发索引和 embedding 成本仍需验证 |
+| LiteLLM | Python SDK / adapter | 统一接入 100+ LLM providers | 减少 provider-specific glue code，扩大模型选择面 | `pyproject.toml` `litellm` extra；`infra/config/llm_models/litellm.yaml`；README 明写 LiteLLM | 高：多 provider 平台很适合先用统一 adapter | 统一接口不等于统一 realtime / tool-call 能力 |
+| diffusers / transformers / xformers / NCCL | Python ML stack | FlashHead / LiveAct 数字人视频推理 | 把实时 speaking avatar 放进同一平台 | `pyproject.toml` `flash_head` / `live_act` extras | 中：适合想做本地数字人视频的人 | 依赖重、GPU 硬件门槛高、上游模型/license 需逐项核实 |
+| OpenAI SDK + websockets + provider model YAMLs | Python SDK + config pattern | Omni / realtime / TTS / ASR providers | 用统一配置发现多个 provider，而非把 provider 写死在业务代码里 | `infra/config/*_models/`、`inference/server.py`、`persona_agent.py` | 高：provider registry 设计值得学 | 真正可替换性仍受不同 provider 实时协议差异限制 |
 
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |
 |--------|------|------|
-| 许可证合规 | 中-高 | 仓库 GPL-3.0；直接商业闭源二开要谨慎。README acknowledge FlashHead / LiveAct，但 vendored model 目录内未见独立 LICENSE 文件，需按上游权重/代码许可逐项核实。 |
-| Bus factor | 高 | GitHub contributors API 当前 2；本地提交集中在 dsd2077/dsd/david。项目热度增长快，但维护集中。 |
-| 供应商锁定 | 中-高 | 配置可接 Qwen、Doubao、OpenAI、Whisper，但实时 omni/voice 的主路径目前围绕 Qwen/Doubao；PersonaAgent 默认依赖 Qwen native tool call。 |
-| 部署复杂度 | 高 | WebRTC/TURN/LiveKit + gRPC + GPU diffusion avatar + FFmpeg + 多模型 key，组合故障面大。 |
-| 维护趋势 | 活跃但早期 | 2026-04-18 创建，2026-05-16 v0.1.0，近期提交活跃；但时间窗口太短，稳定性尚未验证。 |
-| 安全攻击面 | 中-高 | 上传文件/RAG、WebSocket、WebRTC、TURN、CORS `*`、内部 task/artifact API、外部搜索/Zhihu 工具、模型 API key。当前更像本地/自托管 PoC 安全模型。 |
-| 运行稳定性 | 中 | issue 反映 ICE、无声音、FlashHead/LiveAct 图像异常、flash-attention 版本选择等实际部署痛点。 |
-| CI/CD | 高风险 | 仓库没有 `.github/workflows`；只有 `.githooks/pre-commit` 调 `make test`。对跨语言重依赖项目来说，缺 CI 是明显短板。 |
-| 文档漂移 | 中 | README 友好，但存在 Node 版本口径、Docker Compose env 命名、docs 绝对本地路径等小漂移。 |
+| 许可证合规 | 中-高 | 仓库 GPL-3.0；直接商业闭源二开要谨慎。README 明写 FlashHead / LiveAct / Baidu Xiling / Xunfei 等外部能力，云端服务条款与上游模型/权重许可需逐项核实。 |
+| Bus factor | 中-高 | GitHub contributors API 口径 7，但项目仍明显由核心作者驱动；仓库迁移到 `Lynpoint` 后仍需观察团队化维护是否稳定。 |
+| 供应商锁定 | 中 | provider 面比 5 月更宽，但 realtime/persona 主链路仍围绕 Qwen / Doubao / OpenAI-compatible 能力；切换并非零成本。 |
+| 部署复杂度 | 高 | WebRTC/TURN/LiveKit + gRPC + GPU avatar + FFmpeg + 多模型 key + 云端数字人 provider，组合故障面大。 |
+| 维护趋势 | 活跃但早期 | 2026-04-18 创建，最新提交到 2026-07-06；主干持续活跃，但 latest release 仍停在 `v0.1.0`。 |
+| 安全攻击面 | 高 | 示例配置 `0.0.0.0` + `cors_origins=["*"]`；文件上传/RAG、WebSocket、WebRTC、TURN、内部 task/artifact API、外部搜索/云端 avatar/provider 都在攻击面上；`AGENT_INTERNAL_TOKEN` 未设置时 internal endpoints 默认放行。 |
+| 运行稳定性 | 中 | 当前 open issue 仍集中在 LiveAct 分辨率/H800 运行/说话起止闪屏等真实运行问题。 |
+| CI/CD | 高风险 | 仓库仍无 `.github/workflows`；只有本地 `make test` / build 约定。对跨 Python/Go/Vue/GPU 项目来说，这是明显短板。 |
+| 文档漂移 | 中 | README 已重写为 digital-human 框架叙事，但 clone 命令、badge、DeepWiki 链接仍引用旧 slug `dsd2077/CyberVerse`；Node 18 vs Node 22、Doubao 新旧 auth 与 Docker/env 口径也有漂移。 |
 
 ### 结论
 
@@ -102,10 +111,10 @@ CyberVerse 解决的是“我想搭一个能听、能说、能看，必要时还
 
 更具体地说：
 
-- 如果你要做“实时语音 + 数字人视频 + 角色人格/记忆”的原型，CyberVerse 值得试。它已经把 WebRTC、Qwen/Doubao realtime、RAG、角色、FlashHead/LiveAct 和 UI 串起来了，少了大量胶水工程。
+- 如果你要做“实时语音 + 数字人视频 + 角色人格/记忆”的原型，CyberVerse 比 5 月版本更值得试：repo 已从单纯本地 FlashHead/LiveAct 扩到云端数字人、LiteLLM、多 provider omni 配置和更完整的 digital-human 叙事。
 - 如果你只要稳定语音 Agent SDK，优先看 LiveKit Agents / TEN Framework 这类更成熟的实时语音框架。
 - 如果你只要数字人口型/视频生成，优先直接评估 FlashHead / LiveAct / OpenAvatarChat 等更聚焦的项目。
-- 如果你要企业生产部署，建议先做隔离 PoC：关闭不必要的 CORS，明确认证/租户模型，固定 Docker env 命名，打通 CI，补端到端语音/ICE/头像回归，再考虑上线。
+- 如果你要企业生产部署，建议先做隔离 PoC：先跑纯语音 profile，再收紧 `cors_origins`、显式设置 `AGENT_INTERNAL_TOKEN`、固定 Node/DOUBAO env 口径、补 CI 和回归，再考虑上线。
 
 ---
 
@@ -326,45 +335,40 @@ CyberVerse/
 
 ### 测试
 
-- **Python tests**：`tests/unit` 覆盖 config、registry、RAG engine、Qwen/Doubao/OpenAI plugins、Whisper、PersonaAgent、gRPC services、FlashHead/LiveAct plugin、audio rechunker、avatar warmup 等。
-- **Go tests**：server 内有 `*_test.go`，覆盖 session、orchestrator prompt/visual/audio-only/voice recording/idle video、api handlers、knowledge、settings、character store、livekit token/vp8、ws hub 等。
-- **Integration**：`tests/integration/test_flash_head_generates_real_video.py` 需要 GPU、weights 和重依赖。
-- **本次验证**：
-  - `python3 -m pytest tests/unit/test_config.py tests/unit/test_registry.py -q`：16 passed。
-  - `python3 -m pytest tests/unit -q`：当前环境未跑 `make setup` / `[all]`，collection 因缺 `grpc`、`langchain`、generated pb2 失败；这是环境依赖未安装，不等同于测试失败。
-  - `go test ./internal/config ...` 中 config package 通过；orchestrator/api 构建因系统缺 `opus`、`opusfile`、`soxr` pkg-config 失败，和 README/Makefile 提到的 conda lib path 依赖一致。
+- **Python tests**：`tests/unit` 覆盖 config、registry、RAG engine、Qwen/Doubao/OpenAI/LiteLLM plugins、Whisper、PersonaAgent、gRPC services、FlashHead/LiveAct plugin、audio rechunker、avatar warmup 等，共 31 个 `tests/` 文件。
+- **Go tests**：server 内有 40 个 `*_test.go`，覆盖 session、orchestrator prompt/visual/audio-only/voice recording/idle video、Baidu/Xunfei avatar、api handlers、knowledge、tasks、character store、livekit token/vp8、ws hub 等。
+- **Integration**：`tests/integration/test_flash_head_generates_real_video.py` 仍需要 GPU、weights 和重依赖。
+- **Frontend**：`frontend/package.json` 只有 `dev/build/preview` 脚本，当前未见独立前端测试文件。
 
 ### CI/CD
 
-- **流水线配置**：未发现 `.github/workflows`。
-- **本地 gate**：`.githooks/pre-commit` 执行 `make test`，而 `make test` 包含 Python unit + Go test。
-- **发布流程**：GitHub release `v0.1.0` 已存在，但未见自动 release workflow。README 主要描述本地和 Docker 部署。
+- **流水线配置**：仍未发现 `.github/workflows`。
+- **本地 gate**：Makefile 提供 `test-py`、`test-go`、`test-integration`、`build-go`、`frontend-build`，但这还是开发约定，不是自动化 CI。
+- **发布流程**：GitHub latest release 仍停在 `v0.1.0`；主干继续更新，但未见自动 release workflow。
 
-结论：测试意识不错，但 CI 缺失是成熟度短板。对这种多语言+WebRTC+GPU 项目，必须有至少“纯语音 profile / Go build profile / frontend build / docs config lint”的 CI 才能支撑外部贡献。
+结论：测试布局比 5 月更完整，特别是 Go server/orchestrator/api 面；但 CI 仍为空，对这种多语言 + WebRTC + GPU 项目来说仍是成熟度短板。
 
 ### 文档质量
 
-- **README**：很完整，包含定位、features、quick start、纯语音模式、数字人视频、模型下载、硬件 benchmark、远程访问/ICE notes、roadmap、license。
-- **多语言**：README 有英/中/日/韩版本；前端接 i18n。
-- **Feature docs**：`docs/zh-CN/features` 有 PersonaAgent/task 与 VoiceLLM text input 的设计文档，包含背景、目标、时序图、涉及模块、风险/验证，质量高。
-- **Operations docs**：有域名部署文档。
+- **README**：很完整，已经从“实时音视频数字人”升级为更明确的 digital-human framework 叙事，包含 cloud image、纯语音模式、角色记忆/RAG、LiteLLM、多 provider、云端 avatar、benchmark、远程访问/ICE notes。
+- **多语言**：README 有英/中/日/韩版本；前端接 `vue-i18n`。
+- **Feature / ops docs**：`docs/zh-CN/` 与 `docs/assets/` 仍能支撑产品叙事与部署说明。
 - **问题**：
-  - `docs/README.md` 第 18 行链接到作者本机 `/Users/...` 绝对路径。
-  - README Node 18+ vs `.nvmrc` Node 22 / Makefile Node 22+ 不一致。
-  - Docker Compose env 使用 `DOUBAO_API_KEY`，README/`.env.example`/config 使用 `DOUBAO_ACCESS_TOKEN`，容易误导部署。
-  - 文档中历史内容保留了已被重构取代的 Agent Worker 说法，虽然有更新提示，但需要持续清理。
+  - README badge、DeepWiki 链接和 clone 命令仍引用旧 slug `dsd2077/CyberVerse`，与 canonical repo `Lynpoint/CyberVerse` 漂移。
+  - README 写 Node 18+，`.nvmrc` 与 Makefile 却都偏向 Node 22。
+  - `infra/config/env` 同时保留 `DOUBAO_API_KEY` 与 `DOUBAO_ACCESS_TOKEN` 两套 auth 口径；Docker Compose 又强依赖 `DOUBAO_API_KEY`。
 
 ### Issue / PR 健康度
 
-- **Open issues（真实 issue 4）**：
-  - #15 最新版本部署完毕无声音，ICE 报错。
-  - #8 FlashHead 灰屏、LiveAct 花屏。
-  - #9 给 FlashHead 项目点 Star（非 bug）。
-  - #6 GitWatt 社区邀请（非 bug）。
+- **真实 open issues 4（2026-07-08）**：
+  - #26 `有点疑惑 liveact 官方双卡H100是怎么跑到 416*720 分辨率的`
+  - #25 `H800 运行错误`
+  - #24 `开始说话和结束的时候屏幕总是会闪一下`
+  - #20 `Feature Request: 集成 FunASR 语音识别`
 - **Open PR 1**：#16 `feat(memory): add Hindsight conversation memory`。
-- **Closed issues 11**：部署、flash-attention 版本、Unauthorized、huggingface-cli 废弃、WSL/CRLF/inference deps、无麦克风等，作者有处理记录。
-- **响应节奏**：从 closed issues 看 1-3 天内关闭较多；但项目过新，样本少。
-- **社区质量**：热度增长明显，但 issue 里部署求助占比较高，说明安装链路仍有门槛。
+- **Closed / recent activity**：近期 closed issues 里有 SenseVoice/FunASR 相关请求和集成反馈，说明作者仍在持续推进 provider / ASR 面。
+- **响应节奏**：项目仍活跃，但 issue 样本量不大，且主要是运行/硬件/集成问题，不足以说明“生产稳定”。
+- **社区质量**：安装和运行门槛依旧高；不过问题已从 5 月的“能不能跑起来”扩展到“更高分辨率、更快 ASR、更多 provider”，说明用户开始进入第二层需求。
 
 ---
 
@@ -372,17 +376,18 @@ CyberVerse/
 
 ### 社区评价
 
-当前项目很新（2026-04-18 创建），社区评价主要来自 GitHub stars/issues，外部长期生产采用证据不足。可观察信号：
+CyberVerse 现在已经不是“刚冒出来的酷 demo”，而是一个热度继续上升、叙事更完整、但仍明显处于早期的平台：
 
-- **正面信号**：一个月内 626 stars / 91 forks；README demo 视觉冲击强；roadmap 清楚；作者持续修部署和链路问题；v0.1.0 已发布。
-- **真实痛点**：WebRTC ICE/无声音、GPU avatar 花屏/灰屏、flash-attention 版本、模型权重和环境配置，是用户最容易卡住的地方。
-- **热度 vs adoption**：热度更多来自“数字人 + one photo alive”的吸引力；真实 adoption 还要看后续是否有独立用户部署案例、模板、CI、docker profile、云 GPU recipe。
+- **正面信号**：从 2026-05-20 的 626 stars 增长到 2026-07-08 的 1,382 stars；README 重写为更清晰的 digital-human framework 叙事；provider/云端 avatar 面明显扩展。
+- **真实痛点**：GPU/分辨率/闪屏/H800/LiveAct 仍是高频问题，说明真正的瓶颈不在“有没有功能”，而在“复杂媒体+模型链路能否稳定跑”。
+- **热度 vs adoption**：热度很强，尤其是“one photo”与数字人陪伴想象力；但真正的生产采用证据仍不足，PoC/研究信号远强于企业落地信号。
+- **治理信号**：仓库 canonical 身份已迁移到 `Lynpoint/CyberVerse`，但文档和 badge 还没完全收口，说明项目仍在快速演化与品牌迁移过程中。
 
 ### 衍生项目 / 插件生态
 
-- 目前未看到 CyberVerse 自身的第三方插件生态。
-- 它依赖/整合的生态很强：Qwen/DashScope、Doubao/Volcengine、OpenAI-compatible API、LangChain/LangGraph/Chroma、LiveKit/Pion、FlashHead/LiveAct、Whisper、FFmpeg。
-- 插件机制在代码中已具备，但对第三方开发者而言，还缺 “如何写一个新 ASR/TTS/Avatar/Omni plugin” 的正式开发文档和测试模板。
+- 目前未看到成熟的第三方 plugin marketplace，但插件/模型定义面已经显著扩大。
+- 它依赖/整合的生态很强：Qwen/DashScope、Doubao/Volcengine、OpenAI、Gemini、Grok、LiteLLM、LangChain/Chroma、LiveKit/Pion、FlashHead/LiveAct、Baidu Xiling、Xunfei、Whisper。
+- 插件机制在代码中已经具备，但对第三方开发者而言，还缺正式的“如何写一个新 ASR/TTS/Avatar/Omni plugin”开发文档与 contract test 模板。
 
 ### 竞品对比
 
@@ -425,7 +430,7 @@ CyberVerse/
 - 实现要点：
   - `_PLUGIN_CATEGORIES = ("avatar", "llm", "tts", "asr", "omni", "persona", "voice_llm")`。
   - `_register_plugins()` 遍历配置中的 `plugin_class`，动态导入并注册。
-  - `_initialize_configured_plugins()` 对 LLM/TTS/ASR/omni/persona 初始化全部配置项，对 avatar 只初始化默认项。
+  - `_initialize_configured_plugins()` 对 LLM/TTS/ASR/omni/persona/voice_llm 初始化全部配置项，对 avatar 只初始化默认项。
   - `world_size/rank` 支持 torchrun 多进程；非 rank0 不绑定 gRPC，只作为分布式 worker。
 
 ### 2. `PluginRegistry`：最小插件生命周期
@@ -440,12 +445,12 @@ CyberVerse/
 ### 3. `PersonaAgentPlugin`：实时前台与后台任务的桥
 
 - 路径：`inference/plugins/voice_llm/persona_agent.py`
-- 职责：包装底层 omni provider，注入 hidden tools，处理 wait/create/status/cancel/RAG，合并 task event 和模型输出。
+- 职责：包装底层 omni provider，注入 hidden tools，处理 task/RAG，并把 task event 和模型输出合并进同一 VoiceLLM stream。
 - 实现要点：
-  - `PERSONA_TOOL_DEFINITIONS` 包含 `wait_for_more_input`、`create_task`、`get_task_status`、`cancel_task`、`retrieve_character_knowledge`。
-  - `initialize()` 根据 `model_provider` 再实例化真实 Qwen/Doubao omni plugin。
+  - `PERSONA_TOOL_DEFINITIONS` 当前包含 `create_task`、`get_task_status`、`cancel_task`、`retrieve_character_knowledge`。
+  - `initialize()` 根据 `model_provider` 再实例化真实 omni plugin，并初始化 `LocalTaskRuntime` + `PersonaSupervisor` + `RAGEngine`。
   - `converse_stream()` 把 user transcript、tool calls、RAG instructions、task events 和 assistant audio/transcript 合并成一个 VoiceLLM stream。
-  - `create_task` 不直接阻塞长任务，而是先返回 accepted，再在 assistant ACK 完成后 `schedule_task_start()`。
+  - 设计重点不是“模型自己慢慢思考”，而是“前台先保持对话流畅，后台异步跑长任务，再把结果回投到当前角色会话”。
 
 ### 4. `QwenOmniRealtimePlugin`：多模态实时 provider adapter
 
@@ -479,13 +484,14 @@ CyberVerse/
 
 ### 7. `Router` 与 API surface：产品实体边界
 
-- 路径：`server/internal/api/router.go`
-- 职责：定义产品 API 面。
+- 路径：`server/internal/api/router.go`、`server/internal/api/tasks.go`
+- 职责：定义产品 API 面和内部任务投影边界。
 - 实现要点：
   - Sessions：创建/删除/消息/任务。
   - Characters：CRUD、voice test、avatar image、knowledge upload/reindex/delete、idle videos、conversation history。
   - Settings/LaunchConfig：从 UI 修改 API key、provider endpoint、avatar model 参数。
-  - Internal task APIs：给 PersonaAgent/Task projection 使用，但生产部署需加更强边界。
+  - Cloud avatar / provider 端点已经进入路由层：Baidu Xiling figure、Xunfei avatar/stream。
+  - `authorizeInternalTaskRequest()` 只有在设置 `AGENT_INTERNAL_TOKEN` 时才强制鉴权；否则 internal task endpoints 默认放行，这既是灵活性，也是生产 hardening 必修项。
 
 ---
 
@@ -493,13 +499,13 @@ CyberVerse/
 
 | 维度 | 评分(1-5) | 说明 |
 |------|----------|------|
-| 功能覆盖度 | 4.0 | 实时语音、WebRTC、角色、RAG、PersonaAgent、任务、Avatar 都已串起来；但生产认证/多租户/插件生态/CI 未成熟。 |
-| 代码质量 | 3.5 | 分层清楚、测试不少、关键并发 guard 有设计；但 orchestrator/avatar plugin 过大，配置漂移和 vendored model 复杂度高。 |
-| 文档质量 | 4.0 | README 和 feature docs 很强，硬件 benchmark/ICE notes 有价值；但存在 Node/env/绝对路径等漂移。 |
-| 社区活跃度 | 3.0 | star 增长快、作者响应过 issue；项目太新，贡献者集中，外部 adoption 证据不足。 |
-| 架构设计 | 4.5 | Go/Python/Vue 分层、plugin registry、PersonaAgent 前后台分离、turn/pipeline seq、角色级 RAG 都值得学。 |
-| 学习价值 | 5.0 | 对实时多模态 Agent、数字人链路、WebRTC + LLM + Avatar 编排非常有学习价值。 |
-| 可借鉴度 | 4.0 | 语音任务分流、sequence guard、plugin 初始化策略、task event UI 可直接借鉴；完整采用成本高。 |
+| 功能覆盖度 | 4.5 | 实时语音、WebRTC、角色、RAG、PersonaAgent、后台任务、FlashHead/LiveAct、Baidu/Xunfei 云端数字人都已进入同一产品面；但生产认证/多租户/插件生态/CI 未成熟。 |
+| 代码质量 | 3.5 | 分层清楚、测试不少、关键并发 guard 和任务投影设计好；但 orchestrator/avatar/plugin/runtime 复杂度仍集中，安全默认值偏松。 |
+| 文档质量 | 4.0 | README 与部署说明明显进化，benchmark/ICE notes/纯语音路径有价值；但 repo slug、Node 版本、Doubao auth 口径仍漂移。 |
+| 社区活跃度 | 3.5 | stars 两个月内从 626 增至 1,382，主干仍活跃；但项目太新、贡献者仍集中，生产 adoption 证据不足。 |
+| 架构设计 | 4.5 | Go/Python/Vue 分层、plugin registry、PersonaAgent 前后台分离、turn/pipeline seq、防 stale output、角色级 RAG 都值得学。 |
+| 学习价值 | 5.0 | 对实时多模态 Agent、数字人链路、WebRTC + LLM + Avatar + task projection 编排非常有学习价值。 |
+| 可借鉴度 | 4.0 | 语音任务分流、sequence guard、provider registry、task event UI、角色级知识库都可借鉴；完整采用成本仍高。 |
 
 ---
 
@@ -507,13 +513,13 @@ CyberVerse/
 
 ### 一句话评价
 
-CyberVerse 是一个很有野心、也已经跑出产品骨架的“实时数字人 Agent”项目：最值得学的是实时链路编排和 PersonaAgent 前后台任务拆分，最需要谨慎的是部署复杂度、GPL/上游模型许可、CI 缺失和项目早期稳定性。
+CyberVerse 已经从“酷炫数字人 demo”进化成一个更完整的实时 digital-human Agent 平台雏形：最值得学的是 Go/Python 分层、PersonaAgent 前后台拆分和 turn/pipeline 并发防护，最需要谨慎的是安全默认值、部署复杂度、GPL/上游模型许可、CI 缺失与早期稳定性。
 
 ### 谁应该用
 
 - 想做实时语音/视频数字人 Agent 原型的人。
 - 想研究 WebRTC + LLM/Omni + Avatar + RAG + 任务系统如何组合的人。
-- 有 GPU 资源，愿意折腾 FlashHead/LiveAct，并能接受早期项目踩坑的人。
+- 有 GPU 资源，愿意折腾 FlashHead/LiveAct，或想比较本地 avatar 与云端数字人 provider 的人。
 - 想找一个“数字人陪伴 / 角色复刻 / 语音助手”开源基座做 PoC 的个人或小团队。
 
 ### 谁不应该直接用
@@ -521,12 +527,13 @@ CyberVerse 是一个很有野心、也已经跑出产品骨架的“实时数字
 - 要马上上生产、要求稳定 SLA / 多租户 / 权限隔离 / 合规审计的团队。
 - 只想要轻量 voice agent SDK 的人；LiveKit Agents / TEN Framework 可能更合适。
 - 只想要头像生成模型的人；直接读 FlashHead / LiveAct 更聚焦。
-- 不愿处理 CUDA、FFmpeg、WebRTC/ICE、模型权重和多 provider API key 的用户。
+- 不愿处理 CUDA、FFmpeg、WebRTC/ICE、模型权重、多 provider API key 和安全 hardening 的用户。
 
 ### 下一步
 
-1. **做纯语音 profile PoC**：先 `inference.avatar.enabled=false` 跑通 Qwen/Doubao voice + WebRTC + session history，不碰 GPU avatar。
-2. **单独压测 WebRTC/ICE**：本地、内网、公网、SSH tunnel、cloud security group 各跑一次，记录失败日志。
-3. **再接 Avatar**：先 FlashHead Lite + 单 4090/等效 GPU，确认音画同步、idle cache、打断恢复。
-4. **补工程 gate**：CI 至少跑 Python config/registry/RAG tests、Go config/API no-livekit tests、frontend build、config lint。
-5. **如果要二开**：优先拆 `orchestrator.go`，把 voice pipeline、avatar idle cache、task projection、prompt/RAG 分模块，避免复杂度继续集中。
+1. **做纯语音 profile PoC**：先 `inference.avatar.enabled=false` 跑通 Qwen/Doubao/OpenAI-compatible voice + WebRTC + session history，不碰 GPU avatar。
+2. **先补安全默认值**：收紧 `cors_origins`，显式设置 `AGENT_INTERNAL_TOKEN`，不要直接把示例配置裸暴露到公网。
+3. **单独压测 WebRTC/ICE**：本地、内网、公网、SSH tunnel、cloud security group 各跑一次，记录失败日志。
+4. **再接 Avatar**：先 FlashHead Lite 或云端 avatar provider，确认音画同步、idle cache、打断恢复。
+5. **补工程 gate**：CI 至少跑 Python config/registry/RAG tests、Go config/API no-livekit tests、frontend build、config lint。
+6. **如果要二开**：优先拆 `orchestrator.go`，把 voice pipeline、avatar idle cache、task projection、prompt/RAG 分模块，避免复杂度继续集中。
