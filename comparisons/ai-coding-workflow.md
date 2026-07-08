@@ -8,12 +8,12 @@
 
 | 项目 | 一句话 | Star（观测日） |
 |------|--------|---------------|
-| **superpowers** | 跨平台 Agentic 技能操作系统，用 Skills + bootstrap + hooks + adapters 在宿主会话启动时注入设计先行、TDD、工作树隔离、子代理审查和完成前验证 | 227,958（2026-06-15） |
+| **superpowers** | 跨平台 Agentic 技能操作系统：零依赖 Skills + bootstrap + hooks + adapters，在宿主会话启动时注入设计先行、TDD、工作树隔离、子代理审查与完成前验证 | 248,817（2026-07-08） |
 | **ponytail** | 跨宿主极简编码纪律插件：用 skills / hooks / AGENTS.md / plugin adapters 把 “YAGNI → 复用 → stdlib → native → 最小实现” 注入 agent，专门压制过度工程化 | 77,556（2026-07-08） |
 | **Trellis** | 项目层 AI coding engineering framework：把 spec、task、workspace memory、四阶段工作流、跨平台 agent 配置和事件溯源 channel runtime 落到仓库与本地状态中 | 11,891（2026-07-07） |
-| **compound-engineering-plugin** | 团队型 AI coding workflow 插件：Claude-compatible skills/agents 单一源码、多平台转换分发、多 persona review 与 brainstorm → plan → work → review → compound 复利闭环 | 21,460（2026-06-16） |
-| **ECC** | 跨 Claude Code / Codex / Cursor / OpenCode 等 harness 的工作流操作系统：agents、skills、rules、hooks、MCP、installer、ECC2 alpha 控制面 | 207,220（2026-06-05） |
-| **vibecode-pro-max-kit** | 面向 Claude Code 与 Codex 的 RIPER-5 规格驱动开发 harness：12 agents、31 skills、7 hooks、`process/` 项目记忆和一键安装器 | 860（2026-06-14） |
+| **compound-engineering-plugin** | root-native 团队型 AI coding workflow 插件：29-skill CE loop，多宿主 native/plugin manifests + adapter 分发，brainstorm → plan → work → simplify → review → compound 复利闭环 | 22,816（2026-07-08） |
+| **ECC** | 跨 Claude Code / Codex / Cursor / OpenCode 的 workflow 操作系统；主包版本面已收敛到 2.0.0，资产库与安装治理继续膨胀 | 227,216（2026-07-08） |
+| **vibecode-pro-max-kit** | 面向 Claude Code / Codex 的 7 阶段 spec-first workflow kit | 1,018（2026-07-07） |
 | **loop-engineering** | Loop engineering toolkit：pattern registry + starters + audit / cost / sync / context / worktree / MCP utilities，把 recurring AI coding 任务变成可审计、可控预算、可逐级放权的工程回路 | 6,545（2026-07-08） |
 | **agency-agents** | 跨宿主 AI 专家角色库：243 个 Markdown agent、17 个 division、14 个工具安装目标、转换/安装脚本和 Hermes lazy-router plugin | 129,100（2026-07-08） |
 
