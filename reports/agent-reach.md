@@ -6,21 +6,21 @@
 
 | 项目 | 值 |
 |------|----|
-| 仓库 | `Panniantong/agent-reach` |
-| URL | `https://github.com/Panniantong/agent-reach` |
-| Star | 30,034（2026-06-16 观测；见社区风险中 fake engagement 说明） |
-| Fork | 2,442 |
+| 仓库 | `Panniantong/Agent-Reach` |
+| URL | `https://github.com/Panniantong/Agent-Reach` |
+| Star | 52,762（2026-07-08 观测；仍需保留社区风险中 fake engagement 提醒） |
+| Fork | 4,244 |
 | 许可证 | MIT |
 | 主要语言 | Python |
 | GitHub created_at | 2026-02-24 |
 | 首次提交 | 2026-02-24，本地 `git log`：`ee2ad83 Initial: forked from runesleo/x-reader (MIT License)` |
-| 最近提交 | 2026-06-12，本地 HEAD：`71b85f8 docs(readme): clarify browser action boundary` |
+| 最近提交 | 2026-07-03，本地远端 tip：`e825f67 Merge pull request #469 from Panniantong/codex/update-browseract-link` |
 | 最新 Release / Tag | `v1.5.0`，2026-06-11，`能力层:多后端路由 + 真体检 + OpenCLI` |
-| 贡献者数 | GitHub contributors API 首页 30；主要贡献集中在 Panniantong / Pnant |
-| Issue / PR | open issues 32，open PRs 27；repo API `open_issues_count=59` 含 PR；merged PRs 142，closed issues 90（2026-06-16 GitHub Search 口径） |
+| 贡献者数 | GitHub contributors API 首页 30；本地 `git shortlog -sne HEAD` 显示提交高度集中在 `Pnant` / `Panniantong` 两个身份 |
+| Issue / PR | open issues 55，open PRs 82；repo API `open_issues_count=137` 含 PR；merged PRs 155，closed issues 96（2026-07-08 GitHub Search 口径） |
 | 代码规模 | 89 tracked files；Python 45 files；`agent_reach` 30 Python files / 约 3,765 非空非注释 LOC；tests 15 files / 约 2,218 LOC |
 | 验证记录 | 静态复核源码、文档、Git 历史、GitHub API / Release / Issue / PR 元信息；保留 2026-06-14 既有实测记录：`py_compile` 45 files OK、`pytest -q` 162 passed、wheel build + clean venv smoke install OK；`ruff check` / `mypy` 未通过，详见质量章节 |
-| 分析日期 | 2026-06-16 |
+| 分析日期 | 2026-07-08 |
 | 分类 | Agent Internet Capability Layer |
 
 ---
@@ -50,13 +50,13 @@ Agent Reach 的产品判断是：**Agent 不需要再记住每个平台的最佳
 **能做什么：**
 
 - 提供 `agent-reach install / doctor / configure / skill / transcribe / watch / check-update` 等 CLI。
-- 注册 13 个渠道：GitHub、Twitter/X、YouTube、Reddit、Bilibili、小红书、LinkedIn、小宇宙、V2EX、雪球、RSS、Exa Search、Web。
+- **当前已注册 15 个渠道**：GitHub、Twitter/X、YouTube、Reddit、Facebook、Instagram、Bilibili、小红书、LinkedIn、小宇宙、V2EX、雪球、RSS、Exa Search、Web。
 - 每个平台维护一个 ordered backend list，并通过 `doctor --json` 输出当前 `active_backend`。
 - 区分零配置渠道、免费 key / 登录态渠道、复杂配置渠道。
 - 安装 agent-facing `SKILL.md` 到 `~/.agents/skills` / `~/.openclaw/skills` / `~/.claude/skills`，让宿主 Agent 学会调用上游工具。
 - 将 Cookie / token 等配置保存在 `~/.agent-reach/config.yaml`，并尽量以 0o600 权限写入。
 - 对 stale venv shim、CLI 断链、OpenCLI 扩展睡眠/未安装、YouTube JS runtime、mcporter/Exa 配置等常见故障给出可复制处方。
-- 支持 YouTube / 小宇宙等音频转写路径：yt-dlp + ffmpeg + Groq/OpenAI Whisper API。
+- 支持 YouTube / 小宇宙等音频转写路径：yt-dlp + ffmpeg + Groq/OpenAI Whisper API；当前开放 PR 还在推进 OpenRouter 作为新增转写后端。
 
 **不能做什么：**
 
@@ -593,10 +593,10 @@ mypy agent_reach
 
 ### Issue / PR 健康度
 
-- open issues 32，open PRs 27，merged PRs 142；近期 PR 很活跃。
-- 近期 closed PR 聚焦：OpenCLI、multi-backend routing、真实 probing、Reddit honest tiering、B站 yt-dlp 退役、wheel duplicate 修复、凭证 0o600 安全修复。
-- open issues 多为新增平台/功能请求（小鹅通、Polymarket、韭研公社、Facebook、Instagram/TikTok、闲鱼等）和实际使用边界困惑（Exa 是否收费、公众号搜索不可抓）。
-- #336 phantomstars 报告“likely fake engagement”但 repo classification 为 clean；可作为 star 信号打折依据，不直接否定项目质量。
+- open issues 55，open PRs 82，merged PRs 155，closed issues 96；相比旧稿，这个项目的 backlog 与协作面都明显抬高了。
+- 近期 open PR 很能说明当前方向：`fix(skill): flatten SKILL.md metadata for OpenCode compatibility`、`feat(channels): add Weibo, Zhihu, Douyin via OpenCLI backend`、`fix(web): add Cloudflare block detection and direct HTTP fallback`、`feat(transcribe): add OpenRouter as an STT/transcription provider`、`fix(configure): add --platform filter to --from-browser`。
+- 近期 open issues 既有真实用户安装失败（Claude 环境装不上、多个平台连不上）也有“操作系统式项目很难自己跑通”的使用摩擦，说明项目热度不再只是“想法传播”，而是进入了真实部署与支持阶段。
+- #336 phantomstars 仍可作为 star 信号打折依据，但不能单独否定项目质量；当前更应看 PR 合并节奏、doctor/skill 迭代和渠道新增速度。
 
 ---
 
@@ -604,11 +604,12 @@ mypy agent_reach
 
 ### 社区评价
 
-真实社区信号可以分成三类：
+真实社区信号现在更强，也更复杂：
 
-1. **强需求**：open issues 持续要求更多平台（小鹅通、Polymarket、韭研公社、今日头条、闲鱼、Facebook、Instagram/TikTok）。说明“让 Agent 读封闭平台内容”是明确痛点。
-2. **边界困惑**：Exa 免费/免 key、微信公众号搜索、登录后视频下载等 issue 表明用户容易把 Agent Reach 理解成“万能互联网爬取器”。README 最近补了“读内容 vs 操作网页”边界是必要动作。
-3. **快速迭代认可但需验证**：Stars/Forks 和 release 活跃度强，但项目历史不到 4 个月，且存在 fake engagement 检测报告。质量判断必须回到源码、测试、CI 和 issue 响应。
+1. **强需求已经坐实。** repo 已到 **52k+ stars / 4.2k+ forks**，而且 open issues/PR 都显著上升，说明它不再只是“趋势榜红一次”的项目。
+2. **边界困惑依旧存在。** 用户仍容易把 Agent Reach 理解成“万能联网操作系统”，而不是“互联网能力路由层”；README 持续补“读内容 vs 操作网页”边界是必要的。
+3. **能力面正在外扩。** open PR 已经开始把 Weibo / Zhihu / Douyin、Cloudflare fallback、OpenRouter 转写等能力往里推，证明它在从 2026-06 的基础路由层继续往更广的 agent internet substrate 演化。
+4. **质量判断不能只看 star。** phantomstars 报告、安装失败 issue、渠道依赖上游现实，都提醒这类项目的真实质量要看源码、doctor、tests、release 与 issue 支持面。
 
 ### 衍生项目 / 插件生态
 
@@ -627,7 +628,7 @@ mypy agent_reach
 - **Firecrawl**：强网页抓取/搜索/结构化 API，适合生产爬取；但不是本地多平台 Cookie/CLI 能力层，且 AGPL/API 服务属性更强。
 - **browser-use / BrowserAct / Playwright MCP**：适合真实网页操作和浏览器自动化；但不是轻量“内容读取路由表”，成本和副作用更高。
 - **Exa MCP Server**：专注 web search / crawling；Agent Reach 会把它当上游之一，而非替代所有渠道。
-- **last30days-skill**：更像“实时社会信号研究引擎”，会规划、聚合、排序和合成 brief；Agent Reach 更底层，只负责让 Agent 拿到平台内容。
+- **last30days-skill / research skill stacks**：更像“研究编排层”，会规划、聚合、排序和合成 brief；Agent Reach 更底层，只负责让 Agent 拿到平台内容。
 - **MCP servers 集合**：提供大量工具协议入口；但每个平台仍要单独配置、体检、路由和写 agent usage docs。
 
 **架构邻居：**
@@ -708,10 +709,10 @@ mypy agent_reach
 
 | 维度 | 评分(1-5) | 说明 |
 |------|----------|------|
-| 功能覆盖度 | 4 | 覆盖 13 个常用互联网渠道，真实解决 Agent 联网碎片化；但不是浏览器操作/生产 API，且部分渠道依赖登录态。 |
+| 功能覆盖度 | 4 | 覆盖 15 个互联网渠道，真实解决 Agent 联网碎片化；但不是浏览器操作/生产 API，且部分渠道依赖登录态。 |
 | 代码质量 | 3 | 模块边界清晰，probe/channel 设计好；但 `cli.py` 过大，ruff/mypy 当前不通过。 |
 | 文档质量 | 4 | README/install/SKILL 很实用，边界表述逐步诚实；CHANGELOG/CONTRIBUTING 有漂移。 |
-| 社区活跃度 | 4 | Star/Fork/PR 活跃度高，merged PR 多；但项目过新、核心集中、star 信号需打折。 |
+| 社区活跃度 | 4 | 52k+ stars、4k+ forks、issue/PR 都很活跃；但项目过新、核心集中、star 信号需打折。 |
 | 架构设计 | 4 | capability layer + ordered backend + real probing + Skill 分发是好设计；还缺更严格 package/command 分层。 |
 | 学习价值 | 5 | 非常适合学习 Agent 能力层、可观测路由、health check、agent-facing docs。 |
 | 可借鉴度 | 5 | `probe_command`、channel registry、doctor JSON、Skill 路由表、0o600 credential write 都可迁移到内部工具。 |

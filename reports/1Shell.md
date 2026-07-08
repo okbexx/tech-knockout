@@ -8,21 +8,21 @@
 |------|----|
 | 仓库 | `weidu12123/1Shell` |
 | URL | `https://github.com/weidu12123/1Shell` |
-| Star | 67（2026-06-10 GitHub API 快照） |
-| Fork | 11（2026-06-10 GitHub API 快照） |
-| Watchers | 67（2026-06-10 GitHub API 快照） |
+| Star | 81（2026-07-08 GitHub API 快照） |
+| Fork | 14（2026-07-08 GitHub API 快照） |
+| Watchers / Subscribers | watchers_count=81；subscribers_count=1 |
 | 许可证 | MIT |
-| 主要语言 | JavaScript；GitHub languages：JS 1.14MB、Vue 0.73MB、TypeScript 0.26MB、Go 0.06MB |
+| 主要语言 | JavaScript；tracked files 里 `.js` 206、`.vue` 77、`.ts` 46、`.go` 11 |
 | GitHub 创建时间 | 2026-04-05 |
 | 本地公开源码首次提交 | 2026-05-31 / `350500c` / `1Shell 4.0 — clean public source release` |
-| 最近提交 | 2026-06-09 UTC / `d186d6b` / `fix: repair direct probe agent install` |
-| 默认分支 | `codex-contrib-refresh`（另有 `main` 分支，当前 open PR 从 main 指向默认分支） |
-| 最新 Git tag / Release | `v4.1.0`；GitHub Release 发布于 2026-06-06，桌面资产更新到 2026-06-08 |
-| Open Issue / PR | repo API `open_issues_count=1`，实际为 open PR #3；纯 open issue = 0（2026-06-10） |
-| 贡献者 | GitHub contributors API 当前 1 人；本地 shortlog 显示 `weidu12123` 102 commits |
-| 仓库体量 | 304 tracked files；pygount 299 files / 44,540 code LOC；GitNexus 索引 9,314 nodes / 17,502 edges / 300 flows |
-| 验证结果 | `npm test`、`frontend build`、`go test ./...`、本地 `/api/health` smoke 均通过（详见“质量与成熟度”） |
-| 分析日期 | 2026-06-10 |
+| 最近提交 | 2026-07-08 UTC / `48d0020` / `chore: release 4.7.1` |
+| 默认分支 | `codex-contrib-refresh`（另有 `main` 分支；当前 open PR #3 仍是 `main -> codex-contrib-refresh`） |
+| 最新 Git tag / Release | `v4.7.1`；GitHub Release 发布于 2026-07-07 |
+| Open Issue / PR | repo API `open_issues_count=1`，实际为 open PR #3；纯 open issue = 0（2026-07-08） |
+| 贡献者 | GitHub contributors API 当前 1 人；完整历史 shortlog 显示 `weidu12123` 109 commits |
+| 仓库体量 | 412 tracked files；`.js/.vue/.ts/.go` 非空行约 89,333 |
+| 验证结果 | `npm ci`、`npm --prefix frontend ci`、`npm test`、frontend build、本地 `/api/health` smoke 均通过；当前执行环境缺 Go，`go test ./...` 本轮未复跑 |
+| 分析日期 | 2026-07-08 |
 
 ---
 
@@ -89,10 +89,10 @@
 ### 集成成本
 
 - **最快 demo**：README 提供 Linux 一键安装、Docker Compose、源码运行三条路径。
-- **运行依赖**：Node.js >= 18、npm；前端 Vue/Vite 构建；probe-agent 需要 Go 构建；AI 能力需要 OpenAI-compatible API 或对应 Provider。
-- **Docker 部署**：`docker compose up -d` 可启动，但 `docker-compose.yml` 挂载了宿主 docker socket、常见 Web 服务目录、AI CLI 配置目录，适合个人机/受信环境，不适合不加审计地直接放进多人生产环境。
-- **源码构建验证**：本次在 Node v22.22.2、npm 10.9.7、Go 1.26.3 下完成依赖安装、后端测试、前端 build、Go test 和本地健康检查。
-- **学习曲线**：如果只是用 UI 管主机，中等；如果要二开核心，需要理解 Express 路由、Socket.IO、SSH pool、FileService、ProbeService、MCP service、Remote ACL、Harness、Program Engine、Skill/IDE AI loop 和桌面打包。
+- **运行依赖**：Node.js `>=20.0.0 <25.0.0`、npm；前端 Vue/Vite 构建；probe-agent 需要 Go 1.22+ 构建；AI 能力需要 OpenAI-compatible API 或对应 Provider。
+- **Docker 部署**：`docker compose up -d` 可启动，但 `docker-compose.yml` 仍挂载宿主 docker socket、常见 Web 服务目录、AI CLI 配置目录，适合个人机/受信环境，不适合不加审计地直接放进多人生产环境。
+- **源码构建验证**：本次在 Node `v22.22.3`、npm `10.9.8` 下完成依赖安装、根测试、前端 build 与本地健康检查；当前执行环境没有 Go，因此 probe-agent `go test ./...` 未复跑。
+- **学习曲线**：如果只是用 UI 管主机，中等；如果要二开核心，需要理解 Express 路由、Socket.IO、SSH pool、FileService、ProbeService、MCP service、Remote ACL、Harness、AgentRun/IDE loop、Skill/Task/Panel 演进和桌面打包。
 
 
 ### 依赖 / SDK 选型证据
@@ -108,14 +108,15 @@
 | 风险项 | 评估 | 说明 |
 |--------|------|------|
 | 许可证合规 | 低 | MIT，二开和内部分发友好。 |
-| Bus factor | 高 | contributors API 当前 1 人；commit 全部集中在 `weidu12123`。 |
+| Bus factor | 高 | contributors API 当前 1 人；完整历史 commit 全部集中在 `weidu12123`。 |
 | 供应商锁定 | 中 | 运维能力本身是 SSH/MCP/SQLite/Node，锁定不高；但 Program/Skill/1Shell AI 网关与 1Shell 的数据模型强耦合。 |
-| 维护趋势 | 活跃但早期 | 2026-05-31 公开源码释放后，6 月仍高频提交和 release；但项目非常新，尚未形成外部贡献节奏。 |
+| 维护趋势 | 活跃但早期 | 2026-05-31 公开源码后，2026-07 仍持续 release 到 `v4.7.1`；但项目非常新，尚未形成外部贡献节奏。 |
 | 安全攻击面 | 高 | 真实服务器命令、SFTP、docker socket、AI CLI、MCP、远程 HTTPS、Token ACL、文件写入、脚本执行都在同一平台内。 |
-| 默认配置 | 中-高 | `.env.example` 已要求改密码；但 `env.js` 在未配置时仍默认 `admin/admin` 并只输出 warning，用户绕过安装脚本直接跑会有暴露风险。 |
-| 实现一致性 | 中 | 安全文档宣称“AI 读写文件也必经 Harness”，但源码里文件写/上传/下载未全部进入 Harness；命令执行路径更完整。 |
-| 测试覆盖 | 中-低 | CI 能跑，但测试主体只有风险规则、文件服务 dotfile、Go fileops；与 44k LOC 和大量安全边界相比覆盖偏薄。 |
-| 分支治理 | 中 | 默认分支为 `codex-contrib-refresh`，`main` 反向开 PR 到默认分支；对外贡献者会困惑。 |
+| 默认配置 | 中-高 | `.env.example` 已要求改密码；不过文档仍要求用户自己完成 `APP_*`/token hardening，误配成本不低。 |
+| 实现一致性 | 中 | 安全文档叙事比 6 月更成熟，但文件写/上传/下载仍不是全量 Harness dispatch；命令执行路径更完整。 |
+| 依赖安全 | 中 | 本次 `npm ci` 后 root audit 报 `20 vulnerabilities`（7 moderate / 13 high），frontend audit 报 `4 vulnerabilities`（2 moderate / 2 high）。 |
+| 测试覆盖 | 中 | 根测试脚本已扩到 30+ 个 guard/integration checks，并有 `/api/health` smoke；但仍缺 Remote MCP ACL、auth/CSRF、SFTP、proxy access control、Harness trace 等关键路径更深覆盖。 |
+| 分支治理 | 中 | 默认分支仍是 `codex-contrib-refresh`，CI 却只在 `main/dev` push 与 `main` PR 上触发；对外协作会困惑。 |
 
 ### 结论
 
@@ -329,76 +330,78 @@ External MCP Client
 
 | 维度 | 评估 |
 |------|------|
-| 模块划分 | 中上。服务、路由、MCP、Harness、Program、Probe、IDE 分层清晰；`server.js` 是依赖装配中心。 |
-| 类型系统 | 中。前端 TypeScript，Go agent 类型强；后端核心是 CommonJS JS，靠 runtime validation 和约定。 |
-| 错误处理 | 中上。关键路径有 try/catch、审计、abort、timeout；Program AI 有中断后保留增量结果的设计。 |
-| 安全工程 | 方向好。Harness、Token ACL、CSRF、IP Filter、AES-GCM、secret redaction 都有真实实现；但文件写路径未全量纳入 Harness。 |
-| 代码风格 | 中。命名和注释较清晰，中文注释密集；部分长文件较大，如 `ide.service.js` 1175 行、`oneshell-core.tools.js` 1238 行、`proxy.routes.js` 1163 行。 |
+| 模块划分 | 中上。服务、路由、MCP、Harness、Program/Task/Panel、Probe、IDE 分层清晰；`server.js` 仍是依赖装配中心。 |
+| 类型系统 | 中。前端 TypeScript，Go agent 类型强；后端核心仍是 CommonJS JS，靠 runtime validation 和约定。 |
+| 错误处理 | 中上。关键路径有 try/catch、审计、abort、timeout；AgentRun / AI task / proxy 流也都有 guard。 |
+| 安全工程 | 方向好。Harness、Token ACL、CSRF、IP Filter、AES-GCM、secret redaction 都有真实实现；但文件写路径仍未全量纳入 Harness。 |
+| 代码风格 | 中。命名和注释较清晰，中文注释密集；但单文件继续膨胀，如 `src/ide/ide.service.js` 4301 行、`src/tools/oneshell-core.tools.js` 2651 行、`src/routes/proxy.routes.js` 1623 行。 |
 
 ### 测试
 
 本次实际执行：
 
 ```text
-node -v → v22.22.2
-npm -v  → 10.9.7
-go version → go1.26.3 linux/amd64
+node -v → v22.22.3
+npm -v  → 10.9.8
+go version → 当前执行环境未安装 Go
 
-npm ci --include=dev --include=optional --no-audit --fund=false        ✅
-npm --prefix frontend ci --include=dev --include=optional --no-audit  ✅
-npm test                                                             ✅
-  risk-rules: 10 checks passed
-  file-service: dot file checks passed
-npm --prefix frontend run build                                      ✅
-  vite build: 464 modules transformed; built in 15.01s
-  warning: index chunk 770.72 kB > 500 kB
-(cd agent && go test ./...)                                           ✅
-  internal/fileops ok; other Go packages no test files
-local smoke: PORT=3399 node server.js + GET /api/health               ✅
-  {"status":"ok","model":"gpt-4o",...}
+npm ci                                  ✅
+  added 573 packages; root audit: 20 vulnerabilities (7 moderate / 13 high)
+npm --prefix frontend ci                ✅
+  added 244 packages; frontend audit: 4 vulnerabilities (2 moderate / 2 high)
+npm test                                ✅
+  risk-rules: 45 checks passed
+  ide/proxy/structured-tool-results/release-repack/native-provider/host-capability/
+  codex-adapter/acp-client/agent-switch-routing 等 30+ 组 guard/integration tests passed
+npm --prefix frontend run build         ✅
+  vite build: 702 modules transformed; built in 5.18s
+local smoke: PORT=3399 node server.js + GET /api/health   ✅
+  {"status":"ok","model":"gpt-4o","usingFallbackSecret":false,...}
+(cd agent && go test ./...)             未执行
+  当前执行环境缺 Go；仅从 CI workflow 可见项目仍声明这一步
 ```
 
 测试结论：
 
-- CI 和本地验证链路能跑通，这是加分项。
-- 现有测试覆盖的点偏窄：风险规则、dotfile 文件服务、Go fileops。
-- 还缺关键安全/协议测试：Remote MCP Token ACL、`tools/list` + `tools/call` 隐藏工具强约束、Host/Origin/HTTPS、Bridge Token、本地/远程曝光识别、Program `read_only` capability、Harness trace、auth/CSRF、proxy access control、SFTP 文件写入等。
+- **Node 主链路能跑通，而且比 6 月更扎实。** 根测试不再只有 risk-rules / file-service，而是扩到 MCP core tools、provider routing、native config、ACP/Codex adapter、panel workloads、session copy 等 30+ 个守卫测试。
+- **前端构建也跑通。** 当前产物是 702 modules transformed，明显比旧稿时的 464 模块更大，说明 UI 面继续扩展。
+- **仍有缺口。** 本轮未复跑 Go probe-agent tests；而更关键的 Remote MCP Token ACL、auth/CSRF、proxy access control、SFTP 写入、Harness trace、远程暴露边界等仍缺更强 E2E 证明。
 
 ### CI/CD
 
 `.github/workflows/ci.yml`：
 
-- push 到 `main/dev`、PR 到 `main` 触发。
-- Node 18/20 matrix。
+- push 到 `main/dev`、PR 到 `main` 触发（和默认分支 `codex-contrib-refresh` 仍不一致）。
+- Node `20/22` matrix。
 - `npm ci`、`npm test`、frontend build。
-- Go 1.22.x 测 probe-agent。
+- Go `1.22.x` 测 probe-agent。
 - `main` 分支额外 docker build + container health check。
 
 Release workflows：
 
-- `build-desktop-release.yml` 覆盖 Windows/Linux/macOS x64/arm64 desktop package，下载 bundled Node runtime，构建 probe-agent binaries，上传 release assets。
-- `build-macos-release.yml` 有 offline package smoke test：启动 server 并检查 `/api/health`。
+- `build-desktop-release.yml` 覆盖 Windows/Linux/macOS x64/arm64 desktop package，下载 bundled Node runtime，构建 probe-agent binaries，验证 native modules，然后上传 release assets。
+- `build-macos-release.yml` 现在不只是桌面打包，还会做 **offline package smoke test**：解压离线包、启动 `server.js` 并检查 `/api/health`。
 
-质量信号：CI 不是空壳，release workflow 也考虑了 native modules 和 smoke test。主要不足是应用级集成测试少。
+质量信号：CI 不是空壳，release workflow 也考虑了 native modules、离线包与 health smoke。主要不足是默认分支和 CI 触发分支不一致，以及应用级安全 E2E 仍偏少。
 
 ### 文档质量
 
 - README 完整，覆盖定位、核心能力、MCP 接入、架构、技术栈、安全设计、项目结构、部署路径。
 - `SECURITY.md` 非常详细，逐段解释 auth、CSRF、IP Filter、凭据加密、Harness、audit/traces。
 - `HARNESS_DESIGN.md` 把边界层设计解释得简洁清楚。
-- `docs/mcp-ai-gateway-optimization.md` 明确记录“外部工具面收敛”的设计动机与安全要求。
-- docs site `https://docs.1shell.pro` 可访问（2026-06-10 curl 验证 200）。
+- `docs/mcp-ai-gateway-optimization.md`、`docs/oneshell-panel-completion-plan.md` 能看出它现在把 AgentRun / Panel / 任务化补全当成产品主线。
+- **docs site `https://docs.1shell.pro` 本轮未验证通过**：当前执行环境对该域名返回 403/523，至少不能再沿用旧稿的“curl 200”说法。
 
 不足：文档有“安全理想态”表述，部分与当前实现细节不完全一致；贡献指南、开发者 API、测试策略、威胁模型边界还可继续补。
 
 ### Issue / PR 健康度
 
-- 纯 open issue = 0。
-- open PR #3：`docs: add usage guide link to README`，owner 自己发起。
-- closed PR #1 / #2 都在 2026-05-23 当天合并，围绕 desktop packaging 和 revert broken desktop release changes。
-- 外部生态搜索几乎没有真实用户 issue / fork activity；项目还处在作者主导早期。
+- 纯 open issue = 0（2026-07-08 GitHub API）。
+- open PR #3：`docs: add usage guide link to README`，仍是 owner 自己从 `main` 发到默认分支 `codex-contrib-refresh`。
+- closed PR #1 / #2 仍都在 2026-05-23，当天围绕 desktop packaging 和 revert broken desktop release changes。
+- 外部生态搜索几乎没有真实用户 issue / fork activity；项目依然处在作者主导早期。
 
-结论：当前不能用 issue 低数量判断“成熟稳定”，更像“刚公开、尚未经历外部用户冲击”。
+结论：当前不能用 issue 低数量判断“成熟稳定”，更像“刚公开、仍主要靠作者自测与 release 驱动”的阶段。
 
 ---
 
@@ -408,30 +411,30 @@ Release workflows：
 
 GitHub search 结果：
 
-- `repo:weidu12123/1Shell is:issue sort:reactions-+1-desc` 返回 0 个 issue。
+- `repo:weidu12123/1Shell is:issue sort:reactions-+1-desc` 仍返回 0 个 issue。
 - `"1Shell" "weidu12123"` 主要命中仓库自身 PR。
-- repo search `1Shell` 只有少量 0-star 同名仓库 / fork，未见明显衍生生态。
+- repo search `1Shell` 只有少量低星同名仓库 / fork，未见明显衍生生态。
 
 评价：
 
-- 热度：67 stars / 11 forks，对 2026-04 创建、2026-05 公开 release 的项目来说有一定早期关注，但还不是社区验证后的产品。
-- 认可点：README 和 release body 的叙事非常清楚，聚焦 AI Agent 运维入口、安全边界和 MCP 工具面收敛。
-- 真实痛点：还没有外部 issue 足够暴露；要靠源码与测试判断风险。
+- 热度：**81 stars / 14 forks**，比旧稿的 67 / 11 有增长，但量级仍属于“有兴趣的早期项目”，不是被社区反复打磨后的成熟产品。
+- 认可点：README、release body、workflow 都越来越聚焦 **AgentRun + Remote MCP + VPS control plane** 这条主线，而不是泛泛 WebSSH 面板。
+- 真实痛点：外部 issue 仍不足以暴露问题，质量判断还是主要依赖源码、workflow 和本地验证。
 
 ### 衍生项目 / 插件生态
 
-暂无可确认的衍生项目或插件生态。仓库自身内置 Skill/Program/MCP registry，是生态能力的“种子”，但外部生态还未形成。
+暂无可确认的衍生项目或插件生态。仓库自身内置 Skill/Task/Panel/MCP registry 是生态能力的“种子”，但外部生态还未形成。
 
 ### 竞品对比
 
-| 项目 | Stars（2026-06-10） | 层级 | 与 1Shell 的关系 |
+| 项目 | Stars（2026-07-08） | 层级 | 与 1Shell 的关系 |
 |------|---------------------|------|------------------|
-| `tufantunc/ssh-mcp` | 492 | 极简 Remote SSH MCP Server | 直接邻近：更轻、更窄，只解决 MCP remote exec。 |
-| `cockpit-project/cockpit` | 14,263 | 成熟 Web server admin console | 平台级参照：服务器管理更成熟，但不是 Agent/MCP-first。 |
-| `huashengdun/webssh` | 5,110 | WebSSH client | 功能子集参照：只覆盖 Web SSH，不覆盖 AI/MCP/探针/Program。 |
-| `louislam/uptime-kuma` | 87,839 | 自托管监控 | 监控参照：监控成熟度强，但不做 AI 运维执行。 |
-| `modelcontextprotocol/servers` | 87,000 | MCP server catalog | 生态参照：标准 MCP Server 集合，1Shell 属于其中 remote ops 类潜在成员。 |
-| `mcp-use/mcp-use` | 10,083 | MCP app/server framework | MCP 应用开发参照，不是运维控制台。 |
+| `tufantunc/ssh-mcp` | 529 | 极简 Remote SSH MCP Server | 直接邻近：更轻、更窄，只解决 MCP remote exec。 |
+| `cockpit-project/cockpit` | 14,507 | 成熟 Web server admin console | 平台级参照：服务器管理更成熟，但不是 Agent/MCP-first。 |
+| `huashengdun/webssh` | 5,123 | WebSSH client | 功能子集参照：只覆盖 Web SSH，不覆盖 AI/MCP/探针/Task/Panel。 |
+| `louislam/uptime-kuma` | 88,872 | 自托管监控 | 监控参照：监控成熟度强，但不做 AI 运维执行。 |
+| `modelcontextprotocol/servers` | 88,181 | MCP server catalog | 生态参照：标准 MCP Server 集合，1Shell 属于其中 remote ops 类潜在成员。 |
+| `mcp-use/mcp-use` | 10,265 | MCP app/server framework | MCP 应用开发参照，不是运维控制台。 |
 
 ---
 
@@ -509,13 +512,13 @@ GitHub search 结果：
 
 | 维度 | 评分(1-5) | 说明 |
 |------|----------|------|
-| 功能覆盖度 | 4 | WebSSH、SFTP、主机仓库、探针、MCP、AI 网关、Program/Skill、审计都覆盖；企业 RBAC/堡垒机/成熟监控不足。 |
-| 代码质量 | 3 | 分层清晰、能跑、注释足；但后端 JS 长文件较多，类型边界弱，安全实现存在部分路径漂移。 |
-| 文档质量 | 4 | README/SECURITY/HARNESS/DOCS 说明完整，docs site 可访问；但文档与实现需继续对齐。 |
+| 功能覆盖度 | 4 | WebSSH、SFTP、主机仓库、探针、MCP、AI 网关、Task/Skill/Panel、审计都覆盖；企业 RBAC/堡垒机/成熟监控不足。 |
+| 代码质量 | 3 | 分层清晰、能跑、注释足；但后端 JS 长文件继续膨胀，类型边界弱，安全实现仍存在部分路径漂移。 |
+| 文档质量 | 4 | README/SECURITY/HARNESS/DOCS 说明完整；但 docs 站本轮无法验证，且文档与实现仍需继续对齐。 |
 | 社区活跃度 | 2 | 作者高频维护，但项目很新、单作者、外部 issue/PR 生态未形成。 |
-| 架构设计 | 4 | MCP 工具面收敛、AI gateway、Harness、Program/Skill、Probe 分层都很有价值；实现一致性还需打磨。 |
-| 学习价值 | 5 | 对 AI-native 运维控制面、安全边界、Remote MCP、Program 自动化都很值得拆。 |
-| 可借鉴度 | 4 | Harness、Remote Token ACL、ask gateway、Program AI steps、Agentless/Agent/Relay 探针都可迁移；整个平台直接复用需谨慎。 |
+| 架构设计 | 4 | MCP 工具面收敛、AI gateway、Harness、Task/Panel/Probe 分层都很有价值；实现一致性还需打磨。 |
+| 学习价值 | 5 | 对 AI-native 运维控制面、安全边界、Remote MCP、AgentRun/Task 演进都很值得拆。 |
+| 可借鉴度 | 4 | Harness、Remote Token ACL、ask gateway、Agentless/Agent/Relay 探针都可迁移；整个平台直接复用需谨慎。 |
 
 **总分：26 / 35**
 

@@ -8,21 +8,21 @@
 |------|----|
 | 仓库 | `HKUDS/CLI-Anything` |
 | URL | `https://github.com/HKUDS/CLI-Anything` |
-| Star | 43,075（2026-06-15 观测） |
-| Fork | 4,038（2026-06-15 观测） |
+| Star | 44,960（2026-07-08 观测） |
+| Fork | 4,208（2026-07-08 观测） |
 | 许可证 | Apache-2.0（仓库根 LICENSE）；多个 harness / package metadata 仍残留 MIT / GPL classifier，见风险说明 |
 | 主要语言 | Python 为主，少量 JavaScript / TypeScript / C# / Shell / Swift |
 | 首次提交 | 2026-03-08（`0148803 first commit`） |
-| 最近提交 | 2026-06-14（`bf3cc39 Feature/cli matrix multi approach (#355)`） |
-| Git 提交数 | 844（本地 clone 统计，2026-06-15） |
-| 最新 Release | v0.3.0（2026-04-24） |
-| 最新 tag | v0.3.0 |
-| 贡献者 | GitHub API 首页贡献者：yuh-yang 283、AiMiDi 43、omerarslan0 33、furkankoykiran 31、hito0512 31 等 |
-| 当前健康度 | GitHub repo API `open_issues_count=55`（含 PR）；PR API 返回 open PR 18，推算 open issues 约 37 |
-| 分析日期 | 2026-06-15 |
+| 最近提交 | 2026-06-25（`dc73924 feat(cli-hub): bump to 0.4.0 and add CLI-Matrix analytics`） |
+| Git 提交数 | 844（本地 clone 统计，2026-07-08） |
+| 最新 Release | v0.4.0（2026-06-25） |
+| 最新 tag | v0.4.0 |
+| 贡献者 | GitHub API 首页贡献者与本地 shortlog 都显示多作者协作仍在继续；近期主导仍集中于 yuh-yang / Yuhao 与少数活跃贡献者 |
+| 当前健康度 | GitHub repo API `open_issues_count=72`（含 PR）；GitHub search 口径：open PR 30、open issues 42、merged PRs 164、closed issues 69 |
+| 分析日期 | 2026-07-08 |
 | 分类 | Agent-Native Software / CLI Harness Framework / CLI Workflow Substrate |
 
-> 观测说明：本次只做静态分析：源码、文档、Git 历史、GitHub API、Release、Issue/PR 元信息；未安装依赖、未运行项目、未启动服务、未跑测试/构建。GitHub Issues 列表大分页多次 504，小分页可读到近期 issue/PR 标题；PR API 成功返回 18 个 open PR。
+> 观测说明：本次以静态分析为主：源码、文档、Git 历史、GitHub API、Release、Issue/PR 元信息；**额外做了 Python 语法烟测**：本地 checkout 与 `FETCH_HEAD` tip 均为 `1262` 个 `.py` 文件、`0` 个 syntax error。未安装项目依赖、未启动服务、未跑完整测试/构建。
 
 ---
 
@@ -34,8 +34,10 @@
 2. **CLI-Hub 从安装器变成控制面。** 除 `list/search/install/launch/previews` 外，新增 `can`、`matrix list/search/info/preflight/install/doctor/recipes`，开始承担 provider discovery、环境 preflight、install plan、doctor 和 matrix skill 渲染。
 3. **生态数量继续增长。** `registry.json` 从旧报告的 60 个 harness CLI 增到 76；`public_registry.json` 从 16 增到 20；`matrix_registry.json` 新增 5 个 workflow matrix。
 4. **宿主适配更广。** README 已明确列出 Claude Code、Pi、OpenClaw、OpenCode、Codex、Hermes、Reasonix、Qodercli、GitHub Copilot CLI；Hermes skill 和 Reasonix skill 成为一等入口。
-5. **旧报告里的 `cli-hub/preview.py` SyntaxError 已修复。** 当前同一区域已改为合法字符串拼接；但该文件仍有 1,838 行，CLI-Hub/Preview 大文件复杂度仍是治理风险。
-6. **文档/营销指标继续膨胀，但口径需审慎。** README 宣称 `2,461` tests / `100% pass rate`，同时写 `1,732 unit + 579 E2E + 19 Node.js`，三项相加为 2,330，存在测试汇总口径不一致；在未运行测试的静态分析中不能把该数字当作独立验证结果。
+5. **旧报告里的 `cli-hub/preview.py` SyntaxError 已修复。** 当前同一区域已改为合法字符串拼接；并且本次对本地 checkout 与 fetched main tip 都跑了 `py_compile` 烟测，`1262` 个 `.py` 文件均无语法错误。
+6. **文档/营销指标继续膨胀，但口径需审慎。** README 宣称 `2,461` tests / `100% pass rate`，同时写 `1,732 unit + 579 E2E + 19 Node.js`，三项相加为 2,330，存在测试汇总口径不一致；在未运行完整测试的情况下不能把该数字当作独立验证结果。
+7. **2026-06-25 之后，CLI-Hub 已进入 `v0.4.0` 阶段。** `cli-hub` wheel 现在会 vendoring `cli-hub-matrix/*` 技能数据到包内，降低“无 repo checkout 时 matrix skill 不可用”的分发摩擦。
+8. **新风险也出现了：analytics 进入控制面。** `cli_hub/analytics.py` 引入 PostHog/Umami、distinct ID、本地 `~/.cli-hub/.analytics_id` 与 agent/human 调用上下文识别；这说明项目开始从方法论工具向带产品遥测的 package manager 演化。
 
 ---
 
@@ -99,7 +101,10 @@ CLI-Anything 的方向非常值得学：它抓住了 Agent 时代软件形态的
 
 | Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
 |------------|------|----------|----------------|----------|--------------|---------|
-| _待补关键依赖_ | | | | | | |
+| `click>=8.0` | Python CLI framework | `cli-hub` command surface、subcommand tree、参数解析 | 让 registry / matrix / preview / install / doctor 能稳定暴露成命令面 | `cli-hub/setup.py` `install_requires` | 适合作为 Agent-native CLI control plane 的最小框架 | 不是强 schema/runtime guard，本身不解决 install command 安全问题 |
+| `requests>=2.28` | HTTP client | 拉取 registry / public registry / matrix registry；发送 analytics | 用最小依赖完成 registry 控制面与遥测上报 | `cli-hub/setup.py`、`cli_hub/registry.py`、`cli_hub/analytics.py` | 说明产品核心不是复杂服务端，而是“轻控制面 + JSON registry” | 网络层简单也意味着 provenance / retry / 签名 / policy 需要额外治理 |
+| `setuptools` + package data vendoring | packaging/build | `cli-hub` 发布、entry point、把 `cli-hub-matrix/*` vendoring 进 wheel | 解决“脱离 repo checkout 后 matrix skill 丢失”问题 | `cli-hub/setup.py` 里的 `build_py`/`sdist` + `_sync_matrix_data()` | 对 skill-heavy / artifact-heavy Python 包很有借鉴价值 | 也暴露出 root Apache-2.0 与子包 MIT classifier 的 metadata 漂移 |
+| **stdlib-first runtime** | architecture choice | registry cache、matrix state、preview protocol、skill 复制、agent context 检测 | 把产品重心放在方法论/协议/registry，而不是重运行时框架 | 大量核心逻辑在 `cli-anything-plugin/*`、`cli_hub/*` 中直接用 stdlib + 少量依赖 | 适合做“Agent tool packaging substrate” 的轻核设计 | 轻依赖不代表低风险；shell install、license provenance、telemetry 仍是系统性问题 |
 
 ### 采用风险
 
@@ -108,8 +113,9 @@ CLI-Anything 的方向非常值得学：它抓住了 Agent 时代软件形态的
 | 许可证合规 | ⚠️ 中 | 根仓库 Apache-2.0，但多个 `setup.py` / `pyproject.toml` classifier 仍写 MIT / GPLv3；旧 issue 还暴露过 AI 生成代码来源合规问题。生态型仓库需要 provenance 机制，而不只是根 LICENSE。 |
 | 安全边界 | ⚠️ 中高 | `SECURITY.md` 明确承认 Agent 会自主构造命令；风险面包括 subprocess 参数、Script-Fu / macro 注入、XML/SVG 注入、路径遍历、明文凭证。open PR #283 仍在修 FreeCAD output_path macro injection。 |
 | Registry 供应链 | ⚠️ 中高 | `installer.py` 对含 pipe / `&&` / `;` 等 shell metacharacter 的 registry install command 使用 `shell=True`，理由是命令来自 trusted registry。这把 registry review 变成安全边界。 |
+| 遥测 / 隐私 | ⚠️ 中 | `cli_hub/analytics.py` 新增 PostHog/Umami、distinct ID 与 agent/human 调用上下文识别；默认是 opt-out by env，而不是安装时显式确认。 |
 | Bus factor | 中 | 贡献者数和 PR 活跃度高，但核心提交仍集中在 yuh-yang/Yuhao 及少数活跃贡献者。 |
-| 维护趋势 | 活跃 | 2026-03 创建，2026-06-14 仍有密集 PR；最新 main 在一天内合并 matrix 多工具工作流。 |
+| 维护趋势 | 活跃 | 2026-03 创建，2026-06-25 仍有 release + commit；最近已从 matrix 扩展到 analytics / package vendoring。 |
 | 质量一致性 | ⚠️ 中 | 方法论层强，harness 层多代模板共存；README 测试汇总口径不一致；CI 尚未看到全仓 pytest/py_compile 级 gate。 |
 | 供应商/宿主锁定 | 中 | 方法论跨平台，但最佳体验仍依赖具体 coding agent 能否稳定读 skill/commands、调用终端、编辑文件、运行测试。 |
 
@@ -372,8 +378,8 @@ CLI-Anything/
 
 - **主语言 / runtime**：Python 3.10+、Click 8+。
 - **辅助语言**：JavaScript/TypeScript（PR labeler、部分插件/测试/前端）、C#、Swift、Shell、PowerShell、HTML。
-- **打包**：各 harness 多为 `setup.py` / namespace package；`cli-anything-hub` 发布到 PyPI，当前 `setup.py` 版本 0.3.0。
-- **测试宣称**：README 写 `2,461` tests / `100% pass rate`；但测试数字内部存在 subtotal 口径不一致，本次未运行验证。
+- **打包**：各 harness 多为 `setup.py` / namespace package；`cli-anything-hub` 发布到 PyPI，当前 `setup.py` 版本 `0.4.0`，并在 build/sdist 时 vendoring `cli-hub-matrix/*` 数据进 wheel。
+- **测试宣称**：README 写 `2,461` tests / `100% pass rate`；但测试数字内部存在 subtotal 口径不一致，本次未运行完整测试验证。
 - **CI/CD**：root skills validation、Codex skill installer test、GitHub Pages deploy、PR labeler、PR labeler tests、CLI-Hub PyPI publish。未看到全仓 pytest / py_compile / registry security policy 级 gate。
 
 ### 模块依赖关系
@@ -450,8 +456,11 @@ Provider 类型分布（静态统计）：
 
 ### 测试
 
-- README 宣称：`2,461` tests，`100% pass rate`，包含 unit、E2E、Node.js tests。
-- 本次未运行测试/构建，不能独立确认该数字。
+- README 仍宣称：`2,461` tests，`100% pass rate`，包含 unit、E2E、Node.js tests。
+- **本次实测只做语法烟测**：
+  - 本地 checkout：`1262` 个 `.py` 文件，`0` 个 syntax error；
+  - `FETCH_HEAD` main tip：`1262` 个 `.py` 文件，`0` 个 syntax error。
+- 本次**未**跑完整 pytest / harness E2E / build，因此不能独立确认 README 的总测试数与通过率。
 - 静态观察：`cli-hub/tests/test_cli_hub.py`、`test_matrix_skill_dist.py` 已覆盖 matrix/installer/preview 相关新逻辑；README 中各 harness 测试数增长明显。
 - 质量信号：项目非常强调 TEST.md 和真实后端 E2E，但 CI 尚未体现“全仓真实执行这些测试”的能力。
 
@@ -490,20 +499,16 @@ Provider 类型分布（静态统计）：
 
 当前口径：
 
-- GitHub repo API：`open_issues_count=55`（含 PR）。
-- PR API：open PR 18。
-- 推算 open issues 约 37。
+- GitHub repo API：`open_issues_count=72`（含 PR）。
+- GitHub search：open PR 30、open issues 42、merged PRs 164、closed issues 69。
 - 近期 open issue/PR 样例：
-  - #353 `cli-anything-everything` registry submission。
-  - #343 Blender Windows path escape bug。
-  - #342 Browser `_parse_execute_result` path parsing bug。
-  - #339 Browser wrapper asyncio.run 性能问题。
-  - #330 Browser `fs cat` root cwd ValueError。
-  - #283 FreeCAD macro output_path injection 修复 PR。
-  - #299 Harden CLI-Hub preview compatibility and installs。
-  - #351 NI LabVIEW CLI public registry PR。
-
-信号判断：维护非常活跃，但 issue 类型仍集中在：新增 harness、具体 harness bug、安全 hardening、browser/preview/installer 兼容性、文档同步。这符合“生态扩张快于治理”的项目阶段。
+  - #376 `fix: the cli-hub analytics module contains a hardcod... in analytics.py`
+  - #374 `feat: add cli-anything-meerk40t (MeerK40t laser software)`
+  - #373 `Harden cli-hub: registry install_cmd strings are shell-executed...`
+  - #371 `registry: add browser-cdp (raw CDP, no extensions)`
+  - #369 `RPG Maker XP harness + contract question`
+  - #366 `feat(eval): cross-harness eval/benchmark framework (cli-anything-eval)`
+- 信号判断：维护非常活跃，但 issue 类型已经从“新增 harness”扩展到 **registry 安全、preview/installer 兼容、analytics 隐私、跨 harness benchmark**。这说明项目正在从 demo 生态迈向更像平台的治理阶段。
 
 ---
 
@@ -512,9 +517,10 @@ Provider 类型分布（静态统计）：
 ### 社区热度
 
 - 2026-05-19 旧快照：36,696 stars / 3,560 forks。
-- 2026-06-15 新快照：43,075 stars / 4,038 forks。
-- 一个月内继续增长约 6,379 stars、478 forks，热度仍高。
-- README 新增 arXiv 技术报告链接 `arXiv:2606.03854`，说明项目开始从 GitHub demo 传播转向方法论/论文叙事。
+- 2026-06-15 快照：43,075 stars / 4,038 forks。
+- 2026-07-08 快照：44,960 stars / 4,208 forks。
+- 从 6 月中到 7 月初，增长放缓但仍在爬升，说明项目已从“爆发式认知传播”进入“继续吸星 + 开始承受治理摩擦”的阶段。
+- README 挂出的 arXiv 技术报告 `arXiv:2606.03854` 继续强化它的 methodology / research narrative；而 `cli-hub analytics`、registry 安全 issue、benchmark PR 则说明它同时在向产品化控制面演进。
 
 ### 生态形态
 

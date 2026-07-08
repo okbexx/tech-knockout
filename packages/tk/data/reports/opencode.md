@@ -8,17 +8,18 @@
 |------|----|
 | 仓库 | `anomalyco/opencode` |
 | URL | `https://github.com/anomalyco/opencode` |
-| Star | 174,169（截至 2026-06-14） |
-| Fork | 21,032 |
+| Star | 183,405（截至 2026-07-08） |
+| Fork | 22,758 |
 | 许可证 | MIT |
 | 语言 | TypeScript |
 | 默认分支 | `dev` |
 | 创建时间 | 2025-04-30 |
-| 最近 push | 2026-06-14 |
-| 最新 Release | v1.17.6（2026-06-13） |
-| Open Issues / PRs | 6,033 issues / 1,031 PRs |
-| 贡献者 | GitHub contributors API 返回 100+；Top10 贡献占比约 80.5% |
-| 分析日期 | 2026-06-14 |
+| 最近 push | 2026-07-08 |
+| 最新 Release | v1.17.15（2026-07-07） |
+| Open Issues / PRs | 3,691 issues / 1,050 PRs |
+| 已关闭 Issues / 已合并 PRs | 16,479 issues / 5,783 PRs |
+| 贡献者 | 973（GitHub contributors API，anon=1） |
+| 分析日期 | 2026-07-08 |
 
 ---
 
@@ -41,16 +42,17 @@ OpenCode 解决的是 **“开源、可扩展、多入口、多模型的 Coding 
 
 - **能做什么：**
   - 交互式 coding agent：读写文件、搜索、shell、patch、todo、web fetch/search、task/subagent、LSP 等工具。
-  - 多入口：CLI/TUI、desktop、web/app、HTTP API、SDK、GitHub Action、Slack 等包线。
-  - 多模型：通过 provider/model catalog 接入 Anthropic、OpenAI、Google、OpenRouter、xAI、Moonshot 等多类 provider。
+  - **多入口产品面**：CLI/TUI、desktop（README 明示 BETA）、web/app、HTTP API、SDK、GitHub Action、Slack 等包线。
+  - **内置 agent 角色**：当前 README 明写 `build`、`plan` 两个 built-in agents，以及一个可用 `@general` 调用的 subagent。
+  - 多模型：通过 provider/model catalog 接入 Anthropic、OpenAI、Google、OpenRouter、xAI、Bedrock、Azure、OpenAI-compatible 等多类 provider。
   - MCP 与插件：工具可来自内置 registry、插件、文件系统自定义工具、MCP 生态。
   - Durable session：会话、输入、消息、上下文 epoch、事件、projection 进入 SQLite/Drizzle 风格持久状态。
-  - 实时 UI：stream delta、event bus、session projection 支撑 TUI/Web/HTTP 多客户端重放与订阅。
+  - 实时 UI：stream delta、event bus、session projection 支撑 TUI/Web/HTTP/desktop 多客户端重放与订阅。
 
 - **不能做什么 / 尚不稳定处：**
   - 不是闭源 Claude Code 的完全等价替代，模型质量和产品细节仍取决于 provider 与运行环境。
-  - 当前源码仍处在 V1/V2 session runtime 迁移期，存在兼容桥接与 dual-write/mirror seam。
-  - 海量 issue/PR backlog 下，性能、内存、剪贴板、写入卡死、隐私默认行为、沙箱能力等体验问题仍被高频讨论。
+  - 当前源码仍处在 V1/V2 session runtime 迁移期，`packages/core/src/session/runner/llm.ts` 的注释里仍保留多项未完成 slice（durable multi-node ownership、bounded retry、部分 post-run maintenance 等）。
+  - 海量 issue/PR backlog 下，Windows 多实例、TUI/desktop 路径冲突、权限 profile、i18n、媒体/转换崩溃等问题仍持续出现。
   - 生产级多租户隔离、企业审计、强沙箱、稳定集群 ownership 尚不是当前最稳妥的默认能力。
 
 - **与竞品差异：**
@@ -77,19 +79,25 @@ OpenCode 解决的是 **“开源、可扩展、多入口、多模型的 Coding 
 
 | Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
 |------------|------|----------|----------------|----------|--------------|---------|
-| _待补关键依赖_ | | | | | | |
+| `effect` | runtime / effect system | Session service、runner、event bus、tool settlement、resource lifecycle | 让高并发、typed error、fiber、stream、layer injection 有统一语义 | `packages/core` / `packages/opencode` 核心路径几乎全量使用 Effect API | **高**：如果你要做 durable agent runtime，这套错误/并发/资源模型很值钱 | 学习曲线陡；会把代码风格整体拉向 Effect 范式 |
+| `drizzle-orm` + SQLite (`@effect/sql-sqlite-bun`) | state / persistence | session、message、input、event sequence、projection tables | 给 agent runtime 提供 durable state、replay 和 projection 读模型 | `packages/core/package.json` 与 `packages/core/src/session/*`、`event.ts` | **高**：event/projection 型 agent 很适合复用这一层 | schema 演进、迁移和历史兼容成本会持续存在 |
+| `ai` + `@ai-sdk/*` + `@ai-sdk/openai-compatible` | model/provider abstraction | 多 provider LLM request / stream | 把 Anthropic、OpenAI、Google、Bedrock、OpenRouter、兼容网关统一进一条 runner 路径 | `packages/core/package.json` 中多 provider 依赖 | **高**：适合需要 provider portability 的产品 | provider surface 很宽，兼容问题和 patch 维护成本也高 |
+| `@modelcontextprotocol/sdk` | MCP integration | 外部 MCP 工具接入 | 不把能力封死在内置工具里，保留外部工具生态接入面 | `packages/opencode/package.json` 与工具层/MCP 目录 | **高**：MCP 已是 agent 产品标准扩展面 | 运行稳定性和权限边界仍取决于外部 MCP 服务质量 |
+| `@opentui/*` | terminal UI framework | TUI / terminal-native 交互面 | 让 terminal agent 不必自己重造一套 TUI 控件与输入系统 | root `package.json` catalog + `packages/tui` 相关依赖 | **中高**：做终端优先 agent 很有参考价值 | 生态相对更窄，深度调试成本不低 |
+| Solid + Vite + Electron | app / desktop shell | Web/App、desktop、shared UI | 让 runtime 不止停留在 CLI，而能成为多入口产品 | `packages/app/package.json`、`packages/desktop/package.json` | **高**：如果目标是产品化而不只是 CLI，很值得学 | 多入口意味着测试矩阵和兼容成本同步上升 |
+| `@opencode-ai/plugin` | extension SDK | 插件工具、扩展 API | 把 plugin author surface 独立成稳定包，而不是让外部直接侵入 core | `packages/plugin/package.json` | **高**：这是“平台化”而不是“单应用化”的强信号 | 一旦对外开放 SDK，兼容承诺和版本演进压力都会上来 |
 
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |
 |--------|------|------|
 | 许可证合规 | ✅ | MIT |
-| Bus factor | 🟡 中 | 非单作者项目，但 Top10 贡献占比约 80.5%，头部维护压力较重 |
+| Bus factor | 🟡 中 | contributors 面上很大（973），但 durable core / runner / product surface 复杂，真实架构主导权仍然集中 |
 | 供应商锁定 | 🟢 低 | 多 provider、MCP、插件、自定义工具降低模型锁定 |
 | 维护趋势 | 🟢 高 | 最近 push/release 都在 24 小时内，迭代极活跃 |
-| Backlog 压力 | 🔴 高 | 6,033 open issues + 1,031 open PRs，支持压力巨大 |
-| 体验稳定性 | 🟡 中 | 高互动 issue 聚焦性能、内存、剪贴板、写入卡死、沙箱/隐私 |
-| 架构迁移风险 | 🟡 中 | V1/V2 session runtime 并存，部分能力仍在 TODO 列表中 |
+| Backlog 压力 | 🔴 高 | 3,691 open issues + 1,050 open PRs，虽然较 6 月下降，但支持压力仍极大 |
+| 体验稳定性 | 🟡 中 | 当前 open issue 仍集中在 Windows、多实例、路径冲突、权限 profile、i18n、媒体转换等真实使用问题 |
+| 架构迁移风险 | 🟡 中 | V1/V2 session runtime 并存，runner 注释里仍保留多项未完成 slice |
 | 生产隔离 | 🟡 中偏高 | coding agent 天然有 shell/file side effects；强沙箱需要外部环境配合 |
 
 ### 结论
@@ -419,11 +427,11 @@ opencode/
 
 ### 技术栈
 
-- **运行时 / 框架：** TypeScript、Bun 1.3.14、Node 22 target、Effect、Hono、Solid、Electron/Tauri-like desktop packaging surface（desktop package）。
+- **运行时 / 框架：** TypeScript、Bun 1.3.14、Effect、Hono、Solid、Electron。
 - **数据库 / 状态：** SQLite + Drizzle ORM 风格 schema、event sequence、projection tables。
 - **构建 / 包管理：** Bun workspace、Turbo、tsgo / TypeScript native preview、oxlint、prettier。
-- **测试：** Bun test，包级测试；root `test` 明确禁止。
-- **CI/CD：** GitHub Actions：typecheck、test、publish、deploy、docs sync、triage、review、VS Code publishing 等。
+- **测试：** Bun test + Playwright；按包执行，root `test` 明确禁止。
+- **CI/CD：** GitHub Actions 双平台矩阵 + publish / triage / review / storybook 等多条流水线。
 
 ### 模块依赖关系
 
@@ -467,33 +475,34 @@ packages/core
 ### 代码质量
 
 - **类型系统：** TypeScript + Effect typed services/layers，核心路径类型约束强；schema/codec 用于 event、context、tool 参数边界。
-- **错误处理：** 大量错误走 Effect cause / typed error / tagged error；runner 对 interrupt、provider error、tool failure、context overflow 有显式分支。
-- **代码风格：** monorepo 结构清晰，但复杂度高；Effect 风格对新贡献者不友好。
+- **结构化程度：** 最新 tip 下约 **6,206** 个 tracked files，`packages/*` 下有 **36** 个 package manifests，说明它已是明显的平台级 monorepo，而不是单 CLI 工具。
+- **测试意识：** 最新 tip 下可识别 **877** 个 test-like 文件（`test/spec/e2e/performance` 等命名），并且 `packages/app` 单独拆出 regression、performance、timeline-stability 等套件，质量投入是真实存在的。
 - **演进状态：** session runtime 仍有 V1/V2 迁移 TODO，不应把当前 core 视为完全稳定收敛版。
+- **理解门槛：** Effect、event/projection、tool settlement、跨端产品面叠加后，二次开发门槛依旧偏高。
 
 ### 测试
 
-本地低风险验证（2026-06-14）：
+本轮按 TK stale-refresh 流程做的是**静态 current-state 校验**，没有重跑仓库级安装/测试；因此不复用 6 月那组本地测试数字，而是以最新 tip 的脚本与 CI 作为证据。
 
-| 命令 | 结果 |
-|------|------|
-| `node -v` | `v22.22.3` |
-| `bun -v` | `1.3.14` |
-| `packages/opencode: bun typecheck` | 通过，退出码 0 |
-| `packages/app: bun run test:unit` | 376 pass / 0 fail，退出码 0 |
-| `packages/opencode: bun test --timeout 30000 --only-failures` | 3003 tests，2980 pass / 22 skip / 1 todo / 0 fail，退出码 0 |
-| `packages/core: bun typecheck` | 通过，退出码 0 |
-| `packages/core: bun test --timeout 30000 --only-failures` | 因本机用户状态目录权限异常失败：195 pass / 110 fail / 110 errors |
-| `packages/cli: bun run build` | 构建成功，但会触发依赖安装/lockfile save，不适合作为无副作用 smoke |
+当前可确认的测试面：
 
-注意：根 `package.json` 的 `test` 脚本明确输出 `do not run tests from root` 并退出 1；测试应按包或 CI workflow 规则运行。
+| 证据 | 当前状态 |
+|------|----------|
+| 根 `package.json` | `test` 仍明确写成 `do not run tests from root` 并退出 1，说明维护者仍要求按包或 CI lane 跑测试 |
+| `packages/app/package.json` | 有 `test:unit`、`test:browser`、`test:e2e`、`test:stability`、`test:bench` |
+| `packages/opencode/package.json` | 有 `test`、`test:httpapi`、`bench:test`、`profile:test` |
+| `.github/workflows/test.yml` | Linux/Windows 双矩阵跑 `bun turbo test` |
+| `.github/workflows/test.yml` | Linux lane 额外检查 generated client 和 `packages/opencode` 的 `test:httpapi` |
+| `.github/workflows/test.yml` | Linux/Windows 双矩阵跑 app e2e，并上传 Playwright artifacts |
+
+结论：**OpenCode 的测试纪律是“按包分层 + CI 矩阵 + app e2e/perf 单独建轨”**，这比很多同类开源 agent 更成熟；但这次刷新没有在本机重复跑全套，所以报告不声称新的本地通过数。
 
 ### CI/CD
 
-- `.github/workflows/typecheck.yml`：typecheck。
-- `.github/workflows/test.yml`：`bun turbo test`，并有 HTTP API test 路径。
-- `.github/workflows/publish*.yml` / `release*.yml`：发布主包、GitHub Action、VS Code 等。
-- `.github/workflows/triage.yml` / review/pr-management/close workflows：社区自动化管理较重。
+- `.github/workflows/test.yml`：Linux/Windows 双矩阵 unit + app e2e。
+- `.github/workflows/publish.yml`：发布主包/发行物。
+- 额外 workflow 数量约 **26** 个，覆盖 publish、storybook、triage、duplicate/compliance close、review automation 等。
+- 这说明它已经不是“代码仓库 + 一个 test workflow”，而是带明显运营/发布自动化的成熟开源产品面。
 
 ### 文档质量
 
@@ -504,10 +513,11 @@ packages/core
 
 ### Issue / PR 健康度
 
-- Open Issues：6,033。
-- Open PRs：1,031。
-- 高互动问题集中在：性能响应慢、内存占用/泄漏、剪贴板、写入卡死、沙箱、隐私默认行为、模型兼容。
-- 解释：OpenCode 是高热度、高活跃、高 backlog 项目。生态势能强，但维护队列和稳定性压力也真实存在。
+- Open Issues：3,691。
+- Open PRs：1,050。
+- 已关闭 Issues：16,479；已合并 PRs：5,783。
+- 当前开放问题的主题更偏真实产品运维与跨端兼容：Windows 多实例、desktop/TUI 路径冲突、权限 profile 解耦、i18n、webfetch 编码、非媒体文件转换崩溃等。
+- 解释：OpenCode 仍然是高热度、高活跃、高 backlog 项目。生态势能强，但支持压力和跨平台稳定性压力也仍然真实存在。
 
 ---
 
@@ -515,9 +525,9 @@ packages/core
 
 ### 社区评价
 
-OpenCode 的生态信号非常强：174k+ stars、21k+ forks、最近 release/push 都很新。它已经不是“小众工具”，而是 coding agent 赛道的主流开源项目之一。
+OpenCode 的生态信号仍然非常强：**183k+ stars、22k+ forks、973 contributors、最近 release/push 都很新**。它已经不是“小众工具”，而是 coding agent 赛道里最强势的开源终端/多入口 runtime 之一。
 
-同时，过高的 issue/PR backlog 说明它面临典型爆红项目问题：用户预期、平台兼容、provider 兼容、终端差异、隐私/沙箱诉求一起涌入，维护者需要在产品速度和稳定性之间持续取舍。
+同时，超大的 issue/PR backlog 说明它面临典型爆红项目问题：用户预期、平台兼容、provider 兼容、终端差异、desktop/app 体验、权限/隐私诉求一起涌入，维护者需要在产品速度和稳定性之间持续取舍。
 
 ### 衍生项目 / 插件生态
 
@@ -527,14 +537,14 @@ OpenCode 的生态信号非常强：174k+ stars、21k+ forks、最近 release/pu
 
 ### 竞品对比
 
-| 项目 | Stars（2026-06-14） | 定位 | 与 OpenCode 的核心差异 |
+| 项目 | Stars（2026-07-08） | 定位 | 与 OpenCode 的核心差异 |
 |------|---------------------|------|--------------------------|
-| OpenCode | 174k | 开源 coding-agent runtime，多入口、多模型、MCP/插件 | runtime 化最明显，热度最高，backlog 也最重 |
+| OpenCode | 183k | 开源 coding-agent runtime，多入口、多模型、MCP/插件 | runtime 化最明显，热度最高，backlog 也最重 |
 | Gemini CLI | 105k | Google 生态 CLI agent | provider/生态背书强，开放 runtime extensibility 不同 |
-| OpenHands | 76k | 自治软件工程 agent / 云端任务执行 | 偏任务平台，部署重 |
-| Cline | 63k | VS Code agent 插件 | IDE 体验强，但入口绑定 VS Code |
-| Aider | 46k | Git 驱动 CLI coding assistant | 成熟稳健，架构更传统，runtime 多入口弱 |
-| Continue | 33k | IDE assistant / 企业接入 | 企业配置/RAG/IDE 集成强，非独立 CLI runtime |
+| OpenHands | 79k | 自治软件工程 agent / 云端任务执行 | 偏任务平台，部署重 |
+| Cline | 64k | VS Code agent 插件 | IDE 体验强，但入口绑定 VS Code |
+| Aider | 47k | Git 驱动 CLI coding assistant | 成熟稳健，架构更传统，runtime 多入口弱 |
+| Continue | 35k | IDE assistant / 企业接入 | 企业配置/RAG/IDE 集成强，非独立 CLI runtime |
 
 ---
 
