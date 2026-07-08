@@ -8,23 +8,23 @@
 |------|----|
 | 仓库 | `mvanhorn/last30days-skill` |
 | URL | `https://github.com/mvanhorn/last30days-skill` |
-| Star | 约 39.1k（2026-06-11 观测） |
-| Fork | 约 3.16k |
+| Star | 50,457（2026-07-08 GitHub API 快照） |
+| Fork | 4,212（2026-07-08 GitHub API 快照） |
 | 许可证 | MIT |
 | 主要语言 | Python；另有 Markdown / JSON / Bash / JS / YAML |
 | GitHub created_at | 2026-01-23 |
 | 首次提交 | 2026-01-23，本地 `git log`：`5ca4829 Initial commit: last30days skill` |
-| 最近提交 | 2026-06-06，本地 HEAD：`1221584 chore(release): v3.3.2 (#485)`；GitHub `pushed_at` 为 2026-06-10 |
-| 最新 GitHub Release / Tag | GitHub latest release / latest tag 均为 `v3.3.0`（2026-05-17）；源码版本为 `3.3.2` |
-| 贡献者数 | GitHub contributors API 返回 42；本地 shortlog 显示 Matt Van Horn、Trevin Chow、Jeffrey Sperling 为主要贡献者 |
-| Issue / PR | open issues 75，open PRs 72；repo API `open_issues_count=147` 含 PR；merged PRs 171（2026-06-11 GitHub Search 口径） |
-| 代码规模 | `pygount`：246 files，29,056 code LOC；其中 Python 160 files / 28,151 code LOC；Markdown 47 files |
-| 测试验证 | `uv run pytest` 实测：1,617 passed，4 skipped，2 subtests passed，17.60s |
-| GitNexus | 索引成功：7,664 nodes / 12,595 edges / 189 clusters / 238 flows；少量大文件 scope extraction 警告，不影响本次源码阅读 |
-| 分析日期 | 2026-06-11 |
+| 最近提交 | 2026-07-08 `c4e70ee docs: add animated README demo GIF (#760)` |
+| 最新 GitHub Release / Tag | GitHub latest release / latest tag / 源码版本均已对齐到 `v3.11.1`（published_at 2026-07-07） |
+| 贡献者数 | GitHub contributors API 首屏 84；top3 为 `mvanhorn` 405、`tmchow` 255、`j-sperling` 37 |
+| Issue / PR | open issues 55，open PRs 36；repo API `open_issues_count=91` 含 PR（2026-07-08 观测） |
+| 代码规模 | `git ls-files` 345；其中 Python 239 files / 74,714 行，Markdown 26 files / 6,001 行 |
+| 测试验证 | 本轮临时 venv 实测：`.venv/bin/pytest -q` 通过；JUnit 统计 2,766 tests，0 failures，5 skipped，19.792s |
+| GitNexus | 本轮未重跑（按默认源码/文档/Git/GitHub API 口径分析） |
+| 分析日期 | 2026-07-08 |
 | 分类 | AI Research Skill / Agent-Native Research Engine |
 
-补充口径：运行 GitNexus 会在源码缓存仓库内生成 `.gitnexus/`、`.claude/skills/generated/` 并修改 `AGENTS.md` / `CLAUDE.md` / `.gitignore` 的本地分析提示。这些是分析副产物，`repos/` 被 TK 仓库 `.gitignore` 排除，不纳入本报告提交。
+补充口径：本轮按用户默认偏好，采用 **源码 / 文档 / Git / GitHub API** 为主的静态复核路径；未重跑 GitNexus，也不把分析副产物写入报告结论。
 
 ---
 
@@ -73,11 +73,11 @@ last30days-skill 的核心价值不是“又一个搜索 API”，而是把**跨
 
 | 维度 | 评估 |
 |------|------|
-| 安装复杂度 | 低。Claude Code 走 `/plugin marketplace add` + `/plugin install`；其他 50+ harness 走 `npx skills add mvanhorn/last30days-skill -g`；claude.ai 可上传 `.skill` release artifact。 |
-| 运行依赖 | Python 3.12+；`uv` 用于 dev/test；运行时核心依赖接近 stdlib，`pyproject.toml` `dependencies=[]`，但外部来源依赖 CLI/API key/cookies。 |
-| 默认可用度 | 本机 `--diagnose` 实测无凭证时仅 `reddit`、`hackernews`、`polymarket` 可用；`bird` installed 但未认证，GitHub source 因无 `gh` / token 未启用。 |
-| 高质量配置 | 中。需要 `SCRAPECREATORS_API_KEY`、X cookie / `XAI_API_KEY`、`yt-dlp`、`BRAVE_API_KEY` / host WebSearch、`GITHUB_TOKEN` / `gh`、`OPENROUTER_API_KEY` 等按需启用。 |
-| 学习曲线 | 中高。普通用户只需会用 `/last30days`；维护者需要理解 1700 行级 `SKILL.md` contract、planner schema、source adapters、render LAWs 和 config priority。 |
+| 安装复杂度 | 低。Claude Code 走 `/plugin marketplace add` + `/plugin install`；其他 50+ harness 走 `npx skills add mvanhorn/last30days-skill -g`；claude.ai 仍可上传 `.skill` release artifact。 |
+| 运行依赖 | Python 3.12+；`pyproject.toml` 运行时 `dependencies=[]`，dev 侧只声明 `pytest` / `pytest-cov`。高质量结果主要依赖外部来源凭证、CLI 与宿主搜索能力，而不是重型 Python SDK。 |
+| 默认可用度 | 本机 `--diagnose` 实测当前可用 `reddit`、`youtube`、`hackernews`、`polymarket`、`github`、`grounding`；`bird` 已安装但未认证，`gh` 与 `yt-dlp` 可用。 |
+| 高质量配置 | 中。要跑出 README 展示级跨源效果，仍建议按需配置 `SCRAPECREATORS_API_KEY`、X cookie / `XAI_API_KEY`、`yt-dlp`、`BRAVE_API_KEY` / host WebSearch、`GITHUB_TOKEN` / `gh`、`OPENROUTER_API_KEY` 等。 |
+| 学习曲线 | 中高。普通用户只需会用 `/last30days`；维护者需要理解 2,090 行 `SKILL.md` contract、planner schema、source adapters、render LAWs 和 config priority。 |
 | 从零到 demo | Skill 安装后 1-5 分钟可跑基础查询；要跑出 README 展示级跨源效果，需要浏览器登录、API key、host WebSearch 和输出合同配合。 |
 
 
@@ -87,32 +87,37 @@ last30days-skill 的核心价值不是“又一个搜索 API”，而是把**跨
 
 | Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
 |------------|------|----------|----------------|----------|--------------|---------|
-| _待补关键依赖_ | | | | | | |
+| Python stdlib (`argparse`, `concurrent.futures`, `sqlite3`, `json`, `subprocess`) | Runtime foundation | CLI、并行 fanout、SQLite store、render/persist、外部命令调用 | 让研究引擎保持零运行时 PyPI 依赖，安装面极轻 | `pyproject.toml` `dependencies=[]`；目录内 `last30days.py` / `pipeline.py` / `store.py` / `watchlist.py` | 对 agent-native skill 很有参考价值：把复杂性放在 contracts 和 adapters，而不是厚 SDK 栈 | 复杂性转移到外部 CLI / cookies / API keys；排障需要更强 observability |
+| `gh` CLI / GitHub token | External command / credential | GitHub issue/PR/repo/discussion 信号 | 避免自己维护 GitHub scraping，直接复用官方 auth surface | `--diagnose` 显示 `gh: available`、`has_github: true` | 很适合作为“源码/社区信号”来源的低摩擦接入 | 在未登录或 token scope 不足时会降级；企业侧还要管审计与配额 |
+| `yt-dlp` | External command | YouTube transcript / metadata 抓取 | 用成熟 CLI 承担视频来源适配，而不是在 skill 内自造轮子 | `--diagnose` 显示 `yt-dlp: available` | 适合所有需要补视频语料的研究工具 | 易受平台策略、区域和反爬变化影响 |
+| `bird` / xAI / cookies path | Optional external tool + credentials | X / social signal retrieval | 把高价值但高脆弱度的平台接入做成按需启用 | `--diagnose` 显示 `bird_installed: true` 但 `bird_authenticated: false` | 体现“free-first + optional paid/credentialed”架构 | 反爬、cookie、账号风控与 ToS 风险最高 |
+| `pytest` + `pytest-cov` | Dev/test stack | 回归测试与覆盖率门 | 让 source adapters、planner、render、watchlist 保持可回归 | `pyproject.toml` dev group；本轮 `.venv/bin/pytest -q` 通过 2,766 tests | 说明项目已不是 prompt demo，而是工程化 engine | 本机无 `uv` 时需手动起 venv；开发体验仍假设维护者熟悉 Python toolchain |
 
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |
 |--------|------|------|
 | 许可证合规 | 低 | 根仓库 MIT。vendored `bird-search` 目录有独立 LICENSE；商用前仍应审源平台 ToS 与抓取来源授权。 |
-| Bus factor | 中 | 贡献者 42、merged PR 171，社区参与明显；但核心方向、SKILL.md 语义和 release 主导仍高度集中在 Matt Van Horn。 |
-| 供应商锁定 | 中 | Skill/源码可 fork；但真实效果依赖 Claude/Codex/Gemini 等宿主模型的工具遵循能力，以及 ScrapeCreators、xAI、OpenRouter、Brave/Exa/Serper/Parallel 等外部服务。 |
-| 平台脆弱性 | 高 | Reddit `.json`、X anti-bot、YouTube transcript、TikTok/Instagram scraping 都是长期易碎面。近期 PR/Issue 也集中在这些来源修复上。 |
-| 凭证与隐私 | 中高 | 处理 API keys、browser cookies、Codex auth、Keychain。`env.py` 有权限警告和 Keychain 支持，但企业使用仍需要隔离、审计和密钥轮换策略。 |
-| 维护趋势 | 活跃 | 2026-05-17 v3.3.0 后仍有 v3.3.1/v3.3.2 源码版本、近期 PR/CI 活跃；Actions 最新 Validate/Security runs 成功。 |
-| Release 口径 | 中 | 源码版本 `3.3.2`，但 GitHub latest release/tag 仍是 `v3.3.0`；对依赖 release artifact 的用户可能造成“代码已修但 release 未同步”的认知差。 |
-| CI 安全门 | 中 | `Validate` 跑全量 `uv run pytest`；`Security` 跑 pip-audit 和 TruffleHog，但两个安全步骤目前 `continue-on-error: true`，偏 advisory-first。 |
-| 社区健康 | 中高 | Stars/Forks 和衍生项目强；但项目只有约 5 个月历史，open PR 72 较高，社区真实长期使用数据还不够。 |
+| Bus factor | 中 | 贡献者页首屏已到 84，人手比旧稿更分散；但 `mvanhorn` 405、`tmchow` 255 后断崖明显，SKILL.md 语义与产品方向仍由核心作者主导。 |
+| 供应商锁定 | 中 | Skill/源码可 fork；但真实效果仍依赖 Claude/Codex/Gemini 等宿主模型的工具遵循能力，以及 ScrapeCreators、xAI、OpenRouter、Brave/Perplexity/gh/yt-dlp 等外部服务。 |
+| 平台脆弱性 | 高 | Reddit、X、YouTube、TikTok、Instagram、Threads、Web grounding 都是长期易碎面；source adapter 面比旧稿更宽，不会随 stars 增长而自动稳固。 |
+| 凭证与隐私 | 中高 | 处理 API keys、browser cookies、Codex auth、Keychain。`--diagnose` 会显式列出 credential / local read 状态，但企业使用仍需要隔离、审计和密钥轮换策略。 |
+| 维护趋势 | 活跃 | 最新 release 已到 `v3.11.1`（2026-07-07），`main` tip 到 2026-07-08；最近 Validate / zizmor 持续 success，说明项目仍高速推进。 |
+| Release 口径 | 🟢 低 | 旧稿里的 `3.3.2` 源码 vs `v3.3.0` release 漂移已解决：源码版本、GitHub latest release/tag 现已统一到 `v3.11.1`。 |
+| CI 安全门 | 中 | `Validate` 已明确用 `uv run pytest --cov`；`Security` 里的 `uv audit`、dependency-review、TruffleHog 是 blocking，但 Semgrep 仍 `continue-on-error: true`，属于“部分收紧、非完全 fail-closed”。 |
+| 社区健康 | 中高 | 50k+ stars / 4.2k forks / 166 subscribers 是强信号；但项目仍很年轻，open issues 55 + open PRs 36 说明社区与维护面仍在快速演化。 |
+| Prompt/contract debt | 高 | `SKILL.md` 已到 2,090 行；项目虽靠 engine emit badge/footer 与前置 LAWs 缓解，但超长 agent contract 仍是核心复杂度债。 |
 
 ### 结论
 
 **推荐采用（个人/小团队研究工作流） / 企业生产化前观望。**
 
-采用建议：可以把它当作“agent 原生实时调研技能”的优秀样本和可直接试用工具，但不要把它未经改造地当企业内部唯一 research backend。
+采用建议：可以把它当作“agent 原生实时调研技能”的优秀样本和可直接试用工具，而且相比旧稿时点，**版本口径和默认可用度都更成熟**；但不要把它未经改造地当企业内部唯一 research backend。
 
 适合采用的方式：
 
 1. 先在 Claude Code / Codex / Hermes 之类宿主里隔离安装，跑几个你关心的主题；
-2. 只启用必要来源，先从 Reddit / HN / Polymarket / GitHub / host WebSearch 低风险路径开始；
+2. 先从当前 clean-ish 环境就可用的 `reddit` / `youtube` / `hackernews` / `polymarket` / `github` / `grounding` 路径开始，再按需接入高脆弱来源；
 3. 如果要用于客户/会议情报，配置独立 `LAST30DAYS_MEMORY_DIR`、项目级 `.claude/last30days.env`、store/watchlist；
 4. 如果要内部产品化，优先 fork 出 credential boundary、source allowlist、artifact retention、cost logging、webhook 审计和失败可观测性。
 
@@ -200,12 +205,12 @@ Render / Persist
 
 ### 反模式 / 踩坑点
 
-1. **SKILL.md 过长是架构债**：1,700+ 行合同本身已经多次因“模型没读到后半段”触发回归，项目通过把 LAWs 前置、engine emit badge/footer 修补，但这仍是复杂度信号。
+1. **SKILL.md 过长是架构债**：当前已到 2,090 行合同；项目虽通过把 LAWs 前置、engine emit badge/footer、planner schema 约束来补救，但这仍是明显复杂度信号。
 2. **source adapters 维护面极宽**：X、Reddit、YouTube、TikTok、Instagram、Threads、Pinterest、Bluesky、TruthSocial、GitHub、Polymarket、Web，每个都可能因平台改接口而坏。
-3. **README marketing 与真实可用度之间有配置落差**：零配置能跑基础来源，但 README 展示级效果需要较多 keys/cookies/CLI/host WebSearch。
-4. **Release/version 口径漂移**：源码 3.3.2，latest GitHub release/tag 3.3.0。对用户和包管理器都是小风险。
-5. **安全扫描目前非阻塞**：项目处理 cookies/tokens，长期应把安全 baseline 收紧。
-6. **高 star 不能等同生产成熟**：项目创建不到半年，真实企业用例、SLA、长期合规经验还未沉淀。
+3. **README marketing 与真实可用度之间仍有配置落差**：clean-ish 环境现在比旧稿更好，已能直接跑 `reddit`/`youtube`/`hackernews`/`polymarket`/`github`/`grounding`，但 README 展示级效果依然需要较多 keys/cookies/CLI/host WebSearch。
+4. **Release drift 已明显缓和，但仍要分清 source / release asset / host compatibility**：源码和 latest release 现已统一到 `v3.11.1`，但多宿主分发面意味着回归风险仍在。
+5. **安全扫描并非全量 fail-closed**：`uv audit`、dependency-review、TruffleHog 已是 blocking，但 Semgrep 仍 advisory-first。
+6. **高 star 不能等同生产成熟**：项目仍不到一年，真实企业用例、SLA、长期合规经验还未沉淀。
 7. **比较模式和 planner 逻辑复杂**：`--competitors`、vs-mode、per-entity plan、auto_resolve、polymarket keyword filter 等已经很强，但也提高了维护/测试难度。
 
 ### 可借鉴的具体技术点
@@ -248,7 +253,7 @@ last30days-skill/
 │   ├── references/                   # user-facing helper docs
 │   ├── assets/                       # demo assets
 │   └── agents/openai.yaml            # agent metadata
-├── tests/                            # 91 test_*.py，pytest 1,617 cases 实测通过
+├── tests/                            # 156 个测试文件；本轮 pytest JUnit 统计 2,766 tests / 5 skipped
 ├── docs/solutions/                   # historical solution notes / bug patterns
 ├── .claude-plugin/plugin.json        # Claude Code marketplace metadata
 ├── gemini-extension.json             # Gemini CLI extension metadata
@@ -312,17 +317,17 @@ render.py / html_render.py / schema.to_dict / store.py
 ### 测试
 
 - **框架**：pytest。
-- **实测结果**：`uv run pytest` 在本地新建 `.venv` 后通过：`1617 passed, 4 skipped, 2 subtests passed in 17.60s`。
-- **测试规模**：`tests/` 下 91 个 `test_*.py`，约 21k LOC；覆盖 source adapters、planner、pipeline、render、schema、store、CLI、credential/cookie extraction、competitor fanout、watchlist、security workflow 等。
-- **测试特点**：很多 fixture/mock 路径，适合离线 CI；近期 issue #541 也显示维护者在修 “mock target stale 导致真实 macOS Keychain prompt” 这类测试隔离问题。
+- **实测结果**：本轮在仓库内临时创建 `.venv`，安装 `pytest` / `pytest-cov` 后跑 `.venv/bin/pytest -q` 通过；JUnit 统计为 **2,766 tests / 0 failures / 5 skipped / 19.792s**。
+- **测试规模**：`tests/` 下当前有 156 个文件；覆盖 source adapters、planner、pipeline、render、schema、store、CLI、credential/cookie extraction、competitor fanout、watchlist、security workflow 等。
+- **测试特点**：大量 fixture/mock 路径，适合离线 CI；同时 `Validate` workflow 已把 `uv run pytest --cov` 变成主验证面。
 - **不足**：外部平台真实 API 行为变化仍难靠单元测试完全覆盖；README 展示级跨源效果依赖 live credentials，CI 主要验证 contract 和 mock/fixture 层。
 
 ### CI/CD
 
-- **Validate**：push / PR 到 main 时跑 `uv run pytest`，近期 Actions runs 成功。
-- **Security**：pip-audit against locked dependency set + TruffleHog verified secret scan，当前 `continue-on-error: true`，属于 advisory-first。
-- **Release**：tag `v*` 时跑 `build-skill.sh`，用 `git archive HEAD:skills/last30days` 构建 `dist/last30days.skill`，并检查文件数 <= 200、只有一个 `SKILL.md`。
-- **发布节奏**：v3.3.0 release 之后源码版本继续到 3.3.2，但 tag/release 未同步到 3.3.2，是当前可见的 release hygiene 小问题。
+- **Validate**：push / PR 到 main 时跑 `uv run pytest --cov`，最近 Actions runs 持续 success。
+- **Security**：`uv audit --locked`、dependency-review、TruffleHog verified secret scan 已是 blocking；Semgrep SAST 仍 `continue-on-error: true`，属 advisory-first。
+- **Release**：latest release 已来到 `v3.11.1`，仍通过打包 `last30days.skill` 与 `.mcpb` 资产分发到 claude.ai / Claude Desktop 等宿主。
+- **发布节奏**：相较旧稿，release hygiene 明显提升——源码版本、latest tag、GitHub latest release 已重新对齐。
 
 ### 文档质量
 
@@ -334,10 +339,10 @@ render.py / html_render.py / schema.to_dict / store.py
 
 ### Issue / PR 健康度
 
-- **高活跃但 backlog 大**：open issues 75、open PRs 72；对一个创建不到半年的项目来说，热度和维护压力都很高。
-- **响应速度**：近期 PR/issue 每天都有，Actions 成功，维护者合并/修复节奏快。
+- **高活跃但不再是旧稿那种 backlog 爆炸**：open issues 55、open PRs 36；相较 6 月口径明显收敛，但对一个很年轻的项目来说仍然不低。
+- **响应速度**：2026-07-08 最近 12 条 Actions 里 Validate 基本持续 success；Security 有成功也有失败，说明安全门在真实拦截，而不是纯展示。
 - **真实痛点集中**：安装兼容、browser cookie/X auth、YouTube transcript、Reddit fallback、config defaults、release/provenance、Hermes 安装安全阻断。
-- **Closed issues 质量**：#239 Claude Code plugin path escape、#195 env.py get_config、#307 OpenClaw stale bundle 等都说明项目在真实用户路径中修过硬问题。
+- **维护面判断**：当前更像“高速修复 + 高速扩源”的活跃仓库，而不是失控堆积。
 
 ---
 
@@ -345,7 +350,7 @@ render.py / html_render.py / schema.to_dict / store.py
 
 ### 热度与认可度
 
-- 39k+ stars / 3.1k+ forks 对一个 2026-01 创建项目来说非常高，说明“agent skill + realtime social research”这个概念传播强。
+- 50k+ stars / 4.2k+ forks / 166 subscribers 对一个 2026-01 创建项目来说仍然非常高，说明“agent skill + realtime social research”这个概念传播强。
 - GitHub search 已出现衍生/本地化项目：
   - `Jesseovo/last30days-skill-cn`：中文互联网 8 平台版本，约 518 stars；
   - `levineam/lastXdays-skill`：可配置时间窗版本；
@@ -363,7 +368,7 @@ render.py / html_render.py / schema.to_dict / store.py
 - **来源覆盖广**：Reddit comments、X、YouTube transcripts、TikTok/Instagram、HN、Polymarket、GitHub、Digg、Web 比普通 search skill 更广。
 - **agent-native 分发**：不要求用户换平台，直接装到 Claude Code / Codex / Cursor 等工作流里。
 - **维护响应快**：从 changelog 看，Reddit、X、YouTube、installer、Windows、security、configuration 都在持续修。
-- **测试体系强**：本地 1,617 tests 通过，对这样的平台适配型项目是重要成熟度信号。
+- **测试体系强**：本轮 2,766 tests 通过，对这样的平台适配型项目是重要成熟度信号。
 
 ### 真实痛点
 

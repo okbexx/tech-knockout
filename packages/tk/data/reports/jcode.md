@@ -8,18 +8,18 @@
 |------|----|
 | 仓库 | `1jehuang/jcode` |
 | URL | `https://github.com/1jehuang/jcode` |
-| Star | 7,055（截至 2026-06-15） |
-| Fork | 790 |
+| Star | 8,227（2026-07-08 GitHub API 快照） |
+| Fork | 927（2026-07-08 GitHub API 快照） |
 | 许可证 | MIT |
 | 语言 | Rust |
 | 默认分支 | `master` |
 | 首次提交 | 2026-01-05 |
-| 最近提交 | 2026-06-14 `c7463d56 chore(release): bump version to 0.28.0` |
-| 最新 Release | v0.28.0（2026-06-15） |
-| Open Issues / PRs | 89 issues / 3 PRs（分别查询 `/issues` 与 `/pulls`，不混用 GitHub `open_issues_count`） |
-| 本地规模 | 69 个 workspace members，956 个 Rust 文件，约 544,723 行 Rust |
-| 贡献者 | 本地 `git shortlog` 显示 4,620 commits 分布在 3 个 Git identity：`jeremy` 4,187、`1jehuang` 393、`Jeremy Huang` 40；实质 bus factor 高度集中 |
-| 分析日期 | 2026-06-15 |
+| 最近提交 | 2026-07-08 `f8004dbd todo: move hill-climbability to goal level with reframe nudge`（按远端 `FETCH_HEAD`） |
+| 最新 Release | v0.37.0（2026-07-07，GitHub latest release） |
+| Open Issues / PRs | 84 issues / 1 PR（按 GitHub `/issues` 返回项中是否含 `pull_request` 字段拆分；不混用 `open_issues_count`） |
+| 当前规模 | 76 个 workspace members，1,077 个 Rust 文件，约 620,867 行 Rust（按远端 `FETCH_HEAD` 统计） |
+| 贡献者 | 远端 `FETCH_HEAD` 共 5,325 commits；`jeremy` 4,665、`1jehuang` 393、`Jeremy Huang` 169，另有极少量其他 identity；实质 bus factor 仍高度集中 |
+| 分析日期 | 2026-07-08 |
 
 ---
 
@@ -59,7 +59,7 @@ jcode 解决的是 **“把 Claude Code / Codex CLI 式终端 Agent 体验，推
   - 不是企业团队协作 SaaS；它更像本地/个人/小团队 PoC 的 agent runtime。
   - 外部插件生态仍弱。虽然 MCP、skills、工具 registry 都存在，但与 OpenCode 的 plugin/HTTP ecosystem 或 Pi（原 pi-mono）的 Extension SDK 相比，第三方扩展面还不成熟。
   - bus factor 高：提交高度集中在作者 Jeremy Huang 多个 Git identity 上；项目非常活跃，但维护风险和 reviewer 缺口都要计入。
-  - 功能面增长很快，报告时 v0.28.0；breaking change、配置迁移、provider 行为兼容仍需跟踪。
+  - 功能面增长很快，当前最新 release 已到 v0.37.0；近一周连续发出 v0.34.0 → v0.37.0，并开始把 sponsored tool discovery、inline todo、cache-aware notices 这类产品层能力也纳入主线。
   - 本次本地环境没有 `cargo`/`rustc`，无法在当前机器上实际跑 `cargo test` 或 build；测试/CI 评价基于源码和 GitHub Actions 配置。
 
 - **与竞品差异：**
@@ -75,10 +75,10 @@ jcode 解决的是 **“把 Claude Code / Codex CLI 式终端 Agent 体验，推
 
 ### 集成成本
 
-- **运行时与依赖：** Rust workspace，当前根 `Cargo.toml` 约 69 个 members，默认 feature 包含 `pdf` 与 `embeddings`。源码规模已达约 54.5 万行 Rust；二次开发需要理解 `jcode-base`、`jcode-app-core`、`jcode-tui`、provider crates、tool crates、session/memory/server 模块。
-- **部署复杂度：** 对终端用户，README 和 Release 提供单二进制/安装脚本/Homebrew/AUR 等路径；对开发者，workspace 大、依赖多、CI matrix 重，首次 build 成本高。
-- **学习曲线：** 使用层中高；Swarm、memory、MCP、provider profile、server/live session 都需要心智。源码学习层很高，但架构收益也很高。
-- **从零到 smoke：** 若只下载 release 并配置 provider，理论上 10–20 分钟；若源码构建，需要 Rust toolchain、平台依赖和较长编译时间。
+- **运行时与依赖：** Rust workspace，当前根 `Cargo.toml` 已扩到 76 个 members，默认 feature 包含 `pdf`、`embeddings` 与 `bedrock`。远端 tip 规模约 62.1 万行 Rust；二次开发需要同时理解 `jcode-base`、`jcode-app-core`、`jcode-tui`、provider/runtime crates、tool crates、session/memory/server 模块。
+- **部署复杂度：** 对终端用户，README 和 Release 已提供单二进制/安装脚本/Homebrew/AUR/Windows installer 等路径；对开发者，workspace 更大、依赖更多、CI matrix 更重，首次 build 成本继续上升。
+- **学习曲线：** 使用层中高；Swarm、memory、MCP、provider profile、server/live session、discover_tools、inline todo 等能力都需要心智。源码学习层很高，但架构收益也很高。
+- **从零到 smoke：** 若只下载 release 并配置 provider，理论上 10–20 分钟；若源码构建，需要完整 Rust toolchain、平台依赖和较长编译时间。
 
 
 ### 依赖 / SDK 选型证据
@@ -87,20 +87,26 @@ jcode 解决的是 **“把 Claude Code / Codex CLI 式终端 Agent 体验，推
 
 | Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
 |------------|------|----------|----------------|----------|--------------|---------|
-| _待补关键依赖_ | | | | | | |
+| `tokio` + `futures` | Async runtime | provider streaming、server lifecycle、tool subprocess、signal/shutdown | 把 live session、background wake、tool I/O、network stream 放进同一并发模型 | `FETCH_HEAD:Cargo.toml`, `crates/jcode-app-core/Cargo.toml` | 适合任何 terminal-first agent runtime | 异步状态面很大，必须配合明确 reducer / session model |
+| `reqwest` + `rustls` + `tokio-tungstenite` | HTTP / TLS / WebSocket stack | provider API、OAuth、upstream session、实时 transport | 给多 provider / OpenAI-compatible / runtime socket 留统一网络层 | root 与 app-core Cargo 直接依赖 | 适合多 provider coding agent / MCP / gateway runtime | 需要严格 provider session hygiene，不能把 transport 成功误当状态一致 |
+| `ratatui` + `crossterm` | TUI rendering/input | 主交互面、usage overlay、mermaid、tool display、workspace UI | 让产品坚持 terminal-first 而不是退回简单 REPL | `crates/jcode-tui/Cargo.toml` | 对 keyboard-driven heavy user 很有借鉴价值 | UI 与 runtime 必须解耦，否则 TUI 改动会拖垮核心可维护性 |
+| `agentgrep` | Git dependency / code search primitive | 代码检索与 agent-facing search 能力 | 用更强的代码搜索基础设施支撑 runtime 工具面 | `crates/jcode-app-core/Cargo.toml` 中 git tag `v0.1.6` | 说明作者会为关键能力引入专用底层组件，而不是全靠 shell 包装 | git 依赖会放大供应链和 CI 稳定性要求 |
+| `tikv-jemallocator` | Memory allocator | 长时运行 server / 多 session RAM 控制 | 降低碎片化，把性能优化变成产品结构的一部分 | root `Cargo.toml` optional feature `jemalloc` | 适合追求长会话稳定性的本地 agent runtime | 跨平台 allocator/feature 组合会增加发布矩阵复杂度 |
+| 内部 crate 分层（`jcode-base` / `jcode-app-core` / `jcode-tui` / `jcode-provider-*` / `jcode-tool-*`） | Monorepo architecture | 状态、provider、tool、UI、protocol、memory 分层 | 在超大 Rust workspace 里控制编译边界和职责边界 | root/app-core/tui Cargo 与目录结构 | 这是 jcode 最值得学的工程资产之一 | crate 数量过多会抬高新贡献者理解门槛，需要 dependency boundary ratchet 配合 |
 
 ### 风险评估
 
 | 风险项 | 评估 | 说明 |
 |--------|------|------|
 | 许可证合规 | ✅ | MIT，根仓库许可清晰 |
-| Bus factor | 🔴 高 | 本地 4,620 commits 高度集中在作者多 Git identity 上；缺少多人 reviewer 信号 |
+| Bus factor | 🔴 高 | 远端 `FETCH_HEAD` 5,325 commits 里绝大多数仍集中在 Jeremy Huang 多个 identity 上；外部维护结构仍弱 |
 | 供应商锁定 | 🟢 低 | provider 覆盖广，OpenAI-compatible、本地 Ollama/LM Studio/vLLM、MCP 都降低锁定 |
-| 维护趋势 | 🟢 活跃 / 🟡 集中 | 2026-01 到 2026-06 已 28 个 release 左右，最近 release v0.28.0；但维护压力集中 |
-| Backlog 压力 | 🟡 中 | 89 open issues / 3 open PRs；远低于 OpenCode 的 backlog，但项目仍新 |
-| 体验稳定性 | 🟡 中 | 代码里大量 reload/context/payload recovery 说明作者在补真实运行故障面；高频迭代仍会带 regression 风险 |
-| 安全边界 | 🟡 中偏高 | coding agent 天然拥有 shell/file/web/MCP 副作用；需要隔离 workspace、最小权限 provider key、审计工具调用 |
-| 企业生产化 | 🟡 观望 | 缺少多租户、企业审计、权限治理与稳定扩展生态；更适合个人/小团队隔离 PoC |
+| 维护趋势 | 🟢 活跃 / 🟡 集中 | 2026-07-02 到 2026-07-07 连续发出 v0.34.0 → v0.37.0，远端 tip 更新到 2026-07-08；但高频推进主要仍靠核心作者 |
+| Backlog 压力 | 🟡 中 | 84 open issues / 1 open PR；相比 6 月口径略收敛，但 backlog 仍说明产品面与治理面在快速扩张 |
+| 体验稳定性 | 🟡 中 | 代码与 release notes 都显示作者持续修 context / stall guard / rewind / provider session / cache 告警等真实运行问题；高频演进仍伴随 regression 风险 |
+| 安全边界 | 🟡 中偏高 | coding agent 天然拥有 shell/file/web/MCP 副作用；同时新增 sponsored third-party tool discovery，也要求用户更清楚审计工具来源与权限 |
+| 企业生产化 | 🟡 观望 | 多平台发布和 CI 很强，但多租户、企业审计、权限治理与稳定外部扩展生态仍不完整；更适合个人/小团队隔离 PoC |
+| 贡献门槛 | 🟡 中偏高 | `require-issue.yml` + 大 workspace + 严格 budget/ratchet guardrails 有利于质量，但会抬高外部贡献者进入门槛 |
 
 ### 结论
 
@@ -108,10 +114,10 @@ jcode 解决的是 **“把 Claude Code / Codex CLI 式终端 Agent 体验，推
 
 理由：
 
-- 技术密度非常高：server-owned live session、streaming turn 状态机、Graph Memory、Swarm、compaction/reload recovery 都是下一代 terminal agent 的关键问题。
-- 对个人工具而言，jcode 已经不是“玩具项目”：Release、CI、Windows/macOS/Linux artifact、Homebrew/AUR、provider login、MCP、memory、swarm 都在快速成型。
-- 对团队生产而言，最大问题不是功能不够，而是 **维护集中 + 安全边界 + 高速演进**。建议在隔离仓库、容器或专用 workspace 中试用，避免直接给核心生产仓库和高权限密钥。
-- 架构学习价值极高：如果要研究“Rust 怎么写 terminal coding agent runtime”，jcode 比许多功能清单型项目更值得读。
+- 技术密度依旧非常高：server-owned live session、streaming turn 状态机、Graph Memory、Swarm、compaction/reload recovery 仍是终端 agent runtime 里最值得学的一档。
+- 到 2026-07-08，jcode 已不只是“高势能新项目”：Release、CI、Linux/macOS/Windows 多平台产物、Windows installer verification、FreeBSD/Windows smoke、Homebrew/AUR、provider login、MCP、memory、swarm、tool discovery 都在持续产品化。
+- 对团队生产而言，最大问题仍不是功能不够，而是 **维护集中 + 安全边界 + 高速演进**。建议在隔离仓库、容器或专用 workspace 中试用，避免直接给核心生产仓库和高权限密钥。
+- 架构学习价值依旧极高：如果要研究“Rust 怎么写 terminal coding agent live runtime”，jcode 仍然比许多功能清单型项目更值得读。
 
 ---
 
@@ -492,15 +498,16 @@ root jcode crate
 ### 测试
 
 - **测试框架：** Cargo test；CI 中 Linux/macOS/Windows 都有 build/test/fmt/security/targeted e2e。
-- **本地统计：** 126 个 Rust test-like 文件，覆盖 app-core server/client/swarm/reload/tool、base auth/provider/memory/mcp/session、TUI/render/markdown 等区域。
-- **E2E / smoke：** `scripts/test_fast.sh` 跑 `cargo test --lib --bins`；CI 还跑 Windows provider behavior、lifecycle e2e、release binary launch、installer verification。
-- **本次限制：** 当前分析机器无 `cargo`/`rustc`，未能实际执行 build/test；报告不伪造测试通过结果。
+- **远端静态统计：** 284 个 Rust test-like 文件，覆盖 app-core server/client/swarm/reload/tool、base auth/provider/memory/mcp/session、TUI/render/markdown，以及 protocol/randomized tests。
+- **E2E / smoke：** `scripts/test_fast.sh` 跑 `cargo test --lib --bins`；CI 还跑 provider matrix、e2e、Windows runtime smoke、release binary launch、installer verification。
+- **本次限制：** 当前分析机器无 `cargo`/`rustc`，未能实际执行 build/test；本轮结论只基于源码与 workflow 静态证据。
 
 ### CI/CD
 
-- **CI：** `.github/workflows/ci.yml` 包含 fmt、security preflight、Linux/macOS/Windows build & test、Windows cross-target check、PowerShell syntax check 等。
-- **Release：** `.github/workflows/release.yml` 先创建 release，再并行 build Linux/macOS/Windows 多 target，上传 artifact 与 checksum，更新 Homebrew/AUR。
-- **成熟度信号：** Windows ARM64、portable Linux x86_64 glibc baseline、installer verification 都是终端产品级别的信号。
+- **CI：** `ci.yml` 现在覆盖 quality guardrails、Linux/macOS/Windows build & test、provider matrix、e2e、security preflight、warning/code-size/test-size/panic/swallowed-error/dependency-boundary ratchet。
+- **补充 smoke / gate：** 另有 `freebsd-smoke.yml`、`windows-smoke.yml`、`require-issue.yml`，说明它已经把平台兼容性和贡献治理都纳入正式流程。
+- **Release：** `release.yml` 先创建 release，再并行 build Linux/macOS/Windows 多 target，上传 artifact，并做 Windows runtime smoke、installer verification、Homebrew/AUR 更新。
+- **成熟度信号：** Windows ARM64、portable Linux x86_64 glibc baseline、FreeBSD/Windows smoke、installer verification、checksum/release notes 生成，都是终端产品级别的信号。
 
 ### 文档质量
 
@@ -510,9 +517,9 @@ root jcode crate
 
 ### Issue / PR 健康度
 
-- **Open issues / PRs：** 89 / 3（2026-06-15）。
-- **最近维护：** 最新 release v0.28.0 发布于 2026-06-15；本地 HEAD 为 2026-06-14 bump version。最近 releases 连续 v0.24.0 → v0.28.0，迭代非常快。
-- **社区状态：** 星标和 fork 已快速增长到 7k+/790，但贡献仍高度集中；社区热度上升，维护结构尚未分散。
+- **Open issues / PRs：** 84 / 1（2026-07-08，按 `/issues` 项是否含 `pull_request` 字段拆分）。
+- **最近维护：** 远端 tip 已到 2026-07-08；latest release 为 v0.37.0（2026-07-07）。仅 2026-07-02 到 2026-07-07 就连续发布 v0.34.0、v0.35.0、v0.35.1、v0.36.0、v0.37.0。
+- **社区状态：** 星标和 fork 已增长到 8.2k+/927，watchers 44；它已经明显进入终端 agent 主流视野，但贡献与审查仍高度集中在核心作者。
 
 ---
 
@@ -520,10 +527,10 @@ root jcode crate
 
 ### 社区评价
 
-jcode 的社区信号更像“新晋高势能个人项目”：
+jcode 现在已经不只是“高势能个人项目”，而是**明显进入终端 coding-agent 主流视野的 Rust runtime**：
 
-- 正面信号：Rust、TUI 性能、Swarm、Memory、本地 provider/OAuth 支持形成差异化；star 增长快；release 密集。
-- 风险信号：open issues 已到 89，项目仍在快速新增能力；外部 contributor/reviewer 结构不明显。
+- 正面信号：8.2k+ stars、927 forks、44 watchers；性能叙事更强，README 已把 RAM / boot / input latency benchmark 当成核心卖点；release 节奏持续高频。
+- 风险信号：open issues 虽略收敛到 84，但产品面还在持续扩张；维护、review 与架构主导权仍高度集中。
 - 使用建议：个人可以当作“高潜力主力工具候选”试用；团队应把它当作 PoC 和架构学习对象，先不要无隔离深度绑定。
 
 ### 衍生项目 / 插件生态
