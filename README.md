@@ -184,7 +184,7 @@ npm run verify
 | [AIHub](./reports/AIHub.md) | Chrome 扩展采集多平台 AI 对话，本地构建 AI 对话知识资产库；方向成立，但仓库当前基本停在 2026-05-30 的早期原型态 | 观望（个人 PoC 可试） | ⭐⭐⭐⭐ | 2026-07-08 |
 | [RAGFlow](./reports/ragflow.md) | DeepDoc + 模板化 chunking + 混合检索 + 引用溯源的企业级 RAG 平台；当前远端主线已到 2026-07-08，`nightly` 为 mutable tag | 推荐采用（企业 SOP/复杂文档 RAG） | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [LightRAG](./reports/LightRAG.md) | 四存储层可插拔、实体关系抽取、多模式 GraphRAG 检索内核；当前 latest release 仍是 `v1.5.4`，源码版本已到 `1.5.5` | 推荐采用（图谱增强检索 PoC/内核） | ⭐⭐⭐⭐⭐ | 2026-07-08 |
-| [Tolaria](./reports/tolaria.md) | Tauri + React + Rust 的 local-first / Git-first Markdown 知识库桌面应用 | 推荐采用（个人/开发者/小团队 PoC）/ 企业生产化前观望 | ⭐⭐⭐⭐⭐ | 2026-06-13 |
+| [Tolaria](./reports/tolaria.md) | Tauri + React + Rust 的 local-first / Git-first Markdown 知识库桌面应用；stable 已到 `v2026-07-01`，alpha 流滚到 `alpha-v2026.7.7-alpha.0003` | 推荐采用（个人/开发者/小团队 PoC）/ 企业生产化前观望 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 
 ### Agent Platform / Desktop / Design
 
