@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "contractVersion": "report-structure-v1",
-  "generatedAt": "2026-07-08T13:57:08.212Z",
+  "generatedAt": "2026-07-09T04:15:50.736Z",
   "reportRoot": "reports",
   "summary": {
     "totalReports": 28,
     "passedReports": 3,
     "warnedReports": 25,
     "failedReports": 0,
-    "warningCount": 132,
+    "warningCount": 107,
     "errorCount": 0
   },
   "reports": [
@@ -3001,21 +3001,8 @@
       "status": "warn",
       "missingH2": [],
       "missingRequiredH3": {},
-      "missingRecommendedH3": {
-        "社区与生态": [
-          "衍生项目 / 插件生态"
-        ]
-      },
-      "missingBottomArchitectureChildren": [
-        "最小架构内核",
-        "核心抽象",
-        "控制面 / 数据面",
-        "关键执行链路",
-        "状态模型",
-        "契约边界",
-        "失败与降级模型",
-        "可复刻设计不变量"
-      ],
+      "missingRecommendedH3": {},
+      "missingBottomArchitectureChildren": [],
       "headings": [
         {
           "level": 2,
@@ -3116,64 +3103,64 @@
         {
           "level": 4,
           "line": 198,
-          "title": "1. 最小架构内核",
-          "canonicalTitle": "1. 最小架构内核",
+          "title": "最小架构内核",
+          "canonicalTitle": "最小架构内核",
           "parentH2": "场景二：技术架构学习",
           "parentH3": "底层技术架构"
         },
         {
           "level": 4,
           "line": 211,
-          "title": "2. 核心抽象表",
-          "canonicalTitle": "2. 核心抽象表",
+          "title": "核心抽象",
+          "canonicalTitle": "核心抽象",
           "parentH2": "场景二：技术架构学习",
           "parentH3": "底层技术架构"
         },
         {
           "level": 4,
           "line": 225,
-          "title": "3. 控制面 / 数据面分离",
-          "canonicalTitle": "3. 控制面 / 数据面分离",
+          "title": "控制面 / 数据面",
+          "canonicalTitle": "控制面 / 数据面",
           "parentH2": "场景二：技术架构学习",
           "parentH3": "底层技术架构"
         },
         {
           "level": 4,
           "line": 248,
-          "title": "4. 关键执行链路",
-          "canonicalTitle": "4. 关键执行链路",
+          "title": "关键执行链路",
+          "canonicalTitle": "关键执行链路",
           "parentH2": "场景二：技术架构学习",
           "parentH3": "底层技术架构"
         },
         {
           "level": 4,
           "line": 352,
-          "title": "5. 状态模型",
-          "canonicalTitle": "5. 状态模型",
+          "title": "状态模型",
+          "canonicalTitle": "状态模型",
           "parentH2": "场景二：技术架构学习",
           "parentH3": "底层技术架构"
         },
         {
           "level": 4,
           "line": 366,
-          "title": "6. 契约边界",
-          "canonicalTitle": "6. 契约边界",
+          "title": "契约边界",
+          "canonicalTitle": "契约边界",
           "parentH2": "场景二：技术架构学习",
           "parentH3": "底层技术架构"
         },
         {
           "level": 4,
           "line": 392,
-          "title": "7. 失败与降级模型",
-          "canonicalTitle": "7. 失败与降级模型",
+          "title": "失败与降级模型",
+          "canonicalTitle": "失败与降级模型",
           "parentH2": "场景二：技术架构学习",
           "parentH3": "底层技术架构"
         },
         {
           "level": 4,
           "line": 408,
-          "title": "8. 可复刻设计不变量",
-          "canonicalTitle": "8. 可复刻设计不变量",
+          "title": "可复刻设计不变量",
+          "canonicalTitle": "可复刻设计不变量",
           "parentH2": "场景二：技术架构学习",
           "parentH3": "底层技术架构"
         },
@@ -3316,10 +3303,10 @@
         {
           "level": 3,
           "line": 639,
-          "title": "衍生项目 / 内生生态",
-          "canonicalTitle": "衍生项目 / 内生生态",
+          "title": "衍生项目 / 插件生态",
+          "canonicalTitle": "衍生项目 / 插件生态",
           "parentH2": "社区与生态",
-          "parentH3": "衍生项目 / 内生生态"
+          "parentH3": "衍生项目 / 插件生态"
         },
         {
           "level": 3,
@@ -3478,69 +3465,6 @@
       "warnings": [
         {
           "severity": "warning",
-          "code": "missing_recommended_h3",
-          "message": "章节 社区与生态 建议补齐子章节：衍生项目 / 插件生态",
-          "parent": "社区与生态",
-          "section": "衍生项目 / 插件生态"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_bottom_architecture_child",
-          "message": "底层技术架构建议补齐：最小架构内核",
-          "parent": "底层技术架构",
-          "section": "最小架构内核"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_bottom_architecture_child",
-          "message": "底层技术架构建议补齐：核心抽象",
-          "parent": "底层技术架构",
-          "section": "核心抽象"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_bottom_architecture_child",
-          "message": "底层技术架构建议补齐：控制面 / 数据面",
-          "parent": "底层技术架构",
-          "section": "控制面 / 数据面"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_bottom_architecture_child",
-          "message": "底层技术架构建议补齐：关键执行链路",
-          "parent": "底层技术架构",
-          "section": "关键执行链路"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_bottom_architecture_child",
-          "message": "底层技术架构建议补齐：状态模型",
-          "parent": "底层技术架构",
-          "section": "状态模型"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_bottom_architecture_child",
-          "message": "底层技术架构建议补齐：契约边界",
-          "parent": "底层技术架构",
-          "section": "契约边界"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_bottom_architecture_child",
-          "message": "底层技术架构建议补齐：失败与降级模型",
-          "parent": "底层技术架构",
-          "section": "失败与降级模型"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_bottom_architecture_child",
-          "message": "底层技术架构建议补齐：可复刻设计不变量",
-          "parent": "底层技术架构",
-          "section": "可复刻设计不变量"
-        },
-        {
-          "severity": "warning",
           "code": "non_contract_top_level_section",
           "message": "顶层章节不在 v1 contract 中：维护 / 二次开发视角",
           "section": "维护 / 二次开发视角"
@@ -3553,39 +3477,8 @@
       "status": "warn",
       "missingH2": [],
       "missingRequiredH3": {},
-      "missingRecommendedH3": {
-        "场景二：技术架构学习": [
-          "底层技术架构"
-        ],
-        "架构解剖": [
-          "模块依赖关系"
-        ],
-        "质量与成熟度": [
-          "测试",
-          "CI/CD",
-          "文档质量"
-        ],
-        "社区与生态": [
-          "衍生项目 / 插件生态",
-          "竞品对比"
-        ],
-        "总结": [
-          "一句话评价",
-          "谁应该用",
-          "谁不应该直接用",
-          "下一步"
-        ]
-      },
-      "missingBottomArchitectureChildren": [
-        "最小架构内核",
-        "核心抽象",
-        "控制面 / 数据面",
-        "关键执行链路",
-        "状态模型",
-        "契约边界",
-        "失败与降级模型",
-        "可复刻设计不变量"
-      ],
+      "missingRecommendedH3": {},
+      "missingBottomArchitectureChildren": [],
       "headings": [
         {
           "level": 2,
@@ -3678,134 +3571,158 @@
         {
           "level": 3,
           "line": 164,
+          "title": "底层技术架构",
+          "canonicalTitle": "底层技术架构",
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
+        },
+        {
+          "level": 4,
+          "line": 166,
           "title": "最小架构内核",
           "canonicalTitle": "最小架构内核",
           "parentH2": "场景二：技术架构学习",
-          "parentH3": "最小架构内核"
-        },
-        {
-          "level": 3,
-          "line": 196,
-          "title": "核心抽象",
-          "canonicalTitle": "核心抽象",
-          "parentH2": "场景二：技术架构学习",
-          "parentH3": "核心抽象"
+          "parentH3": "底层技术架构"
         },
         {
           "level": 4,
           "line": 198,
+          "title": "核心抽象",
+          "canonicalTitle": "核心抽象",
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
+        },
+        {
+          "level": 4,
+          "line": 200,
           "title": "1. KnowledgeGraph",
           "canonicalTitle": "1. KnowledgeGraph",
           "parentH2": "场景二：技术架构学习",
-          "parentH3": "核心抽象"
+          "parentH3": "底层技术架构"
         },
         {
           "level": 4,
-          "line": 208,
+          "line": 210,
           "title": "2. LanguageRegistry / AnalyzerPlugin",
           "canonicalTitle": "2. LanguageRegistry / AnalyzerPlugin",
           "parentH2": "场景二：技术架构学习",
-          "parentH3": "核心抽象"
+          "parentH3": "底层技术架构"
         },
         {
           "level": 4,
-          "line": 219,
+          "line": 221,
           "title": "3. Batch contract",
           "canonicalTitle": "3. Batch contract",
           "parentH2": "场景二：技术架构学习",
-          "parentH3": "核心抽象"
+          "parentH3": "底层技术架构"
         },
         {
           "level": 4,
-          "line": 229,
+          "line": 231,
           "title": "4. Fingerprint / ChangeClassifier",
           "canonicalTitle": "4. Fingerprint / ChangeClassifier",
           "parentH2": "场景二：技术架构学习",
-          "parentH3": "核心抽象"
+          "parentH3": "底层技术架构"
         },
         {
           "level": 4,
-          "line": 240,
+          "line": 242,
           "title": "5. Hook-driven auto-update",
           "canonicalTitle": "5. Hook-driven auto-update",
           "parentH2": "场景二：技术架构学习",
-          "parentH3": "核心抽象"
-        },
-        {
-          "level": 3,
-          "line": 250,
-          "title": "关键执行链路",
-          "canonicalTitle": "关键执行链路",
-          "parentH2": "场景二：技术架构学习",
-          "parentH3": "关键执行链路"
+          "parentH3": "底层技术架构"
         },
         {
           "level": 4,
           "line": 252,
+          "title": "关键执行链路",
+          "canonicalTitle": "关键执行链路",
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
+        },
+        {
+          "level": 4,
+          "line": 254,
           "title": "/understand 全量分析链路",
           "canonicalTitle": "/understand 全量分析链路",
           "parentH2": "场景二：技术架构学习",
-          "parentH3": "关键执行链路"
+          "parentH3": "底层技术架构"
         },
         {
           "level": 4,
-          "line": 265,
+          "line": 267,
           "title": "Auto-update hook 链路",
           "canonicalTitle": "Auto-update hook 链路",
           "parentH2": "场景二：技术架构学习",
-          "parentH3": "关键执行链路"
+          "parentH3": "底层技术架构"
         },
         {
           "level": 4,
-          "line": 276,
+          "line": 278,
           "title": "/understand-diff 消费链路",
           "canonicalTitle": "/understand-diff 消费链路",
           "parentH2": "场景二：技术架构学习",
-          "parentH3": "关键执行链路"
-        },
-        {
-          "level": 3,
-          "line": 286,
-          "title": "控制面 / 数据面",
-          "canonicalTitle": "控制面 / 数据面",
-          "parentH2": "场景二：技术架构学习",
-          "parentH3": "控制面 / 数据面"
+          "parentH3": "底层技术架构"
         },
         {
           "level": 4,
           "line": 288,
-          "title": "控制面",
-          "canonicalTitle": "控制面",
+          "title": "控制面 / 数据面",
+          "canonicalTitle": "控制面 / 数据面",
           "parentH2": "场景二：技术架构学习",
-          "parentH3": "控制面 / 数据面"
+          "parentH3": "底层技术架构"
         },
         {
           "level": 4,
-          "line": 296,
+          "line": 290,
+          "title": "控制面",
+          "canonicalTitle": "控制面",
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
+        },
+        {
+          "level": 4,
+          "line": 298,
           "title": "数据面",
           "canonicalTitle": "数据面",
           "parentH2": "场景二：技术架构学习",
-          "parentH3": "控制面 / 数据面"
+          "parentH3": "底层技术架构"
         },
         {
-          "level": 3,
-          "line": 315,
+          "level": 4,
+          "line": 317,
+          "title": "状态模型",
+          "canonicalTitle": "状态模型",
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
+        },
+        {
+          "level": 4,
+          "line": 324,
+          "title": "契约边界",
+          "canonicalTitle": "契约边界",
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
+        },
+        {
+          "level": 4,
+          "line": 330,
           "title": "失败与降级模型",
           "canonicalTitle": "失败与降级模型",
           "parentH2": "场景二：技术架构学习",
-          "parentH3": "失败与降级模型"
+          "parentH3": "底层技术架构"
         },
         {
-          "level": 3,
-          "line": 333,
+          "level": 4,
+          "line": 348,
           "title": "可复刻设计不变量",
           "canonicalTitle": "可复刻设计不变量",
           "parentH2": "场景二：技术架构学习",
-          "parentH3": "可复刻设计不变量"
+          "parentH3": "底层技术架构"
         },
         {
           "level": 2,
-          "line": 348,
+          "line": 363,
           "title": "架构解剖",
           "canonicalTitle": "架构解剖",
           "parentH2": "架构解剖",
@@ -3813,7 +3730,7 @@
         },
         {
           "level": 3,
-          "line": 350,
+          "line": 365,
           "title": "目录结构",
           "canonicalTitle": "目录结构",
           "parentH2": "架构解剖",
@@ -3821,7 +3738,7 @@
         },
         {
           "level": 3,
-          "line": 383,
+          "line": 398,
           "title": "技术栈",
           "canonicalTitle": "技术栈",
           "parentH2": "架构解剖",
@@ -3829,7 +3746,15 @@
         },
         {
           "level": 3,
-          "line": 393,
+          "line": 408,
+          "title": "模块依赖关系",
+          "canonicalTitle": "模块依赖关系",
+          "parentH2": "架构解剖",
+          "parentH3": "模块依赖关系"
+        },
+        {
+          "level": 3,
+          "line": 422,
           "title": "扩展机制",
           "canonicalTitle": "扩展机制",
           "parentH2": "架构解剖",
@@ -3837,7 +3762,7 @@
         },
         {
           "level": 2,
-          "line": 403,
+          "line": 432,
           "title": "质量与成熟度",
           "canonicalTitle": "质量与成熟度",
           "parentH2": "质量与成熟度",
@@ -3845,7 +3770,7 @@
         },
         {
           "level": 3,
-          "line": 405,
+          "line": 434,
           "title": "代码质量",
           "canonicalTitle": "代码质量",
           "parentH2": "质量与成熟度",
@@ -3853,23 +3778,31 @@
         },
         {
           "level": 3,
-          "line": 420,
-          "title": "测试与 CI",
-          "canonicalTitle": "测试与 CI",
+          "line": 449,
+          "title": "测试",
+          "canonicalTitle": "测试",
           "parentH2": "质量与成熟度",
-          "parentH3": "测试与 CI"
+          "parentH3": "测试"
         },
         {
           "level": 3,
-          "line": 433,
-          "title": "文档与发布",
-          "canonicalTitle": "文档与发布",
+          "line": 459,
+          "title": "CI/CD",
+          "canonicalTitle": "CI/CD",
           "parentH2": "质量与成熟度",
-          "parentH3": "文档与发布"
+          "parentH3": "CI/CD"
         },
         {
           "level": 3,
-          "line": 450,
+          "line": 467,
+          "title": "文档质量",
+          "canonicalTitle": "文档质量",
+          "parentH2": "质量与成熟度",
+          "parentH3": "文档质量"
+        },
+        {
+          "level": 3,
+          "line": 484,
           "title": "Issue / PR 健康度",
           "canonicalTitle": "Issue / PR 健康度",
           "parentH2": "质量与成熟度",
@@ -3877,7 +3810,7 @@
         },
         {
           "level": 3,
-          "line": 470,
+          "line": 504,
           "title": "本轮未做的验证",
           "canonicalTitle": "本轮未做的验证",
           "parentH2": "质量与成熟度",
@@ -3885,7 +3818,7 @@
         },
         {
           "level": 2,
-          "line": 484,
+          "line": 518,
           "title": "社区与生态",
           "canonicalTitle": "社区与生态",
           "parentH2": "社区与生态",
@@ -3893,7 +3826,7 @@
         },
         {
           "level": 3,
-          "line": 486,
+          "line": 520,
           "title": "社区评价",
           "canonicalTitle": "社区评价",
           "parentH2": "社区与生态",
@@ -3901,47 +3834,47 @@
         },
         {
           "level": 3,
-          "line": 500,
-          "title": "与同类项目对比",
-          "canonicalTitle": "与同类项目对比",
+          "line": 534,
+          "title": "竞品对比",
+          "canonicalTitle": "竞品对比",
           "parentH2": "社区与生态",
-          "parentH3": "与同类项目对比"
+          "parentH3": "竞品对比"
         },
         {
           "level": 4,
-          "line": 502,
+          "line": 536,
           "title": "vs GitNexus",
           "canonicalTitle": "vs GitNexus",
           "parentH2": "社区与生态",
-          "parentH3": "与同类项目对比"
+          "parentH3": "竞品对比"
         },
         {
           "level": 4,
-          "line": 508,
+          "line": 542,
           "title": "vs CodeGraph（轻量本地图谱类）",
           "canonicalTitle": "vs CodeGraph（轻量本地图谱类）",
           "parentH2": "社区与生态",
-          "parentH3": "与同类项目对比"
+          "parentH3": "竞品对比"
         },
         {
           "level": 4,
-          "line": 514,
+          "line": 548,
           "title": "vs gitingest / 单次仓库压缩类工具",
           "canonicalTitle": "vs gitingest / 单次仓库压缩类工具",
           "parentH2": "社区与生态",
-          "parentH3": "与同类项目对比"
+          "parentH3": "竞品对比"
         },
         {
           "level": 3,
-          "line": 520,
-          "title": "生态判断",
-          "canonicalTitle": "生态判断",
+          "line": 554,
+          "title": "衍生项目 / 插件生态",
+          "canonicalTitle": "衍生项目 / 插件生态",
           "parentH2": "社区与生态",
-          "parentH3": "生态判断"
+          "parentH3": "衍生项目 / 插件生态"
         },
         {
           "level": 2,
-          "line": 533,
+          "line": 567,
           "title": "关键代码走读",
           "canonicalTitle": "关键代码走读",
           "parentH2": "关键代码走读",
@@ -3949,7 +3882,7 @@
         },
         {
           "level": 3,
-          "line": 535,
+          "line": 569,
           "title": "1. install.sh",
           "canonicalTitle": "1. install.sh",
           "parentH2": "关键代码走读",
@@ -3957,7 +3890,7 @@
         },
         {
           "level": 3,
-          "line": 548,
+          "line": 582,
           "title": "2. understand-anything-plugin/hooks/hooks.json",
           "canonicalTitle": "2. understand-anything-plugin/hooks/hooks.json",
           "parentH2": "关键代码走读",
@@ -3965,7 +3898,7 @@
         },
         {
           "level": 3,
-          "line": 560,
+          "line": 594,
           "title": "3. understand-anything-plugin/hooks/auto-update-prompt.md",
           "canonicalTitle": "3. understand-anything-plugin/hooks/auto-update-prompt.md",
           "parentH2": "关键代码走读",
@@ -3973,7 +3906,7 @@
         },
         {
           "level": 3,
-          "line": 573,
+          "line": 607,
           "title": "4. understand-anything-plugin/packages/core/src/types.ts",
           "canonicalTitle": "4. understand-anything-plugin/packages/core/src/types.ts",
           "parentH2": "关键代码走读",
@@ -3981,7 +3914,7 @@
         },
         {
           "level": 3,
-          "line": 585,
+          "line": 619,
           "title": "5. understand-anything-plugin/packages/core/src/change-classifier.ts",
           "canonicalTitle": "5. understand-anything-plugin/packages/core/src/change-classifier.ts",
           "parentH2": "关键代码走读",
@@ -3989,7 +3922,7 @@
         },
         {
           "level": 3,
-          "line": 597,
+          "line": 631,
           "title": "6. understand-anything-plugin/src/diff-analyzer.ts",
           "canonicalTitle": "6. understand-anything-plugin/src/diff-analyzer.ts",
           "parentH2": "关键代码走读",
@@ -3997,7 +3930,7 @@
         },
         {
           "level": 2,
-          "line": 612,
+          "line": 646,
           "title": "评分",
           "canonicalTitle": "评分",
           "parentH2": "评分",
@@ -4005,105 +3938,47 @@
         },
         {
           "level": 2,
-          "line": 628,
+          "line": 662,
           "title": "总结",
           "canonicalTitle": "总结",
           "parentH2": "总结",
           "parentH3": null
+        },
+        {
+          "level": 3,
+          "line": 664,
+          "title": "一句话评价",
+          "canonicalTitle": "一句话评价",
+          "parentH2": "总结",
+          "parentH3": "一句话评价"
+        },
+        {
+          "level": 3,
+          "line": 668,
+          "title": "谁应该用",
+          "canonicalTitle": "谁应该用",
+          "parentH2": "总结",
+          "parentH3": "谁应该用"
+        },
+        {
+          "level": 3,
+          "line": 674,
+          "title": "谁不应该直接用",
+          "canonicalTitle": "谁不应该直接用",
+          "parentH2": "总结",
+          "parentH3": "谁不应该直接用"
+        },
+        {
+          "level": 3,
+          "line": 681,
+          "title": "下一步",
+          "canonicalTitle": "下一步",
+          "parentH2": "总结",
+          "parentH3": "下一步"
         }
       ],
       "errors": [],
       "warnings": [
-        {
-          "severity": "warning",
-          "code": "missing_recommended_h3",
-          "message": "章节 场景二：技术架构学习 建议补齐子章节：底层技术架构",
-          "parent": "场景二：技术架构学习",
-          "section": "底层技术架构"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_recommended_h3",
-          "message": "章节 架构解剖 建议补齐子章节：模块依赖关系",
-          "parent": "架构解剖",
-          "section": "模块依赖关系"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_recommended_h3",
-          "message": "章节 质量与成熟度 建议补齐子章节：测试",
-          "parent": "质量与成熟度",
-          "section": "测试"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_recommended_h3",
-          "message": "章节 质量与成熟度 建议补齐子章节：CI/CD",
-          "parent": "质量与成熟度",
-          "section": "CI/CD"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_recommended_h3",
-          "message": "章节 质量与成熟度 建议补齐子章节：文档质量",
-          "parent": "质量与成熟度",
-          "section": "文档质量"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_recommended_h3",
-          "message": "章节 社区与生态 建议补齐子章节：衍生项目 / 插件生态",
-          "parent": "社区与生态",
-          "section": "衍生项目 / 插件生态"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_recommended_h3",
-          "message": "章节 社区与生态 建议补齐子章节：竞品对比",
-          "parent": "社区与生态",
-          "section": "竞品对比"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_recommended_h3",
-          "message": "章节 总结 建议补齐子章节：一句话评价",
-          "parent": "总结",
-          "section": "一句话评价"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_recommended_h3",
-          "message": "章节 总结 建议补齐子章节：谁应该用",
-          "parent": "总结",
-          "section": "谁应该用"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_recommended_h3",
-          "message": "章节 总结 建议补齐子章节：谁不应该直接用",
-          "parent": "总结",
-          "section": "谁不应该直接用"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_recommended_h3",
-          "message": "章节 总结 建议补齐子章节：下一步",
-          "parent": "总结",
-          "section": "下一步"
-        },
-        {
-          "severity": "warning",
-          "code": "bottom_architecture_not_grouped",
-          "message": "场景二已直接出现底层架构子项，但缺少父章节“底层技术架构”：最小架构内核、核心抽象、关键执行链路、控制面 / 数据面、失败与降级模型、可复刻设计不变量",
-          "sections": [
-            "最小架构内核",
-            "核心抽象",
-            "关键执行链路",
-            "控制面 / 数据面",
-            "失败与降级模型",
-            "可复刻设计不变量"
-          ]
-        },
         {
           "severity": "warning",
           "code": "deprecated_heading_alias",
@@ -9730,25 +9605,8 @@
       "status": "warn",
       "missingH2": [],
       "missingRequiredH3": {},
-      "missingRecommendedH3": {
-        "场景二：技术架构学习": [
-          "底层技术架构"
-        ],
-        "总结": [
-          "谁应该用",
-          "下一步"
-        ]
-      },
-      "missingBottomArchitectureChildren": [
-        "最小架构内核",
-        "核心抽象",
-        "控制面 / 数据面",
-        "关键执行链路",
-        "状态模型",
-        "契约边界",
-        "失败与降级模型",
-        "可复刻设计不变量"
-      ],
+      "missingRecommendedH3": {},
+      "missingBottomArchitectureChildren": [],
       "headings": [
         {
           "level": 2,
@@ -9887,108 +9745,108 @@
           "parentH3": "架构分层"
         },
         {
-          "level": 2,
+          "level": 3,
           "line": 243,
           "title": "底层技术架构",
           "canonicalTitle": "底层技术架构",
-          "parentH2": "底层技术架构",
-          "parentH3": null
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
         },
         {
-          "level": 3,
+          "level": 4,
           "line": 245,
-          "title": "1. 最小架构内核",
-          "canonicalTitle": "1. 最小架构内核",
-          "parentH2": "底层技术架构",
-          "parentH3": "1. 最小架构内核"
+          "title": "最小架构内核",
+          "canonicalTitle": "最小架构内核",
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
         },
         {
-          "level": 3,
+          "level": 4,
           "line": 260,
-          "title": "2. 核心抽象表",
-          "canonicalTitle": "2. 核心抽象表",
-          "parentH2": "底层技术架构",
-          "parentH3": "2. 核心抽象表"
+          "title": "核心抽象",
+          "canonicalTitle": "核心抽象",
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
         },
         {
-          "level": 3,
+          "level": 4,
           "line": 276,
-          "title": "3. 控制面 / 数据面",
-          "canonicalTitle": "3. 控制面 / 数据面",
-          "parentH2": "底层技术架构",
-          "parentH3": "3. 控制面 / 数据面"
+          "title": "控制面 / 数据面",
+          "canonicalTitle": "控制面 / 数据面",
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
         },
         {
-          "level": 3,
+          "level": 4,
           "line": 297,
-          "title": "4. 关键执行链路",
-          "canonicalTitle": "4. 关键执行链路",
-          "parentH2": "底层技术架构",
-          "parentH3": "4. 关键执行链路"
+          "title": "关键执行链路",
+          "canonicalTitle": "关键执行链路",
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
         },
         {
           "level": 4,
           "line": 299,
           "title": "链路 A：桌面启动与 RPC",
           "canonicalTitle": "链路 A：桌面启动与 RPC",
-          "parentH2": "底层技术架构",
-          "parentH3": "4. 关键执行链路"
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
         },
         {
           "level": 4,
           "line": 319,
           "title": "链路 B：Agent tool call settlement",
           "canonicalTitle": "链路 B：Agent tool call settlement",
-          "parentH2": "底层技术架构",
-          "parentH3": "4. 关键执行链路"
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
         },
         {
           "level": 4,
           "line": 343,
           "title": "链路 C：Memory Tree ingest and recall",
           "canonicalTitle": "链路 C：Memory Tree ingest and recall",
-          "parentH2": "底层技术架构",
-          "parentH3": "4. 关键执行链路"
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
         },
         {
           "level": 4,
           "line": 363,
           "title": "链路 D：SKILL workflow runtime",
           "canonicalTitle": "链路 D：SKILL workflow runtime",
-          "parentH2": "底层技术架构",
-          "parentH3": "4. 关键执行链路"
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
         },
         {
-          "level": 3,
+          "level": 4,
           "line": 385,
-          "title": "5. 状态模型",
-          "canonicalTitle": "5. 状态模型",
-          "parentH2": "底层技术架构",
-          "parentH3": "5. 状态模型"
+          "title": "状态模型",
+          "canonicalTitle": "状态模型",
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
         },
         {
-          "level": 3,
+          "level": 4,
           "line": 417,
-          "title": "6. 契约边界",
-          "canonicalTitle": "6. 契约边界",
-          "parentH2": "底层技术架构",
-          "parentH3": "6. 契约边界"
+          "title": "契约边界",
+          "canonicalTitle": "契约边界",
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
         },
         {
-          "level": 3,
+          "level": 4,
           "line": 444,
-          "title": "7. 失败与降级模型",
-          "canonicalTitle": "7. 失败与降级模型",
-          "parentH2": "底层技术架构",
-          "parentH3": "7. 失败与降级模型"
+          "title": "失败与降级模型",
+          "canonicalTitle": "失败与降级模型",
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
         },
         {
-          "level": 3,
+          "level": 4,
           "line": 461,
-          "title": "8. 可复刻设计不变量",
-          "canonicalTitle": "8. 可复刻设计不变量",
-          "parentH2": "底层技术架构",
-          "parentH3": "8. 可复刻设计不变量"
+          "title": "可复刻设计不变量",
+          "canonicalTitle": "可复刻设计不变量",
+          "parentH2": "场景二：技术架构学习",
+          "parentH3": "底层技术架构"
         },
         {
           "level": 2,
@@ -10225,10 +10083,10 @@
         {
           "level": 3,
           "line": 752,
-          "title": "谁应该用 / 学",
-          "canonicalTitle": "谁应该用 / 学",
+          "title": "谁应该用",
+          "canonicalTitle": "谁应该用",
           "parentH2": "总结",
-          "parentH3": "谁应该用 / 学"
+          "parentH3": "谁应该用"
         },
         {
           "level": 3,
@@ -10241,35 +10099,14 @@
         {
           "level": 3,
           "line": 767,
-          "title": "下一步深挖 / 维护建议",
-          "canonicalTitle": "下一步深挖 / 维护建议",
+          "title": "下一步",
+          "canonicalTitle": "下一步",
           "parentH2": "总结",
-          "parentH3": "下一步深挖 / 维护建议"
+          "parentH3": "下一步"
         }
       ],
       "errors": [],
       "warnings": [
-        {
-          "severity": "warning",
-          "code": "missing_recommended_h3",
-          "message": "章节 场景二：技术架构学习 建议补齐子章节：底层技术架构",
-          "parent": "场景二：技术架构学习",
-          "section": "底层技术架构"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_recommended_h3",
-          "message": "章节 总结 建议补齐子章节：谁应该用",
-          "parent": "总结",
-          "section": "谁应该用"
-        },
-        {
-          "severity": "warning",
-          "code": "missing_recommended_h3",
-          "message": "章节 总结 建议补齐子章节：下一步",
-          "parent": "总结",
-          "section": "下一步"
-        },
         {
           "severity": "warning",
           "code": "deprecated_heading_alias",
@@ -10293,12 +10130,6 @@
           "line": 589,
           "from": "真实痛点",
           "to": "社区评价"
-        },
-        {
-          "severity": "warning",
-          "code": "non_contract_top_level_section",
-          "message": "顶层章节不在 v1 contract 中：底层技术架构",
-          "section": "底层技术架构"
         }
       ]
     },

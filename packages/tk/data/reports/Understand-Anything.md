@@ -161,7 +161,9 @@ flowchart TD
   INC --> B
 ```
 
-### 最小架构内核
+### 底层技术架构
+
+#### 最小架构内核
 
 如果把 Understand-Anything 缩到最小可复刻内核，它本质上是：
 
@@ -193,7 +195,7 @@ flowchart TD
    - fingerprints、change-classifier、hooks、auto-update-prompt。
    - 这让它不只是“一次性生成图谱”，而是尝试成为**持续更新的代码理解内存**。
 
-### 核心抽象
+#### 核心抽象
 
 #### 1. `KnowledgeGraph`
 
@@ -247,7 +249,7 @@ flowchart TD
 
 这一步让它从“分析工具”更接近“代码理解 runtime”。
 
-### 关键执行链路
+#### 关键执行链路
 
 #### `/understand` 全量分析链路
 
@@ -283,7 +285,7 @@ flowchart TD
 
 它不是 compiler-precise blast radius，但足够服务“代码理解辅助”和“改动前快速看波及面”。
 
-### 控制面 / 数据面
+#### 控制面 / 数据面
 
 #### 控制面
 
@@ -312,7 +314,20 @@ flowchart TD
 这个状态模型的优点是：**透明、可检查、可复用、可提交给团队共享。**
 缺点也很明确：**中间文件多，命名协议强，任何一个阶段的宿主中断都可能让流水线处于半完成态。**
 
-### 失败与降级模型
+#### 状态模型
+
+- **安装与宿主状态**：`install.sh` / `install.ps1` 维护 skills、plugin root、宿主目录映射与 hooks 接入点，决定同一套 workflow 是否真的跨 Claude Code / Codex / Cursor / Hermes 等宿主可用。
+- **图谱持久状态**：`.understand-anything/knowledge-graph.json`、`domain-graph.json`、`meta.json`、`config.json` 是 dashboard / chat / diff / onboard 共享的事实层。
+- **增量运行时状态**：`fingerprints.json`、`intermediate/batches.json`、`intermediate/change-analysis.json`、`intermediate/batch-*.json` 共同支撑 `SKIP / PARTIAL_UPDATE / ARCHITECTURE_UPDATE / FULL_UPDATE` 决策。
+- **外部状态**：宿主工具权限、tree-sitter grammar/wasm 可用性、Node/Python 环境与 Git changed-files 输入，都会直接影响 workflow 是否稳定复现。
+
+#### 契约边界
+
+- **agent-facing 契约**：`/understand*` 系列命令、`SKILL.md`、`hooks/hooks.json`、`auto-update-prompt.md`，共同定义宿主如何触发分析、增量更新与 graph 消费。
+- **内部契约**：`KnowledgeGraph` schema、node/edge/layer/tour 结构、batch identity、fingerprint/change-classifier 决策矩阵，决定各阶段能否稳定拼接。
+- **外部契约**：多宿主安装目录、dashboard / consumer 对 `.understand-anything/` 工件命名与字段稳定性的依赖，以及 release/main 口径差异带来的版本边界。
+
+#### 失败与降级模型
 
 当前系统最成熟的一点，是它承认 agent workflow 天生不稳定，因此给关键位置做了分层降级：
 
@@ -330,7 +345,7 @@ flowchart TD
 3. **跨宿主能力差异仍不可忽略。** 同一份 workflow 在不同 host 的 tool policy、subagent 支持、文件权限和上下文长度下结果会不同。
 4. **图谱语义边依旧不等于事实。** 确定性结构层可以稳，semantic overlay 仍会受模型影响。
 
-### 可复刻设计不变量
+#### 可复刻设计不变量
 
 如果要复刻同类系统，最值得带走的是这些不变量：
 
@@ -390,6 +405,20 @@ Understand-Anything/
 - **Dashboard**：React + Vite + 图布局相关库（旧报告已核到 XYFlow / ELK / d3-force）
 - **测试 / 质量门**：Vitest + Python unittest + GitHub Actions matrix CI
 
+### 模块依赖关系
+
+```text
+install.sh / install.ps1
+  └─ understand-anything-plugin/{skills,hooks,src}
+       ├─ packages/core (KnowledgeGraph schema / change-classifier / shared contracts)
+       ├─ packages/dashboard (graph visualization / guided tour consumption)
+       ├─ language extractors / wasm grammars
+       ├─ diff-analyzer / context-builder / onboard-builder
+       └─ .understand-anything/* artifacts (knowledge-graph / fingerprints / meta / intermediate batches)
+```
+
+关键不在 package 数量，而在 **所有消费器都围绕同一份 graph contract 和 artifact 命名协议工作**；这也是 incremental contract 一旦漂移，就会同时影响 dashboard、chat、diff 与 onboard 的原因。
+
 ### 扩展机制
 
 - **新增宿主平台**：改 `install.sh` 的 `platforms_table()` + 对应 README 文档
@@ -417,20 +446,25 @@ Understand-Anything/
 - 多宿主、多语言、多消费器同时推进，任何一处 contract 漂移都会扩散
 - `main` 明显跑在 `release` 前面，意味着真实可维护面依赖阅读源码而不是只看发布页
 
-### 测试与 CI
+### 测试
 
-当前质量门比 6 月更像正式工程：
+当前质量门比 6 月更像正式工程，至少已经把以下验证面纳入自动化：
 
-- `.github/workflows/ci.yml` 跑 Ubuntu + Windows matrix
 - Node 22 固定为主运行时
 - `pnpm lint`
 - core build / skill build
 - core test / skill test
 - Python helper unittest（`test_merge_batch_graphs`）
 
-这说明项目至少在工程意识上已经跨过“纯 prompt 项目”的门槛。
+### CI/CD
 
-### 文档与发布
+- `.github/workflows/ci.yml` 跑 Ubuntu + Windows matrix
+- workflow 当前覆盖 lint、build、test 与 Python helper 校验
+- `deploy-homepage.yml` 负责首页分发，但未看到与 release/tag 对齐的自动发布治理
+
+这说明项目至少在工程意识上已经跨过“纯 prompt 项目”的门槛，但 CI 与 release governance 还没有完全打通。
+
+### 文档质量
 
 文档仍然是强项：
 
@@ -497,7 +531,7 @@ Understand-Anything/
 - 高 adoption 带来了更高的兼容性和版本治理压力
 - 用户越多，incremental correctness 这种“核心但难测”的问题越会被放大
 
-### 与同类项目对比
+### 竞品对比
 
 #### vs GitNexus
 
@@ -517,7 +551,7 @@ Understand-Anything/
 - Understand-Anything 则试图建立长期可维护的中间层资产（graph + fingerprints + metadata）
 - 如果你只想快速塞上下文，gitingest 成本更低；如果你想要可复用的项目理解内存，Understand-Anything 更有想象力
 
-### 生态判断
+### 衍生项目 / 插件生态
 
 目前它的“生态”主要不是插件市场，而是：
 
@@ -627,21 +661,23 @@ Understand-Anything/
 
 ## 总结
 
-**一句话结论：这是一个方向很对、架构很值得学、但仍处在高演化高压力区的 agent-native code understanding substrate。**
+### 一句话评价
 
-如果你要的是：
+这是一个方向很对、架构很值得学、但仍处在高演化高压力区的 agent-native code understanding substrate。
 
-- 给个人 / 小团队快速建立项目理解内存
-- 给 agent 一个比“盲读仓库”更稳定的前置上下文
-- 学习怎样把 deterministic analysis、graph contract、dashboard 和 hook-driven incremental update 组合成一个产品
+### 谁应该用
 
-那它非常值得试。
+- 给个人 / 小团队快速建立项目理解内存的人
+- 想给 agent 一个比“盲读仓库”更稳定前置上下文的人
+- 想学习怎样把 deterministic analysis、graph contract、dashboard 和 hook-driven incremental update 组合成一个产品的人
 
-如果你要的是：
+### 谁不应该直接用
 
-- 企业统一标准件
-- release / version 治理稳定
-- compiler-grade impact analysis
-- 低维护成本的大规模铺设
+- 需要企业统一标准件的人
+- 期待 stable release / version 治理的人
+- 需要 compiler-grade impact analysis 的团队
+- 需要低维护成本大规模铺设的组织
 
-那现在还应停留在**受控 PoC**，而不是直接全面采用。
+### 下一步
+
+当前更适合停留在**受控 PoC**：先验证增量正确性、release/version 治理和跨宿主一致性，再考虑更大范围采用。

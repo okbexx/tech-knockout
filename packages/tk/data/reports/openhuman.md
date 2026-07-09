@@ -240,9 +240,9 @@ graph TD
 
 ---
 
-## 底层技术架构
+### 底层技术架构
 
-### 1. 最小架构内核
+#### 最小架构内核
 
 > OpenHuman 可复刻的最小内核是：`Desktop Host + Local RPC Control Plane + Capability Registries + Durable Personal Context Store + Agent Tool Settlement + Policy/Approval/Sandbox Gate + Background Run Ledger + Managed Runtime Bridge`。
 
@@ -257,7 +257,7 @@ graph TD
 - **Background Run Ledger** 让长任务、多 agent、workflow 不再依赖前端连接和 prompt 临时状态。
 - **Managed Runtime Bridge** 让 Node/Python/MCP/script-backed workflows 在普通用户机器上可控运行。
 
-### 2. 核心抽象表
+#### 核心抽象
 
 | 抽象 | 职责 | 关键对象 / 方法 | 为什么重要 |
 |------|------|----------------|------------|
@@ -273,7 +273,7 @@ graph TD
 | `AgentOrchestration` | 管理 background agents、teams、dependency-aware tasks | `command_center`、`agent_teams`、`workflow_runs` | 多 agent 不是 feature list，而是 durable coordination state |
 | `MCP / Composio Registry` | 接入外部工具生态和 OAuth integrations | MCP list/call/install、Composio provider registry | 扩展性主要来自协议和连接器，不是 hardcode 每个工具 |
 
-### 3. 控制面 / 数据面
+#### 控制面 / 数据面
 
 **Control Plane：**
 
@@ -294,7 +294,7 @@ graph TD
 
 评价：OpenHuman 的控制面抽象比普通 agent app 强很多，但数据面也过宽。长期风险不是“有没有抽象”，而是这些 registry 是否能持续避免变成中心化大泥球。
 
-### 4. 关键执行链路
+#### 关键执行链路
 
 #### 链路 A：桌面启动与 RPC
 
@@ -382,7 +382,7 @@ Footer written: DONE / FAILED / CANCELLED / DEGENERATE
 await_workflow / command center / recent runs read terminal outcome
 ```
 
-### 5. 状态模型
+#### 状态模型
 
 **持久状态：**
 
@@ -414,7 +414,7 @@ await_workflow / command center / recent runs read terminal outcome
 - MCP servers、npm/Python package ecosystems、GitHub Releases/package managers。
 - Mobile tunnel / device pairing / cloud transport for experimental iOS client。
 
-### 6. 契约边界
+#### 契约边界
 
 **内部契约：**
 
@@ -441,7 +441,7 @@ await_workflow / command center / recent runs read terminal outcome
 - Agent profiles：SOUL、tool/skill/MCP/memory allowlists。
 - Approval card / prompt contract：external-effect action must be user-observable when policy says Prompt。
 
-### 7. 失败与降级模型
+#### 失败与降级模型
 
 | 失败类型 | 检测方式 | 降级 / 恢复 | 可观测信号 |
 |----------|----------|-------------|------------|
@@ -458,7 +458,7 @@ await_workflow / command center / recent runs read terminal outcome
 | Connector/OAuth failure | managed backend / Composio error | direct mode / reconnect / status surface | connection status、sync errors |
 | Sandbox backend unavailable | backend probe | Docker/local jail/noop fallback + Rust path hardening | sandbox status / policy info |
 
-### 8. 可复刻设计不变量
+#### 可复刻设计不变量
 
 1. **本地 agent 产品必须先有权限模型，再暴露工具面。** 工具越宽，policy / approval / audit 越不能后补。
 2. **桌面宿主与 core 可同进程，但协议边界不能消失。** In-process core 解决生命周期，loopback RPC 保留可测性和解耦。
@@ -749,7 +749,7 @@ await_workflow / command center / recent runs read terminal outcome
 
 OpenHuman 是一个快速膨胀但工程密度很高的本地优先 personal AI / agent harness：它真正值得学习的不是 UI，而是如何把桌面生命周期、RPC 控制面、权限策略、工具执行、长期记忆、`tinyagents` / `tinyflows` / `skill_runtime`、session/run ledger 和外部连接器整合成一个可长期运行的 agent 产品。
 
-### 谁应该用 / 学
+### 谁应该用
 
 - 想做 desktop AI / personal AI workspace / 本地长期记忆产品的人。
 - 想学习 Rust/Tauri + local RPC core 的团队。
@@ -764,7 +764,7 @@ OpenHuman 是一个快速膨胀但工程密度很高的本地优先 personal AI 
 - 想完全离线、不依赖任何 managed backend 的用户。
 - 希望“一装即企业可控”的组织；OpenHuman 需要先做安全 profile 和工具/连接器收敛。
 
-### 下一步深挖 / 维护建议
+### 下一步
 
 1. 深读 `flows/mod.rs`、`tinyflows/mod.rs` 和 `skill_runtime/run_machinery.rs`，把 saved flows 与 installed skill workflows 的状态契约拆开理解。
 2. 深读 `session_db/run_ledger/mod.rs` 与 `agent_orchestration/run_ledger_finalize.rs`，理解 background agent / flow / team 的 durable state。

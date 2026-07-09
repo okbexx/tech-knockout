@@ -195,7 +195,7 @@ packages/ui-tars/sdk/src/Model.ts      External VLM Provider
 
 ### 底层技术架构
 
-#### 1. 最小架构内核
+#### 最小架构内核
 
 > UI-TARS-desktop 可复刻的最小内核是：`Visual Snapshot Contract + VLM Model Adapter + Action Grammar / Parser + Operator Port + Agent Loop State Machine + Desktop Permission / IPC Control Plane`。
 
@@ -208,7 +208,7 @@ packages/ui-tars/sdk/src/Model.ts      External VLM Provider
 - 没有 **Agent Loop State Machine**，系统无法处理 pause、stop、max loop、call_user、finished、retry、error。
 - 没有 **Desktop Permission / IPC Control Plane**，桌面产品无法安全连接 UI、系统权限、执行后端与模型配置。
 
-#### 2. 核心抽象表
+#### 核心抽象
 
 | 抽象 | 源码位置 | 职责 | 关键字段 / 方法 | 为什么重要 |
 |------|----------|------|-----------------|------------|
@@ -222,7 +222,7 @@ packages/ui-tars/sdk/src/Model.ts      External VLM Provider
 | `SettingStore` / `PresetSchema` | `apps/ui-tars/src/main/store/setting.ts`、`validate.ts` | 配置控制面 | `vlmBaseUrl`、`vlmApiKey`、`vlmModelName`、`operator`、`maxLoopCount`、`loopIntervalInMs` | provider、operator、loop 策略和 preset 都必须结构化，否则不可复现 |
 | `RemoteComputer` / `ProxyClient` | `apps/ui-tars/src/main/remote/*` | 远程电脑 / 浏览器 backend contract | `/MoveMouse`、`/ClickMouse`、`/TakeScreenshot`、`/GetScreenSize`、`getSandboxInfo()`、JWT header | 把“本地 GUI loop”延伸到 remote sandbox，但引入服务端依赖和认证边界 |
 
-#### 3. 控制面 / 数据面分离
+#### 控制面 / 数据面
 
 **Control Plane：**
 
@@ -245,7 +245,7 @@ packages/ui-tars/sdk/src/Model.ts      External VLM Provider
 
 这个项目的核心分层是清楚的：UI 和配置在控制面，截图/模型/执行在数据面。但安全审批、执行审计、任务 replay 还没有形成和 GUIAgent 同级的一等控制面，这是生产化前最大缺口。
 
-#### 4. 关键执行链路
+#### 关键执行链路
 
 **链路 A：本地电脑 GUI agent loop**
 
@@ -349,7 +349,7 @@ finally:
 main store: status/errorMsg/thinking=false
 ```
 
-#### 5. 状态模型
+#### 状态模型
 
 | 状态类型 | 位置 | 谁读写 | 生命周期 / 一致性规则 |
 |----------|------|--------|------------------------|
@@ -363,7 +363,7 @@ main store: status/errorMsg/thinking=false
 | Remote sandbox state | Proxy backend / sandbox id / browser id | `ProxyClient`、`RemoteComputer` | 外部状态；本地仅持有 id 和 auth header；backend 可用性决定执行成功 |
 | Conversation telemetry | `GUIAgentData.conversations` / `onData` delta | GUIAgent 生产，main store/renderer 消费 | delta 契约；不是每次全量历史；用于 UI 展示与后续 history transform |
 
-#### 6. 契约边界
+#### 契约边界
 
 **内部契约：**
 
@@ -389,7 +389,7 @@ main store: status/errorMsg/thinking=false
 - `actionParser` 支持 `Action:`、`Thought:`、`Reflection:`、`Action_Summary:`、`<bbox>`、`<point>` 等多种模型输出格式。
 - `finished` / `call_user` 是终止或转人工的 agent-facing terminal action，不只是普通 UI 状态。
 
-#### 7. 失败与降级模型
+#### 失败与降级模型
 
 | 失败类型 | 检测方式 | 系统行为 | 降级 / 修复动作 |
 |----------|----------|----------|------------------|
@@ -405,7 +405,7 @@ main store: status/errorMsg/thinking=false
 | 坐标/DPR 漂移 | issue / click marker offset / scaleFactor path | 点击偏移或操作失败 | 需要 platform regression、multi-monitor/DPR tests |
 | 敏感日志 | `logger.error('[onGUIAgentError]', settings, error)` | settings 可能含 `vlmApiKey` | 生产化前必须脱敏，不应只靠日志级别 |
 
-#### 8. 可复刻设计不变量
+#### 可复刻设计不变量
 
 1. **先定义 Operator 端口，再实现具体后端**：任何 GUI agent 都应先固定 `screenshot()` / `execute()` 契约，而不是把鼠标键盘写死在 loop 里。
 2. **模型输出必须经过中间表示**：raw text 不应直接执行；必须有 `PredictionParsed` / `ActionInputs` / coords 这种 IR。
@@ -636,7 +636,7 @@ CI 投入明显高于普通开源 demo；但 release / Desktop App / Agent TARS 
 - **生态更多是内生而非插件市场**：`@ui-tars/*`、`@agent-infra/*`、Agent TARS / Tarko / Omni-TARS 都在同仓内生长；更像“总仓生态”而不是 browser-use 那种松耦合第三方生态。
 - **项目阶段感很强**：外部热度、内部 package、总仓 release、Desktop App version 四条时间线不同步；对使用者来说，版本识别本身就是门槛。
 
-### 衍生项目 / 内生生态
+### 衍生项目 / 插件生态
 
 - `@ui-tars/sdk`：GUI automation agent toolkit。
 - `@ui-tars/action-parser`：UI-TARS action grammar parser。
