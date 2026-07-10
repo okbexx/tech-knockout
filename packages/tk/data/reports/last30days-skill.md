@@ -179,6 +179,64 @@ Render / Persist
   └─ raw artifacts under LAST30DAYS_MEMORY_DIR
 ```
 
+### 底层技术架构
+
+#### 最小架构内核
+
+last30days-skill 的最小内核是 **SKILL.md Agent Contract + Host-model Planner + Python Retrieval Pipeline + Source Adapter Fanout + Evidence Schema/Fusion + Renderer/Store**。它的产品界面是 skill，不是 SaaS；确定性引擎负责搜索、排序、存储和输出边界。
+
+#### 核心抽象
+
+- `SKILL.md`：agent-facing runtime contract，定义 LAWs、planning、preflight 和执行模板。
+- `QueryPlan` / `SubQuery`：宿主模型或 fallback planner 生成的结构化检索计划。
+- `SourceItem`：把 Reddit、X、YouTube、HN、GitHub 等平台统一到 title/body/url/author/time/engagement/snippet。
+- `Candidate` / `Cluster`：融合、去重、rerank 和聚类后的证据候选。
+- `RetrievalBundle`：同时按 `(label, source)` 和 source 建索引，支撑 fusion 和 coverage。
+- `Report`：engine 输出的结构化结果，供 renderer、JSON 和 store 消费。
+- `Watchlist` / `Store`：把一次性 research 转成 SQLite WAL + FTS5 的持续监控。
+
+#### 控制面 / 数据面
+
+- **控制面**：SKILL LAWs、argparse flags、`available_sources()`、env/credential 检测、planner、source budget、render contract、watchlist scheduling。
+- **数据面**：外部平台/API/CLI 抓取、parallel fanout、normalize、dedupe、weighted RRF、rerank、GitHub enrichment、cluster、SQLite 持久化和 HTML/Markdown 渲染。
+
+#### 关键执行链路
+
+1. **Slash command 研究**：用户 `/last30days <topic>` 触发 skill，宿主模型按 LAW 7 生成 `--plan` 文件，`last30days.py` 解析 flags/env，调用 `pipeline.run()`，最终输出 compact/md/html/json。
+2. **多源检索融合**：pipeline 根据 plan 对 subquery × source 并行检索，source adapter 返回原始项，经 normalize、relevance、dedupe、weighted RRF、rerank、fun score、GitHub stars enrichment 和 cluster 得到 report。
+3. **证据渲染与记忆**：`render.py` 生成 evidence envelope、badge、warnings、footer pass-through；`store.py` 用 SQLite WAL/FTS5 做 URL dedupe 和 findings 记忆；`watchlist.py` 周期化运行。
+
+#### 状态模型
+
+- **持久状态**：`skills/last30days` payload、配置文件、raw artifacts、SQLite research store、watchlist topics。
+- **运行时状态**：plan、ThreadPoolExecutor futures、source availability、candidate pool、child process PID registry、warnings/source coverage。
+- **外部状态**：Reddit/X/YouTube/TikTok/Instagram/HN/Polymarket/GitHub/Web 等平台、cookies/API keys/CLI、Codex auth/Keychain。Report 和 store 是 engine 事实源；平台内容每次运行都要重新观测。
+
+#### 契约边界
+
+- **内部契约**：schema dataclass、source adapter output、`available_sources()`、`weighted_rrf()`、renderer modes。
+- **外部契约**：`last30days.py` CLI flags、`--plan` / `--competitors-plan` JSON 文件、`--emit` modes、SQLite store CLI。
+- **Agent-facing 契约**：SKILL output LAWs、evidence envelope、no trailing Sources、footer pass-through、inline links 和 mandatory badge。
+
+#### 失败与降级模型
+
+- 来源缺 key、cookie、CLI 或被 requested/exclude source 禁用时，`available_sources()` 降级而不是整次失败。
+- 429 可共享跳过，5xx 可 retry；平台接口变化仍是 source adapter 的长期易碎点。
+- 无 provider 或 plan 无效时可 deterministic fallback，但会打印 LAW 7 warning，提醒宿主规划质量不足。
+- render contract 用 badge、footer boundary、evidence envelope 限制模型泄露 raw evidence 或乱加 Sources。
+- 安全扫描当前是 blocking 与 advisory 混合，项目仍处于逐步收紧阶段。
+
+#### 可复刻设计不变量
+
+1. Agent-facing prompt contract 和 deterministic engine 必须分层。
+2. 复杂 topic 解析应让宿主模型产结构化 plan，再交给 engine 执行。
+3. 多源系统要先融合证据，再 synthesis，避免单一来源支配叙事。
+4. Source availability 要集中判断，并把缺失能力显式暴露。
+5. 输出格式法律应由 engine 和 skill 双重约束。
+6. Evidence envelope 要区分“模型可读”和“用户可见”。
+7. 一次性研究和持续监控可以共用 Report/Store schema。
+8. 新来源必须同步 adapter、planner、availability、render label 和测试。
+
 ### 关键设计决策与 trade-off
 
 | 决策 | 选择 | 放弃了什么 | 为什么 |
@@ -348,7 +406,7 @@ render.py / html_render.py / schema.to_dict / store.py
 
 ## 社区与生态
 
-### 热度与认可度
+### 衍生项目 / 插件生态
 
 - 50k+ stars / 4.2k+ forks / 166 subscribers 对一个 2026-01 创建项目来说仍然非常高，说明“agent skill + realtime social research”这个概念传播强。
 - GitHub search 已出现衍生/本地化项目：
@@ -360,7 +418,7 @@ render.py / html_render.py / schema.to_dict / store.py
 - HN Algolia 只搜到 3 条低分记录（2 points 级别），说明大众技术社区讨论还不如 GitHub 热度强。
 - Reddit 搜索接口在本环境返回 403，无法作为本次社区情绪证据；不据此推断“无讨论”。
 
-### 正面评价集中点
+### 社区评价
 
 从 README、衍生项目和 issue/PR 方向看，正向认可主要集中在：
 
@@ -370,7 +428,7 @@ render.py / html_render.py / schema.to_dict / store.py
 - **维护响应快**：从 changelog 看，Reddit、X、YouTube、installer、Windows、security、configuration 都在持续修。
 - **测试体系强**：本轮 2,766 tests 通过，对这样的平台适配型项目是重要成熟度信号。
 
-### 真实痛点
+### 采用痛点
 
 高反应/高评论 issue 和近期 open items 暴露的真实痛点：
 
@@ -381,7 +439,7 @@ render.py / html_render.py / schema.to_dict / store.py
 - **发布/供应链仍在补强**：#540 artifact attestation、#534 provenance attestation。
 - **Hermes 安装安全阻断**：#513 显示某些 agent/harness 的安全策略会挡住安装路径，需要更明确的 installer/permission story。
 
-### 竞品与替代分层
+### 竞品对比
 
 **直接竞品 / forks：**
 

@@ -147,6 +147,64 @@ flowchart TD
     N[Evaluation/Langfuse] --> L
 ```
 
+### 底层技术架构
+
+#### 最小架构内核
+
+RAGFlow 的最小内核是 **Ingestion Task Queue + Parser/Chunker Factory + KB/Document/Chunk Data Model + Hybrid Retrieval + Citation Post-processing + Permission/Evaluation/API/UI**。它不是轻量 SDK，而是把企业文档从上传、解析、索引、问答、引用到运营评测做成全栈产品。
+
+#### 核心抽象
+
+- `Knowledgebase`：tenant、permission、embedding、parser、parser_config、similarity threshold 和 vector weight 的配置根。
+- `Document`：kb、source_type、content_hash、parser_config、progress、run/status 的文档处理对象。
+- `Task`：异步解析和 chunk 构建的执行单元。
+- `Chunk`：带 page、position、image/table、metadata 的检索与 citation 基本单元。
+- `Parser` / `Chunker`：DeepDoc、MinerU、Docling、Naive、Manual、Table、Resume 等解析策略。
+- `SearchProvider`：把 BM25/text、dense vector、fusion、filter 和 fallback 放在同一检索表达式里。
+- `Evaluation`：test case、run、result、metric summary 的产品化评测对象。
+
+#### 控制面 / 数据面
+
+- **控制面**：API services、DB models、task executor、parser factory、KB/Document parser_config、tenant permission、evaluation service、Docker/Helm deployment。
+- **数据面**：对象存储/MinIO 文件、DeepDoc/OCR/parser、embedding、doc store/search engine、hybrid retrieval、LLM answer、citation similarity、web/API response。
+
+#### 关键执行链路
+
+1. **文档入库**：用户上传文档进入文件/对象存储和 DB，任务队列触发 `task_executor.py`，合并 KB/Document parser config，调用 parser factory 生成 chunks，写入 doc store/vector/search。
+2. **问答检索**：Chat/API 发起 query，权限过滤可访问 KB，`rag/nlp/search.py` 同时构造 text match 和 dense vector，weighted fusion/rerank/threshold/fallback 后交给 LLM。
+3. **引用插入**：答案按句切分后重新 embedding，与检索 chunks 做 hybrid similarity，按阈值递减插入 citation，再输出给 UI/API/Agent workflow。
+
+#### 状态模型
+
+- **持久状态**：Tenant、Knowledgebase、Document、Task、Chunk、Dialog、Evaluation 等 DB 模型，MinIO/files，ES/OpenSearch/Infinity/OceanBase 索引。
+- **运行时状态**：task executor worker、parser progress、embedding requests、search query context、evaluation run。
+- **外部状态**：连接器（Confluence/Drive/S3 等）、LLM/embedding/rerank provider、对象存储和搜索引擎集群。KB/Document/Task DB 是产品事实源，索引需要与删除/权限变更同步清理。
+
+#### 契约边界
+
+- **内部契约**：parser id/config、`build_chunks`、search expression/filter、citation insertion、knowledgebase `accessible()`。
+- **外部契约**：REST/OpenAPI、Python SDK、Web UI、Docker/Helm 配置、Agent canvas/MCP。
+- **Agent-facing 契约**：grounded answer、citation chunk、document/page/position metadata、evaluation metrics。
+
+#### 失败与降级模型
+
+- Parser/OCR/DeepDoc 依赖重，内网或低资源环境部署成本高。
+- Citation 是后处理 similarity，不等于强 constrained decoding 或法律级证明。
+- 删除/权限变更存在 stale chunks 风险，需要 retrieval-time filter 与 index cleanup 双保险。
+- `me/team` 权限模型对大企业细粒度岗位、区域、版本、生效日期不够。
+- Evaluation 服务已有模型，但注释说明 production 应使用 task queue，当前同步路径仍是初版能力。
+
+#### 可复刻设计不变量
+
+1. 企业 RAG 首先是 ingestion 产品，不只是检索算法。
+2. KB/Document 必须携带 parser_config 和检索参数。
+3. SOP chunks 要保留章节、步骤、页码、表格、版本和生效日期。
+4. Hybrid search 是企业知识库更稳的基线。
+5. 引用要成为用户体验主功能，但必须说明它是近似 grounding。
+6. 删除和权限变更要同时做检索期过滤和索引清理。
+7. 解析任务必须有进度、失败原因、重试和日志。
+8. 评测要产品化成 test case/run/result，而不是临时脚本。
+
 ### 关键设计决策与 trade-off
 
 | 决策 | 选择 | 放弃了什么 | 为什么 |
@@ -380,7 +438,7 @@ web / sdk / openapi: 用户界面与外部集成
 
 ---
 
-## SOP / 标准操作手册问答专项评估
+## 附录：SOP / 标准操作手册问答专项评估
 
 ### 适合度：4.0/5
 

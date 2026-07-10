@@ -24,19 +24,19 @@
 
 ---
 
-## 定位与类比
+### 定位与类比
 
-### 一句话定位
+#### 一句话定位
 
 它已经不只是“design-agent shell”了，而是一个 **agent-native design platform / substrate**：Web + daemon + desktop + packaged runtime 提供项目、聊天、预览、导出、自动化、插件、集成和发布壳层；真正的智能循环既可以交给用户本机已有的 Agent CLI，也可以走官方 Open Design Cloud 或任意 OpenAI-compatible BYOK proxy。
 
-### 类比法
+#### 类比法
 
 - 类似 **Claude Design**，但把技能、设计系统、插件、MCP 与运行时适配开放成文件协议和本地/自托管边界。
 - 类似 **Open CoDesign**，但不坚持单一自研 agent loop，而是把 Claude Code、Codex、Cursor、Hermes、OpenCode、Copilot 等当成 runtime substrate。
 - 类似 **Cursor/Claude Code + 设计技能库 + 沙盒预览器 + 本地 daemon + 官方模型服务** 的组合产品。
 
-### 项目分类
+#### 项目分类
 
 `AI Design Platform / Agent-Native Design Substrate`
 
@@ -166,6 +166,64 @@ flowchart TD
   Daemon -->|agent events: text/tool/artifact/usage| Web
   Daemon --> Export[HTML / PDF / PPTX / ZIP / MP4 export]
 ```
+
+### 底层技术架构
+
+#### 最小架构内核
+
+open-design 的最小内核是 **Local Daemon + Runtime Registry + Skill/DESIGN File Protocol + Prompt Composer + Project File Store + SSE Event Contract + Sandboxed Preview/Export**。Next.js、Electron 和具体 Agent CLI 可替换，但“本地 daemon 统一调度外部 Agent 生成可预览产物”这条链路不能丢。
+
+#### 核心抽象
+
+- `RuntimeAgentDef`：声明 CLI runtime 的 args、streamFormat、stdin、image path、model list、MCP 注入和平台限制。
+- `SkillInfo` / `SKILL.md`：把技能正文、frontmatter、assets、references、examples 和 UI metadata 分离。
+- `DESIGN.md`：品牌/设计系统协议，给 prompt composer 注入稳定设计上下文。
+- `Project` / file store：项目、tabs、comments、artifacts 和 linked folder 的本地文件事实源。
+- `Run` / `AgentEvent`：一次 chat run 的生命周期和统一 SSE payload。
+- `Plugin` / `Atom pipeline`：设计迁移、handoff、diff-review、build-test 等扩展阶段。
+- `Sandboxed preview`：将 artifact 与宿主 DOM 隔离的 iframe 边界。
+
+#### 控制面 / 数据面
+
+- **控制面**：daemon REST/SSE、SQLite metadata、runtime registry、prompt composer、skill/design-system/plugin registry、preflight、path/HMAC guard、desktop sidecar lifecycle。
+- **数据面**：spawn 外部 Agent CLI、stdin/stdout/JSONL/ACP/Pi RPC 流、项目文件读写、artifact preview、PDF/PPTX/ZIP/MP4 export、外部 MCP 注入。
+
+#### 关键执行链路
+
+1. **Chat run**：Web 发起 `/api/runs`，daemon 读取项目、skill、design system、plugin stage 和 research contract，按 runtime def 构造 args/stdin/MCP 注入，spawn CLI，并把 stdout/tool/artifact/usage 统一成 SSE。
+2. **Skill 注入**：`skills.ts` 扫描多个 root，解析 `SKILL.md` frontmatter/body/attachments，处理 user shadow、id alias、examples，再给 prompt composer 和 UI 使用。
+3. **文件与预览**：Agent 在项目 cwd 读写文件，daemon 通过 safe resolver 列表/读取/归档/上传，Web 用 sandboxed iframe 预览并触发导出。
+
+#### 状态模型
+
+- **持久状态**：`app.sqlite`、`.od/projects`、项目文件、artifact manifest、skill/design-system/plugin 文件。
+- **运行时状态**：agent subprocess、SSE run stream、stdin tool_result 回写、watchdog、desktop sidecar、preview tab 状态。
+- **外部状态**：Claude/Codex/Hermes/Pi 等 CLI auth 与 model list、用户外部 MCP、linked folder、OS process/path。daemon SQLite 和 project files 共同构成事实源。
+
+#### 契约边界
+
+- **内部契约**：`RuntimeAgentDef`、prompt block composer、project safe path resolver、plugin manifest/atom pipeline、contracts package。
+- **外部契约**：daemon REST API、SSE event schema、Electron/sidecar protocol、Agent CLI argv/stdin/stdout/JSONL/ACP/Pi RPC。
+- **Agent-facing 契约**：`SKILL.md` / `DESIGN.md` / craft refs / staged `.od-skills` 目录和外部 MCP 注入。
+
+#### 失败与降级模型
+
+- Runtime adapter 处理 auth failure、empty output、stdin EPIPE、inactivity watchdog、Windows argv limit 和 sandbox 差异。
+- Web preview 使用 iframe sandbox 且不加 `allow-same-origin`，降低 artifact XSS/host cookie 风险。
+- Folder import HMAC gate、trusted picker marker、path traversal guard 和 non-loopback token requirement 收紧本地高权限能力。
+- 外部 CLI 行为漂移是长期风险，必须通过 per-runtime definition 和 stream parser 隔离。
+- 早期 release workflow 仍允许部分 tests 非 gating，生产采用需自行冻结版本和补验证。
+
+#### 可复刻设计不变量
+
+1. Web UI 不应直接持有本地高权限能力，必须经 daemon。
+2. 多 CLI runtime 要用 capability definition 表达，而不是业务 if/else。
+3. Skill 和 Design System 应作为文件协议，便于版本化、fork 和 review。
+4. Prompt composition 要分块，不能把所有上下文揉成一段。
+5. UI 消费统一 SSE event，不能解析各 CLI 原始 stdout。
+6. Artifact preview 必须 sandbox，文件 HTTP path 必须 safe resolve。
+7. 本地 Agent orchestration 要显式处理 auth、stdin、argv、watchdog、empty-output。
+8. Plugin/atom 扩展必须有 manifest 和 fallback，不应直接污染核心 run pipeline。
 
 ### 关键设计决策与 trade-off
 

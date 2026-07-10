@@ -509,7 +509,7 @@ AIHub 是一个方向敏锐、闭环完整、但代码面几乎停在 2026-05-30
 - 要求稳定采集商业 AI 平台对话的组织。
 - 不愿承担本地 Python embedding / ChromaDB / 模型下载维护成本的用户。
 
-### 如果要继续维护，优先级建议
+### 下一步
 
 1. **先清仓库卫生**：从 git history 或至少当前树中移除 `.models`、`.chromadb`、`aihub.db`，补 `.gitignore` 与数据目录说明。
 2. **补 LICENSE**：如果确实 MIT，就提交根目录 LICENSE。

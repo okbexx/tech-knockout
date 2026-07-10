@@ -155,6 +155,64 @@ flowchart TD
     U[API Server + WebUI] --> J
 ```
 
+### 底层技术架构
+
+#### 最小架构内核
+
+LightRAG 的最小内核是 **Parser/Chunk Pipeline + Entity/Relation Extraction + KV/Graph/Vector/DocStatus 四层存储 + Query Mode Router + Role-specific LLM + API/WebUI 服务面**。WebUI 和具体后端可替换，但图谱增强检索必须保留“抽取、存储、模式化查询、结构化检索数据”这条闭环。
+
+#### 核心抽象
+
+- `LightRAG` dataclass：全局配置、workspace、存储、pipeline、query 和 LLM roles 的主入口。
+- `Storage implementation`：KV、Graph、Vector、DocStatus 四类后端及 required methods。
+- `Document` / `Chunk`：带 full_doc_id、file_path、heading breadcrumb 和 section context 的输入单元。
+- `Entity` / `Relation`：EXTRACT role LLM 生成的图谱事实。
+- `Query mode`：`local/global/hybrid/naive/mix`，决定上下文构造策略。
+- `Pipeline status` / `DocStatus`：记录文档处理状态、取消和 workspace 隔离。
+- `Role LLM`：extract、query、VLM、rerank 等角色分开配置。
+
+#### 控制面 / 数据面
+
+- **控制面**：`LightRAG` dataclass 配置、storage registry、workspace、parser routing、query mode、role LLM 配置、API auth/whitelist、pipeline cancellation。
+- **数据面**：Native/MinerU/Docling parser、chunk 写入、LLM 实体关系抽取、graph/vector/KV/docstatus 存取、embedding、query context build、QUERY role LLM 回答。
+
+#### 关键执行链路
+
+1. **文档入库**：文档经 parser pipeline 生成 chunks 和 heading breadcrumb，EXTRACT role LLM 抽取 entity/relation，结果分别写入 graph storage、vector storage、KV 和 doc status。
+2. **GraphRAG 查询**：用户 query 先提取 high-level/low-level keywords，再按 local/global/hybrid/naive/mix 构造图谱或 chunk 上下文，最后调用 QUERY role LLM 生成 answer/context/raw_data。
+3. **服务化查询数据**：FastAPI query routes 可返回最终 answer、stream 或 `/query/data` 结构化检索数据，使调试、评测和可观测不依赖最终自然语言答案。
+
+#### 状态模型
+
+- **持久状态**：`full_docs`、`text_chunks`、entities、relations、vectors、graph、LLM response cache、doc_status 和 workspace 数据。
+- **运行时状态**：pipeline status、storage 初始化顺序、query cache hash、role LLM client、parser process/config。
+- **外部状态**：Neo4j/Postgres/Mongo/OpenSearch/Milvus/Qdrant/Faiss/Redis 等后端，OpenAI/Anthropic/Ollama/Google 等模型，MinerU/Docling/VLM parser 依赖。workspace 与四层 storage 是系统事实源。
+
+#### 契约边界
+
+- **内部契约**：storage required methods、parser routing、`extract_entities()` 输出、`kg_query()` / `_build_query_context()` 参数。
+- **外部契约**：Python library API、FastAPI query/graph/document/Ollama-compatible routes、stream query、`/query/data` raw retrieval data。
+- **Agent-facing 契约**：query mode、`only_need_context` / `only_need_prompt`、raw_data/context 输出可以作为 Agent 调参和评测证据。
+
+#### 失败与降级模型
+
+- 实体/关系质量受 EXTRACT/VLM/KEYWORDS 模型约束，弱模型会拖低图谱质量。
+- API server 默认监听和 auth/whitelist 需要部署时显式收口，不能默认公网生产。
+- 多后端组合矩阵巨大，offline tests 不能证明所有 storage/parser/provider 组合稳定。
+- 默认 JSON/NetworkX/NanoVectorDB 适合 PoC；生产需按容量和并发切到企业后端。
+- pipeline cancellation、doc status 和 query cache hash 是处理长任务、中断和结果一致性的关键。
+
+#### 可复刻设计不变量
+
+1. GraphRAG 要把 query mode 显式化，不能全藏在 prompt 里。
+2. KV、Graph、Vector、DocStatus 四层要解耦，便于复用企业已有后端。
+3. SOP/制度类文档必须把 heading breadcrumb 注入抽取和检索上下文。
+4. 最终答案和 raw retrieval data 要分离输出。
+5. Extract、Query、VLM、Rerank 角色模型要可独立配置。
+6. 增量图谱更新比重建式流程更适合动态知识库。
+7. 默认轻量后端只能证明路径可跑，不等同生产基座。
+8. API 默认安全边界必须在部署层显式 harden。
+
 ### 关键设计决策与 trade-off
 
 | 决策 | 选择 | 放弃了什么 | 为什么 |
@@ -395,7 +453,7 @@ LightRAG 的热度来自两个方向：
 
 ---
 
-## SOP / 标准操作手册问答专项评估
+## 附录：SOP / 标准操作手册问答专项评估
 
 ### 适合度：4.0/5
 

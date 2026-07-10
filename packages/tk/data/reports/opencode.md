@@ -204,9 +204,9 @@ OpenCode 的最小架构内核是：
   - Tool settlement 执行真实副作用：shell、文件读写、patch、web、LSP、MCP、plugin tools。
   - SQLite/Drizzle 表保存 session、message、input、context epoch、event sequence 等事实状态。
 
-### 关键执行链路
+#### 关键执行链路
 
-#### 1. 用户输入：prompt admit → wake
+##### 1. 用户输入：prompt admit → wake
 
 ```text
 Session.prompt(input)
@@ -222,7 +222,7 @@ SessionExecution.wake(sessionID, admittedSeq)
 
 关键点：输入录入和模型执行是两个阶段。`packages/core/src/session.ts` 中 `prompt()` 先调用 `SessionInput.admit(...)`，再 `enqueueWake(...)`。wake 失败不会让输入丢失，只会影响后续调度。
 
-#### 2. Runner drain：steer / queue promotion
+##### 2. Runner drain：steer / queue promotion
 
 ```text
 SessionRunner.run(sessionID)
@@ -240,7 +240,7 @@ runTurn(sessionID, promotion)
 
 `MAX_STEPS = 25` 是防止 agent doom loop 的保险丝。`steer` 表示当前 activity 的用户打断/转向，`queue` 表示排到未来 activity 的输入。
 
-#### 3. 单个 provider turn
+##### 3. 单个 provider turn
 
 ```text
 runTurnAttempt(sessionID, promotion)
@@ -258,7 +258,7 @@ llm.stream(request)  // 每个 turn 恰好一次
 
 这条链路的设计重点是：一次 provider turn 只有一次 `llm.stream(request)`。工具循环不是在 provider stream 内无限递归，而是由 runtime 在工具结算后显式决定 continuation。
 
-#### 4. 工具调用：先 durable 记录，再执行副作用
+##### 4. 工具调用：先 durable 记录，再执行副作用
 
 ```text
 provider emits tool-call
@@ -278,7 +278,7 @@ needsContinuation ? next turn : settle
 
 核心不变量：**工具不能先执行再补记账**。`packages/core/src/session/runner/llm.ts` 中 tool-call event 先进入 publisher，随后才启动 `toolMaterialization.settle(...)`。
 
-#### 5. Context overflow 恢复
+##### 5. Context overflow 恢复
 
 ```text
 providerError(context overflow) 且 assistant 尚未开始
@@ -292,7 +292,7 @@ compactAfterOverflow(...)
 
 这说明 OpenCode 把上下文溢出视为 runner 可恢复故障，但只允许有限恢复，避免无限 compaction/retry。
 
-### 状态模型
+#### 状态模型
 
 | 状态类型 | 位置 | 谁读写 | 生命周期 / 一致性规则 |
 |----------|------|--------|------------------------|
@@ -305,7 +305,7 @@ compactAfterOverflow(...)
 | Live stream delta | session events | Runner / UI subscribers | delta 服务在线 UI；可重放状态依赖 ended/full boundary |
 | 外部副作用状态 | 文件系统、shell、MCP、provider API | Tool settlement | 通过 tool-call/tool-result/failure 事件建立审计边界 |
 
-### 契约边界
+#### 契约边界
 
 - **Core vs App：**
   - `packages/core` 承担 durable contract：Session、Event、Projector、Runner、DB、SystemContext。
@@ -327,7 +327,7 @@ compactAfterOverflow(...)
   - 目前仍有 V1 session/message 与 V2 event/runtime 的兼容 seam。
   - 报告应把这视为“演进态架构”，不是完全收敛态。
 
-### 失败与降级模型
+#### 失败与降级模型
 
 | 失败类型 | 检测方式 | 系统行为 | 降级 / 修复动作 |
 |----------|----------|----------|------------------|
@@ -342,7 +342,7 @@ compactAfterOverflow(...)
 | app server 端口冲突 | listen error | 4096 失败则回退随机端口 | 保持本地服务可启动 |
 | 用户状态目录权限异常 | 测试/运行时 mkdir EACCES | 相关功能失败 | 修复状态目录权限或改隔离 HOME/XDG 路径 |
 
-### 可复刻设计不变量
+#### 可复刻设计不变量
 
 1. **先 admit 后执行。** 用户输入必须先进入 durable inbox，再异步唤醒执行器。
 2. **输入两阶段生命周期。** `admitted_seq` 与 `promoted_seq` 分离，允许“已收到但尚未进入模型上下文”的状态。

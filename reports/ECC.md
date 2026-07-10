@@ -199,6 +199,64 @@ ECC 仍值得采用，而且主安装层比旧稿时更稳：
   └───────────────────────────────────────────────────────────────┘
 ```
 
+### 底层技术架构
+
+#### 最小架构内核
+
+ECC 的最小内核是 **Workflow Assets + Manifest Resolver + Target Adapter Installer + Hook Policy Middleware + Security Validators + Install State**。它不是 LLM runtime，本质是把 skills、agents、rules、commands、MCP 配置和 hooks 变成可选择安装、可审计、可修复的跨 harness 工作流底座。
+
+#### 核心抽象
+
+- `Skill` / `Agent` / `Rule` / `Command`：长期可迁移的 agent workflow 资产。
+- `Profile` / `Module` / `Component`：manifest 中的选择单元，决定安装哪些资产和上下文重量。
+- `InstallPlan`：由 manifest、target、profile 和 dependency resolution 生成的物化计划。
+- `TargetAdapter`：封装 Claude、Cursor、Codex、OpenCode 等 harness 的路径和 merge/copy 策略。
+- `HookProfile`：通过 profile 和 env flag 决定 hook chain 是否启用及如何输出。
+- `InstallState`：doctor、repair、auto-update、uninstall 的事实来源。
+- `StateStore`：ECC2 alpha 中用 SQLite 管 session、worktree、delegation、schedule 和 daemon control-plane。
+
+#### 控制面 / 数据面
+
+- **控制面**：`scripts/ecc.js` CLI、`manifests/install-*.json`、install resolver、target registry、hook dispatcher、workflow security validator、config-protection、ECC2 daemon/session manager。
+- **数据面**：复制/合并 skill、agent、rule、command、MCP 配置，写入目标 harness 文件，执行 hook 脚本，扫描 GitHub Actions，写 install-state 或 ECC2 SQLite。
+
+#### 关键执行链路
+
+1. **选择性安装**：`ecc install` 进入 `scripts/ecc.js`，解析 profile/module/component/target，`install-manifests.js` 生成 plan，target adapter 物化 copy/merge-json operations，`apply.js` 写入目标目录并保存 install-state。
+2. **Hook 治理**：harness 触发 bash hook，`bash-hook-dispatcher.js` 根据 profile/env flag 选择 pre/post hook，标准化 stdout/stderr/additionalContext/exitCode，`config-protection.js` 可 fail-closed 阻止弱化 lint/format 配置。
+3. **CI 安全扫描**：`validate-workflow-security.js` 静态扫描 workflow，拒绝高风险 `pull_request_target`、shared cache、未禁 lifecycle scripts、过宽 write permission 等模式。
+
+#### 状态模型
+
+- **持久状态**：repo 内 workflow assets、manifest、target 配置模板、install-state、hook 配置、ECC2 SQLite。
+- **运行时状态**：一次 install plan、hook chain 执行结果、CLI subprocess、ECC2 session/daemon memory。
+- **外部状态**：用户目标 harness 配置目录、GitHub Actions workflow、真实项目 worktree、Claude/Codex/Cursor/OpenCode 等宿主。manifest 和 install-state 是 ECC 自身事实源，宿主实际文件需要 doctor/repair 再核对。
+
+#### 契约边界
+
+- **内部契约**：manifest schema、`resolveInstallPlan()`、target adapter registry、hook result envelope、ECC2 StateStore 方法。
+- **外部契约**：`ecc install/plan/catalog/consult/doctor/repair/auto-update/uninstall` CLI、target harness 文件布局、hooks JSON、MCP config 模板。
+- **Agent-facing 契约**：`SKILL.md`、rules、commands、subagent definitions 和 hook additional context，均以明文资产给 Agent 读取。
+
+#### 失败与降级模型
+
+- 不支持的 target、manifest target drift 和 component dependency 问题应在 plan/validator 阶段失败。
+- Hook 通过 profile/env flag 控制启用，输出标准化；配置弱化类风险由 config-protection fail-closed。
+- Workflow security validator 对供应链红线 fail-closed；Semgrep 等扫描可作为渐进增强。
+- ECC2 仍是 alpha，session/worktree/daemon 路径对 git 环境敏感，不能按成熟 operator plane 预期。
+- doctor/repair/auto-update 依赖 install-state 修复漂移，不能假设一次复制后长期一致。
+
+#### 可复刻设计不变量
+
+1. Agent workflow 资产必须作为工程资产治理，而不是散落提示词。
+2. 安装选择要通过 manifest 数据模型表达，不能复制整个仓库到所有 harness。
+3. 每个 harness 的路径和能力差异必须封装在 target adapter。
+4. Hook 是 policy middleware，必须可观测、可禁用、可测试。
+5. 安全红线要写成确定性 validator。
+6. Public/private operator 边界要文档化，避免发布真实本地状态。
+7. install-state 是 repair/uninstall 的前提，不能只做无状态复制。
+8. alpha 控制面要隔离在独立边界，不能污染稳定 workflow asset 层。
+
 ### 关键设计决策与 trade-off
 
 | 决策 | 选择 | 放弃了什么 | 为什么 |

@@ -116,6 +116,16 @@ Markdown agent corpus
 | Prompt 安全 | 🟡 中 | `SECURITY.md` 明确 agent 文件非 executable、禁止 secrets、提醒 suspicious prompt injection；但 prompt 资产仍需人工 review。 |
 | 文档漂移 | 🟡 中 | 近期 README roster 已跟上 healthcare / gov-tech 增量，`check-agent-originality.sh` 也已改为直接读取 `divisions.json`；但 full-catalog 仍非自动生成，随着角色继续增长仍有 drift risk。 |
 
+### 依赖 / SDK 选型证据
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|------------|------|----------|----------------|----------|--------------|---------|
+| Bash + POSIX shell utilities (`awk` / `sed` / `grep` / `perl`) | Runtime / scripting substrate | `scripts/install.sh`、`scripts/convert.sh`、`scripts/lint-agents.sh`、`scripts/check-tools.sh`、`scripts/check-divisions.sh` | 用最小依赖完成跨 macOS/Linux/CI 的转换、安装和一致性校验 | 脚本显式注释避免 `jq`，依赖 Bash 3.2 + coreutils；install/convert/lint/check 均为 shell 主体 | 低安装门槛，适合 prompt asset repo；用户无需 Node/Python 包管理器即可使用大部分功能 | 脚本体量已经较大，继续扩展 target 时应补 shellcheck/golden tests 或拆模块 |
+| Python 3 standard library | Build helper / generated integration | `scripts/build-hermes-plugin.py`、Hermes router plugin 生成、agent roster JSON 生成 | 生成 Hermes plugin，把 243 个 agent 变成 4 个 lazy tools，避免全量 skills 注入 | builder 只使用 Python stdlib；installer 在 Hermes 分支调用 `python3` 检查/统计 `agents.json` | 适合作为跨平台生成器；比 Shell 更适合处理 JSON/frontmatter/搜索索引 | 当前不是打包的 Python project；无 pyproject/requirements，也无 Python unit tests |
+| Git / GitHub Actions | CI and contribution governance | `check-tools.yml`、`check-divisions.yml`、`lint-agents.yml`、PR changed-file lint | 让工具清单、division 清单、agent frontmatter 和原创性检查进入 PR 门禁 | `.github/workflows/*` 与 `scripts/check-*` 已读；lint workflow 用 `git diff` 找 changed agent files | 对 Markdown agent library 足够轻量，贡献者无需复杂本地环境 | 只覆盖 changed agent files；缺少 generated docs drift、shellcheck、converter golden tests |
+| Markdown + YAML frontmatter | Asset format / public contract | 243 个 agent 文件、`CONTRIBUTING.md` 模板、converter 输入 | 用人类可读、容易贡献的格式承载专家 persona，同时让 converter 能读取 `name/description/color/emoji/vibe` | agent corpus 以 Markdown 为主；`lib.sh` / Python builder 都解析 frontmatter | 极低贡献门槛，便于 fork、本地审查和跨宿主转换 | YAML/frontmatter 解析在 Shell/Python 中是轻量自实现，不等于完整 YAML parser；复杂值需谨慎 |
+| JSON registries (`tools.json` / `divisions.json`) | Single source of truth | 工具目标、安装类型、division metadata、CI drift checks | 防止 README、脚本、workflow 和目录结构各自维护导致漂移 | `tools.json` 14 个工具目标；`divisions.json` 17 个 division；`check-tools.sh` / `check-divisions.sh` 读取它们校验脚本 | 可直接借鉴到内部 prompt library / plugin marketplace | JSON 不是完整 schema-validated；目前靠 Bash 文本解析，复杂字段增长后建议加 JSON schema |
+
 ### 结论
 
 **🟢 推荐采用（个人 / 小团队按需专家库；Hermes 场景优先 lazy-router） / 🟡 团队生产化前隔离试点。**
@@ -509,7 +519,7 @@ integrations/*
 - **Hermes 扩展：** 通过 generated plugin 注册 4 个工具，未来可扩展 query ranking、tag filters、usage telemetry（需 opt-in）或 toolset 配置。
 - **协作扩展：** 在 `strategy/playbooks`、`coordination`、`runbooks` 增加 playbook/handoff/scenario。
 
-### 核心文件 / 函数走读
+## 关键代码走读
 
 | 文件 | 关键点 | 评价 |
 |------|--------|------|
@@ -534,7 +544,7 @@ integrations/*
 - **数据一致性：** `tools.json` / `divisions.json` + CI checks 是强质量信号。
 - **已发现问题：** 旧稿里提到的 `check-agent-originality.sh` 目录漂移已经修掉——脚本现在直接读取 `divisions.json`。当前更现实的质量压力转到了 `install.sh` / `convert.sh` 体量继续变大，以及 Hermes installer 的 YAML 缩进修复这类“写宿主配置时容易脆”的边缘问题。
 
-### 测试 / 验证
+### 测试
 
 - **测试框架：** 无传统单元测试框架；以 Bash/Python validators 替代。
 - **CI 类型：**
@@ -553,16 +563,6 @@ integrations/*
 | `lint-agents.yml` | PR agent paths | frontmatter、recommended sections、原创性 | 好：适合 prompt library；但只对 changed files 跑 |
 
 发布流程方面，仓库没有 GitHub Release/tag；这符合“资产库 + 脚本”形态，但对企业固定版本采用不够友好。生产化建议 pin commit SHA 或 fork 内部版本。
-
-### 依赖 / SDK 选型证据
-
-| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
-|------------|------|----------|----------------|----------|--------------|---------|
-| Bash + POSIX shell utilities (`awk` / `sed` / `grep` / `perl`) | Runtime / scripting substrate | `scripts/install.sh`、`scripts/convert.sh`、`scripts/lint-agents.sh`、`scripts/check-tools.sh`、`scripts/check-divisions.sh` | 用最小依赖完成跨 macOS/Linux/CI 的转换、安装和一致性校验 | 脚本显式注释避免 `jq`，依赖 Bash 3.2 + coreutils；install/convert/lint/check 均为 shell 主体 | 低安装门槛，适合 prompt asset repo；用户无需 Node/Python 包管理器即可使用大部分功能 | 脚本体量已经较大，继续扩展 target 时应补 shellcheck/golden tests 或拆模块 |
-| Python 3 standard library | Build helper / generated integration | `scripts/build-hermes-plugin.py`、Hermes router plugin 生成、agent roster JSON 生成 | 生成 Hermes plugin，把 243 个 agent 变成 4 个 lazy tools，避免全量 skills 注入 | builder 只使用 Python stdlib；installer 在 Hermes 分支调用 `python3` 检查/统计 `agents.json` | 适合作为跨平台生成器；比 Shell 更适合处理 JSON/frontmatter/搜索索引 | 当前不是打包的 Python project；无 pyproject/requirements，也无 Python unit tests |
-| Git / GitHub Actions | CI and contribution governance | `check-tools.yml`、`check-divisions.yml`、`lint-agents.yml`、PR changed-file lint | 让工具清单、division 清单、agent frontmatter 和原创性检查进入 PR 门禁 | `.github/workflows/*` 与 `scripts/check-*` 已读；lint workflow 用 `git diff` 找 changed agent files | 对 Markdown agent library 足够轻量，贡献者无需复杂本地环境 | 只覆盖 changed agent files；缺少 generated docs drift、shellcheck、converter golden tests |
-| Markdown + YAML frontmatter | Asset format / public contract | 243 个 agent 文件、`CONTRIBUTING.md` 模板、converter 输入 | 用人类可读、容易贡献的格式承载专家 persona，同时让 converter 能读取 `name/description/color/emoji/vibe` | agent corpus 以 Markdown 为主；`lib.sh` / Python builder 都解析 frontmatter | 极低贡献门槛，便于 fork、本地审查和跨宿主转换 | YAML/frontmatter 解析在 Shell/Python 中是轻量自实现，不等于完整 YAML parser；复杂值需谨慎 |
-| JSON registries (`tools.json` / `divisions.json`) | Single source of truth | 工具目标、安装类型、division metadata、CI drift checks | 防止 README、脚本、workflow 和目录结构各自维护导致漂移 | `tools.json` 14 个工具目标；`divisions.json` 17 个 division；`check-tools.sh` / `check-divisions.sh` 读取它们校验脚本 | 可直接借鉴到内部 prompt library / plugin marketplace | JSON 不是完整 schema-validated；目前靠 Bash 文本解析，复杂字段增长后建议加 JSON schema |
 
 ### 文档质量
 
@@ -583,14 +583,17 @@ integrations/*
 
 ## 社区与生态
 
-### 热度与认可度
+### 社区评价
 
 - 主仓库 129k+ stars、20k+ forks，属于极高热度的 agent asset repo。
+
+### 衍生项目 / 插件生态
+
 - 派生/翻译生态活跃：`jnMetaCode/agency-agents-zh` 16k+ stars，描述中称 266 个中文 agent、支持 Hermes/Claude/Cursor/Copilot 等 18 种工具。
 - 官方/关联项目：`msitarzewski/agency-agents-app`（约 100 stars）显示有 native app 方向。
 - 生态搜索中还能看到 `Anas-Khan93/ai-agency-agents`、`MarcusRawlins/agency-agents`、`keeply-cn/agency-agents-zh` 等 forks/衍生。
 
-### 正面评价集中点
+### 优势信号
 
 1. **角色覆盖面广。** 不只工程，还覆盖 marketing、sales、finance、GIS、spatial computing、support、security、game-development，并继续扩到 healthcare 与 gov-tech 方向。
 2. **跨宿主安装路径实用。** 对已有 Claude/Codex/Cursor/Gemini/Hermes 用户，迁移成本低。
@@ -598,7 +601,7 @@ integrations/*
 4. **社区贡献门槛低。** Markdown 文件贡献比写插件/代码容易。
 5. **方法论叙事强。** NEXUS 让角色库有“专家网络”而非“prompt list”的产品感。
 
-### 真实痛点
+### 采用痛点
 
 1. **质量参差不可避免。** 243 个 agent 平均约 1894 words，深度很强，但不同贡献者风格、事实性和可维护性会不同。
 2. **Prompt compliance 是软约束。** 没有 runtime 能强制 EvidenceQA、retry limit、handoff template。
@@ -606,7 +609,7 @@ integrations/*
 4. **脚本维护压力上升。** 每多一个宿主，都要扩展 convert/install/docs/check matrix。
 5. **文档/脚本漂移已出现。** 计数漂移和 originality scan 目录漂移说明当前质量体系还需补边界。
 
-### 直接竞品 / 邻近替代 / 架构邻居
+### 竞品对比
 
 | 类型 | 项目 | 关系 |
 |------|------|------|
@@ -618,7 +621,7 @@ integrations/*
 | 架构邻居 | `ponytail` | 同样有 Hermes/OpenCode/Pi/Gemini 等多宿主适配，展示 thin adapter + behavior source 模式 |
 | 架构邻居 | `garrytan/gstack` | Founder/团队角色型 Claude Code setup，适合作为小而强 opinionated role pack 对照 |
 
-### 社区结论
+### 生态结论
 
 agency-agents 的社区信号很强，但它的热度主要来自“角色资产可见价值”和“复制即用”。生产采用时不要让 stars 掩盖质量治理问题：最安全方式是 fork/筛选/按需安装，而不是直接把全部 agent 当组织默认上下文。
 
@@ -641,34 +644,35 @@ agency-agents 的社区信号很强，但它的热度主要来自“角色资产
 
 ## 总结
 
-### 个人开发者
+### 一句话评价
 
-**推荐采用，但只装需要的部分。**
+agency-agents 不是 agent runtime，也不是工程纪律框架；它是一个高热度、可分发、可转换、可按需路由的专家角色资产库。最强实践是“按需专家池”，不是“243 个 prompt 一次性塞进上下文”。
+
+### 谁应该用
+
+**个人开发者：推荐采用，但只装需要的部分。**
+
 
 - Claude/Codex/Cursor 等：先用 `--division engineering` 或 `--agent <name>`。
 - Hermes：优先 `--tool hermes`，使用 lazy-router；不要把完整 roster 加到 `skills.external_dirs`。
 - 不建议默认全量安装到所有宿主，选择成本和上下文成本会抵消收益。
 
-### 小团队
-
-**推荐 fork + allowlist。**
+**小团队：推荐 fork + allowlist。**
 
 - 先选 10-30 个真实常用 agent，维护 `agents-file`。
 - 对 agent body 做安全/合规/风格 review。
 - 把 NEXUS playbook 的 handoff/QA gate 改成团队自己的产物模板。
 - CI 增加 generated count drift、shellcheck、converter golden tests。
 
-### 企业 / 生产化
+### 谁不应该直接用
 
-**观望直接全量采用；推荐受控 PoC。**
+**企业 / 生产化场景不应直接全量采用；更适合受控 PoC。**
 
 - 角色资产可以商用友好地 fork，但全员安装前要治理 prompt injection、审计、更新、禁用和版本固定。
 - 不应把 NEXUS 当成 production workflow engine；如果需要强 enforcement，应接入内部任务系统/CI/approval gate。
 - 对 Hermes 这样的长期会话 agent，应坚持 lazy-router 模式，避免上下文膨胀破坏 prompt cache。
 
----
-
-## 最值得复刻的架构能力
+### 下一步
 
 如果要在内部重写一个“专家角色库 / agent marketplace”，建议直接复刻这些不变量：
 
@@ -681,16 +685,8 @@ agency-agents 的社区信号很强，但它的热度主要来自“角色资产
 7. **Role approval workflow：** 社区提交先进 pending，团队批准后进入 approved catalog。
 8. **Usage feedback loop：** 记录哪些 agent 被 search/load/delegate（需用户 opt-in），用于淘汰低价值角色。
 
----
-
-## 总结
-
-**agency-agents 是目前最值得关注的“AI 专家角色库”之一，尤其值得 Hermes 用户学习它的 lazy-router plugin。**
-
-但采用姿势要克制：
+采用姿势要克制：
 
 - **采用它的资产和架构，不要迷信全量安装。**
 - **学习它的 registry/converter/installer/router，不要把 NEXUS 文档误读成硬 workflow runtime。**
 - **团队用它之前先 fork、筛选、审查、加自己的治理。**
-
-一句话：**它不是 agent runtime，也不是工程纪律框架；它是一个高热度、可分发、可转换、可按需路由的专家角色资产库。最强实践是“按需专家池”，不是“233 个 prompt 一次性塞进上下文”。**

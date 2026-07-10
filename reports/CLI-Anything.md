@@ -26,7 +26,7 @@
 
 ---
 
-## 重新分析后的核心变化
+### 重新分析后的核心变化
 
 相对 2026-05-19 旧报告，CLI-Anything 的项目重心明显上移：
 
@@ -106,7 +106,7 @@ CLI-Anything 的方向非常值得学：它抓住了 Agent 时代软件形态的
 | `setuptools` + package data vendoring | packaging/build | `cli-hub` 发布、entry point、把 `cli-hub-matrix/*` vendoring 进 wheel | 解决“脱离 repo checkout 后 matrix skill 丢失”问题 | `cli-hub/setup.py` 里的 `build_py`/`sdist` + `_sync_matrix_data()` | 对 skill-heavy / artifact-heavy Python 包很有借鉴价值 | 也暴露出 root Apache-2.0 与子包 MIT classifier 的 metadata 漂移 |
 | **stdlib-first runtime** | architecture choice | registry cache、matrix state、preview protocol、skill 复制、agent context 检测 | 把产品重心放在方法论/协议/registry，而不是重运行时框架 | 大量核心逻辑在 `cli-anything-plugin/*`、`cli_hub/*` 中直接用 stdlib + 少量依赖 | 适合做“Agent tool packaging substrate” 的轻核设计 | 轻依赖不代表低风险；shell install、license provenance、telemetry 仍是系统性问题 |
 
-### 采用风险
+### 风险评估
 
 | 风险项 | 评估 | 说明 |
 |--------|------|------|
@@ -408,6 +408,14 @@ matrix_registry.json
       └─ matrix_skill.py renders local matrix SKILL.md
 ```
 
+### 扩展机制
+
+- **新增 harness：** 按 `HARNESS.md` 生成真实后端 CLI、REPL、`--json`、测试计划、preview artifact 和 SKILL.md，再进入 registry。
+- **新增 registry entry：** 通过 `registry.json` / `public_registry.json` 暴露 install strategy、launch command、preview 和 source metadata；CLI-Hub 负责 fetch/cache/merge。
+- **新增 workflow matrix：** 在 `matrix_registry.json` 中定义 capability、provider、requirement、recipe，再用 `cli-hub-matrix/*/SKILL.md` 给 Agent 提供任务级选择面。
+- **新增宿主入口：** 通过 Codex / Hermes / Reasonix / OpenCode / Pi / Qoder 等薄适配层复用同一套 HARNESS、registry 和 matrix 资产。
+- **分发扩展：** `cli-hub` wheel vendoring matrix skill 数据，降低脱离 repo checkout 后的 matrix 发现和渲染成本。
+
 ### Matrix 层统计
 
 `matrix_registry.json`（2026-06-11 schema v2）当前包含 5 个矩阵：
@@ -514,7 +522,7 @@ Provider 类型分布（静态统计）：
 
 ## 社区与生态
 
-### 社区热度
+### 社区评价
 
 - 2026-05-19 旧快照：36,696 stars / 3,560 forks。
 - 2026-06-15 快照：43,075 stars / 4,038 forks。
@@ -522,14 +530,14 @@ Provider 类型分布（静态统计）：
 - 从 6 月中到 7 月初，增长放缓但仍在爬升，说明项目已从“爆发式认知传播”进入“继续吸星 + 开始承受治理摩擦”的阶段。
 - README 挂出的 arXiv 技术报告 `arXiv:2606.03854` 继续强化它的 methodology / research narrative；而 `cli-hub analytics`、registry 安全 issue、benchmark PR 则说明它同时在向产品化控制面演进。
 
-### 生态形态
+### 衍生项目 / 插件生态
 
 - **官方内核**：HARNESS.md、CLI-Hub、Preview Protocol、Matrix Registry。
 - **宿主适配**：Claude Code、Pi、OpenCode、Codex、Hermes、Reasonix、Qodercli、GitHub Copilot CLI。
 - **Harness 生态**：76 个 in-repo/registry harness，20 个 public CLI，8 个 external `source_url` harness。
 - **Matrix 生态**：video creation、knowledge research、3D/CAD、game development、image design，已经从“工具列表”进入“任务能力图谱”。
 
-### 竞品与邻近项目
+### 竞品对比
 
 | 项目 | 定位 | 与 CLI-Anything 的关系 |
 |------|------|------------------------|
@@ -544,7 +552,7 @@ Provider 类型分布（静态统计）：
 
 ---
 
-## 关键代码 / 文件走读
+## 关键代码走读
 
 ### 1. `cli-anything-plugin/HARNESS.md` — 方法论内核
 
@@ -651,7 +659,7 @@ Provider 类型分布（静态统计）：
 - 已使用 Claude Code / Codex / Hermes / OpenCode，想扩展工具面的开发者。
 - 想研究 Agent-native software、artifact feedback loop、workflow matrix 的工程师。
 
-### 谁不应该直接生产采用
+### 谁不应该直接用
 
 - 需要强安全、强合规、强 SLA、供应链审计完整的企业场景。
 - 目标软件没有稳定 API/CLI/脚本接口，又期望一键自动化完整能力的场景。

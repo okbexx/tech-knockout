@@ -207,9 +207,9 @@ jcode 解决的是 **“把 Claude Code / Codex CLI 式终端 Agent 体验，推
 
 这种分离的价值是：TUI 可以换，transport 可以换，provider 可以换；但 Agent turn、Session 状态和 Tool settlement 不需要重写。
 
-### 关键执行链路
+#### 关键执行链路
 
-#### 1. 用户输入 → 单 turn 流式执行
+##### 1. 用户输入 → 单 turn 流式执行
 
 ```text
 client sends message
@@ -235,7 +235,7 @@ execute tool calls or break / continue / compact / recover
 
 关键点：`run_turn_streaming_mpsc` 是一个显式 loop，不是“一次 LLM 调用后就结束”。它会在工具结果、图像上下文、soft interrupt、compaction recovery 后决定是否继续下一轮 provider call。
 
-#### 2. 工具调用 → settlement → continuation
+##### 2. 工具调用 → settlement → continuation
 
 ```text
 StreamEvent::ToolUseStart / ToolInputDelta / ToolUseEnd
@@ -261,7 +261,7 @@ Session.save()
 
 关键点：工具输出会被持久化为后续 provider 可见的 `ToolResult`，并且有输出截断保护（`MAX_TOOL_OUTPUT_CHARS_FOR_HISTORY = 512 * 1024`），避免大日志污染 session history 和 prompt cache。
 
-#### 3. server-initiated live turn
+##### 3. server-initiated live turn
 
 ```text
 background completion / swarm DM / scheduled wake / reload recovery
@@ -282,7 +282,7 @@ process_message_streaming_mpsc(agent, message, ..., event_tx)
 
 关键点：这解决了“不是用户直接输入，但 agent 应该继续跑”的状态一致性问题。背景 wake、swarm 通知和 reload recovery 不再是旁路逻辑，而是进入同一条 live turn 生命周期。
 
-#### 4. Memory retrieval / injection
+##### 4. Memory retrieval / injection
 
 ```text
 turn messages snapshot
@@ -303,7 +303,7 @@ provider call
 
 关键点：Memory 是“非阻塞后缀”，不是每个 turn 都同步等 RAG。`memory_rerank.rs` 明确记录了 listwise rerank 的 benchmark 口径：hybrid pool recall 高但排序弱，LLM listwise rerank 将 recall@5 从 0.53 提到 0.75、precision@5 从 0.23 提到 0.35。
 
-### 状态模型
+#### 状态模型
 
 | 状态类型 | 位置 | 谁读写 | 生命周期 / 一致性规则 |
 |----------|------|--------|------------------------|
@@ -315,7 +315,7 @@ provider call
 | Compaction 状态 | `Session.compaction` + `CompactionManager` | Agent turn loop | 手动/自动 compaction 后 reset cache/tool lock/provider session；context limit/payload too large 可 retry |
 | 外部状态 | 文件系统、shell 进程、MCP server、provider upstream session、OAuth token store | tool execution/provider/auth modules | 通过 ToolContext/provider session id 接入；必须用隔离 workspace 和最小权限治理 |
 
-### 契约边界
+#### 契约边界
 
 - **内部契约：**
   - `Provider` 输出统一 `StreamEvent`；Agent 不关心 Anthropic/OpenAI/Gemini/Copilot 的底层协议差异。
@@ -331,7 +331,7 @@ provider call
   - `AGENTS.md`、skills、tool descriptions、system prompt split、memory injection prompt、`<system-reminder>` 识别，都服务于让模型在统一规则下使用能力。
   - Swarm/communicate tools 提供 agent 之间 DM/broadcast/channel/share/await 的协作协议。
 
-### 失败与降级模型
+#### 失败与降级模型
 
 | 失败类型 | 检测方式 | 系统行为 | 降级 / 修复动作 |
 |----------|----------|----------|------------------|
@@ -345,7 +345,7 @@ provider call
 | memory rerank LLM 失败 | transport error / no parseable JSON array | 记录日志 | fallback hybrid order；只有真实 `[]` 才表示“没有相关 memory” |
 | live turn 失败 | `spawn_tracked_live_turn` result Err | member status failed + terminal Error event | attached client 能收敛 UI 状态，不会卡在 running |
 
-### 可复刻设计不变量
+#### 可复刻设计不变量
 
 1. **每个 turn 必须是可恢复的状态机**：provider stream、tool call、tool result、usage、errors 都要有显式状态，不要藏在 UI callback。
 2. **工具副作用必须有 settlement 边界**：模型提出 tool use 不等于副作用已完成；执行、错误、截断、跳过都要写回 history。

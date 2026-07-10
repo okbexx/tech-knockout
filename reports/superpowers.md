@@ -345,6 +345,50 @@ superpowers 没有自己的全局数据库，但有几个关键状态面：
 
 ---
 
+## 架构解剖
+
+### 目录结构
+
+- `skills/*/SKILL.md`：14 个核心 skills，采用 YAML frontmatter + H1 + 明确触发/步骤/红线的结构。
+- `skills/using-superpowers/SKILL.md`：会话入口 gatekeeper，要求 agent 在行动前检查并加载相关 skill。
+- `hooks/session-start` + `hooks/hooks*.json`：在 startup / clear / compact 等事件注入 bootstrap。
+- `.claude-plugin/`、`.codex-plugin/`、`.cursor-plugin/`、`.opencode/`、`GEMINI.md`：同一技能包的多宿主分发面。
+- `skills/using-superpowers/references/*-tools.md`：Claude Code 工具名到 Codex/Gemini/Copilot 等工具的映射参考。
+- `tests/*`：skill triggering、explicit skill requests、harness adapter、brainstorm server、Codex packaging / marketplace sync 等行为回归证据。
+- `scripts/sync-to-codex-plugin.sh`：将上游确定性镜像到 Codex plugin marketplace fork。
+
+### 技术栈
+
+- Markdown + YAML frontmatter 是核心 runtime contract。
+- `hooks/session-start` 处理 shell 兼容、宿主环境变量、startup/resume/clear/compact 差异、JSON 输出格式。
+- `skills/brainstorming/scripts/server.cjs` 使用 Node built-ins 实现本地 HTTP / WebSocket visual companion server。
+- `.opencode/plugins/superpowers.js` 用 JavaScript adapter 注册 skills、注入 bootstrap、缓存 bootstrap 内容。
+- `package.json` 几乎只保留元数据与入口，brainstorm server 改写为 Node built-ins，保持零依赖纪律层。
+
+### 模块依赖关系
+
+```text
+Host Harness Layer
+  ↓ loads manifests / hooks / plugin adapters
+Session Bootstrap Plane: hooks/session-start
+  ↓ injects
+Skill Runtime Contract: skills/using-superpowers/SKILL.md
+  ↓ requires
+Methodology Skills: brainstorming / writing-plans / TDD / review / verification
+  ↓ supported by
+Auxiliary Local Code: brainstorm server / hook wrappers / tests / sync scripts
+```
+
+### 扩展机制
+
+1. **新增 skill：** 在 `skills/<name>/SKILL.md` 写 frontmatter、触发条件、步骤、红线和输出契约。
+2. **新增平台 adapter：** 通过 plugin manifest、hook wrapper、tool mapping reference 或宿主专用 adapter 接入，不把工具名污染进核心 skill 正文。
+3. **新增 review/verification 行为：** 用 subagent prompt templates 或 checklist 固化角色、上下文和审查职责。
+4. **新增分发面：** 通过 version / sync scripts / Codex marketplace fork 保持多平台资产同步，避免手工复制漂移。
+5. **新增贡献规则：** 在 `AGENTS.md` / PR template 中写给 agent 和人类看，并要求 clean-session transcript 或行为测试。
+
+---
+
 ## 质量与成熟度
 
 ### 代码质量
@@ -505,7 +549,23 @@ Codex marketplace 同步工具。值得学习的是：路径无关、预检 gh/r
 
 ## 总结
 
-superpowers 是目前最值得研究的 agent workflow 项目之一。它的厉害之处不在于“写了 14 个提示词”，而在于把提示词变成了一个可分发、可测试、可治理的 **行为协议系统**：
+### 一句话评价
+
+superpowers 是目前最值得研究的 agent workflow 项目之一。它的厉害之处不在于“写了 14 个提示词”，而在于把提示词变成了一个可分发、可测试、可治理的 **行为协议系统**。
+
+### 谁应该用
+
+- 适合作为个人和小团队的 AI 编码纪律底座。
+- 适合想研究“文本如何控制文本生成器”的开发者。
+- 适合需要学习 bootstrap、触发、隔离、验证、适配、治理这一整套不变量的团队。
+
+### 谁不应该直接用
+
+- 不建议把它理解为 agent runtime。
+- 真正需要自定义 provider、会话持久化、工具权限、HTTP API 的团队，应看 OpenCode / jcode / Pi（原 pi-mono）这类底层 runtime。
+- 团队直接全员安装前，应先确认哪些技能强制执行、哪些场景允许 override、设计/计划文档放哪里、完成前验证如何与 CI 对齐。
+
+### 下一步
 
 - 用 `using-superpowers` 解决“技能如何进入会话”。
 - 用 frontmatter description 和 CSO 解决“技能如何被正确触发”。

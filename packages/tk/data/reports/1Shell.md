@@ -26,19 +26,19 @@
 
 ---
 
-## 第一层：定位与画像
+### 定位与画像
 
-### 一句话定位
+#### 一句话定位
 
 1Shell 不是单纯 WebSSH，也不是一个极简 SSH MCP Server；它更像“面向个人开发者 / 小团队的 AI-native VPS 运维工作台”：人通过浏览器管理多台服务器，外部 Agent 通过 MCP 把这些服务器当作可观测、可执行、可审计的运维对象。
 
-### 类比法
+#### 类比法
 
 - 类似 **Cockpit / WebSSH / 轻量运维面板**，但它把 AI Agent、MCP、脚本库、Program、Skill 和安全 Harness 纳入同一运维闭环。
 - 类似 **ssh-mcp 的加强版**，但 ssh-mcp 主要提供“远程执行命令”这一层，1Shell 则提供主机仓库、Web UI、SFTP、探针、审计、AI 网关和自动化资产。
 - 类似 **OpenAgent / OpenHuman 这类 agent workbench** 的运维特化分支，但它的核心领域不是通用聊天/RAG/memory，而是服务器操作面。
 
-### 分类
+#### 分类
 
 `Remote Ops / MCP Infrastructure`
 
@@ -179,6 +179,63 @@ graph TD
   Probe --> DB
   Harness --> DB
 ```
+
+### 底层技术架构
+
+#### 最小架构内核
+
+1Shell 的最小内核是 **Host Repository + Bridge/File/Probe 服务 + OneShell Core Tools + Harness 执行边界 + MCP/IDE Gateway + SQLite 审计状态**。UI、Electron、Globe 可视化都可以替换，但“多主机能力如何被 Agent 安全调用”这组能力不能丢。
+
+#### 核心抽象
+
+- `Host`：本机和远程 SSH 主机的事实对象，承载连接信息、标签、角色、排序和归档状态。
+- `BridgeService` / SSH shell pool：把本地命令和远程 SSH exec 收敛成统一执行面。
+- `FileService`：封装 local fs 与 SFTP，支撑读写、上传下载、预览编辑和连接池。
+- `OneShell Core Tool`：统一声明 MCP/IDE 可见工具、target、handler 和参数语义。
+- `Harness`：由 capability、risk rule、guard、approval、executor、trace 组成，是 AI side effect 的硬边界。
+- `Program` / `Skill`：把运维流程和 AI goal 固化为可复用资产。
+- `Remote MCP Policy`：用 enabled、HTTPS、Host、Origin、Token、tool/host/script/path ACL 决定远程可见面。
+
+#### 控制面 / 数据面
+
+- **控制面**：`server.js` composition root、Auth/CSRF/IP filter、Remote MCP policy、Program/Skill registry、probe scheduler、Harness risk/capability、Token ACL、IDE safe mode。
+- **数据面**：SSH 命令、SFTP 文件流、local fs、probe 采集、LLM provider 调用、SQLite 写入、Socket.IO terminal/IDE/event stream。
+
+#### 关键执行链路
+
+1. **MCP 命令执行**：外部 MCP client 进入 `/mcp`，Remote MCP token/ACL 过滤 `tools/list` 和 `tools/call`，`oneshell-core.tools.js` handler 将命令路径送入 `harness.dispatch()`，再由 guard/approval/executor/trace 和 Bridge 执行本地或 SSH 命令。
+2. **AI 网关委托**：外部 Agent 调 `ask_1shell_ai`，传入 task/mode/hostId/confirmation 要求，IDE service 读取平台上下文后调用 core tools、Program、Probe、诊断能力，并把结果汇总回 MCP client。
+3. **探针采集**：probe scheduler 选择 Agentless / Go probe-agent / Relay，读取 `/proc`、`ss`、`systemctl`、`journalctl`、防火墙状态等，再写入 probe/systemHealth 样本供 UI、AI 和告警读取。
+
+#### 状态模型
+
+- **持久状态**：SQLite 保存 host、program、probe、audit_logs、harness_traces 等；JSON registry files 保存部分 skill/program/配置资产。
+- **运行时状态**：SSH shell pool、SFTP session、Socket.IO 连接、IDE agent run、probe schedulers、Program run lifecycle。
+- **外部状态**：远程主机文件系统和进程、Docker socket、AI CLI 配置、LLM provider、反向代理/HTTPS/Token 配置。SQLite 与 host repo 是平台事实源，远程主机状态必须通过 probe、exec 或 file read 重新观测。
+
+#### 契约边界
+
+- **内部契约**：core tool definition、Harness capability/risk/trace、Program schema、FileService/BridgeService service boundary。
+- **外部契约**：REST API、Socket.IO terminal/IDE/skill events、MCP SSE + Streamable HTTP、8 个标准 MCP tools、Remote MCP Token ACL。
+- **Agent-facing 契约**：`ask_1shell_ai` 作为复杂能力网关，外部 Agent 不直接继承全部 IDE 工具面。
+
+#### 失败与降级模型
+
+- Remote MCP 在 HTTPS、Host/Origin、Token、tool/host/path ACL 任一不满足时拒绝或隐藏能力。
+- 命令执行由 catastrophic guard、risk rule、approval gate、read-only capability 和 redaction 降级到 block / approval / warn。
+- 文件写/上传/下载仍主要依赖 safe mode、Remote Token ACL 与 audit，不是全量 Harness dispatch，这是报告已标出的边界漂移。
+- 探针可在 Agentless、Go agent、Relay 三种模式间选择；SSH/SFTP/Provider 失败应以 trace、audit、health check 暴露给人或 Agent 修复。
+
+#### 可复刻设计不变量
+
+1. 外部 MCP 工具面必须少而硬，复杂能力交给内部网关编排。
+2. 高风险 side effect 必须走 deterministic Harness，不能只靠 prompt。
+3. `tools/list` 与 `tools/call` 都要做权限过滤。
+4. 审计日志记录“做了什么”，Harness trace 记录“为什么允许或拦截”。
+5. Host/File/Command/Probe/Program/Skill 要保持对象边界清楚。
+6. 个人自托管可以用 SQLite，但企业化必须补 RBAC、SSO、审计不可篡改和默认配置 hardening。
+7. Agentless、Agent、Relay 是合理的探针接入梯度。
+8. Docker/AI CLI/远程文件写这类高权限面必须显式最小授权。
 
 ### 关键设计决策与 trade-off
 

@@ -183,7 +183,9 @@ Trellis 的答案是：把工程规则和任务状态变成 repo 内的 `.trelli
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-### 最小架构内核
+### 底层技术架构
+
+#### 最小架构内核
 
 脱掉 README、品牌和具体宿主之后，Trellis 的最小可复刻内核是：
 
@@ -200,7 +202,7 @@ Trellis 的答案是：把工程规则和任务状态变成 repo 内的 `.trelli
 7. **Event-sourced Channel Runtime**：worker/thread/message/interrupt 不应只存在内存里；事件日志提供 durable coordination 和可投影状态。
 8. **Persisted Session Memory Reader**：不接管宿主 runtime，但读取宿主历史会话，把有用上下文再喂回 Trellis workflow。
 
-### 核心抽象
+#### 核心抽象
 
 | 抽象 | 文件 / 目录 | 职责 | 为什么重要 |
 |------|-------------|------|------------|
@@ -217,7 +219,7 @@ Trellis 的答案是：把工程规则和任务状态变成 repo 内的 `.trelli
 | Supervisor | `packages/cli/src/commands/channel/supervisor.ts` | fork worker、pump stdout/stderr、tail inbox、写事件 | 把实际 agent 子进程与 durable channel events 桥接起来 |
 | Mem Adapter | `packages/core/src/mem/*` | 读取 Claude/Codex/OpenCode/Pi 持久会话，输出统一 session/context/search 结果 | 复用宿主历史，而不是自建完整记忆系统 |
 
-### 控制面 / 数据面
+#### 控制面 / 数据面
 
 **控制面：**
 
@@ -239,9 +241,9 @@ Trellis 的答案是：把工程规则和任务状态变成 repo 内的 `.trelli
 
 这个分离是 Trellis 最值得学习的地方：它不接管宿主 agent runtime，只把“工程流程和状态”抽成稳定 substrate。真正的模型调用、文件编辑、终端执行仍由 Claude Code / Codex / Cursor / OpenCode 负责。
 
-### 关键执行链路
+#### 关键执行链路
 
-#### 链路 1：`trellis init` 从空项目生成 workflow substrate
+##### 链路 1：`trellis init` 从空项目生成 workflow substrate
 
 ```text
 user runs trellis init --codex/--claude/... -u <name>
@@ -267,7 +269,7 @@ optional developer identity / bootstrap task setup
 
 关键点：`file-writer` 只记录“本次实际写入”的文件。字节相同但原本存在的用户文件不会被记录为 Trellis-owned；`append` 也不会记录整文件 ownership。这是 installer 安全性的关键。
 
-#### 链路 2：`trellis update` 安全升级模板和迁移
+##### 链路 2：`trellis update` 安全升级模板和迁移
 
 ```text
 user runs trellis update [--dry-run|--force|--skip-all|--create-new|--migrate]
@@ -295,7 +297,7 @@ refresh .version and template hashes
 
 关键点：Trellis 没有把 update 做成简单 overwrite。它同时处理用户改动、历史 manifest 污染、migration、backup 和 breaking guide。
 
-#### 链路 3：Plan / Implement / Verify / Finish 的 task workflow
+##### 链路 3：Plan / Implement / Verify / Finish 的 task workflow
 
 ```text
 user describes a change
@@ -313,7 +315,7 @@ finish-work archives task, updates journal, promotes useful learnings to spec
 
 关键点：Trellis 把单次 AI coding 从“对话”变成“任务工件生命周期”。这比普通 prompt workflow 更像轻量项目管理/记忆系统。
 
-#### 链路 4：Channel worker 的 durable coordination
+##### 链路 4：Channel worker 的 durable coordination
 
 ```text
 create / resolve channel
@@ -337,7 +339,7 @@ interruptWorker() appends interrupt_requested then runtime.interrupt()
 
 关键点：channel 的 truth 是 `events.jsonl`。pid/cursor/log 是本机运行时观测，不是全局事实。`sendMessage` 在 strict delivery 下也会先 durable append 用户意图，再补 `undeliverable` 事件，而不是直接丢消息。
 
-#### 链路 5：Mem 从宿主历史会话抽取上下文
+##### 链路 5：Mem 从宿主历史会话抽取上下文
 
 ```text
 mem command / core mem API
@@ -355,7 +357,7 @@ feed useful dialogue context back into Trellis workflow
 
 关键点：mem v1 明确不读 channel event logs，也不替代 channel；它只做 persisted-session retrieval 和 dialogue-context extraction。这种边界让 Trellis 可以复用宿主历史，而不用先自研完整 session store。
 
-### 状态模型
+#### 状态模型
 
 | 状态 | 持久化位置 | 投影 / 读写方式 | 设计含义 |
 |------|-------------|-----------------|----------|
@@ -369,7 +371,19 @@ feed useful dialogue context back into Trellis workflow
 | Worker runtime | pid/worker-pid/log/inbox-cursor/spawnlock | host-local observation | 运行时辅助，不是 durable truth |
 | Host sessions | `~/.claude/projects`、`~/.codex/sessions`、`~/.pi/agent/sessions` 等 | mem adapters parse/search/context | 外部宿主记忆输入 |
 
-### 失败与降级模型
+#### 契约边界
+
+| 契约 | 边界 | 报告中的证据 |
+|------|------|--------------|
+| CLI 契约 | `init/update/upgrade/uninstall/mem/workflow/channel` 入口 | `packages/cli/src/cli/index.ts`、CLI Command Tree |
+| 平台适配契约 | 每个平台只贡献路径、模板、hook/skill/agent 映射和 Python command 适配 | `packages/cli/src/types/ai-tools.ts`、`configurators/index.ts` |
+| 安装 ownership 契约 | `ask/force/skip/append` 写入模式、template hash、migration、manifest prune | `packages/cli/src/utils/file-writer.ts`、`template-hash.ts`、`manifest-prune.ts`、`migrations/*` |
+| Task 工件契约 | `TrellisTaskRecord` 24 字段，TS/Python writer 对齐 | `packages/core/src/task/schema.ts` |
+| Channel 事件契约 | `create/message/thread/context/spawned/done/error/interrupt/turn_*` 等事件 | `packages/core/src/channel/internal/store/events.ts` |
+| Worker runtime 契约 | `start/interrupt/stop` 注入式 runtime contract | `packages/core/src/channel/api/runtime.ts` |
+| Mem reader 契约 | 读取 Claude/Codex/OpenCode/Pi 持久会话，输出统一 session/context/search 结果 | `packages/core/src/mem/*` |
+
+#### 失败与降级模型
 
 1. **Python 探测失败区分“没安装”和“沙箱阻止”。** `EPERM/EACCES` 会给出 sandbox-restricted warning，而不是误判 Python 不存在。
 2. **manifest 污染可自愈。** `pruneOrphanManifestKeys` 会移除不属于当前 configurator 的历史 hash key，避免 uninstall 删除用户 sessions/custom skills。
@@ -380,6 +394,59 @@ feed useful dialogue context back into Trellis workflow
 7. **send message 先保留意图。** delivery 失败通过 `undeliverable` 补事件表达，不吞掉用户消息。
 8. **runtime observation 不覆盖 durable truth。** liveness reconciliation 默认返回 proposed events，不把 pid 检查直接写成事实。
 9. **mem reader 宽松读取。** JSONL 坏行会跳过；OpenCode 等能力不足时降级并 warning，而不是假装完整支持。
+
+#### 可复刻设计不变量
+
+1. **把 workflow state 放进 repo，不放进 prompt。** 规则、任务和历史学习都应可 diff、可 review、可迁移。
+2. **任务必须有独立 schema。** 没有 `task.json` 这类稳定记录，AI coding 任务无法跨会话/工具/团队协作。
+3. **平台适配必须 registry 化。** 支持 16 个工具时，不能让 workflow 正文夹杂每个平台路径和语法。
+4. **installer 必须有 ownership truth。** 只靠路径匹配的 uninstall/update 最终会误删用户数据。
+5. **迁移要声明化。** workflow/template 一旦版本化，rename/delete/safe-delete/breaking guide 就不能藏在脚本里。
+6. **事件日志优先于内存状态。** worker/thread/message/interrupt 这类协作状态需要 durable event log 和 reducer。
+7. **宿主历史可以读，不一定要接管。** mem adapter 模式比一开始自研全量 session store 更轻。
+8. **不支持要显式降级。** OpenCode reader、sandbox Python probe、delivery failure 都应该 warning/事件化，而不是伪装成功。
+9. **个人与团队状态要分层。** shared specs/tasks 与 per-developer workspace journals 应明确边界。
+10. **finish 阶段不是结束语，而是学习提升。** `update-spec` 这类 spec promotion 是 workflow 形成复利的关键。
+
+---
+
+## 架构解剖
+
+### 目录结构
+
+- `packages/cli`：负责 `init/update/upgrade/uninstall/mem/workflow/channel` 入口、安装/迁移/平台适配/命令面。
+- `packages/core`：负责 `task`、`channel`、`mem` domain primitives，并对外暴露 `task` / `channel` / `mem` / `testing`。
+- `.trellis/`：包含 `workflow.md`、`spec/`、`tasks/`、`workspace/`，是项目级规则、任务和记忆的落盘位置。
+- `~/.trellis/channels/<project>/<channel>/events.jsonl`：channel append-only event log；`.seq`、pid、worker-pid、log、inbox-cursor、spawnlock 是 host-local sidecar。
+- Claude/Codex/OpenCode/Pi 的原生 session JSONL：mem reader 的输入数据。
+
+### 技术栈
+
+- TypeScript monorepo；Node.js >=18.17；初始化依赖 Python >=3.9。
+- CLI 运行依赖包括 `commander`、`chalk`、`inquirer`、`giget`、`undici`、`zod`。
+- `@mindfoldhq/trellis-core` 暴露 `task` / `channel` / `mem` primitives。
+- package scripts 覆盖 `test`、`typecheck`、`lint`、`lint:py`、`build`、`prepublishOnly`。
+
+### 模块依赖关系
+
+```text
+Host Harnesses
+  ↓ platform assets generated by
+Trellis CLI Plane: init / update / upgrade / uninstall / workflow / mem / channel
+  ↓ writes / updates
+Project Knowledge Plane: .trellis/workflow.md / spec / tasks / workspace / config / .version
+  ↓ backed by
+Trellis Core SDK: task / channel / mem
+  ↓ durable state / projections
+Local / Repo State: .trellis files / ~/.trellis/channels / host session stores
+```
+
+### 扩展机制
+
+1. **新增平台：** 扩展 `AI_TOOLS` + `PLATFORM_FUNCTIONS`，新增平台只贡献路径、模板、hook/skill/agent 映射和 Python command 适配。
+2. **新增 workflow/template：** 通过 template hash、manifest prune、migration manifests、backup、safe delete 管理更新和卸载副作用。
+3. **新增 task/channel/mem 能力：** 先进入 `packages/core` 的稳定 primitives，再由 CLI 和宿主平台资产暴露。
+4. **新增宿主记忆读取：** 通过 mem adapter 读取宿主持久会话，输出统一 session/context/search 结果，而不是接管宿主 runtime。
 
 ## 质量与成熟度
 
@@ -406,18 +473,11 @@ feed useful dialogue context back into Trellis workflow
 - docs 入口完整：Quick Start、Supported Platforms、Real-World Scenarios、Spec Templates、Changelog。
 - repo 自身也由 Trellis 管理，`AGENTS.md` 包含 Trellis managed block；另有 GitNexus block，说明项目在 dogfood 多种 agent infrastructure。
 
-### 可复刻设计不变量
+### Issue / PR 健康度
 
-1. **把 workflow state 放进 repo，不放进 prompt。** 规则、任务和历史学习都应可 diff、可 review、可迁移。
-2. **任务必须有独立 schema。** 没有 `task.json` 这类稳定记录，AI coding 任务无法跨会话/工具/团队协作。
-3. **平台适配必须 registry 化。** 支持 16 个工具时，不能让 workflow 正文夹杂每个平台路径和语法。
-4. **installer 必须有 ownership truth。** 只靠路径匹配的 uninstall/update 最终会误删用户数据。
-5. **迁移要声明化。** workflow/template 一旦版本化，rename/delete/safe-delete/breaking guide 就不能藏在脚本里。
-6. **事件日志优先于内存状态。** worker/thread/message/interrupt 这类协作状态需要 durable event log 和 reducer。
-7. **宿主历史可以读，不一定要接管。** mem adapter 模式比一开始自研全量 session store 更轻。
-8. **不支持要显式降级。** OpenCode reader、sandbox Python probe、delivery failure 都应该 warning/事件化，而不是伪装成功。
-9. **个人与团队状态要分层。** shared specs/tasks 与 per-developer workspace journals 应明确边界。
-10. **finish 阶段不是结束语，而是学习提升。** `update-spec` 这类 spec promotion 是 workflow 形成复利的关键。
+- open issues 很少（10 total including PRs），但其中多条是平台扩展/兼容诉求：Trae、Pi、Oh My Pi、Hermes、workflow YAML manifest、中文支持等。
+- CI 活跃且近期成功率看起来较好；同日多个 fix 分支与 main run success。
+- 2026-07-06 仍有主分支修复提交；`e1459dd..bd0bc80` 两周内新增 85 files changed / +2737 -267。
 
 ---
 
@@ -431,7 +491,13 @@ feed useful dialogue context back into Trellis workflow
 - CI 活跃且近期成功率看起来较好；同日多个 fix 分支与 main run success。
 - GitHub release 口径偏弱：latest release endpoint 404，采用时应以 npm package/tag/docs changelog 为准。
 
-### 生态位
+### 衍生项目 / 插件生态
+
+- 远端 README 仍写 **16** 个 AI coding platforms，但 `AI_TOOLS` registry 已出现 **17** 个 target ids，新增 `--trae`。
+- CLI 选项当前可见 `--cursor`、`--claude`、`--opencode`、`--codex`、`--kilo`、`--kiro`、`--gemini`、`--antigravity`、`--devin`、`--qoder`、`--codebuddy`、`--copilot`、`--droid`、`--pi`、`--reasonix`、`--zcode`、`--trae` 等。
+- `@mindfoldhq/trellis-core` 暴露 task/channel/mem primitives，供 CLI 和下游 Node 服务消费。
+
+### 竞品对比
 
 Trellis 位在三类项目之间：
 
@@ -440,6 +506,50 @@ Trellis 位在三类项目之间：
 3. **比 OpenCode / Claude Code 更上层。** OpenCode/Claude Code 是执行宿主；Trellis 是让这些宿主共享项目上下文的 substrate。
 
 它最适合做“团队 AI coding 项目管理/记忆层”的参考实现。
+
+---
+
+## 关键代码走读
+
+### `packages/cli/src/cli/index.ts`
+
+- **职责：** `init/update/upgrade/uninstall/mem/workflow/channel` 入口。
+- **学习点：** 将安装、升级、记忆、协作能力统一到一个 CLI 面；CLI 入口只是控制面，底层状态模型由 `packages/core` 和 `.trellis/` 工件承载。
+
+### `packages/cli/src/utils/file-writer.ts`
+
+- **职责：** `ask/force/skip/append` 写入模式，记录本次实际写入文件。
+- **学习点：** `file-writer` 只记录“本次实际写入”的文件；字节相同但原本存在的用户文件不会被记录为 Trellis-owned，`append` 也不会记录整文件 ownership。
+
+### `packages/cli/src/utils/template-hash.ts` 与 `packages/cli/src/utils/manifest-prune.ts`
+
+- **职责：** LF 归一化 SHA256、POSIX key、schema v2；修剪历史污染 manifest，保留 `.trellis`、migration paths、managed `AGENTS.md`。
+- **学习点：** update/uninstall 的安全边界不是路径猜测，而是 template hash、manifest prune 与 migration 共同维护的 ownership truth。
+
+### `packages/cli/src/migrations/*`
+
+- **职责：** 声明 rename、rename-dir、delete、safe-file-delete、breaking/migration guide。
+- **学习点：** Trellis 没有把 update 做成简单 overwrite；它同时处理用户改动、历史 manifest 污染、migration、backup 和 breaking guide。
+
+### `packages/core/src/task/schema.ts`
+
+- **职责：** 24 字段 `TrellisTaskRecord`，TS/Python writer 对齐。
+- **学习点：** task 是跨工具、跨语言的稳定状态契约；没有 `task.json` 这类稳定记录，AI coding 任务无法跨会话/工具/团队协作。
+
+### `packages/core/src/channel/internal/store/events.ts`
+
+- **职责：** `create/message/thread/context/spawned/done/error/interrupt/turn_*` 等事件。
+- **学习点：** channel 的 truth 是 `events.jsonl`；pid/cursor/log 是本机运行时观测，不是全局事实。
+
+### `packages/cli/src/commands/channel/supervisor.ts`
+
+- **职责：** fork worker、pump stdout/stderr、tail inbox、写事件。
+- **学习点：** `spawnWorker()`、`sendMessage()`、`interruptWorker()` 把实际 agent 子进程与 durable channel events 桥接起来。
+
+### `packages/core/src/mem/*`
+
+- **职责：** 读取 Claude/Codex/OpenCode/Pi 持久会话，输出统一 session/context/search 结果。
+- **学习点：** mem v1 明确不读 channel event logs，也不替代 channel；它只做 persisted-session retrieval 和 dialogue-context extraction。
 
 ---
 
@@ -456,6 +566,25 @@ Trellis 位在三类项目之间：
 
 ## 总结
 
+### 一句话评价
+
 Trellis 是目前 AI coding workflow 赛道里很值得看的一个项目：它没有执着于再造一个 agent，而是把 agent 需要长期共享的 **工程结构、任务状态、上下文记忆和平台适配** 做成 substrate。
 
-如果只想让个人 coding agent 更守纪律，优先看 superpowers；如果要团队多 agent review，compound-engineering-plugin 更直接；如果要完整 cross-harness workflow OS，ECC 更宽；但如果问题是：**一个真实代码仓库如何持续让多个 AI coding tools 共享 specs、tasks、memory 和 workflow**，Trellis 是目前最值得拆的参考之一。
+### 谁应该用
+
+- 团队/高频 AI coding 项目的项目记忆与任务底座。
+- 已经重度使用 Claude Code / Codex / Cursor / OpenCode 的团队。
+- 问题是：**一个真实代码仓库如何持续让多个 AI coding tools 共享 specs、tasks、memory 和 workflow**。
+
+### 谁不应该直接用
+
+- 只想让个人 coding agent 更守纪律的用户：优先看 superpowers。
+- 要团队多 agent review 的用户：compound-engineering-plugin 更直接。
+- 要完整 cross-harness workflow OS 的用户：ECC 更宽。
+- 商业生产化前还不能处理 AGPL 与流程迁移成本的团队。
+
+### 下一步
+
+- 先在非关键仓库或 worktree 试 `trellis init --codex/--claude/--cursor`。
+- 跑一条小任务的 brainstorm → implement → verify → finish。
+- 再决定 `.trellis/spec/`、`.trellis/tasks/`、workspace journal 的团队提交规范。

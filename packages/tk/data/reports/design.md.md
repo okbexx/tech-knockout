@@ -27,20 +27,20 @@
 
 ---
 
-## 定位与类比
+### 定位与类比
 
-### 一句话定位
+#### 一句话定位
 
 DESIGN.md 不是一个 UI 生成器，也不是 Figma 替代品。它是 **面向 coding agent 的设计系统上下文格式**：把视觉身份拆成“机器可验证的 token 层”和“模型可理解的 prose 层”，再提供 CLI 做 lint、diff、export、spec 输出。
 
-### 类比法
+#### 类比法
 
 - 类似 `AGENTS.md / CLAUDE.md`，但对象不是工程约束，而是视觉身份与设计系统。
 - 类似 design tokens / W3C DTCG / Style Dictionary，但它不只保存数值 token，还强调设计意图、参考物、负面约束和应用 rationale。
 - 类似 Tailwind theme config，但它不是某个 CSS 框架的配置文件，而是 agent 与多工具共享的上游设计上下文。
 - 类似 Open Design 中的 `DESIGN.md` 设计系统能力，但 DESIGN.md 本身只定义格式、校验器和导出器，不负责项目工作台、预览、Agent spawn 或设计产物生成。
 
-### 项目分类
+#### 项目分类
 
 `Agent-Native Design Context / Design System File Format / CLI Linter & Exporter`
 
@@ -654,7 +654,7 @@ DESIGN.md 最重要的贡献不是发明了一套 token schema，而是把“审
 - 想把品牌视觉、设计参考、负面约束沉淀成仓库文件的独立开发者。
 - 做 agent-native design tooling、design-system extraction、screenshot-to-design-spec 的开发者。
 
-### 谁不应该直接用作唯一事实源
+### 谁不应该直接用
 
 - 已有成熟 Figma Variables + Style Dictionary + 多端 token pipeline 的企业，不应直接替换全部流程。
 - 需要强多人协作设计画布、视觉 diff review、设计审批流程的团队。

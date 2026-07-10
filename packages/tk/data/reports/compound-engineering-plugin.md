@@ -188,7 +188,7 @@ Compound Engineering 解决的不是“模型能不能写代码”，而是 **AI
 
 ### 底层技术架构
 
-#### 1. 最小架构内核
+#### 最小架构内核
 
 脱掉 README、品牌和具体宿主之后，Compound Engineering 的最小可复刻内核是：
 
@@ -204,7 +204,7 @@ Compound Engineering 解决的不是“模型能不能写代码”，而是 **AI
 6. **Content Transformer** 处理 slash command、agent invocation、prompt/skill name 差异，否则跨平台只能“复制文本”，不能可靠运行。
 7. **Feedback Contract** 把 review 发现、solution docs、strategy/pulse 产物写回项目，形成下一次任务的 grounding。
 
-#### 2. 核心抽象
+#### 核心抽象
 
 | 抽象 | 文件 / 目录 | 职责 | 为什么重要 |
 |------|-------------|------|------------|
@@ -220,7 +220,7 @@ Compound Engineering 解决的不是“模型能不能写代码”，而是 **AI
 | Release Component | `.github/release-please-config.json` | cli、compound-engineering、marketplace 多组件 linked versions | plugin/CLI/marketplace 同仓发布，版本一致性需要显式治理 |
 | Real Plugin Drift Test | `tests/real-plugin-conversion.test.ts` | 用真实 repo-root plugin assets 转所有已实现 target，再结构校验 | shipping asset 变化能被测试发现，而不是 fixture 自嗨 |
 
-#### 3. 控制面 / 数据面分离
+#### 控制面 / 数据面
 
 **Control Plane：**
 
@@ -241,7 +241,7 @@ Compound Engineering 解决的不是“模型能不能写代码”，而是 **AI
 
 分离程度整体较好：CLI/control policy 与 asset/data transformation 大体分开；但 `src/commands/install.ts` / `convert.ts` 仍有明显重复，target-specific 特例（Codex hybrid distribution、OpenCode scope）也需要在命令层显式处理，说明 adapter 抽象还没有完全把控制面压平。
 
-#### 4. 关键执行链路
+#### 关键执行链路
 
 **链路 1：本地路径 / bundled plugin 安装到指定 target**
 
@@ -344,7 +344,7 @@ future brainstorm/plan/debug/review reads durable docs as context
 
 这条链路是 CE 的产品内核：converter 只是分发层；真正值得复刻的是把 agent 的一次性能力变成 **可追踪产物 → 审查 → 复盘 → 下次 grounding**。
 
-#### 5. 状态模型
+#### 状态模型
 
 1. **Source state（仓库事实源）：** repo root 下的 plugin manifests、`skills/`、docs skill catalog、hooks/MCP 和 release metadata；由 Git 管理。
 2. **Release state（分发事实源）：** `package.json`、各 native plugin manifest、`.github/release-please-config.json`、Git tags / GitHub Releases / npm dist-tags。当前风险是 repo manifests / root package / release 已到 `3.19.0`，公开 npm channel 仍停在 `3.8.3`。
@@ -355,7 +355,7 @@ future brainstorm/plan/debug/review reads durable docs as context
 
 核心状态不变量：**凡是会被未来 cleanup 或 agent 决策依赖的状态，都必须写成 repo 文件或 install manifest，不能只留在一次会话记忆里。**
 
-#### 6. 契约边界
+#### 契约边界
 
 - **Developer CLI 契约：**
   - repo-local `bun run src/index.ts convert <source> --to <target> [--output] [--scope] [--also]`
@@ -370,7 +370,7 @@ future brainstorm/plan/debug/review reads durable docs as context
 - **Release 契约：** release-please linked versions 应保持 CLI 与 plugin version 同步；stale `release-as` 由 `src/release/config.ts` 校验。
 - **Workflow artifact 契约：** brainstorm 产物定义 WHAT，plan 产物定义 HOW，work 执行计划，review 产出 finding/fix routing，compound 写 solution docs；这些边界在 skill 正文中显式反复强调。
 
-#### 7. 失败与降级模型
+#### 失败与降级模型
 
 | 失败类型 | 检测方式 | 降级 / 恢复 | 可观测信号 |
 |----------|----------|-------------|------------|
@@ -388,7 +388,7 @@ future brainstorm/plan/debug/review reads durable docs as context
 
 CE 的失败模型比普通 prompt pack 强：它不只“提示用户小心”，而是在 installer 层做了 path containment、ownership、backup、legacy migration、idempotent cleanup。但 workflow 执行层仍主要依赖 agent 遵守 skill；这部分不是硬 runtime enforcement。
 
-#### 8. 可复刻设计不变量
+#### 可复刻设计不变量
 
 1. **Source-of-truth assets 只能有一套。** 多平台支持必须从统一 plugin model 转换，不能每个平台手工维护一份 skill/manifest。
 2. **平台差异进 adapter，不进 workflow 正文。** 工具名、路径、native plugin 能力、hook 格式应由 converter/writer 处理。
@@ -568,14 +568,18 @@ Team Knowledge Compounding
 
 它不替代 harness，而是在 harness 上方定义团队如何把 AI coding 变成可重复、可审查、可沉淀的工程流程。
 
-### 社区评价与生态信号
+### 衍生项目 / 插件生态
 
-- **Star/Fork 强。** 22.8k stars / 1.7k forks，说明 CE 在 AI coding workflow 圈仍有明显传播。
-- **Every 背书。** 项目来自 EveryInc，并链接 Every 对 compound engineering 的公开文章，定位不是纯个人 prompt pack。
+- **Root-native plugin surface。** `.claude-plugin`、`.codex-plugin`、`.cursor-plugin`、`.kimi-plugin`、`plugin.json` 与顶层 `skills/` 共同构成多宿主插件资产层。
 - **真实多平台压力。** issues/PRs 显示用户在 Codex、Claude、Kimi、native plugin 与 converter path 等真实路径中使用，而不是只收藏 README。
 - **生态外溢方向。** CE 的多 reviewer、plan/work/compound 思路已成为很多 agent workflow 项目的参照物；它和 superpowers/ECC/vibecode/loop-engineering 形成互补，而非完全替代。
 
-### 竞品 / 邻近项目对比
+### 社区评价
+
+- **Star/Fork 强。** 22.8k stars / 1.7k forks，说明 CE 在 AI coding workflow 圈仍有明显传播。
+- **Every 背书。** 项目来自 EveryInc，并链接 Every 对 compound engineering 的公开文章，定位不是纯个人 prompt pack。
+
+### 竞品对比
 
 | 项目 | 定位 | CE 相对优势 | CE 相对劣势 |
 |------|------|-------------|-------------|
@@ -719,7 +723,7 @@ Team Knowledge Compounding
 - 不能接受安装器写宿主配置、不能先隔离试点的企业环境。
 - 只做低价值小改动、无法承受多 agent review token/时延的场景。
 
-### 结论
+### 下一步
 
 1. **先隔离 profile。** 尤其 Codex：用单独 `CODEX_HOME`，优先走 native marketplace/plugin install；如果额外动 converter 路径，再单独核 managed 落点。
 2. **先跑一个完整闭环。** 选一个真实但低风险任务，跑 `/ce-brainstorm → /ce-plan → /ce-work → /ce-simplify-code → /ce-code-review → /ce-compound`。

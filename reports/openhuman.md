@@ -573,20 +573,20 @@ await_workflow / command center / recent runs read terminal outcome
 
 ## 社区与生态
 
-### 热度与认可度
+### 社区评价
 
 - 34.3k+ stars、3.3k+ forks、177 watchers，而且项目创建时间很短，增长速度仍然异常快。
 - Product Hunt / Trendshift / Discord / Reddit / X / GitBook 都已接入传播和社区入口。
 - 本地 `git shortlog -sn --all` 已见 151 位作者，说明它不是“README 项目”，但方向感仍明显集中在核心团队。
 
-### 正面信号
+### 生态强信号
 
 - 方向清晰：local memory、desktop-first、personal AI、connectors、agent tools、managed/local hybrid。
 - 工程投入强：CI、coverage、desktop release、installer smoke、debug runner、agent workflow docs。
 - 源码持续吸收 coding-agent runtime 模式：todo/task board、`tinyagents`、`flows` / `tinyflows`、command center、agent teams、run ledger、MCP。
 - README 开始明确 managed services 边界，比“纯 local-first”营销更可信。
 
-### 真实痛点
+### 采用痛点
 
 - issue/PR 与 tag 节奏都高，source/release/installer 时间差会给采用方带来版本治理压力。
 - 生态仍以官方产品、官方 registry 与官方托管体验为中心，第三方插件市场成熟度仍需观察。

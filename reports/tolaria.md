@@ -163,6 +163,64 @@ flowchart TD
     Watcher --> Loader
 ```
 
+### 底层技术架构
+
+#### 最小架构内核
+
+Tolaria 的最小内核是 **Filesystem-first Vault + Markdown/Frontmatter Parser + Tauri Path Boundary/Commands + React Cache/State + Git + MCP/CLI Agent Adapters**。编辑器、UI 组件和具体 agent CLI 都可替换，但 disk-first、vault boundary、AI-readable conventions 和 active-vault tool guard 必须保留。
+
+#### 核心抽象
+
+- `VaultEntry`：Markdown 文件解析后的知识图谱节点，包含 title、type/status、links、metadata、Git dates 等。
+- `Workspace identity`：多 vault / mounted workspace 下保留 entry/view/folder 来源。
+- `VaultBoundary`：所有 vault 文件读写的路径安全内核。
+- `Type document` / frontmatter convention：用 `type:`、`status:`、`belongs_to:`、`related_to:` 等字段驱动 UI 和 AI 语义。
+- `Saved View`：`views/*.yml` 中的过滤、排序和列表列配置。
+- `MCP tool service`：给 Agent 暴露 active vault 读写工具并驱动 UI open/refresh。
+- `AI stream event`：把 Claude/Codex/OpenCode/Pi/Gemini/Kiro 等 CLI 输出统一成 UI 可消费 envelope。
+
+#### 控制面 / 数据面
+
+- **控制面**：Tauri command registry、VaultBoundary、vault loader/watcher、workspace graph state、Git commands、AI CLI adapters、MCP active vault guard、release channels/feature flags。
+- **数据面**：Markdown/frontmatter 文件读写、filesystem scan/cache、Git CLI、keyword search、MCP create/open/get/search note、CLI agent subprocess stream。
+
+#### 关键执行链路
+
+1. **打开 vault**：`useVaultLoader` 调 `vaultLoaderCommands.ts`，通过 Tauri `invoke()` 进入 Rust `list_vault/reload_vault/list_views/list_vault_folders`，Rust 扫描并解析 Markdown，React state 接收 entries/folders/views 驱动 UI。
+2. **Agent 写笔记**：MCP client 调 `create_note`，tool service 校验 requested vault 在 active vault paths 内且不覆盖已有文件，写入 Markdown 后发 `vault_changed` 和 `open_tab` 给 UI。
+3. **外部变更刷新**：`vault_watcher.rs` 监听文件变化，前端 `useVaultWatcher` debounce 后触发 refresh/reload，保持 disk-first 事实源和 React state 对齐。
+
+#### 状态模型
+
+- **持久状态**：本地 Markdown、YAML frontmatter、Git history、views/type documents、release notes。
+- **运行时状态**：React entries/folders/views state、filesystem cache、active vault paths、websocket bridge、CLI agent process、MCP server process。
+- **外部状态**：Git remote、Claude/Codex/OpenCode/Pi/Gemini/Kiro CLI 安装和 auth、OS 文件系统。文件系统是权威事实源，cache 和 React state 都可丢弃重建。
+
+#### 契约边界
+
+- **内部契约**：`VaultEntry` 字段、frontmatter conventions、Tauri command payload、VaultBoundary path rules、workspace provenance。
+- **外部契约**：MCP tools（`search_notes`、`get_note`、`create_note`、`open_note`、`refresh_vault`）、Git CLI、desktop deep link/updater、CLI agent stream envelope。
+- **Agent-facing 契约**：AGENTS/CLAUDE/GEMINI guidance、active vault guard、multi-vault `vaultPath` disambiguation。
+
+#### 失败与降级模型
+
+- `VaultBoundary` 通过 canonical root、existing ancestor、child path 检查阻止 path escape。
+- `useVaultLoader` 用 `isCurrentVaultPath` 防止旧请求覆盖新 vault 状态，并处理 unavailable vault 恢复。
+- 多 vault 下 note path 歧义时，MCP tool 要求传 `vaultPath`。
+- CLI agent 探测并行且有 timeout，失败不应阻塞整个 vault。
+- websocket bridge 根据 active vault 启停，AppImage 需要 stable path 支持外部工具引用。
+
+#### 可复刻设计不变量
+
+1. Local-first 知识系统必须明确 disk 是事实源，cache/state 可重建。
+2. Markdown/frontmatter convention 要同时服务人、UI 和 Agent。
+3. 多 vault 必须保留 workspace provenance。
+4. 本地文件读写安全要集中在 path boundary，而不是分散到组件。
+5. MCP 写工具必须保守、可消歧、可驱动 UI 同步。
+6. UI 不应绑定具体 CLI agent 协议，要先统一 stream envelope。
+7. Git 是历史和同步层，不是可选装饰。
+8. 快速演进项目需要 ADR/quality gate 保存工程记忆。
+
 ### 关键设计决策与 trade-off
 
 | 决策 | 选择 | 放弃了什么 | 为什么 |

@@ -152,6 +152,64 @@ graph TD
   SSE --> Web
 ```
 
+### 底层技术架构
+
+#### 最小架构内核
+
+OpenAgent 的最小内核是 **Store 能力包 + Provider/Embedding 工厂 + RAG Vector Store + Builtin/MCP ToolSet + Agent Tool Loop + SSE/UI + DB/Auth 对象层**。前端技术栈和具体模型供应商可替换，但 Store 驱动的模型、知识、工具、权限和流式反馈必须保持同一条产品链路。
+
+#### 核心抽象
+
+- `Store`：能力组合根，绑定 prompt、model provider、knowledge count、tools、skills、MCP server 和 memory limit。
+- `Provider` / `EmbeddingProvider`：把数据库配置转换成运行时模型或 embedding client。
+- `Vector` / `Knowledge`：文件切分、embedding、检索和 vector score 的知识库对象。
+- `Server` / `McpToolSet`：把远端 MCP server 工具同步、allowlist 并命名空间化。
+- `BuiltinTool`：浏览器、shell、local file、office、web search 等内建 side effect。
+- `Message` / `Chat`：对话、历史、transaction、token/price 和 SSE 更新的持久对象。
+- `ToolCallResponse`：工具调用结果回灌模型和 UI 的结构化 envelope。
+
+#### 控制面 / 数据面
+
+- **控制面**：Beego router/controller、object business layer、Casdoor/Casbin auth、provider factories、Store 配置、MCP allowlist、prompt policy、CI/release。
+- **数据面**：LLM 请求、embedding、DB vector search、builtin tool execution、MCP `CallTool()`、SSE message/reason/tool/search/vector/end 事件、文件解析。
+
+#### 关键执行链路
+
+1. **主聊天**：`generateMessageAnswer()` 拉取 Message/Chat/Store，解析 model/embedding provider，合并 MCP/builtin tools，调用 `GetNearestKnowledge()`，组历史消息，进入 `QueryTextWithTools()` 或普通模型调用，并写回 vector score、tool calls、usage、message/chat。
+2. **工具循环**：`QueryTextWithTools()` 第 0 轮调用模型，若有 tool calls，`callMcpTool()` 执行 builtin 或远端 MCP，再把 tool result 作为 Tool message 回灌，直到无 tool call。
+3. **知识库构建**：`addVectorsForFile()` / `addVectorsForStore()` 解析文件，按 split provider 切块，调用 embedding provider，失败时 exponential backoff retry，并维护 processing/finished/error 状态。
+
+#### 状态模型
+
+- **持久状态**：Store、Provider、Server、Tool、Chat、Message、Vector、Task、Record、Usage 等 DB 对象。
+- **运行时状态**：MCP client connections、ToolSet、provider client、SSE stream、tool loop messages、embedding retry。
+- **外部状态**：模型 provider、embedding provider、远端 MCP server、browser/GUI/shell/office 工具、外部渠道 webhook。DB object 层是产品事实源，外部工具结果必须结构化保存和展示。
+
+#### 契约边界
+
+- **内部契约**：`ModelProvider`、`EmbeddingProvider`、`BuiltinTool`、`BuildMcpToolSet()`、`GetNearestKnowledge()`。
+- **外部契约**：REST API、OpenAI-compatible `/api/chat/completions`、SSE events、MCP server `serverName/toolName` 命名规则、webhook pipe。
+- **Agent-facing 契约**：Store prompt + skills + tool policy、tool call argument/content envelope、Task JSON analysis schema。
+
+#### 失败与降级模型
+
+- OpenAI-compatible API 已接近主链路但仍未完全等价于聊天链路的 RAG/vector score/UI 体验。
+- Provider factory 以长 if/else 承载扩展，新增 provider 容易膨胀和漂移。
+- Store/Server/Provider 的 owner/name 与 `admin` fallback 易用但会放大多租户边界风险。
+- Embedding 失败有重试；大知识库、并发刷新和 DB 行向量规模仍是性能风险。
+- Builtin 工具和 MCP 工具同构后，shell/browser/GUI/office 等 side effect 需要额外隔离和 allowlist。
+
+#### 可复刻设计不变量
+
+1. 平台型 AI 产品应让用户配置“能力包”，而不是散配置 API key。
+2. 内建工具和 MCP 工具可以同构，但必须有 allowlist 和审计。
+3. SSE 事件要拆分 message、reason、tool、search、vector、end。
+4. RAG 检索结果和 vector score 要进入 UI，而不是只塞进 prompt。
+5. Provider/Embedding 扩展应尽早 registry 化，避免 factory 失控。
+6. 高权限工具必须按 Store/Server scope 限制。
+7. OpenAI-compatible API 不应承诺等价，除非接入同一条 RAG/tool/UI 链路。
+8. 发布链路和多分发能力是自托管平台采用成本的一部分。
+
 ### 关键设计决策与 trade-off
 
 | 决策 | 选择 | 获得 | 代价 |

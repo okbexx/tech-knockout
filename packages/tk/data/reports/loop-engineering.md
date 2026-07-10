@@ -176,7 +176,9 @@
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-### 最小架构内核
+### 底层技术架构
+
+#### 最小架构内核
 
 脱掉 README、品牌和具体宿主之后，`loop-engineering` 的最小可复刻内核是：
 
@@ -195,7 +197,7 @@
 9. 用 state/run-log/budget/constraints 把每次循环变成可审计事实。
 10. 用 L1/L2/L3 分阶段放权，而不是一上来 unattended。
 
-### 核心抽象
+#### 核心抽象
 
 | 抽象 | 文件 / 目录 | 职责 | 为什么重要 |
 |------|-------------|------|------------|
@@ -210,7 +212,7 @@
 | Worktree Manager | `tools/loop-worktree/src/worktree.ts` / `cli.ts` | 为每次尝试创建、标记、回收独立 git worktree | 把 L2/L3 的隔离执行从约定升级为工具能力 |
 | MCP Resource Surface | `tools/mcp-server/src/index.ts` | 把 patterns、skills、state、budget、run-log 暴露为 MCP resources/tools | 让外部 agent 在运行时按需查询 loop 资产，降低 prompt 填充成本 |
 
-### 控制面 / 数据面
+#### 控制面 / 数据面
 
 **控制面：**
 
@@ -232,9 +234,9 @@
 
 这个分离的价值是：`loop-engineering` 不接管执行面，只定义 **如何让执行面可控地循环起来**。模型、工具、权限、CI、PR 合并仍由宿主和目标项目负责。
 
-### 关键执行链路
+#### 关键执行链路
 
-#### 链路 1：从 pattern 到 target project scaffold
+##### 链路 1：从 pattern 到 target project scaffold
 
 ```text
 user chooses pattern + tool
@@ -252,7 +254,7 @@ user chooses pattern + tool
 
 这条链路的核心设计是：**初始化不只是复制 skill，而是同时建立状态、预算、运行记录和人类 gate 的骨架**。这比普通 “copy prompt files” 更接近可运营 loop。
 
-#### 链路 2：readiness audit 从结构到等级
+##### 链路 2：readiness audit 从结构到等级
 
 ```text
 loop-audit target
@@ -269,7 +271,7 @@ loop-audit target
 
 `computeScore()` 的关键不是数学精度，而是 policy：没有 state、triage、verifier、budget/run-log、真实活动信号，就不能轻易进入 L3。它把“别太早放权”写成了代码。
 
-#### 链路 3：cost estimator 将 cadence 风险显式化
+##### 链路 3：cost estimator 将 cadence 风险显式化
 
 ```text
 registry pattern + chosen cadence + readiness level
@@ -286,7 +288,7 @@ registry pattern + chosen cadence + readiness level
 
 这条链路最值得复用：它不试图精确预测模型账单，而是把“高频 loop 必须 early exit、必须 daily cap、必须看 realistic blend”变成团队讨论的显式对象。
 
-#### 链路 4：项目自身 dogfood loop
+##### 链路 4：项目自身 dogfood loop
 
 ```text
 GitHub schedule fires daily triage / readiness audit / changelog drafter
@@ -299,7 +301,7 @@ GitHub schedule fires daily triage / readiness audit / changelog drafter
 
 仓库最新提交 `8bce2fb` 依然是 daily triage 自动更新 `STATE.md` + run log 的结果，而 7 月 7-8 日连续合入的 `loop-worktree`、star-history、MCP server docs 也说明它不只是写文档，而是在持续用自己的 loop/tooling 维护自己。
 
-### 状态模型
+#### 状态模型
 
 1. **Pattern state（静态事实源）**：`patterns/registry.yaml` + `patterns/*.md`。由维护者更新，CLI bundle/read，docs 引用。
 2. **Scaffold state（目标项目初始状态）**：`starters/*`、`templates/*` 复制到目标项目后成为用户自己的文件。
@@ -310,7 +312,7 @@ GitHub schedule fires daily triage / readiness audit / changelog drafter
 
 状态模型的核心不变量：**loop 的长期记忆必须在 repo 或共享系统里，而不是只留在某个 agent 会话里。**
 
-### 契约边界
+#### 契约边界
 
 - **Registry 契约：** `registry.yaml` 必须符合 `patterns/registry.schema.json`；每个 pattern 需要 id、name、cadence、risk、readiness、cost、skills、state_file 等关键字段。
 - **Pattern 文档契约：** 每个 pattern 应覆盖 goal、scheduling、required skills、state schema、cycle、verification、human handoff、tool notes、failure modes、success metrics。
@@ -326,7 +328,7 @@ GitHub schedule fires daily triage / readiness audit / changelog drafter
 - **Agent-facing 契约：** skills 明确要求 report-only week one、maker/checker、human handoff、denylist、不要 auto-merge；`LOOP.md` 是 agent 每轮读取的 operational contract。
 - **Human gate 契约：** 安全、auth、payments、infra、multi-file refactor、auto-merge、超过尝试次数等必须交给人。
 
-### 失败与降级模型
+#### 失败与降级模型
 
 | 失败类型 | 检测方式 | 降级 / 恢复 |
 |----------|----------|-------------|
@@ -343,7 +345,7 @@ GitHub schedule fires daily triage / readiness audit / changelog drafter
 
 `loop-engineering` 的降级哲学很清楚：**先 L1 看见问题，再 L2 辅助修复，最后才 L3 unattended。任何结构或证据缺失都应向低等级降级。**
 
-### 可复刻设计不变量
+#### 可复刻设计不变量
 
 1. **先建 pattern registry，再写 starter。** 没有机器可读 registry，CLI、docs、cost/audit 会漂移。
 2. **每个 loop 必须有 durable state。** 没有 `STATE.md` / pattern state 的 loop 不是工程系统，只是定时 prompt。
@@ -502,13 +504,15 @@ GitHub Actions 最近 10 次 API 观测中，`Pages build and deployment`、`Upd
 
 ## 社区与生态
 
-### 热度与认可度
+### 社区评价
 
 截至 2026-07-08，项目已到 **6,545 stars / 838 forks / 38 watchers**。对一个 2026-06-09 才创建、且高度方法论导向的 workflow toolkit 来说，这已经不是“小圈子 seed”级别，而是明显的 breakout niche adoption。
 
-GitHub search `"loop-engineering"` 相关仓库已超过 100 个，其中 `cobusgreyling/loop-engineering` 是 canonical；另有 `loop-engineering-orange-book` 等内容衍生。真正的插件生态还谈不上成熟，但 docs/examples/showcase/community-update 已经形成“内容生态先行”的扩散态势。
-
 公开社交搜索信号依旧不如 GitHub 内部信号强；因此更稳妥的结论不是“全民 adoption”，而是：**GitHub-native 关注度很高、社区入口在形成、但真实长期生产面案例仍少于热度。**
+
+### 衍生项目 / 插件生态
+
+GitHub search `"loop-engineering"` 相关仓库已超过 100 个，其中 `cobusgreyling/loop-engineering` 是 canonical；另有 `loop-engineering-orange-book` 等内容衍生。真正的插件生态还谈不上成熟，但 docs/examples/showcase/community-update 已经形成“内容生态先行”的扩散态势。
 
 ### 生态位置
 
@@ -549,7 +553,7 @@ Project Artifacts（STATE.md / LOOP.md / PRs / CI / run log / budget）
 - `CLI-Anything`：agent-native command surface；同样将 agent 操作产品化，但目标是 CLI/harness，而不是 recurring loop。
 - `GitNexus` / Code Intelligence 工具：可作为 loop 的 evidence provider，例如 CI triage 或 PR babysitter 需要 impact analysis。
 
-### 社区结论
+### 生态结论
 
 `loop-engineering` 现在更准确的定位是：**已经跑出明显 GitHub-native traction、docs/showcase/工具面同步扩张，但控制面仍明显 founder-led 的 loop engineering toolkit。** 它值得进入 TK 的 AI Coding Workflow 横评，但结论必须区分：
 

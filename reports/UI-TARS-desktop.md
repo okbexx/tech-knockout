@@ -625,6 +625,41 @@ CI 投入明显高于普通开源 demo；但 release / Desktop App / Agent TARS 
 - **主线吞吐：** 但从旧报告 HEAD `e9f33872` 到当前 `c2ad42e3`，`main` 只新增了 1 个提交，而且是 `mcp-http-server` 默认 host 从全网卡收紧到 `127.0.0.1` 的安全修复。
 - **解读：** 这说明“外部热度高”与“主线快速合并/稳定演进”是两回事。项目仍值得跟踪，但生产采用时要按自己可维护的 fork/patch 面来评估，而不是按 star 数做乐观假设。
 
+### 维护 / 二次开发视角
+
+#### 能不能维护
+
+能做外围贡献和局部修复，不建议一开始接管核心路线。最佳路径是：**先修明确 bug / 文档漂移 / 安全 hardening / 测试补强，再逐步进入 GUIAgent、Model、Operator 主链**。
+
+#### 首批 PR 切入点
+
+1. **修权限条件表达式**
+   - `useRunAgent.ts` 把 `(operator === Operator.LocalBrowser || Operator.LocalComputer)` 改成显式枚举判断，并补测试。
+
+2. **修坐标 0 truthy bug**
+   - `BrowserOperator` 中所有 `if (startX && startY)` 改为 null/undefined 判断。
+
+3. **日志脱敏**
+   - `runAgent.ts` 的 `settings` log 过滤 `vlmApiKey`、auth header、baseURL 中敏感 query。
+
+4. **文档口径整理**
+   - README / quick-start 明确区分 Agent TARS CLI release、UI-TARS Desktop app version、`@ui-tars/sdk` npm version、remote operator 当前状态。
+
+5. **Action parser error typing**
+   - parse failure 不应只 `console.error`，应返回 typed parse error 或进入 `StatusEnum.ERROR` 可观测路径。
+
+6. **Remote backend doctor**
+   - 对 `/api/v1/time-balance`、sandbox info、browser availability、VLM response api support 做显式 health check。
+
+#### 不建议一开始碰的区域
+
+- 整体迁移 monorepo / workspace 拆分。
+- 大改 `GUIAgent.run()` 主循环。
+- 重写 `UITarsModel` provider adapter。
+- remote backend contract / auth / billing / sandbox 大改。
+- Agent TARS 与 UI-TARS Desktop 的统一产品路线。
+- release/signing workflow。
+
 ---
 
 ## 社区与生态
@@ -678,45 +713,6 @@ CI 投入明显高于普通开源 demo；但 release / Desktop App / Agent TARS 
 | `bytedance/UI-TARS-desktop` | 37,765 | 3,801 | 2026-07-01 | GUI / computer-use runtime 代表项目 |
 | `mediar-ai/screenpipe` | 19,693 | 1,906 | 2026-07-07 | 屏幕上下文 / personal data infra |
 | `microsoft/TaskWeaver` | 6,171 | 780 | 2026-03-23 | 已 archived；更多是历史参照 |
-
----
-
-## 维护 / 二次开发视角
-
-### 能不能维护
-
-能做外围贡献和局部修复，不建议一开始接管核心路线。最佳路径是：**先修明确 bug / 文档漂移 / 安全 hardening / 测试补强，再逐步进入 GUIAgent、Model、Operator 主链**。
-
-### 首批 PR 切入点
-
-1. **修权限条件表达式**
-   - `useRunAgent.ts` 把 `(operator === Operator.LocalBrowser || Operator.LocalComputer)` 改成显式枚举判断，并补测试。
-
-2. **修坐标 0 truthy bug**
-   - `BrowserOperator` 中所有 `if (startX && startY)` 改为 null/undefined 判断。
-
-3. **日志脱敏**
-   - `runAgent.ts` 的 `settings` log 过滤 `vlmApiKey`、auth header、baseURL 中敏感 query。
-
-4. **文档口径整理**
-   - README / quick-start 明确区分 Agent TARS CLI release、UI-TARS Desktop app version、`@ui-tars/sdk` npm version、remote operator 当前状态。
-
-5. **Action parser error typing**
-   - parse failure 不应只 `console.error`，应返回 typed parse error 或进入 `StatusEnum.ERROR` 可观测路径。
-
-6. **Remote backend doctor**
-   - 对 `/api/v1/time-balance`、sandbox info、browser availability、VLM response api support 做显式 health check。
-
-### 不建议一开始碰的区域
-
-- 整体迁移 monorepo / workspace 拆分。
-- 大改 `GUIAgent.run()` 主循环。
-- 重写 `UITarsModel` provider adapter。
-- remote backend contract / auth / billing / sandbox 大改。
-- Agent TARS 与 UI-TARS Desktop 的统一产品路线。
-- release/signing workflow。
-
----
 
 ## 关键代码走读
 

@@ -159,6 +159,64 @@ graph TD
   ORCH -->|audio/video segment + transcript + task_event| FE
 ```
 
+### 底层技术架构
+
+#### 最小架构内核
+
+CyberVerse 的最小内核是 **Session/Orchestrator + VoiceLLM 插件层 + Avatar/Media Pipeline + Character/RAG/Task 状态 + gRPC Plugin Registry**。Vue UI、具体 avatar 模型和具体 omni provider 都可替换，但实时语音人格、媒体输出、后台任务和角色知识库必须被同一会话时钟管理。
+
+#### 核心抽象
+
+- `Session`：实时对话的运行时边界，包含 `PipelineSeq`、`TurnSeq`、打断和旧输出防护。
+- `Orchestrator`：Go 侧媒体、WebRTC/LiveKit、录制、prompt、RAG、task projection 的编排中心。
+- `CyberVersePlugin` / `PluginRegistry`：Python 推理侧的插件生命周期，按 category/name 注册和初始化。
+- `VoiceLLMOutputEvent`：把 audio、transcript、tool_result、task_event 等输出合并成统一 stream。
+- `PersonaAgentPlugin`：包装底层 omni provider，并把 hidden tools、RAG 和后台任务接进前台语音流。
+- `RAGEngine`：按 character directory 管理 Chroma collection、embedding、检索和上下文裁剪。
+- `AgentTask`：长任务、事件和 artifact 的 Go 侧 SQLite 投影。
+
+#### 控制面 / 数据面
+
+- **控制面**：Go API router、SessionManager、Orchestrator、YAML `plugin_class` 配置、PluginRegistry、provider default 选择、task projection、TURN/LiveKit 配置。
+- **数据面**：WebRTC audio/video、gRPC 推理调用、Qwen/Doubao realtime stream、Avatar video segment、Chroma 检索、SQLite task/event/artifact 写入、角色文件读写。
+
+#### 关键执行链路
+
+1. **创建会话**：前端调用 `/api/v1` session API，Go 创建 session，hydrate 角色历史和 visual input config，按 direct 或 LiveKit 建立媒体通道，并触发 idle video cache。
+2. **实时语音 turn**：前端通过 WebRTC/WS 输入音频或文本，Orchestrator 启动 standard 或 omni pipeline，Python VoiceLLM/Avatar 插件返回 audio/transcript/video segment，Go 侧用 turn sequence 过滤陈旧输出后推回前端。
+3. **后台任务**：PersonaAgent hidden tool 创建 task，LocalTaskRuntime / PersonaSupervisor 执行，task event 和 artifact 被 Go TaskService 投影到 SQLite/UI，完成后再回注当前角色会话让数字人总结。
+
+#### 状态模型
+
+- **持久状态**：`data/characters`、角色 knowledge/chroma、AgentTask SQLite、recording、artifact、会话历史和配置文件。
+- **运行时状态**：session pipeline/turn seq、WebRTC peer 或 LiveKit bot、Python plugin instances、avatar worker、VoiceLLM stream queue、task runtime memory。
+- **外部状态**：DashScope/Qwen/Doubao 等 provider、GPU model weights、LiveKit/TURN/NAT、搜索/Zhihu tools。Go 侧 session/task store 是产品事实源，Python runtime 事件需要投影回 Go 才能恢复。
+
+#### 契约边界
+
+- **内部契约**：`CyberVersePlugin` 子类、PluginRegistry `register/initialize/get/shutdown`、Session sequence guard、TaskService projection。
+- **外部契约**：`/api/v1/*` REST、`/ws/chat`、WebRTC signaling/media、gRPC protobuf services、YAML `plugin_class` dotted path。
+- **Agent-facing 契约**：Persona hidden tools（`create_task`、`get_task_status`、`cancel_task`、`retrieve_character_knowledge`）和 task_event/artifact stream。
+
+#### 失败与降级模型
+
+- `PipelineSeq` / `TurnSeq` 防止 cancel 后的旧 goroutine 或旧 provider 输出污染新 turn。
+- Avatar backend default-only 初始化，避免多个 GPU 大模型同启；切换 backend 需要重启/重配而不是热切换。
+- RAGEngine 有 hash embedding fallback，方便离线测试；真实语义质量仍取决于 embedding/provider。
+- Direct WebRTC、TURN、LiveKit、public IP 和安全组是主要部署故障点；生产需补 internal task token 和 network policy。
+- 配置口径漂移、Docker env/key 名不一致、provider native tool call 差异都会直接影响启动和运行。
+
+#### 可复刻设计不变量
+
+1. 实时媒体和模型推理应分层：Go 管 session/media/network，Python 管模型生态。
+2. Realtime agent 需要 epoch/sequence guard，不能只依赖 cancel context。
+3. 重 GPU 插件要支持 default-only 或 lazy init。
+4. 语音长任务必须先 ACK，再异步推事件和 artifact。
+5. 角色知识库应按 character 隔离，而不是全局混检。
+6. Provider adapter 要把音频、文本、图片、tool_result 收敛成统一事件流。
+7. Task runtime 的内存状态必须投影到可恢复的产品状态。
+8. 内部 API 不能默认暴露到生产网络。
+
 ### 关键设计决策与 trade-off
 
 | 决策 | 选择 | 获得 | 代价 |
