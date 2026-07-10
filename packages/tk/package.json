@@ -1,6 +1,6 @@
 {
   "name": "@jarl_okbe/tk",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": false,
   "description": "Technical Knockout CLI, MCP server, and Codex installer for capability replication.",
   "type": "module",
@@ -12,7 +12,12 @@
     ".mcp.json",
     "README.md",
     "bin/",
-    "data/",
+    "data/.gitkeep",
+    "data/comparisons/",
+    "data/reports/",
+    "data/report-structure-audit.json",
+    "data/tk.catalog.json",
+    "data/tk.lock.json",
     "fixtures/",
     "lib/",
     "mcp/",
@@ -58,7 +63,8 @@
     "fixtures:regression": "node ./scripts/fixture-regression.mjs",
     "benchmark:capabilities": "node ./scripts/capability-benchmark.mjs",
     "mcp:smoke": "node ./scripts/mcp-smoke.mjs",
-    "check": "node --check ./bin/tk.mjs && node --check ./lib/tk-core.mjs && node --check ./lib/report-structure.mjs && node --check ./lib/runtime/run-store.mjs && node --check ./mcp/server.mjs && node --check ./scripts/mcp-smoke.mjs && node --check ./scripts/fixture-regression.mjs && node --check ./scripts/capability-benchmark.mjs && node --check ./scripts/lib/replication-fixture-suite.mjs && node --test ./scripts/catalog-invariants.test.mjs",
+    "package:check": "node --test ./scripts/package-boundary.test.mjs",
+    "check": "node --check ./bin/tk.mjs && node --check ./lib/tk-core.mjs && node --check ./lib/report-structure.mjs && node --check ./lib/runtime/run-store.mjs && node --check ./mcp/server.mjs && node --check ./scripts/mcp-smoke.mjs && node --check ./scripts/fixture-regression.mjs && node --check ./scripts/capability-benchmark.mjs && node --check ./scripts/package-boundary.test.mjs && node --check ./scripts/lib/replication-fixture-suite.mjs && node --test ./scripts/catalog-invariants.test.mjs && npm run package:check",
     "verify": "npm run check && npm run report:lint && npm run catalog:validate && npm run doctor:repo && npm run doctor:runtime && npm run fixtures:regression && npm run codex:install:dry-run && npm run mcp:smoke"
   },
   "dependencies": {
