@@ -64,6 +64,11 @@ TK should help Codex answer what to keep, what to adapt, what not to copy, the f
 | `tk source status` | Inspect local source-cache state |
 | `tk source sync --missing` | Create a clone/fetch plan for missing source caches |
 
+Machine index invariant: `tk catalog validate` requires every catalog project to
+have a packaged `data/reports/*.md` snapshot, and `tk doctor repo` validates the
+packaged `data/tk.lock.json` against the current catalog. After pruning a report,
+refresh with `tk catalog build` and `tk source status --write-lock`.
+
 Examples:
 - Value proof: <https://github.com/okbexx/tech-knockout/blob/main/docs/value-proof.md>
 - Runtime and contracts: <https://github.com/okbexx/tech-knockout/blob/main/docs/tk-replication-runtime.md>

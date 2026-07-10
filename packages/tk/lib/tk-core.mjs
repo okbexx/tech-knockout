@@ -536,8 +536,23 @@ export function validateCatalog(catalog, options = {}) {
     if (!project.url) errors.push(`${project.id} missing GitHub url`);
     if (!project.sourceDir) errors.push(`${project.id} missing sourceDir`);
     if (!project.dependencyEvidencePresent) errors.push(`${project.id} missing dependency evidence section`);
+    const reportFileName = packagedReportFileName(project);
+    if (!reportFileName) {
+      errors.push(`${project.id} missing reportFile`);
+    } else {
+      const snapshotPath = join(paths.reportSnapshotDir, reportFileName);
+      if (!fileExists(snapshotPath)) {
+        errors.push(`${project.id} missing packaged report: ${relative(paths.packageRoot, snapshotPath)}`);
+      }
+    }
   }
   return { ok: errors.length === 0, errors };
+}
+
+function packagedReportFileName(project) {
+  if (project.report) return project.report.split('/').pop();
+  if (project.reportFile) return `${project.reportFile}.md`;
+  return null;
 }
 
 function loadSchema(name, options = {}) {
@@ -552,7 +567,21 @@ function validateNamedSchema(name, value, options = {}) {
 }
 
 export function validateSourceLock(lock, options = {}) {
-  return validateNamedSchema('source-lock.schema.json', lock, options);
+  const result = validateNamedSchema('source-lock.schema.json', lock, options);
+  const errors = [...result.errors];
+  const catalog = loadCatalog(options);
+  const catalogIds = new Set((catalog.projects || []).map((project) => project.id).filter(Boolean));
+  const lockIds = new Set();
+  for (const source of lock.sources || []) {
+    if (!source.id) continue;
+    if (lockIds.has(source.id)) errors.push(`duplicate source lock id: ${source.id}`);
+    lockIds.add(source.id);
+    if (!catalogIds.has(source.id)) errors.push(`${source.id} source lock entry has no catalog project`);
+  }
+  for (const id of catalogIds) {
+    if (!lockIds.has(id)) errors.push(`${id} missing source lock entry`);
+  }
+  return { ok: errors.length === 0, errors };
 }
 
 export function validateReplicationPlan(plan, options = {}) {
@@ -1529,6 +1558,8 @@ function repoDoctorChecks(options = {}) {
   const paths = getPaths(options);
   const catalog = loadCatalog(options);
   const validation = validateCatalog(catalog, options);
+  const sourceLockPath = join(paths.dataDir, 'tk.lock.json');
+  const sourceLockValidation = validatePackagedSourceLock(sourceLockPath, options);
   const reportAudit = auditReportStructure(options);
   const reportAuditPath = join(paths.dataDir, 'report-structure-audit.json');
   const reportsAvailable = existsSync(paths.reportsDir) || existsSync(paths.reportSnapshotDir);
@@ -1546,6 +1577,7 @@ function repoDoctorChecks(options = {}) {
     { name: 'reports_available', ok: reportsAvailable },
     { name: 'comparisons_available', ok: comparisonsAvailable },
     { name: 'catalog_valid', ok: validation.ok, details: validation.errors },
+    { name: 'source_lock_valid', ok: sourceLockValidation.ok, details: sourceLockValidation.errors },
     {
       name: 'report_structure_valid',
       ok: reportAudit.summary.failedReports === 0,
@@ -1562,6 +1594,18 @@ function repoDoctorChecks(options = {}) {
     },
     { name: 'replication_schemas_available', ok: missingSchemas.length === 0, details: missingSchemas },
   ];
+}
+
+function validatePackagedSourceLock(sourceLockPath, options = {}) {
+  const paths = getPaths(options);
+  if (!fileExists(sourceLockPath)) {
+    return { ok: false, errors: [`missing packaged source lock: ${relative(paths.packageRoot, sourceLockPath)}`] };
+  }
+  try {
+    return validateSourceLock(JSON.parse(readText(sourceLockPath)), options);
+  } catch (error) {
+    return { ok: false, errors: [`invalid packaged source lock: ${error.message}`] };
+  }
 }
 
 function runtimeDoctorChecks(status, options = {}) {

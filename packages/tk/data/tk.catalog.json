@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-07T12:01:22.446Z",
+  "generatedAt": "2026-07-10T12:10:48.399Z",
   "projects": [
     {
       "id": "1shell",
@@ -15,8 +15,8 @@
       "adoption": "观望；个人/小团队 PoC 可试，架构学习推荐，生产核心运维面暂不建议直接押。",
       "architectureValue": 5,
       "license": "MIT",
-      "language": "JavaScript；GitHub languages：JS 1.14MB、Vue 0.73MB、TypeScript 0.26MB、Go 0.06MB",
-      "analysisDate": "2026-06-10",
+      "language": "JavaScript；tracked files 里 .js 206、.vue 77、.ts 46、.go 11",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/weidu12123__1Shell",
       "owner": "weidu12123",
       "sourceExists": false,
@@ -32,7 +32,6 @@
       "tags": [
         "agent",
         "mcp",
-        "typescript",
         "go"
       ]
     },
@@ -45,15 +44,15 @@
       "report": "reports/agency-agents.md",
       "reportFile": "agency-agents",
       "category": "AI Coding / Agent Workflow",
-      "summary": "agency-agents 是一个跨宿主 AI 专家角色库：用 233 个 Markdown agent、16 个业务 division、14 个工具安装目标、转换/安装脚本和 Hermes lazy-router plugin，把 Claude Code、Codex、Cursor、Gemini、OpenCode、Hermes 等宿主变成“按需调用专家团队”。",
+      "summary": "agency-agents 是一个跨宿主 AI 专家角色库：用 243 个 Markdown agent、17 个业务 division、14 个工具安装目标、转换/安装脚本和 Hermes lazy-router plugin，把 Claude Code、Codex、Cursor、Gemini、OpenCode、Hermes 等宿主变成“按需调用专家团队”。",
       "adoption": "🟢 推荐采用（个人 / 小团队按需专家库；Hermes 场景优先 lazy-router） / 🟡 团队生产化前隔离试点。",
       "architectureValue": 4,
       "license": "MIT",
       "language": "Shell / Markdown / Python（GitHub API 主语言为 Shell；核心资产是 Markdown agent）",
-      "analysisDate": "2026-07-03",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/msitarzewski__agency-agents",
       "owner": "msitarzewski",
-      "sourceExists": false,
+      "sourceExists": true,
       "dependencies": [],
       "dependencySummary": {
         "total": 0,
@@ -76,7 +75,7 @@
           "dependency": "Python 3 standard library",
           "type": "Build helper / generated integration",
           "usedFor": "scripts/build-hermes-plugin.py、Hermes router plugin 生成、agent roster JSON 生成",
-          "problemSolved": "生成 Hermes plugin，把 233 个 agent 变成 4 个 lazy tools，避免全量 skills 注入",
+          "problemSolved": "生成 Hermes plugin，把 243 个 agent 变成 4 个 lazy tools，避免全量 skills 注入",
           "evidence": "builder 只使用 Python stdlib；installer 在 Hermes 分支调用 python3 检查/统计 agents.json",
           "reuseSignal": "适合作为跨平台生成器；比 Shell 更适合处理 JSON/frontmatter/搜索索引",
           "caution": "当前不是打包的 Python project；无 pyproject/requirements，也无 Python unit tests"
@@ -93,7 +92,7 @@
         {
           "dependency": "Markdown + YAML frontmatter",
           "type": "Asset format / public contract",
-          "usedFor": "233 个 agent 文件、CONTRIBUTING.md 模板、converter 输入",
+          "usedFor": "243 个 agent 文件、CONTRIBUTING.md 模板、converter 输入",
           "problemSolved": "用人类可读、容易贡献的格式承载专家 persona，同时让 converter 能读取 name/description/color/emoji/vibe",
           "evidence": "agent corpus 以 Markdown 为主；lib.sh / Python builder 都解析 frontmatter",
           "reuseSignal": "极低贡献门槛，便于 fork、本地审查和跨宿主转换",
@@ -104,7 +103,7 @@
           "type": "Single source of truth",
           "usedFor": "工具目标、安装类型、division metadata、CI drift checks",
           "problemSolved": "防止 README、脚本、workflow 和目录结构各自维护导致漂移",
-          "evidence": "tools.json 14 个工具目标；divisions.json 16 个 division；check-tools.sh / check-divisions.sh 读取它们校验脚本",
+          "evidence": "tools.json 14 个工具目标；divisions.json 17 个 division；check-tools.sh / check-divisions.sh 读取它们校验脚本",
           "reuseSignal": "可直接借鉴到内部 prompt library / plugin marketplace",
           "caution": "JSON 不是完整 schema-validated；目前靠 Bash 文本解析，复杂字段增长后建议加 JSON schema"
         }
@@ -120,9 +119,9 @@
     {
       "id": "agent-reach",
       "name": "Agent Reach",
-      "repo": "Panniantong/agent-reach",
-      "url": "https://github.com/Panniantong/agent-reach",
-      "cloneUrl": "https://github.com/Panniantong/agent-reach.git",
+      "repo": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "cloneUrl": "https://github.com/Panniantong/Agent-Reach.git",
       "report": "reports/agent-reach.md",
       "reportFile": "agent-reach",
       "category": "AI Coding / Agent Workflow",
@@ -131,8 +130,8 @@
       "architectureValue": 5,
       "license": "MIT",
       "language": "Python",
-      "analysisDate": "2026-06-16",
-      "sourceDir": "projects/Panniantong__agent-reach",
+      "analysisDate": "2026-07-08",
+      "sourceDir": "projects/Panniantong__Agent-Reach",
       "owner": "Panniantong",
       "sourceExists": false,
       "dependencies": [],
@@ -205,7 +204,7 @@
       "architectureValue": 4,
       "license": null,
       "language": "Python（GitHub 元数据）；实际为 Python + TypeScript/React + Chrome Extension JS",
-      "analysisDate": "2026-05-31",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/Vincent-chao-lang__AIHub",
       "owner": "Vincent-chao-lang",
       "sourceExists": false,
@@ -217,10 +216,77 @@
         "byScope": {}
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "fastapi + uvicorn",
+          "type": "Backend framework",
+          "usedFor": "本地 ingestion API、timeline/search/context 路由",
+          "problemSolved": "用最小 Web API 把浏览器采集层和记忆层解耦",
+          "evidence": "backend/main.py, backend/api/routes.py",
+          "reuseSignal": "适合这类 local-first / team LAN 小系统快速起盘",
+          "caution": "当前 CORS allow_origins=[\"*\"]，安全边界远没收紧"
+        },
+        {
+          "dependency": "sqlmodel",
+          "type": "ORM / schema",
+          "usedFor": "Message 持久化、响应模型",
+          "problemSolved": "用统一 Python 类型承接消息行存储与 API schema",
+          "evidence": "backend/models/message.py, backend/db/database.py",
+          "reuseSignal": "适合 MVP 先把行存储和 API 契约绑在一起",
+          "caution": "事务边界简单，幂等/唯一约束仍弱"
+        },
+        {
+          "dependency": "chromadb",
+          "type": "Vector store",
+          "usedFor": "默认本地语义检索",
+          "problemSolved": "零配置落地对话 embedding，支撑 search / related / context",
+          "evidence": "backend/db/chroma_client.py, backend/db/chroma_store.py",
+          "reuseSignal": "local-first PoC 很合适",
+          "caution": "现在把 .chromadb 直接跟踪进仓库，卫生差"
+        },
+        {
+          "dependency": "sentence-transformers + BAAI/bge-small-zh-v1.5",
+          "type": "Embedding stack",
+          "usedFor": "中文语义索引",
+          "problemSolved": "避免依赖外部 embedding API，保持本地优先",
+          "evidence": "backend/services/embedding.py, backend/requirements.txt",
+          "reuseSignal": "对中文团队内知识库是合理默认",
+          "caution": "首次下载与模型体积提高安装门槛"
+        },
+        {
+          "dependency": "tiktoken",
+          "type": "Token estimator",
+          "usedFor": "context builder 预算控制",
+          "problemSolved": "让图谱扩展后的上下文能在 token budget 内裁剪输出",
+          "evidence": "backend/services/context.py",
+          "reuseSignal": "这是可直接复用到记忆/代码库产品的好点",
+          "caution": "仍只做估算，不保证各模型 tokenizer 严格一致"
+        },
+        {
+          "dependency": "react + vite + d3-force",
+          "type": "Frontend stack",
+          "usedFor": "timeline / graph / context Web 面板",
+          "problemSolved": "快速搭出可视化与检索 UI",
+          "evidence": "frontend/package.json, frontend/src/pages/*",
+          "reuseSignal": "前端控制面轻量、可快速重写",
+          "caution": "仓库未见 CI / test，UI 回归全靠人工"
+        },
+        {
+          "dependency": "Chrome Manifest V3",
+          "type": "Browser extension runtime",
+          "usedFor": "多平台 content script、background、side panel",
+          "problemSolved": "把采集点放在用户现有 AI Web 工作流旁边",
+          "evidence": "extension/manifest.json, extension/content/*.js",
+          "reuseSignal": "side panel + content-script 组合很值得借鉴",
+          "caution": "host_permissions 同时给了 http://*/*、https://*/*，权限过宽"
+        }
+      ],
       "tags": [
         "rag",
         "knowledge",
+        "runtime",
+        "graph",
+        "browser",
         "typescript",
         "python"
       ]
@@ -239,7 +305,7 @@
       "architectureValue": 5,
       "license": "Apache-2.0（仓库根 LICENSE）；多个 harness / package metadata 仍残留 MIT / GPL classifier，见风险说明",
       "language": "Python 为主，少量 JavaScript / TypeScript / C# / Shell / Swift",
-      "analysisDate": "2026-06-15",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/HKUDS__CLI-Anything",
       "owner": "HKUDS",
       "sourceExists": false,
@@ -251,10 +317,48 @@
         "byScope": {}
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "click>=8.0",
+          "type": "Python CLI framework",
+          "usedFor": "cli-hub command surface、subcommand tree、参数解析",
+          "problemSolved": "让 registry / matrix / preview / install / doctor 能稳定暴露成命令面",
+          "evidence": "cli-hub/setup.py install_requires",
+          "reuseSignal": "适合作为 Agent-native CLI control plane 的最小框架",
+          "caution": "不是强 schema/runtime guard，本身不解决 install command 安全问题"
+        },
+        {
+          "dependency": "requests>=2.28",
+          "type": "HTTP client",
+          "usedFor": "拉取 registry / public registry / matrix registry；发送 analytics",
+          "problemSolved": "用最小依赖完成 registry 控制面与遥测上报",
+          "evidence": "cli-hub/setup.py、cli_hub/registry.py、cli_hub/analytics.py",
+          "reuseSignal": "说明产品核心不是复杂服务端，而是“轻控制面 + JSON registry”",
+          "caution": "网络层简单也意味着 provenance / retry / 签名 / policy 需要额外治理"
+        },
+        {
+          "dependency": "setuptools + package data vendoring",
+          "type": "packaging/build",
+          "usedFor": "cli-hub 发布、entry point、把 cli-hub-matrix/* vendoring 进 wheel",
+          "problemSolved": "解决“脱离 repo checkout 后 matrix skill 丢失”问题",
+          "evidence": "cli-hub/setup.py 里的 build_py/sdist + _sync_matrix_data()",
+          "reuseSignal": "对 skill-heavy / artifact-heavy Python 包很有借鉴价值",
+          "caution": "也暴露出 root Apache-2.0 与子包 MIT classifier 的 metadata 漂移"
+        },
+        {
+          "dependency": "stdlib-first runtime",
+          "type": "architecture choice",
+          "usedFor": "registry cache、matrix state、preview protocol、skill 复制、agent context 检测",
+          "problemSolved": "把产品重心放在方法论/协议/registry，而不是重运行时框架",
+          "evidence": "大量核心逻辑在 cli-anything-plugin/*、cli_hub/* 中直接用 stdlib + 少量依赖",
+          "reuseSignal": "适合做“Agent tool packaging substrate” 的轻核设计",
+          "caution": "轻依赖不代表低风险；shell install、license provenance、telemetry 仍是系统性问题"
+        }
+      ],
       "tags": [
         "agent",
         "cli",
+        "runtime",
         "typescript",
         "python"
       ]
@@ -505,38 +609,6 @@
       ]
     },
     {
-      "id": "codexdesktop-rebuild",
-      "name": "CodexDesktop-Rebuild",
-      "repo": "Haleclipse/CodexDesktop-Rebuild",
-      "url": "https://github.com/Haleclipse/CodexDesktop-Rebuild",
-      "cloneUrl": "https://github.com/Haleclipse/CodexDesktop-Rebuild.git",
-      "report": "reports/CodexDesktop-Rebuild.md",
-      "reportFile": "CodexDesktop-Rebuild",
-      "category": "Tools / Infrastructure / Distribution",
-      "summary": "基于逆向工程将 OpenAI 官方仅支持 macOS 的 Codex Desktop 应用重新打包为跨平台（macOS/Windows/Linux）独立安装包的 Electron 重分发项目。",
-      "adoption": "❌ 不推荐采用（生产环境） / ⚠️ 观望（个人尝鲜）",
-      "architectureValue": 4,
-      "license": "未声明（⚠️ 风险）",
-      "language": "JavaScript",
-      "analysisDate": "2026-05-09",
-      "sourceDir": "projects/Haleclipse__CodexDesktop-Rebuild",
-      "owner": "Haleclipse",
-      "sourceExists": false,
-      "dependencies": [],
-      "dependencySummary": {
-        "total": 0,
-        "manifests": 0,
-        "byEcosystem": {},
-        "byScope": {}
-      },
-      "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
-      "tags": [
-        "cli",
-        "desktop"
-      ]
-    },
-    {
       "id": "compound-engineering-plugin",
       "name": "compound-engineering-plugin",
       "repo": "EveryInc/compound-engineering-plugin",
@@ -545,12 +617,12 @@
       "report": "reports/compound-engineering-plugin.md",
       "reportFile": "compound-engineering-plugin",
       "category": "AI Coding / Agent Workflow",
-      "summary": "Compound Engineering 是 EveryInc 把“复利工程”编码成 AI coding workflow 的插件系统：以 Claude Code 插件资产为单一源码，向 Codex、OpenCode、Pi、Gemini、Kiro 等宿主转换分发，并用 39 个 skills、43 个 agents 组织 brainstorm → plan → work → review → compound 的团队协作闭环。",
+      "summary": "Compound Engineering 是 EveryInc 把“复利工程”编码成 root-native 多宿主 AI coding workflow 插件：以顶层 `skills/` 和多份 native plugin manifest 为事实源，向 Claude、Cursor、Codex、Kimi 与 adapter targets 分发，并用 brainstorm → plan → work → simplify → review → compound 的工程闭环把团队 AI coding 方法论产品化。",
       "adoption": "🟢 推荐采用（团队多 Agent 审查与复利沉淀） / 🟡 企业生产化前需隔离试点。",
       "architectureValue": 5,
       "license": "MIT",
       "language": null,
-      "analysisDate": "2026-06-16",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/EveryInc__compound-engineering-plugin",
       "owner": "EveryInc",
       "sourceExists": false,
@@ -562,30 +634,69 @@
         "byScope": {}
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "citty",
+          "type": "runtime package",
+          "usedFor": "CLI command surface (install / convert / list / cleanup)",
+          "problemSolved": "用极薄命令层把解析、参数校验和 composition root 固定下来",
+          "evidence": "origin/main:package.json dependencies.citty；src/index.ts",
+          "reuseSignal": "适合 agent tooling / installer 类 TypeScript CLI",
+          "caution": "只解决命令面，不替代真正的 installer policy"
+        },
+        {
+          "dependency": "js-yaml",
+          "type": "runtime package",
+          "usedFor": "frontmatter / YAML 解析",
+          "problemSolved": "让 SKILL.md 和 manifest 周边元数据可结构化读写",
+          "evidence": "origin/main:package.json dependencies[\"js-yaml\"]",
+          "reuseSignal": "适合 Markdown-first / skill-first 系统",
+          "caution": "YAML 契约漂移仍需自家校验与测试兜底"
+        },
+        {
+          "dependency": "Bun",
+          "type": "toolchain",
+          "usedFor": "bun run / bun test / release scripts",
+          "problemSolved": "统一 TS 执行、测试与脚本运行，降低脚手架体积",
+          "evidence": "origin/main:package.json scripts 全面使用 bun",
+          "reuseSignal": "适合薄 runtime + 大量 Markdown 资产仓库",
+          "caution": "团队环境需统一 Bun 版本，Windows / CI 细节要额外注意"
+        },
+        {
+          "dependency": "semantic-release + release validation",
+          "type": "release stack",
+          "usedFor": "多 manifest / 多宿主插件版本推进",
+          "problemSolved": "降低 root package、plugin manifests 与 release PR 的人工同步成本",
+          "evidence": "origin/main:package.json devDependencies；src/release/；Actions Release PR",
+          "reuseSignal": "适合多分发表面的插件仓库",
+          "caution": "不能自动解决 npm channel 停滞；外部分发仍可能漂移"
+        }
+      ],
       "tags": [
         "agent",
         "coding",
-        "workflow"
+        "cli",
+        "workflow",
+        "runtime"
       ]
     },
     {
       "id": "cyberverse",
       "name": "CyberVerse",
-      "repo": "dsd2077/CyberVerse",
-      "url": "https://github.com/dsd2077/CyberVerse",
-      "cloneUrl": "https://github.com/dsd2077/CyberVerse.git",
+      "repo": "Lynpoint/CyberVerse",
+      "url": "https://github.com/Lynpoint/CyberVerse",
+      "cloneUrl": "https://github.com/Lynpoint/CyberVerse.git",
       "report": "reports/CyberVerse.md",
       "reportFile": "CyberVerse",
       "category": "Agent Platform / Desktop / Design",
-      "summary": "CyberVerse 是一个开源实时音视频数字人 Agent 平台，用 Go 编排 WebRTC / 会话 / 媒体管线，用 Python gRPC 推理服务承载 ASR、TTS、Omni、RAG、PersonaAgent 和 FlashHead / LiveAct 头像视频插件，用 Vue 前端提供角色、会话、设置、知识库和任务 UI；它更像“可自托管的实时语音/视频数字人基座”，不是通用 workflow 平台，也不是单纯 avatar demo。",
+      "summary": "CyberVerse 是一个开源实时数字人 Agent framework，用 Go 编排 WebRTC / 会话 / 媒体与任务投影，用 Python gRPC 推理层承载 ASR、TTS、Omni、RAG、PersonaAgent、FlashHead / LiveAct 以及云端数字人 provider，用 Vue 前端提供角色、会话、设置、知识库和任务 UI；它更像“可自托管的 voice-first digital-human 平台雏形”，不是通用 workflow 平台，也不是单纯 avatar demo。",
       "adoption": "观望；推荐做 PoC / 架构学习，不建议直接作为生产底座。",
       "architectureValue": 5,
       "license": "GPL-3.0",
       "language": "Python（GitHub API）；实际是 Python + Go + Vue/TypeScript",
-      "analysisDate": "2026-05-20",
-      "sourceDir": "projects/dsd2077__CyberVerse",
-      "owner": "dsd2077",
+      "analysisDate": "2026-07-08",
+      "sourceDir": "projects/Lynpoint__CyberVerse",
+      "owner": "Lynpoint",
       "sourceExists": false,
       "dependencies": [],
       "dependencySummary": {
@@ -595,7 +706,71 @@
         "byScope": {}
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "Pion WebRTC / ICE / TURN",
+          "type": "Go SDK",
+          "usedFor": "Direct WebRTC、ICE、TURN、媒体收发",
+          "problemSolved": "自建实时音视频链路，不依赖单一云 RTC",
+          "evidence": "server 依赖 + server/internal/direct/* + session/orchestrator",
+          "reuseSignal": "高：做 voice/video agent 时很值得复用这套抽象",
+          "caution": "NAT / ICE / TURN / 公网 IP 是高频故障源"
+        },
+        {
+          "dependency": "LiveKit SDK / media-sdk",
+          "type": "Go SDK",
+          "usedFor": "SFU 模式、token、房间与媒体桥接",
+          "problemSolved": "为复杂网络/多人场景提供替代 direct P2P 的媒体平面",
+          "evidence": "Makefile 使用 -tags livekit；server/internal/livekit/*",
+          "reuseSignal": "高：适合把 direct / SFU 做成双后端",
+          "caution": "仍引入 opus/soxr 系统依赖和部署复杂度"
+        },
+        {
+          "dependency": "grpcio / protobuf",
+          "type": "Python + Go RPC",
+          "usedFor": "Go orchestrator ↔ Python inference service",
+          "problemSolved": "把媒体/会话控制面与模型生态分层",
+          "evidence": "proto/*、inference/server.py、server/internal/inference/*",
+          "reuseSignal": "很高：这是本项目最核心的语言边界设计",
+          "caution": "生成代码、版本同步和 message size 都要治理"
+        },
+        {
+          "dependency": "LangChain + Chroma",
+          "type": "Python libs",
+          "usedFor": "角色级文档导入、切块、embedding、检索",
+          "problemSolved": "为每个 character 提供本地 RAG 和记忆素材库",
+          "evidence": "pyproject.toml rag extra；inference/rag/engine.py",
+          "reuseSignal": "中高：角色知识库场景可直接借鉴",
+          "caution": "生产规模、并发索引和 embedding 成本仍需验证"
+        },
+        {
+          "dependency": "LiteLLM",
+          "type": "Python SDK / adapter",
+          "usedFor": "统一接入 100+ LLM providers",
+          "problemSolved": "减少 provider-specific glue code，扩大模型选择面",
+          "evidence": "pyproject.toml litellm extra；infra/config/llm_models/litellm.yaml；README 明写 LiteLLM",
+          "reuseSignal": "高：多 provider 平台很适合先用统一 adapter",
+          "caution": "统一接口不等于统一 realtime / tool-call 能力"
+        },
+        {
+          "dependency": "diffusers / transformers / xformers / NCCL",
+          "type": "Python ML stack",
+          "usedFor": "FlashHead / LiveAct 数字人视频推理",
+          "problemSolved": "把实时 speaking avatar 放进同一平台",
+          "evidence": "pyproject.toml flash_head / live_act extras",
+          "reuseSignal": "中：适合想做本地数字人视频的人",
+          "caution": "依赖重、GPU 硬件门槛高、上游模型/license 需逐项核实"
+        },
+        {
+          "dependency": "OpenAI SDK + websockets + provider model YAMLs",
+          "type": "Python SDK + config pattern",
+          "usedFor": "Omni / realtime / TTS / ASR providers",
+          "problemSolved": "用统一配置发现多个 provider，而非把 provider 写死在业务代码里",
+          "evidence": "infra/config/*_models/、inference/server.py、persona_agent.py",
+          "reuseSignal": "高：provider registry 设计值得学",
+          "caution": "真正可替换性仍受不同 provider 实时协议差异限制"
+        }
+      ],
       "tags": [
         "agent",
         "rag",
@@ -621,7 +796,7 @@
       "architectureValue": 5,
       "license": "Apache-2.0",
       "language": "TypeScript",
-      "analysisDate": "2026-06-28",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/google-labs-code__design.md",
       "owner": "google-labs-code",
       "sourceExists": false,
@@ -657,7 +832,7 @@
       "architectureValue": 5,
       "license": "MIT",
       "language": "JavaScript / Markdown 为主，另有 Rust、Python、Shell、TypeScript、YAML 等",
-      "analysisDate": "2026-06-05",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/affaan-m__ECC",
       "owner": "affaan-m",
       "sourceExists": false,
@@ -669,11 +844,68 @@
         "byScope": {}
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "@iarna/toml",
+          "type": "TOML parser",
+          "usedFor": "多 harness / profile / config 文件读写",
+          "problemSolved": "让 workflow substrate 不被单一 JSON/YAML 配置面锁死",
+          "evidence": "package.json dependencies",
+          "reuseSignal": "适合任何要跨工具链读写配置的 harness workflow repo",
+          "caution": "配置 merge 语义仍需 target adapter 明确约束"
+        },
+        {
+          "dependency": "ajv",
+          "type": "JSON Schema validator",
+          "usedFor": "manifests / hooks / workflow assets 校验",
+          "problemSolved": "把安装面和资产面变成可验证数据，而不是纯文本约定",
+          "evidence": "package.json dependencies",
+          "reuseSignal": "非常适合 profile/component/install-plan 这种数据驱动系统",
+          "caution": "schema 演进若无迁移策略，容易制造隐性 breakage"
+        },
+        {
+          "dependency": "sql.js",
+          "type": "Embedded SQLite-in-WASM/JS",
+          "usedFor": "Node 侧状态、会话或控制面辅助能力",
+          "problemSolved": "给纯 JS CLI 提供轻量本地结构化状态能力，而不是强依赖外部 DB",
+          "evidence": "package.json dependencies",
+          "reuseSignal": "适合 workflow substrate 引入轻状态层",
+          "caution": "不应与 ECC2 真正的 Rust/SQLite control plane 能力混为一谈"
+        },
+        {
+          "dependency": "typescript",
+          "type": "Dev/build toolchain",
+          "usedFor": ".opencode/dist 预构建",
+          "problemSolved": "让主 npm 包在发布前就能生成 OpenCode 适配产物",
+          "evidence": "prepack -> build:opencode, devDependencies.typescript",
+          "reuseSignal": "说明多 harness 兼容层已进入真实构建流程，而不是只放静态模板",
+          "caution": "clean clone 若未装 dev deps，npm pack 会失败；发布面依赖完整 bootstrap"
+        },
+        {
+          "dependency": "c8 + validators (validate-*)",
+          "type": "Coverage/quality gate",
+          "usedFor": "agent/rules/skills/hooks/install-manifest/no-personal-paths 验证",
+          "problemSolved": "把 workflow assets 当工程资产治理，而不是“提示词堆”",
+          "evidence": "scripts.test, scripts.coverage",
+          "reuseSignal": "这是 ECC 最值得学的工程纪律之一",
+          "caution": "validator 越多，外部贡献门槛越高，需要良好错误信息"
+        },
+        {
+          "dependency": "@opencode-ai/plugin",
+          "type": "Harness integration dev surface",
+          "usedFor": "OpenCode 适配与预构建",
+          "problemSolved": "说明 ECC 不只发 instruction 文件，而是开始进入特定 harness 的实际插件/构建面",
+          "evidence": "devDependencies + build:opencode",
+          "reuseSignal": "对“cross-harness，但不是最低公分母”很有参考价值",
+          "caution": "会放大版本兼容与打包链路复杂度"
+        }
+      ],
       "tags": [
         "agent",
         "coding",
         "mcp",
+        "rag",
+        "cli",
         "workflow",
         "rust",
         "typescript",
@@ -694,7 +926,7 @@
       "architectureValue": 5,
       "license": "MIT",
       "language": "Rust",
-      "analysisDate": "2026-06-15",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/1jehuang__jcode",
       "owner": "1jehuang",
       "sourceExists": false,
@@ -706,7 +938,62 @@
         "byScope": {}
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "tokio + futures",
+          "type": "Async runtime",
+          "usedFor": "provider streaming、server lifecycle、tool subprocess、signal/shutdown",
+          "problemSolved": "把 live session、background wake、tool I/O、network stream 放进同一并发模型",
+          "evidence": "FETCH_HEAD:Cargo.toml, crates/jcode-app-core/Cargo.toml",
+          "reuseSignal": "适合任何 terminal-first agent runtime",
+          "caution": "异步状态面很大，必须配合明确 reducer / session model"
+        },
+        {
+          "dependency": "reqwest + rustls + tokio-tungstenite",
+          "type": "HTTP / TLS / WebSocket stack",
+          "usedFor": "provider API、OAuth、upstream session、实时 transport",
+          "problemSolved": "给多 provider / OpenAI-compatible / runtime socket 留统一网络层",
+          "evidence": "root 与 app-core Cargo 直接依赖",
+          "reuseSignal": "适合多 provider coding agent / MCP / gateway runtime",
+          "caution": "需要严格 provider session hygiene，不能把 transport 成功误当状态一致"
+        },
+        {
+          "dependency": "ratatui + crossterm",
+          "type": "TUI rendering/input",
+          "usedFor": "主交互面、usage overlay、mermaid、tool display、workspace UI",
+          "problemSolved": "让产品坚持 terminal-first 而不是退回简单 REPL",
+          "evidence": "crates/jcode-tui/Cargo.toml",
+          "reuseSignal": "对 keyboard-driven heavy user 很有借鉴价值",
+          "caution": "UI 与 runtime 必须解耦，否则 TUI 改动会拖垮核心可维护性"
+        },
+        {
+          "dependency": "agentgrep",
+          "type": "Git dependency / code search primitive",
+          "usedFor": "代码检索与 agent-facing search 能力",
+          "problemSolved": "用更强的代码搜索基础设施支撑 runtime 工具面",
+          "evidence": "crates/jcode-app-core/Cargo.toml 中 git tag v0.1.6",
+          "reuseSignal": "说明作者会为关键能力引入专用底层组件，而不是全靠 shell 包装",
+          "caution": "git 依赖会放大供应链和 CI 稳定性要求"
+        },
+        {
+          "dependency": "tikv-jemallocator",
+          "type": "Memory allocator",
+          "usedFor": "长时运行 server / 多 session RAM 控制",
+          "problemSolved": "降低碎片化，把性能优化变成产品结构的一部分",
+          "evidence": "root Cargo.toml optional feature jemalloc",
+          "reuseSignal": "适合追求长会话稳定性的本地 agent runtime",
+          "caution": "跨平台 allocator/feature 组合会增加发布矩阵复杂度"
+        },
+        {
+          "dependency": "内部 crate 分层（jcode-base / jcode-app-core / jcode-tui / jcode-provider-* / jcode-tool-*）",
+          "type": "Monorepo architecture",
+          "usedFor": "状态、provider、tool、UI、protocol、memory 分层",
+          "problemSolved": "在超大 Rust workspace 里控制编译边界和职责边界",
+          "evidence": "root/app-core/tui Cargo 与目录结构",
+          "reuseSignal": "这是 jcode 最值得学的工程资产之一",
+          "caution": "crate 数量过多会抬高新贡献者理解门槛，需要 dependency boundary ratchet 配合"
+        }
+      ],
       "tags": [
         "agent",
         "coding",
@@ -730,7 +1017,7 @@
       "architectureValue": 5,
       "license": "MIT",
       "language": "Python；另有 Markdown / JSON / Bash / JS / YAML",
-      "analysisDate": "2026-06-11",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/mvanhorn__last30days-skill",
       "owner": "mvanhorn",
       "sourceExists": false,
@@ -742,11 +1029,59 @@
         "byScope": {}
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "Python stdlib (argparse, concurrent.futures, sqlite3, json, subprocess)",
+          "type": "Runtime foundation",
+          "usedFor": "CLI、并行 fanout、SQLite store、render/persist、外部命令调用",
+          "problemSolved": "让研究引擎保持零运行时 PyPI 依赖，安装面极轻",
+          "evidence": "pyproject.toml dependencies=[]；目录内 last30days.py / pipeline.py / store.py / watchlist.py",
+          "reuseSignal": "对 agent-native skill 很有参考价值：把复杂性放在 contracts 和 adapters，而不是厚 SDK 栈",
+          "caution": "复杂性转移到外部 CLI / cookies / API keys；排障需要更强 observability"
+        },
+        {
+          "dependency": "gh CLI / GitHub token",
+          "type": "External command / credential",
+          "usedFor": "GitHub issue/PR/repo/discussion 信号",
+          "problemSolved": "避免自己维护 GitHub scraping，直接复用官方 auth surface",
+          "evidence": "--diagnose 显示 gh: available、has_github: true",
+          "reuseSignal": "很适合作为“源码/社区信号”来源的低摩擦接入",
+          "caution": "在未登录或 token scope 不足时会降级；企业侧还要管审计与配额"
+        },
+        {
+          "dependency": "yt-dlp",
+          "type": "External command",
+          "usedFor": "YouTube transcript / metadata 抓取",
+          "problemSolved": "用成熟 CLI 承担视频来源适配，而不是在 skill 内自造轮子",
+          "evidence": "--diagnose 显示 yt-dlp: available",
+          "reuseSignal": "适合所有需要补视频语料的研究工具",
+          "caution": "易受平台策略、区域和反爬变化影响"
+        },
+        {
+          "dependency": "bird / xAI / cookies path",
+          "type": "Optional external tool + credentials",
+          "usedFor": "X / social signal retrieval",
+          "problemSolved": "把高价值但高脆弱度的平台接入做成按需启用",
+          "evidence": "--diagnose 显示 bird_installed: true 但 bird_authenticated: false",
+          "reuseSignal": "体现“free-first + optional paid/credentialed”架构",
+          "caution": "反爬、cookie、账号风控与 ToS 风险最高"
+        },
+        {
+          "dependency": "pytest + pytest-cov",
+          "type": "Dev/test stack",
+          "usedFor": "回归测试与覆盖率门",
+          "problemSolved": "让 source adapters、planner、render、watchlist 保持可回归",
+          "evidence": "pyproject.toml dev group；本轮 .venv/bin/pytest -q 通过 2,766 tests",
+          "reuseSignal": "说明项目已不是 prompt demo，而是工程化 engine",
+          "caution": "本机无 uv 时需手动起 venv；开发体验仍假设维护者熟悉 Python toolchain"
+        }
+      ],
       "tags": [
         "agent",
         "coding",
+        "cli",
         "workflow",
+        "runtime",
         "python"
       ]
     },
@@ -759,12 +1094,12 @@
       "report": "reports/LightRAG.md",
       "reportFile": "LightRAG",
       "category": "Code Intelligence / RAG / Knowledge",
-      "summary": "轻量但工程化程度很高的 GraphRAG 框架，用四类可插拔存储、实体关系抽取、多模式图谱检索、向量混合和多模态文档 pipeline，把传统 chunk RAG 升级为适合复杂企业知识库的图谱增强检索内核。",
+      "summary": "轻量外壳下高度工程化的 GraphRAG / retrieval kernel，用四类可插拔存储、实体关系抽取、多模式图谱检索、向量混合、role-specific LLM 和已并入的多模态文档 pipeline，把传统 chunk RAG 升级为适合复杂企业知识库的图谱增强检索内核。它不是完整知识库产品，但非常像一颗可嵌入、可替换后端的高级 RAG 中间层。",
       "adoption": "推荐采用为“图谱增强检索内核 / 企业复杂知识库 PoC”，不建议单独作为完整企业知识库产品。",
       "architectureValue": 5,
       "license": null,
       "language": "Python + TypeScript/TSX",
-      "analysisDate": "2026-06-11",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/HKUDS__LightRAG",
       "owner": "HKUDS",
       "sourceExists": false,
@@ -776,10 +1111,67 @@
         "byScope": {}
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "networkx + nano-vectordb",
+          "type": "默认图/向量存储实现",
+          "usedFor": "本地最轻 GraphRAG 路径",
+          "problemSolved": "让开发者不接外部数据库也能快速跑通图谱检索 PoC",
+          "evidence": "pyproject.toml; lightrag/kg/__init__.py",
+          "reuseSignal": "非常适合快速验证 GraphRAG 查询价值",
+          "caution": "默认实现方便但不是高并发生产基座"
+        },
+        {
+          "dependency": "Postgres / Neo4j / Mongo / OpenSearch / Qdrant / Milvus / Redis registry",
+          "type": "多后端 storage adapter",
+          "usedFor": "KV / Graph / Vector / DocStatus 四层可插拔",
+          "problemSolved": "让团队复用已有基础设施，而不是被单一存储锁死",
+          "evidence": "lightrag/kg/__init__.py 的 STORAGE_IMPLEMENTATIONS / required_methods / STORAGES",
+          "reuseSignal": "这是最值得复用的架构思想之一",
+          "caution": "组合矩阵巨大，真实稳定性不能靠 README 推断"
+        },
+        {
+          "dependency": "fastapi + uvicorn + gunicorn + PyJWT + python-jose + bcrypt",
+          "type": "API / auth / server runtime",
+          "usedFor": "REST、stream、Ollama-compatible API、账户和 token 认证",
+          "problemSolved": "避免只做 notebook / library 级 demo，而能落成服务",
+          "evidence": "pyproject.toml [project.optional-dependencies].api + README 安装/认证说明",
+          "reuseSignal": "适合需要服务化嵌入的团队",
+          "caution": "README 已明确默认绑定 0.0.0.0，安全配置必须主动收口"
+        },
+        {
+          "dependency": "pypdf + python-docx + python-pptx + cairosvg + MinerU / Docling",
+          "type": "文档解析 / multimodal pipeline",
+          "usedFor": "复杂 PDF / Office / 图片 / 表格 / 公式处理",
+          "problemSolved": "把 GraphRAG 从“纯文本实验”推向复杂企业文档",
+          "evidence": "pyproject.toml; README News/Installation; parser 目录",
+          "reuseSignal": "对 SOP / 制度 /扫描件场景很有价值",
+          "caution": "多模态路径显著提高系统依赖面和调试成本"
+        },
+        {
+          "dependency": "langchain-text-splitters + langchain-experimental",
+          "type": "chunking strategies",
+          "usedFor": "Fix / Recursive / Vector / Paragraph 切块",
+          "problemSolved": "避免单一 chunking 策略在不同文档域失效",
+          "evidence": "pyproject.toml 注释直接说明 process_options=R/V; README News",
+          "reuseSignal": "这部分可直接借鉴到自研 RAG pipeline",
+          "caution": "chunking 选型仍需按文档类型实测"
+        },
+        {
+          "dependency": "openai / anthropic / ollama / google-genai + langfuse + ragas",
+          "type": "role-specific LLM / obs / eval",
+          "usedFor": "EXTRACT / QUERY / KEYWORDS / VLM 分角色配置，以及 tracing/evaluation",
+          "problemSolved": "把“图谱质量”和“问答质量”拆开调参，而不是一把梭",
+          "evidence": "pyproject.toml 的 offline-llm / observability / evaluation; README News",
+          "reuseSignal": "对复杂知识库调优非常有价值",
+          "caution": "模型差异会直接改变图谱质量，上限受模型强约束"
+        }
+      ],
       "tags": [
         "rag",
         "knowledge",
+        "cli",
+        "runtime",
         "graph",
         "typescript",
         "python"
@@ -794,12 +1186,12 @@
       "report": "reports/loop-engineering.md",
       "reportFile": "loop-engineering",
       "category": "AI Coding / Agent Workflow",
-      "summary": "loop-engineering 是一套面向 AI coding agent 的“循环工程”参考实现与工具箱：用机器可读 pattern registry、Grok / Claude Code / Codex / GitHub Actions starters，以及 `loop-audit` / `loop-init` / `loop-cost` 三个 npm CLI，把 triage、PR babysitting、CI sweeping、dependency sweeping、changelog drafting 等 recurring engineering tasks 产品化为可审计、可控成本、可逐级放权的工程回路。",
+      "summary": "loop-engineering 是一套面向 AI coding workflow 的“循环工程”工具箱与参考实现：用机器可读 pattern registry、interactive showcase、multi-host starters，以及 `loop-audit` / `loop-init` / `loop-cost` / `loop-sync` / `loop-context` / `loop-worktree` / `loop-mcp-server` / `goal-audit` 等 npm 工具，把 triage、PR babysitting、CI sweeping、dependency sweeping、changelog drafting 和 bounded goal finishing 产品化为可审计、可控成本、可逐级放权的工程回路。",
       "adoption": "🟢 推荐采用（个人/小团队 loop 试点） / 🟡 团队生产化前受控推广。",
       "architectureValue": 5,
       "license": "MIT",
-      "language": "JavaScript / TypeScript / Shell；核心资产是 Markdown patterns / starters",
-      "analysisDate": "2026-06-16",
+      "language": "JavaScript / TypeScript / Markdown / YAML；核心资产是 patterns、starters、skills、Pages showcase 与多 npm CLI",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/cobusgreyling__loop-engineering",
       "owner": "cobusgreyling",
       "sourceExists": false,
@@ -811,12 +1203,60 @@
         "byScope": {}
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "yaml",
+          "type": "runtime dep",
+          "usedFor": "loop-cost、loop-mcp-server 解析 registry / config",
+          "problemSolved": "让 token cost、pattern metadata、MCP lookup 能直接读取 YAML 事实源",
+          "evidence": "tools/loop-cost/package.json、tools/mcp-server/package.json",
+          "reuseSignal": "如果你也想把 workflow contract 放进 repo，可直接复用",
+          "caution": "YAML 作为事实源时，schema / validation 仍要另补"
+        },
+        {
+          "dependency": "@modelcontextprotocol/sdk",
+          "type": "runtime dep",
+          "usedFor": "loop-mcp-server 暴露 patterns / skills / state / budget / run-log",
+          "problemSolved": "给 agent 提供 runtime-queryable loop resources，而不是把所有 docs 塞进 prompt",
+          "evidence": "tools/mcp-server/package.json、tools/mcp-server/src/index.ts",
+          "reuseSignal": "适合把静态 workflow 资产变成 agent 可查询的资源层",
+          "caution": "会把项目根目录解析与路径安全带进攻击面"
+        },
+        {
+          "dependency": "ajv",
+          "type": "dev dep",
+          "usedFor": "registry/schema 校验",
+          "problemSolved": "防止 pattern registry 与 docs/starter 漂移",
+          "evidence": "根 package.json 的 validate:registry + ajv",
+          "reuseSignal": "任何 machine-readable pattern catalog 都值得配 schema gate",
+          "caution": "只校验结构，不保证语义质量"
+        },
+        {
+          "dependency": "@cobusgreyling/loop-audit",
+          "type": "internal package dep",
+          "usedFor": "loop-init scaffold 后立刻给出 Loop Ready score",
+          "problemSolved": "把“装完再审计”缩成一次命令，形成闭环 onboarding",
+          "evidence": "tools/loop-init/package.json 依赖 @cobusgreyling/loop-audit",
+          "reuseSignal": "很适合把 doctor / bootstrap 组合成 first-run experience",
+          "caution": "内部包版本如果落后，init 与 audit 口径会漂移"
+        },
+        {
+          "dependency": "TypeScript + Node built-ins (node:test)",
+          "type": "build/test toolchain",
+          "usedFor": "所有 CLI 包的 deterministic util / test harness",
+          "problemSolved": "维持轻依赖、多小包、可预测 CLI 行为",
+          "evidence": "各 tools/*/package.json + test/*.test.mjs",
+          "reuseSignal": "适合做 agent workflow 小工具，不必上重型框架",
+          "caution": "多包分散 build/test 脚本后，release matrix 会更碎"
+        }
+      ],
       "tags": [
         "agent",
         "coding",
+        "mcp",
         "cli",
         "workflow",
+        "runtime",
         "typescript"
       ]
     },
@@ -925,12 +1365,12 @@
       "report": "reports/open-design.md",
       "reportFile": "open-design",
       "category": "Agent Platform / Desktop / Design",
-      "summary": "Open Design 是一个本地优先、可 Web/桌面分发的 agent-native 设计工作台，用用户已有的 Claude Code / Codex / Cursor / Gemini / Hermes 等代码 Agent CLI，把自然语言 brief 变成可预览、可编辑、可导出的 HTML/Deck/Image/Video/Design-System 等设计产物。",
-      "adoption": "推荐学习与 PoC，生产采用先观望。",
+      "summary": "Open Design 是一个本地优先、带官方 Cloud 服务和桌面壳的 agent-native 设计工作台 / design substrate，用用户已有的 Claude Code / Codex / Cursor / Gemini / Hermes 等 Agent CLI，或任意 OpenAI-compatible BYOK endpoint，把自然语言 brief 变成可预览、可编辑、可导出的 HTML / Deck / Image / Video / Design-System / Live Artifact 等设计产物。",
+      "adoption": "强烈推荐研究与 PoC；若要生产采用，先把它当“平台底座候选”而不是直接可托底的稳定产品。",
       "architectureValue": 5,
       "license": "Apache-2.0",
       "language": "TypeScript",
-      "analysisDate": "2026-05-20",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/nexu-io__open-design",
       "owner": "nexu-io",
       "sourceExists": false,
@@ -942,11 +1382,77 @@
         "byScope": {}
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "Next.js 16 + React 18",
+          "type": "Web framework",
+          "usedFor": "Studio、项目页、预览、设置、集成、dashboard UI",
+          "problemSolved": "统一 Web app / SSR / 静态资源 / React 组件系统",
+          "evidence": "apps/web/package.json",
+          "reuseSignal": "如果你也要做“agent + artifact preview”产品，这套组合仍然是主流安全选项",
+          "caution": "前端体量已非常大，UI 演进速度高，必须接受高测试/重构成本"
+        },
+        {
+          "dependency": "Express 5 + better-sqlite3",
+          "type": "Node server + local DB",
+          "usedFor": "本地 daemon、REST/SSE、项目元数据、artifact 管理",
+          "problemSolved": "把高权限本地文件/Agent spawn/导出能力收口到 daemon 边界",
+          "evidence": "apps/daemon/package.json",
+          "reuseSignal": "很适合本地优先、单机型 Agent 产品",
+          "caution": "Node 24 + 原生依赖 + 跨平台打包会显著抬高运维复杂度"
+        },
+        {
+          "dependency": "node-pty",
+          "type": "Native process bridge",
+          "usedFor": "CLI runtime spawn / interactive session",
+          "problemSolved": "对 Claude Code / Codex / Cursor / Copilot 等本地 Agent CLI 做真实 TTY/进程编排",
+          "evidence": "apps/daemon/package.json",
+          "reuseSignal": "多 Agent CLI 适配时几乎是绕不开的基础设施",
+          "caution": "Windows/macOS/Linux 行为差异大，长期维护成本高"
+        },
+        {
+          "dependency": "@modelcontextprotocol/sdk",
+          "type": "MCP SDK",
+          "usedFor": "od mcp install、MCP server 能力",
+          "problemSolved": "让 Open Design 不只是“消费 CLI”，还可以反向把设计能力暴露给外部 agent",
+          "evidence": "apps/daemon/package.json + README MCP 安装表",
+          "reuseSignal": "很强的 platform 化信号，值得借鉴",
+          "caution": "也意味着协议兼容、版本升级、外部工具信任模型更复杂"
+        },
+        {
+          "dependency": "pptxgenjs + pdf-lib + jszip",
+          "type": "Export toolchain",
+          "usedFor": "PPTX / PDF / ZIP 导出",
+          "problemSolved": "把“设计输出不是聊天文本”做成真实交付物链路",
+          "evidence": "apps/daemon/package.json",
+          "reuseSignal": "如果你的产品目标是可交付 artifact，而非单纯聊天，这层非常值得抄",
+          "caution": "导出质量、浏览器/字体/平台差异、回归测试成本都不低"
+        },
+        {
+          "dependency": "Anthropic / OpenAI SDK + proxy contracts",
+          "type": "Model/API bridge",
+          "usedFor": "官方 Cloud、BYOK、图像附件代理",
+          "problemSolved": "允许无 CLI 路径也能跑，并把多家 provider 收口到统一 UX",
+          "evidence": "apps/web/package.json、apps/web/src/providers/api-proxy.ts、README",
+          "reuseSignal": "有利于降低 onboarding 门槛",
+          "caution": "会把产品从“纯本地壳”推向“本地壳 + 云服务 / proxy”混合架构"
+        },
+        {
+          "dependency": "Electron 41 + sidecar/proto/platform",
+          "type": "Desktop shell",
+          "usedFor": "桌面分发、系统权限、sidecar 生命周期",
+          "problemSolved": "把 Web + daemon 封成正式桌面产品而不是 demo",
+          "evidence": "apps/desktop/package.json",
+          "reuseSignal": "适合需要系统级路径、安装器、自动更新的产品",
+          "caution": "打包、签名、更新、权限、崩溃诊断全都会成为长期负担"
+        }
+      ],
       "tags": [
         "agent",
+        "mcp",
         "cli",
         "desktop",
+        "runtime",
         "design",
         "typescript"
       ]
@@ -960,30 +1466,2278 @@
       "report": "reports/openagent.md",
       "reportFile": "openagent",
       "category": "Agent Platform / Desktop / Design",
-      "summary": "OpenAgent 是一个 Go + React 的自托管个人 AI 助手平台，把 LLM Provider 管理、RAG 知识库、MCP/内建工具、聊天 UI、审计日志、用量统计、连接器和单二进制/Docker 分发收进一个 Web 管理平台；它适合个人/小团队快速搭一个可控的 agent workbench，但当前仍有“产品叙事很满、核心链路尚未完全一致、前端新旧双栈并存、RAG/工具执行安全与规模化边界待收敛”的现实风险。",
+      "summary": "OpenAgent 是一个 Go + React 的自托管个人 AI 助手平台，把 LLM Provider 管理、RAG 知识库、MCP/内建工具、聊天 UI、审计日志、用量统计、连接器和单二进制/Docker 分发收进一个 Web 管理平台；它适合个人/小团队快速搭一个可控的 agent workbench，但当前仍有“发版极快、能力面很宽、workflow/BPMN 更像编辑/占位能力而非成熟编排引擎、RAG/危险工具的规模化与安全边界仍需自行收紧”的现实风险。",
       "adoption": "观望；个人/小团队 PoC 推荐试用，生产底座谨慎。",
       "architectureValue": 5,
       "license": "Apache-2.0",
       "language": "Go",
-      "analysisDate": "2026-05-20",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/the-open-agent__openagent",
       "owner": "the-open-agent",
-      "sourceExists": false,
-      "dependencies": [],
+      "sourceExists": true,
+      "dependencies": [
+        {
+          "name": "cloud.google.com/go",
+          "version": "v0.116.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "cloud.google.com/go/auth",
+          "version": "v0.9.3",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "cloud.google.com/go/compute/metadata",
+          "version": "v0.6.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "dario.cat/mergo",
+          "version": "v1.0.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aliyun/alibabacloud-oss-go-sdk-v2",
+          "version": "v1.3.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/anthropics/anthropic-sdk-go",
+          "version": "v1.4.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aws/aws-sdk-go-v2",
+          "version": "v1.36.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream",
+          "version": "v1.6.3",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aws/aws-sdk-go-v2/config",
+          "version": "v1.27.27",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aws/aws-sdk-go-v2/credentials",
+          "version": "v1.17.27",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aws/aws-sdk-go-v2/feature/ec2/imds",
+          "version": "v1.16.11",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aws/aws-sdk-go-v2/internal/configsources",
+          "version": "v1.3.32",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aws/aws-sdk-go-v2/internal/endpoints/v2",
+          "version": "v2.6.32",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aws/aws-sdk-go-v2/internal/ini",
+          "version": "v1.8.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aws/aws-sdk-go-v2/service/bedrockruntime",
+          "version": "v1.8.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding",
+          "version": "v1.12.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aws/aws-sdk-go-v2/service/internal/presigned-url",
+          "version": "v1.12.13",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aws/aws-sdk-go-v2/service/sso",
+          "version": "v1.22.4",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aws/aws-sdk-go-v2/service/ssooidc",
+          "version": "v1.26.4",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aws/aws-sdk-go-v2/service/sts",
+          "version": "v1.30.3",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aws/smithy-go",
+          "version": "v1.22.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/aymanbagabas/go-pty",
+          "version": "v0.2.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/baidubce/bce-qianfan-sdk/go/qianfan",
+          "version": "v0.0.14",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/baidubce/bce-sdk-go",
+          "version": "v0.9.164",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/beego/beego",
+          "version": "v1.12.12",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/beorn7/perks",
+          "version": "v1.0.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/bits-and-blooms/bitset",
+          "version": "v1.20.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/bmatcuk/doublestar/v4",
+          "version": "v4.6.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/carmel/gooxml",
+          "version": "v0.0.0-20220216072414-40ff56130850",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/casbin/casbin/v2",
+          "version": "v2.135.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/casbin/govaluate",
+          "version": "v1.3.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/casdoor/casdoor-go-sdk",
+          "version": "v1.47.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/casibase/dashscopego",
+          "version": "v0.6.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/casibase/go-openrouter",
+          "version": "v1.0.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/casibase/goppt",
+          "version": "v1.0.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/casibase/pdf",
+          "version": "v1.2.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/cenkalti/backoff/v4",
+          "version": "v4.3.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/cespare/xxhash/v2",
+          "version": "v2.3.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/chromedp/cdproto",
+          "version": "v0.0.0-20240202021202-6d0b6a386732",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/chromedp/chromedp",
+          "version": "v0.9.5",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/chromedp/sysutil",
+          "version": "v1.0.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/cloudflare/circl",
+          "version": "v1.3.3",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/coder/websocket",
+          "version": "v1.8.12",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/cohere-ai/cohere-go/v2",
+          "version": "v2.5.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/consensys/gnark-crypto",
+          "version": "v0.18.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/crate-crypto/go-eth-kzg",
+          "version": "v1.3.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/crate-crypto/go-ipa",
+          "version": "v0.0.0-20240724233137-53bbb0ceb27a",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/creack/pty",
+          "version": "v1.1.21",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/cyphar/filepath-securejoin",
+          "version": "v0.2.4",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/deckarep/golang-set/v2",
+          "version": "v2.6.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/decred/dcrd/dcrec/secp256k1/v4",
+          "version": "v4.2.1-0.20230921164230-9754217aff8e",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/denisenkom/go-mssqldb",
+          "version": "v0.10.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/dgrijalva/jwt-go",
+          "version": "v3.2.0+incompatible",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/dlclark/regexp2",
+          "version": "v1.10.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/emirpasic/gods",
+          "version": "v1.18.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/ethereum/c-kzg-4844/v2",
+          "version": "v2.1.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/ethereum/go-ethereum",
+          "version": "v1.16.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/ethereum/go-verkle",
+          "version": "v0.2.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/fsnotify/fsnotify",
+          "version": "v1.7.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/gabriel-vasile/mimetype",
+          "version": "v1.4.3",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/gage-technologies/mistral-go",
+          "version": "v1.1.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/go-git/gcfg",
+          "version": "v1.5.1-0.20230307220236-3a3c6141e376",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/go-git/go-billy/v5",
+          "version": "v5.5.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/go-git/go-git/v5",
+          "version": "v5.11.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/go-ole/go-ole",
+          "version": "v1.3.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/go-sql-driver/mysql",
+          "version": "v1.6.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/gobwas/httphead",
+          "version": "v0.1.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/gobwas/pool",
+          "version": "v0.2.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/gobwas/ws",
+          "version": "v1.3.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/goccy/go-json",
+          "version": "v0.10.4",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/golang-jwt/jwt/v4",
+          "version": "v4.5.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/golang-sql/civil",
+          "version": "v0.0.0-20190719163853-cb61b32ac6fe",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/golang/groupcache",
+          "version": "v0.0.0-20210331224755-41bb18bfe9da",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/golang/protobuf",
+          "version": "v1.5.4",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/golang/snappy",
+          "version": "v0.0.5-0.20220116011046-fa5810519dcb",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/gomodule/redigo",
+          "version": "v2.0.0+incompatible",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/google/go-cmp",
+          "version": "v0.7.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/google/s2a-go",
+          "version": "v0.1.8",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/google/uuid",
+          "version": "v1.6.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/googleapis/enterprise-certificate-proxy",
+          "version": "v0.3.4",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/gorilla/websocket",
+          "version": "v1.5.4-0.20250319132907-e064f32e3674",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/hashicorp/golang-lru",
+          "version": "v0.5.4",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/hashicorp/hcl",
+          "version": "v1.0.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/henomis/lingoose",
+          "version": "v0.1.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/hhrutter/lzw",
+          "version": "v1.0.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/hhrutter/pkcs7",
+          "version": "v0.2.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/hhrutter/tiff",
+          "version": "v1.0.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/holiman/uint256",
+          "version": "v1.3.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/hupe1980/go-huggingface",
+          "version": "v0.0.15",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/jbenet/go-context",
+          "version": "v0.0.0-20150711004518-d14ea06fba99",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/jmespath/go-jmespath",
+          "version": "v0.4.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/josharian/intern",
+          "version": "v1.0.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/json-iterator/go",
+          "version": "v1.1.12",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/kballard/go-shellquote",
+          "version": "v0.0.0-20180428030007-95032a82bc51",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/kevinburke/ssh_config",
+          "version": "v1.2.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/leverly/ChatGLM",
+          "version": "v1.2.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/lib/pq",
+          "version": "v1.10.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/lithammer/shortuuid",
+          "version": "v3.0.0+incompatible",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/lufia/plan9stats",
+          "version": "v0.0.0-20211012122336-39d0f177ccd0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/magiconair/properties",
+          "version": "v1.8.7",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/mailru/easyjson",
+          "version": "v0.7.7",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/mattn/go-isatty",
+          "version": "v0.0.20",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/mattn/go-runewidth",
+          "version": "v0.0.16",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/matttproud/golang_protobuf_extensions",
+          "version": "v1.0.4",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/Microsoft/go-winio",
+          "version": "v0.6.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/mitchellh/colorstring",
+          "version": "v0.0.0-20190213212951-d06e56a500db",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/mitchellh/mapstructure",
+          "version": "v1.5.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/modern-go/concurrent",
+          "version": "v0.0.0-20180306012644-bacd9c7ef1dd",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/modern-go/reflect2",
+          "version": "v1.0.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/onsi/ginkgo",
+          "version": "v1.16.5",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/onsi/gomega",
+          "version": "v1.34.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/openai/openai-go/v2",
+          "version": "v2.1.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/orcaman/concurrent-map/v2",
+          "version": "v2.0.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/oschwald/geoip2-golang",
+          "version": "v1.11.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/oschwald/maxminddb-golang",
+          "version": "v1.13.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/pdfcpu/pdfcpu",
+          "version": "v0.11.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/pelletier/go-toml/v2",
+          "version": "v2.1.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/pjbgf/sha1cd",
+          "version": "v0.3.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/pkg/errors",
+          "version": "v0.9.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/pkoukk/tiktoken-go",
+          "version": "v0.1.7",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/power-devops/perfstat",
+          "version": "v0.0.0-20210106213030-5aafc221ea8c",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/prometheus/client_golang",
+          "version": "v1.15.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/prometheus/client_model",
+          "version": "v0.3.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/prometheus/common",
+          "version": "v0.42.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/prometheus/procfs",
+          "version": "v0.9.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/ProtonMail/go-crypto",
+          "version": "v0.0.0-20230828082145-3c4c8a2d2371",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/qiangmzsx/string-adapter/v2",
+          "version": "v2.2.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/remyoudompheng/bigfft",
+          "version": "v0.0.0-20200410134404-eec4a21b6bb0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/richardlehane/mscfb",
+          "version": "v1.0.6",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/richardlehane/msoleps",
+          "version": "v1.0.6",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/rivo/uniseg",
+          "version": "v0.4.7",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/robfig/cron/v3",
+          "version": "v3.0.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/rogpeppe/go-internal",
+          "version": "v1.13.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/sagikazarmark/locafero",
+          "version": "v0.4.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/sagikazarmark/slog-shim",
+          "version": "v0.1.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/sashabaranov/go-openai",
+          "version": "v1.32.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/schollz/progressbar/v3",
+          "version": "v3.18.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/sergi/go-diff",
+          "version": "v1.2.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/shiena/ansicolor",
+          "version": "v0.0.0-20151119151921-a422bbe96644",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/shirou/gopsutil",
+          "version": "v3.21.11+incompatible",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/shirou/gopsutil/v3",
+          "version": "v3.24.5",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/shoenig/go-m1cpu",
+          "version": "v0.1.6",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/sirupsen/logrus",
+          "version": "v1.9.3",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/skeema/knownhosts",
+          "version": "v1.2.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/sourcegraph/conc",
+          "version": "v0.3.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/spf13/afero",
+          "version": "v1.11.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/spf13/cast",
+          "version": "v1.6.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/spf13/pflag",
+          "version": "v1.0.6",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/spf13/viper",
+          "version": "v1.18.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/subosito/gotenv",
+          "version": "v1.6.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/supranational/blst",
+          "version": "v0.3.14",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/syndtr/goleveldb",
+          "version": "v1.0.1-0.20210819022825-2ae1ddf74ef7",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common",
+          "version": "v1.0.1116",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/hunyuan",
+          "version": "v1.0.1074",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/tbaas",
+          "version": "v1.0.1115",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/the-open-agent/dashscope-go-sdk",
+          "version": "v1.1.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/the-open-agent/office-tool-use",
+          "version": "v0.1.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/ThinkInAIXYZ/go-mcp",
+          "version": "v0.2.24",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/tidwall/gjson",
+          "version": "v1.18.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/tidwall/match",
+          "version": "v1.1.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/tidwall/pretty",
+          "version": "v1.2.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/tidwall/sjson",
+          "version": "v1.2.5",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/tiendc/go-deepcopy",
+          "version": "v1.7.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/tklauser/go-sysconf",
+          "version": "v0.3.16",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/tklauser/numcpus",
+          "version": "v0.11.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/u-root/u-root",
+          "version": "v0.11.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/ua-parser/uap-go",
+          "version": "v0.0.0-20230823213814-f77b3e91e9dc",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/uandersonricardo/uiautomation",
+          "version": "v0.0.0-20250610195738-b54cd4b8ddde",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/volcengine/volc-sdk-golang",
+          "version": "v1.0.23",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/volcengine/volcengine-go-sdk",
+          "version": "v1.2.32",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/WqyJh/go-cosyvoice",
+          "version": "v0.1.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/WqyJh/go-openai-realtime",
+          "version": "v0.5.1-0.20250210083616-024eddd5a481",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/xanzy/ssh-agent",
+          "version": "v0.3.3",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/xuri/efp",
+          "version": "v0.0.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/xuri/excelize/v2",
+          "version": "v2.10.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/xuri/nfp",
+          "version": "v0.0.2-0.20250530014748-2ddeb826f9a9",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/yosida95/uritemplate/v3",
+          "version": "v3.0.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "github.com/yusufpapurcu/wmi",
+          "version": "v1.2.4",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "go.opencensus.io",
+          "version": "v0.24.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "go.opentelemetry.io/otel",
+          "version": "v1.35.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "go.opentelemetry.io/otel/sdk/metric",
+          "version": "v1.35.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "go.uber.org/mock",
+          "version": "v0.4.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "go.uber.org/multierr",
+          "version": "v1.10.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "golang.org/x/crypto",
+          "version": "v0.49.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "golang.org/x/exp",
+          "version": "v0.0.0-20260312153236-7ab1446f8b90",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "golang.org/x/image",
+          "version": "v0.38.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "golang.org/x/mod",
+          "version": "v0.34.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "golang.org/x/net",
+          "version": "v0.52.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "golang.org/x/oauth2",
+          "version": "v0.27.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "golang.org/x/sync",
+          "version": "v0.20.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "golang.org/x/sys",
+          "version": "v0.46.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "golang.org/x/term",
+          "version": "v0.41.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "golang.org/x/text",
+          "version": "v0.35.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "golang.org/x/time",
+          "version": "v0.9.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "golang.org/x/tools",
+          "version": "v0.43.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "google.golang.org/genai",
+          "version": "v1.10.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "google.golang.org/genproto/googleapis/rpc",
+          "version": "v0.0.0-20250218202821-56aae31c358a",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "google.golang.org/grpc",
+          "version": "v1.71.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "google.golang.org/protobuf",
+          "version": "v1.36.5",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "gopkg.in/ini.v1",
+          "version": "v1.67.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "gopkg.in/warnings.v0",
+          "version": "v0.1.2",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "gopkg.in/yaml.v2",
+          "version": "v2.4.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "gopkg.in/yaml.v3",
+          "version": "v3.0.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "lukechampine.com/uint128",
+          "version": "v1.2.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "modernc.org/cc/v3",
+          "version": "v3.36.3",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "modernc.org/ccgo/v3",
+          "version": "v3.16.9",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "modernc.org/libc",
+          "version": "v1.17.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "modernc.org/mathutil",
+          "version": "v1.5.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "modernc.org/memory",
+          "version": "v1.2.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "modernc.org/opt",
+          "version": "v0.1.3",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "modernc.org/sqlite",
+          "version": "v1.18.1",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "modernc.org/strutil",
+          "version": "v1.1.3",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "modernc.org/token",
+          "version": "v1.0.0",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "xorm.io/builder",
+          "version": "v0.3.9",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "xorm.io/core",
+          "version": "v0.7.3",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "xorm.io/xorm",
+          "version": "v1.2.5",
+          "ecosystem": "go",
+          "scope": "runtime",
+          "manifest": "go.mod"
+        },
+        {
+          "name": "esbuild",
+          "version": "0.28.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "tool/pptx-worker/package.json"
+        },
+        {
+          "name": "jszip",
+          "version": "3.10.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "tool/pptx-worker/package.json"
+        },
+        {
+          "name": "@fortawesome/free-solid-svg-icons",
+          "version": "6.7.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "tool/pptx-worker/package.json"
+        },
+        {
+          "name": "pptxgenjs",
+          "version": "4.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "tool/pptx-worker/package.json"
+        },
+        {
+          "name": "@babel/core",
+          "version": "^7.18.13",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@babel/eslint-parser",
+          "version": "^7.18.9",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@babel/plugin-proposal-private-property-in-object",
+          "version": "^7.21.11",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@babel/preset-react",
+          "version": "^7.18.6",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "cross-env",
+          "version": "^7.0.3",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "eslint",
+          "version": "8.22.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "eslint-plugin-react",
+          "version": "^7.31.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "husky",
+          "version": "^4.3.8",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "lint-staged",
+          "version": "^13.0.3",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "stylelint",
+          "version": "^14.11.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "stylelint-config-recommended-less",
+          "version": "^1.0.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "stylelint-config-standard",
+          "version": "^28.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@ant-design/cssinjs",
+          "version": "^2.1.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@ant-design/icons",
+          "version": "^6.1.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@ant-design/x",
+          "version": "^2.5.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@bpmn-io/cm-theme",
+          "version": "0.1.0-alpha.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@bpmn-io/properties-panel",
+          "version": "^3.26.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@craco/craco",
+          "version": "6.4.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@cyntler/react-doc-viewer",
+          "version": "^1.5.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@dnd-kit/core",
+          "version": "^6.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@dnd-kit/utilities",
+          "version": "^3.2.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@tiptap/extension-file-handler",
+          "version": "^3.27.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@tiptap/extension-image",
+          "version": "^3.27.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@tiptap/extension-placeholder",
+          "version": "^3.27.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@tiptap/react",
+          "version": "^3.27.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@tiptap/starter-kit",
+          "version": "^3.27.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@uiw/codemirror-extensions-langs",
+          "version": "^4.23.8",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@uiw/codemirror-theme-material",
+          "version": "^4.23.8",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@uiw/react-codemirror",
+          "version": "^4.23.8",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "aliplayer-react",
+          "version": "^0.7.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "antd",
+          "version": "6.3.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "antd-token-previewer",
+          "version": "^3.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "bpmn-font",
+          "version": "^0.12.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "bpmn-js",
+          "version": "^18.4.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "bpmn-js-color-picker",
+          "version": "^0.7.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "bpmn-js-create-append-anything",
+          "version": "^1.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "bpmn-js-element-templates",
+          "version": "^2.11.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "bpmn-js-properties-panel",
+          "version": "^5.35.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "camunda-bpmn-moddle",
+          "version": "^7.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "casdoor-js-sdk",
+          "version": "^0.16.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "codemirror",
+          "version": "^6.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "copy-to-clipboard",
+          "version": "^3.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "craco-less",
+          "version": "2.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "d3-force",
+          "version": "^3.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "dayjs",
+          "version": "^1.11.19",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "docx",
+          "version": "^9.6.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "dompurify",
+          "version": "^3.0.9",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "echarts",
+          "version": "^5.4.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "echarts-for-react",
+          "version": "^3.0.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "echarts-wordcloud",
+          "version": "^2.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "emoji-picker-react",
+          "version": "^4.19.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "eslint-plugin-unused-imports",
+          "version": "^2.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "file-saver",
+          "version": "^2.0.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "guacamole-common-js",
+          "version": "^1.5.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "highlight.js",
+          "version": "^11.9.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "i18next",
+          "version": "^19.8.9",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "identicon.js",
+          "version": "^2.3.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "js-base64",
+          "version": "^3.7.7",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "katex",
+          "version": "^0.16.9",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "marked",
+          "version": "^12.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "md5",
+          "version": "^2.3.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "moment",
+          "version": "^2.29.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "papaparse",
+          "version": "^5.4.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "rc-bullets",
+          "version": "^1.5.16",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react",
+          "version": "^18.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react-bpmn",
+          "version": "^0.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react-device-detect",
+          "version": "1.17.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "^18.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react-draggable",
+          "version": "^4.4.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react-file-viewer",
+          "version": "^1.2.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react-force-graph",
+          "version": "^1.48.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react-force-graph-2d",
+          "version": "^1.29.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react-helmet",
+          "version": "^6.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react-highlight-words",
+          "version": "^0.18.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react-i18next",
+          "version": "^11.8.7",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react-markdown",
+          "version": "^8.0.7",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react-router-dom",
+          "version": "^5.3.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react-scripts",
+          "version": "5.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "rehype-katex",
+          "version": "^7.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "remark-frontmatter",
+          "version": "^4.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "remark-gfm",
+          "version": "^3.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "remark-math",
+          "version": "^6.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "xlsx",
+          "version": "^0.16.9",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "fastapi",
+          "version": "fastapi==0.136.1",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "deploy/ocr-service/requirements.txt"
+        },
+        {
+          "name": "onnxruntime",
+          "version": "onnxruntime==1.26.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "deploy/ocr-service/requirements.txt"
+        },
+        {
+          "name": "opencv-python-headless",
+          "version": "opencv-python-headless==4.13.0.92",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "deploy/ocr-service/requirements.txt"
+        },
+        {
+          "name": "pypdfium2",
+          "version": "pypdfium2==5.8.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "deploy/ocr-service/requirements.txt"
+        },
+        {
+          "name": "python-multipart",
+          "version": "python-multipart==0.0.29",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "deploy/ocr-service/requirements.txt"
+        },
+        {
+          "name": "rapidocr",
+          "version": "rapidocr==3.8.1",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "deploy/ocr-service/requirements.txt"
+        },
+        {
+          "name": "uvicorn",
+          "version": "uvicorn[standard]==0.47.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "deploy/ocr-service/requirements.txt"
+        }
+      ],
       "dependencySummary": {
-        "total": 0,
-        "manifests": 0,
-        "byEcosystem": {},
-        "byScope": {}
+        "total": 310,
+        "manifests": 4,
+        "byEcosystem": {
+          "go": 216,
+          "npm": 87,
+          "python": 7
+        },
+        "byScope": {
+          "runtime": 296,
+          "development": 14
+        }
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "github.com/beego/beego + xorm.io/xorm",
+          "type": "后端框架 / ORM",
+          "usedFor": "API controller、session、CRUD、对象持久化",
+          "problemSolved": "快速搭一个管理后台型 AI 单体",
+          "evidence": "go.mod direct deps；controllers/ + object/ 目录结构",
+          "reuseSignal": "适合需要“产品闭环优先”的 AI workbench",
+          "caution": "controller/object 容易堆业务，后期会变胖"
+        },
+        {
+          "dependency": "github.com/casbin/casbin/v2 + github.com/casdoor/casdoor-go-sdk",
+          "type": "权限 / 身份",
+          "usedFor": "登录、组织、权限、Session 体系",
+          "problemSolved": "避免自写 authn/authz 基础设施",
+          "evidence": "go.mod direct deps；README / routers / controllers 共同使用",
+          "reuseSignal": "适合 B2B / admin console 场景快速起盘",
+          "caution": "产品模型会和 Casdoor/Casibase 生态耦合"
+        },
+        {
+          "dependency": "github.com/ThinkInAIXYZ/go-mcp",
+          "type": "协议 SDK",
+          "usedFor": "MCP client、工具同步、远端工具接入",
+          "problemSolved": "把外部工具拉进主 agent loop",
+          "evidence": "go.mod；mcp/、model/mcp.go、object/merge_agent_tools.go",
+          "reuseSignal": "“协议工具与内建工具同构化”非常值得借鉴",
+          "caution": "统一工具面后，高风险能力也被集中暴露"
+        },
+        {
+          "dependency": "github.com/openai/openai-go/v2 + github.com/sashabaranov/go-openai（replace 到 casibase fork）",
+          "type": "模型 SDK / 兼容层",
+          "usedFor": "OpenAI-compatible API、多 provider glue",
+          "problemSolved": "借最广生态的消息格式/客户端协议接外部系统",
+          "evidence": "go.mod direct deps 与 replace",
+          "reuseSignal": "方便兼容大量现有 OpenAI-format 客户端",
+          "caution": "双 SDK + fork replace 会增加升级与行为漂移风险"
+        },
+        {
+          "dependency": "github.com/chromedp/chromedp、github.com/uandersonricardo/uiautomation、github.com/the-open-agent/office-tool-use",
+          "type": "工具运行时",
+          "usedFor": "浏览器、GUI、Office 等高权限工具",
+          "problemSolved": "快速把“可演示的 agent side effects”做出来",
+          "evidence": "go.mod；tool/tool.go；Dockerfile 中的 pptx_worker stage",
+          "reuseSignal": "对产品展示和 end-to-end assistant 很加分",
+          "caution": "直接扩大 side-effect 攻击面与隔离难度"
+        },
+        {
+          "dependency": "modernc.org/sqlite、go-sql-driver/mysql、lib/pq、go-mssqldb",
+          "type": "存储驱动",
+          "usedFor": "多数据库部署适配",
+          "problemSolved": "降低自托管落地门槛",
+          "evidence": "go.mod direct deps",
+          "reuseSignal": "对平台产品的环境适配友好",
+          "caution": "多数据库矩阵会提升迁移、测试和兼容负担"
+        },
+        {
+          "dependency": "react + antd + craco + react-router-dom@5 + bpmn-js",
+          "type": "前端技术栈",
+          "usedFor": "聊天 UI、配置后台、BPMN 设计器",
+          "problemSolved": "快速堆出复杂工作台与可视化编辑器",
+          "evidence": "web/package.json",
+          "reuseSignal": "后台型产品开发效率高，功能扩展快",
+          "caution": "CRA/JS/AntD6/BPMN 巨依赖面说明前端包袱并不轻"
+        }
+      ],
       "tags": [
         "agent",
+        "coding",
         "mcp",
         "rag",
+        "cli",
         "desktop",
+        "workflow",
+        "runtime",
+        "graph",
         "design",
+        "python",
         "go"
       ]
     },
@@ -1001,7 +3755,7 @@
       "architectureValue": 5,
       "license": "MIT",
       "language": "TypeScript",
-      "analysisDate": "2026-06-14",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/anomalyco__opencode",
       "owner": "anomalyco",
       "sourceExists": false,
@@ -1013,7 +3767,71 @@
         "byScope": {}
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "effect",
+          "type": "runtime / effect system",
+          "usedFor": "Session service、runner、event bus、tool settlement、resource lifecycle",
+          "problemSolved": "让高并发、typed error、fiber、stream、layer injection 有统一语义",
+          "evidence": "packages/core / packages/opencode 核心路径几乎全量使用 Effect API",
+          "reuseSignal": "高：如果你要做 durable agent runtime，这套错误/并发/资源模型很值钱",
+          "caution": "学习曲线陡；会把代码风格整体拉向 Effect 范式"
+        },
+        {
+          "dependency": "drizzle-orm + SQLite (@effect/sql-sqlite-bun)",
+          "type": "state / persistence",
+          "usedFor": "session、message、input、event sequence、projection tables",
+          "problemSolved": "给 agent runtime 提供 durable state、replay 和 projection 读模型",
+          "evidence": "packages/core/package.json 与 packages/core/src/session/*、event.ts",
+          "reuseSignal": "高：event/projection 型 agent 很适合复用这一层",
+          "caution": "schema 演进、迁移和历史兼容成本会持续存在"
+        },
+        {
+          "dependency": "ai + @ai-sdk/* + @ai-sdk/openai-compatible",
+          "type": "model/provider abstraction",
+          "usedFor": "多 provider LLM request / stream",
+          "problemSolved": "把 Anthropic、OpenAI、Google、Bedrock、OpenRouter、兼容网关统一进一条 runner 路径",
+          "evidence": "packages/core/package.json 中多 provider 依赖",
+          "reuseSignal": "高：适合需要 provider portability 的产品",
+          "caution": "provider surface 很宽，兼容问题和 patch 维护成本也高"
+        },
+        {
+          "dependency": "@modelcontextprotocol/sdk",
+          "type": "MCP integration",
+          "usedFor": "外部 MCP 工具接入",
+          "problemSolved": "不把能力封死在内置工具里，保留外部工具生态接入面",
+          "evidence": "packages/opencode/package.json 与工具层/MCP 目录",
+          "reuseSignal": "高：MCP 已是 agent 产品标准扩展面",
+          "caution": "运行稳定性和权限边界仍取决于外部 MCP 服务质量"
+        },
+        {
+          "dependency": "@opentui/*",
+          "type": "terminal UI framework",
+          "usedFor": "TUI / terminal-native 交互面",
+          "problemSolved": "让 terminal agent 不必自己重造一套 TUI 控件与输入系统",
+          "evidence": "root package.json catalog + packages/tui 相关依赖",
+          "reuseSignal": "中高：做终端优先 agent 很有参考价值",
+          "caution": "生态相对更窄，深度调试成本不低"
+        },
+        {
+          "dependency": "Solid + Vite + Electron",
+          "type": "app / desktop shell",
+          "usedFor": "Web/App、desktop、shared UI",
+          "problemSolved": "让 runtime 不止停留在 CLI，而能成为多入口产品",
+          "evidence": "packages/app/package.json、packages/desktop/package.json",
+          "reuseSignal": "高：如果目标是产品化而不只是 CLI，很值得学",
+          "caution": "多入口意味着测试矩阵和兼容成本同步上升"
+        },
+        {
+          "dependency": "@opencode-ai/plugin",
+          "type": "extension SDK",
+          "usedFor": "插件工具、扩展 API",
+          "problemSolved": "把 plugin author surface 独立成稳定包，而不是让外部直接侵入 core",
+          "evidence": "packages/plugin/package.json",
+          "reuseSignal": "高：这是“平台化”而不是“单应用化”的强信号",
+          "caution": "一旦对外开放 SDK，兼容承诺和版本演进压力都会上来"
+        }
+      ],
       "tags": [
         "agent",
         "coding",
@@ -1034,12 +3852,12 @@
       "report": "reports/openhuman.md",
       "reportFile": "openhuman",
       "category": "Agent Platform / Desktop / Design",
-      "summary": "OpenHuman 是一个 Rust/Tauri 驱动的本地优先个人 AI / Agent OS：它把桌面宿主、Rust Core、长期记忆、Obsidian vault、模型路由、工具执行、MCP、SKILL workflow runtime、连接器同步、语音/Meet、移动端实验入口和多 Agent 编排收进一个完整产品。它的学习价值很高，也适合做外围维护贡献；但因为 GPL-3.0、攻击面大、managed backend 耦合、模块膨胀和高速 beta 演进，直接作为生产底座仍应观望。",
+      "summary": "OpenHuman 是一个 Rust/Tauri 驱动的本地优先 personal AI / agent harness：它把桌面宿主、in-process Rust core、Memory Tree + Obsidian、tinyagents durable agent graphs、tinyflows workflow、SKILL runtime、模型路由、连接器同步、语音/会议代理和多 Agent 编排收进一个完整产品。它的学习价值依然极高，也适合做隔离试用和外围维护贡献；但 GPL-3.0、managed service 耦合、超宽攻击面、vendored CEF / submodule 复杂度与高速 beta 演进，仍让它不适合作为省心的生产底座。",
       "adoption": "结论：观望；推荐隔离试用、架构学习和外围维护，不建议直接作为闭源/企业生产底座。",
       "architectureValue": 5,
       "license": "GPL-3.0",
       "language": "Rust",
-      "analysisDate": "2026-06-15",
+      "analysisDate": "2026-07-07",
       "sourceDir": "projects/tinyhumansai__openhuman",
       "owner": "tinyhumansai",
       "sourceExists": false,
@@ -1051,13 +3869,69 @@
         "byScope": {}
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "tauri 2.10 + vendored tauri-cef + cef = 146.4.1",
+          "type": "desktop host / runtime fork",
+          "usedFor": "桌面宿主、CEF-only runtime、通知拦截、深链、单实例、原生窗口能力",
+          "problemSolved": "把 agent 产品直接落到用户桌面，同时保留 Chromium 级浏览器能力",
+          "evidence": "app/src-tauri/Cargo.toml 对 tauri-runtime-cef、cef 和 vendor/tauri-cef 的路径 patch 注释非常直白",
+          "reuseSignal": "想做“真实桌面 agent”时很有参考价值",
+          "caution": "分发、签名、缓存、崩溃面都显著变重"
+        },
+        {
+          "dependency": "tinyagents = 1.7",
+          "type": "orchestration harness",
+          "usedFor": "agent graph、tool/model registry、retry/fallback、replay、steering、store registry",
+          "problemSolved": "把单轮聊天升级成 durable graph turn 与多 agent 编排",
+          "evidence": "根 Cargo.toml 注释 + src/openhuman/tinyagents/mod.rs",
+          "reuseSignal": "“先有 published harness，再做宿主适配”的路线值得学",
+          "caution": "宿主与 SDK 两层抽象叠加，调试复杂度高"
+        },
+        {
+          "dependency": "tinyflows = 0.5 + @xyflow/react",
+          "type": "workflow engine + canvas",
+          "usedFor": "saved automation graph、trigger、compile/run、workflow canvas",
+          "problemSolved": "让 workflow 从 prompt 文案变成可视 graph + durable run",
+          "evidence": "根 Cargo.toml 注释 + src/openhuman/flows/mod.rs + app/package.json",
+          "reuseSignal": "适合需要 agent-proposed automation 的产品",
+          "caution": "graph runtime、UI canvas、approval/trigger 三层要长期一起演进"
+        },
+        {
+          "dependency": "tinycortex = 0.1 + tinyjuice = 0.2.1 + rusqlite = 0.40",
+          "type": "memory / token compression / local store",
+          "usedFor": "Memory Tree、token compression、session DB、run ledger、本地 durable context",
+          "problemSolved": "解决“长期认识用户”与“大上下文成本”问题",
+          "evidence": "根 Cargo.toml 对 tinycortex、tinyjuice、rusqlite 的注释",
+          "reuseSignal": "对 personal AI / local-first agent 极有借鉴价值",
+          "caution": "一旦内存模型或压缩策略出错，影响面遍及全系统"
+        },
+        {
+          "dependency": "tinychannels = 0.1 + tinyplace = 2.0 + socketioxide",
+          "type": "channel / A2A / transport",
+          "usedFor": "多消息通道、agent-to-agent、relay/websocket、tiny.place 经济层",
+          "problemSolved": "把 agent 从单桌面扩展到跨通道/跨实例协作",
+          "evidence": "根 Cargo.toml 直接依赖 + README 的 17 channels / tiny.place 叙事",
+          "reuseSignal": "做多通道 agent 产品时很有参考性",
+          "caution": "外部状态、密钥、传输安全、运营复杂度同时上升"
+        },
+        {
+          "dependency": "react 19 + vite 8 + redux toolkit + tailwind + radix + playwright/vitest",
+          "type": "UI stack",
+          "usedFor": "desktop/web 前端、canvas、command surfaces、test harness",
+          "problemSolved": "让 agent OS 有完整可交互产品面，而不只是 CLI",
+          "evidence": "app/package.json",
+          "reuseSignal": "对 UI-first agent 产品可直接借鉴",
+          "caution": "前端面广、组件多、回归成本高"
+        }
+      ],
       "tags": [
         "agent",
-        "mcp",
+        "cli",
         "desktop",
         "workflow",
         "runtime",
+        "graph",
         "design",
         "tauri",
         "rust"
@@ -1632,7 +4506,7 @@
       "architectureValue": 5,
       "license": "MIT",
       "language": "JavaScript / Python / Markdown；核心资产是 skills、AGENTS.md 与多宿主 adapter",
-      "analysisDate": "2026-06-27",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/DietrichGebert__ponytail",
       "owner": "DietrichGebert",
       "sourceExists": true,
@@ -1701,12 +4575,12 @@
       "report": "reports/ragflow.md",
       "reportFile": "ragflow",
       "category": "Code Intelligence / RAG / Knowledge",
-      "summary": "面向企业级知识库的全栈 RAG 引擎，用 DeepDoc/多解析器、模板化 chunking、混合检索、引用溯源、Agent/工作流和多租户数据集，把复杂企业文档变成可问答、可管理、可二开的知识库产品。",
+      "summary": "面向企业级知识库的全栈 RAG / context engine 平台，用 DeepDoc/多解析器、模板化 chunking、混合检索、引用溯源、Agent / MCP / 多聊天渠道和多租户数据集，把复杂企业文档变成可问答、可管理、可二开的知识库产品。它的强项不是某个孤立检索算法，而是把 ingestion、retrieval、citation、agent 和部署运维收成一个完整产...[truncated]",
       "adoption": "推荐采用（企业知识库 / SOP 问答 / 复杂文档 RAG），但建议“以平台试点 + 关键链路二开审计”的方式采用。",
       "architectureValue": 5,
       "license": null,
       "language": "Python + Go + TypeScript/TSX",
-      "analysisDate": "2026-06-11",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/infiniflow__ragflow",
       "owner": "infiniflow",
       "sourceExists": false,
@@ -1720,48 +4594,69 @@
       "dependencyEvidencePresent": true,
       "dependencyEvidence": [
         {
-          "dependency": "Elasticsearch / OpenSearch clients",
-          "type": "search / document engine",
-          "usedFor": "Hybrid retrieval and document index backend",
-          "problemSolved": "Avoids building a production inverted index and query engine",
-          "evidence": "pyproject.toml; go.mod; common/doc_store/es_conn_base.py; Helm DOC_ENGINE config",
-          "reuseSignal": "Reuse when enterprise RAG needs mature filtering, scoring, and ops tooling",
-          "caution": "Heavy operational dependency; smaller apps may prefer embedded or managed search first"
+          "dependency": "onnxruntime(-gpu) + opencv-python + pypdf + pdfplumber + python-docx / python-pptx",
+          "type": "文档解析 / OCR / layout stack",
+          "usedFor": "DeepDoc、多 parser、复杂 PDF/Office/图片理解",
+          "problemSolved": "避免自研企业文档解析底座",
+          "evidence": "pyproject.toml 直接依赖 + README 的 Deep document understanding / heterogeneous sources 叙事",
+          "reuseSignal": "复杂 SOP / 合同 / 扫描件场景很值得复用",
+          "caution": "安装面重，GPU/CPU、OCR、系统库兼容都要单独验证"
         },
         {
-          "dependency": "MinIO / S3 clients",
-          "type": "object storage SDK",
-          "usedFor": "File and artifact storage",
-          "problemSolved": "Avoids custom binary/object storage layer",
-          "evidence": "pyproject.toml; go.mod; internal/storage/minio.go; Helm MinIO templates",
-          "reuseSignal": "Reuse when documents/artifacts need S3-compatible storage portability",
-          "caution": "Still requires bucket lifecycle, credentials, backup, and multi-tenant isolation design"
+          "dependency": "elasticsearch-dsl + opensearch-py + infinity-sdk + go-elasticsearch",
+          "type": "search / hybrid retrieval backend",
+          "usedFor": "全文 + 向量 + fusion 检索、多 doc engine 适配",
+          "problemSolved": "避免从零造生产级 inverted index / vector engine",
+          "evidence": "pyproject.toml、go.mod、rag/nlp/search.py、docker/ 多后端配置",
+          "reuseSignal": "适合已有搜索基础设施的企业私有化",
+          "caution": "运维、容量、索引一致性和权限过滤复杂度都高"
         },
         {
-          "dependency": "Redis clients",
-          "type": "cache / queue / lock",
-          "usedFor": "Distributed locks, runtime selection, message/task coordination",
-          "problemSolved": "Avoids inventing ad hoc process coordination and shared state",
-          "evidence": "go.mod; api/ragflow_server.py; internal/agent/runtime/selector.go; Helm Redis templates",
-          "reuseSignal": "Reuse when multi-worker coordination or low-latency shared state is required",
-          "caution": "Redis is not a durable database; define failure and recovery behavior"
+          "dependency": "peewee + mysql-connector-python + psycopg2-binary + pyobvector",
+          "type": "metadata persistence / platform state",
+          "usedFor": "tenant / KB / document / task / dialog / evaluation 等平台模型",
+          "problemSolved": "避免手写全套 CRUD / migration / relation plumbing",
+          "evidence": "pyproject.toml + api/db/db_models.py / services",
+          "reuseSignal": "多租户知识库产品层很有参考价值",
+          "caution": "当前 Python/Go 双后端并行，数据契约治理更难"
         },
         {
-          "dependency": "SQLAlchemy / relational DB layer",
-          "type": "ORM / persistence",
-          "usedFor": "Structured platform state and metadata",
-          "problemSolved": "Avoids hand-writing all SQL persistence plumbing",
-          "evidence": "pyproject.toml; common/doc_store/ob_conn_base.py; admin CLI docs",
-          "reuseSignal": "Reuse when product state needs migrations, transactions, and query composition",
-          "caution": "ORM does not replace explicit schema ownership and migration discipline"
+          "dependency": "minio + boto3 + AWS S3 / Azure / Google storage clients",
+          "type": "object storage / connectors",
+          "usedFor": "文件、解析产物、外部云数据源同步",
+          "problemSolved": "避免自研对象存储与多云接入层",
+          "evidence": "pyproject.toml 里 S3 / Azure / GCS / Dropbox / Box / Office365 / Google Drive 等依赖",
+          "reuseSignal": "适合企业“资料源很杂”的场景",
+          "caution": "凭证治理、同步频率、删除一致性和租户隔离是长期成本"
+        },
+        {
+          "dependency": "valkey + redis + nats.go",
+          "type": "queue / lock / runtime coordination",
+          "usedFor": "分布式锁、缓存、worker 协调、runtime 选择",
+          "problemSolved": "避免用数据库硬扛所有异步任务状态",
+          "evidence": "pyproject.toml + go.mod + docker/",
+          "reuseSignal": "对 ingestion-first 平台非常关键",
+          "caution": "失败恢复和可观测性要自己补齐，不能把 Redis/NATS 当持久真相源"
+        },
+        {
+          "dependency": "mcp + agentrun-sdk + browser-use + crawl4ai + langfuse",
+          "type": "agent / MCP / web / observability",
+          "usedFor": "agentic workflow、外部工具协议、网页/浏览器能力、评测/追踪",
+          "problemSolved": "把 RAG 从“只会答题”扩成“可行动的 context engine”",
+          "evidence": "pyproject.toml 直接依赖 + README latest updates",
+          "reuseSignal": "对需要 agent+KB 一体化的团队很有吸引力",
+          "caution": "平台边界迅速变宽，安全面和稳定性责任同步上升"
         }
       ],
       "tags": [
         "agent",
+        "mcp",
         "rag",
         "knowledge",
         "cli",
+        "workflow",
         "runtime",
+        "browser",
         "typescript",
         "python",
         "go"
@@ -1780,8 +4675,8 @@
       "adoption": "🟢 推荐采用（个人/小团队） / 🟡 团队生产化前需要试点和规范。",
       "architectureValue": 5,
       "license": "MIT",
-      "language": "Markdown / Shell / JavaScript（核心资产是 Markdown skills）",
-      "analysisDate": "2026-06-15",
+      "language": "Shell（GitHub 语言主标签）；核心资产仍是 Markdown skills + hooks/scripts",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/obra__superpowers",
       "owner": "obra",
       "sourceExists": false,
@@ -1793,12 +4688,50 @@
         "byScope": {}
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "无第三方 runtime 依赖",
+          "type": "packaging choice",
+          "usedFor": "整个插件/技能分发层",
+          "problemSolved": "避免把“工作流纪律层”变成安装脆弱、供应链暴露大的 Node 应用",
+          "evidence": "package.json 只有 name/version/main/pi 元数据，没有 dependencies/devDependencies",
+          "reuseSignal": "极高：这是它最值得学的取舍之一",
+          "caution": "代价是很多能力必须自己写，不能指望现成生态库"
+        },
+        {
+          "dependency": "Node built-ins（http / fs / crypto / child_process 等）",
+          "type": "stdlib runtime",
+          "usedFor": "brainstorming visual companion server、hook helpers",
+          "problemSolved": "用零依赖方式提供本地可视化与生命周期控制",
+          "evidence": "skills/brainstorming/scripts/server.cjs 与相关脚本",
+          "reuseSignal": "高：适合对可移植性和安装简洁度敏感的插件层项目",
+          "caution": "功能边界会刻意保守，复杂 UI/网络能力不如框架生态"
+        },
+        {
+          "dependency": "Shell hooks",
+          "type": "host integration surface",
+          "usedFor": "session-start bootstrap、跨 harness 注入",
+          "problemSolved": "不自造 runtime，只利用宿主已有 hook/plugin/extension 入口",
+          "evidence": "hooks/session-start、各 harness manifests",
+          "reuseSignal": "高：对“借宿主、改行为”的项目尤其适用",
+          "caution": "强依赖宿主协议稳定性，平台兼容修复会很多"
+        },
+        {
+          "dependency": "Host plugin manifests（Claude/Codex/Cursor/OpenCode/Pi 等）",
+          "type": "distribution / adapter metadata",
+          "usedFor": "多平台安装、marketplace、bootstrap registration",
+          "problemSolved": "把同一 skill corpus 分发到不同宿主而不改核心技能正文",
+          "evidence": ".claude-plugin/、.codex-plugin/、.cursor-plugin/、.opencode/、.pi/",
+          "reuseSignal": "高：这是 superpowers 变成“跨宿主协议层”的关键",
+          "caution": "manifest 漂移、商店规则变化、平台语义差异都会持续带来维护负担"
+        }
+      ],
       "tags": [
         "agent",
         "coding",
         "cli",
-        "workflow"
+        "workflow",
+        "runtime"
       ]
     },
     {
@@ -1815,7 +4748,7 @@
       "architectureValue": 5,
       "license": "AGPL-3.0-or-later",
       "language": "TypeScript（Tauri/React 前端 + Rust 后端 + Node MCP server）",
-      "analysisDate": "2026-06-13",
+      "analysisDate": "2026-07-08",
       "sourceDir": "projects/refactoringhq__tolaria",
       "owner": "refactoringhq",
       "sourceExists": false,
@@ -1937,12 +4870,12 @@
       "report": "reports/UI-TARS-desktop.md",
       "reportFile": "UI-TARS-desktop",
       "category": "Agent Platform / Desktop / Design",
-      "summary": "`bytedance/UI-TARS-desktop` 已从单一 UI-TARS 桌面应用演化为 ByteDance 的 Multimodal AI Agent Stack 仓库：同仓承载 Agent TARS、UI-TARS Desktop、GUI Agent SDK、Operator 家族、browser / MCP / remote infra。若聚焦 UI-TARS Desktop，它最有价值的部分不是 Electron 壳，而是 `GUIAgent Loop + VLM Model Adapter + Action Parser + Operator Port` 这套可复刻的 GUI / computer-use runtime。",
+      "summary": "`bytedance/UI-TARS-desktop` 现在仍然是 ByteDance 的 Multimodal AI Agent Stack 总仓：同仓承载 Agent TARS、UI-TARS Desktop、GUI Agent SDK、Operator 家族、browser / MCP / remote infra。若聚焦 UI-TARS Desktop，它最有价值的部分仍不是 Electron 壳，而是 `GUIAgent Loop + VLM Model Adapter + Action Parser + Operator Port` 这套可复刻的 GUI / computer-use runtime；但当前主分支推进很慢、release 与 app package 口径长期分离、remote 文档与源码边界仍漂移，所以更适合 PoC / 研究 / 架构学习，而不是省心生产底座。",
       "adoption": "结论：生产采用观望；PoC / 研究 / 架构学习推荐；SDK / Operator 可隔离复用。",
       "architectureValue": 5,
       "license": "Apache-2.0",
       "language": "TypeScript；其次 MDX / JavaScript / CSS / Less / HTML / Shell / Dockerfile",
-      "analysisDate": "2026-06-17",
+      "analysisDate": "2026-07-07",
       "sourceDir": "projects/bytedance__UI-TARS-desktop",
       "owner": "bytedance",
       "sourceExists": false,
@@ -1954,7 +4887,62 @@
         "byScope": {}
       },
       "dependencyEvidencePresent": true,
-      "dependencyEvidence": [],
+      "dependencyEvidence": [
+        {
+          "dependency": "electron 34 + electron-vite + electron-forge",
+          "type": "desktop host / packaging",
+          "usedFor": "桌面宿主、IPC、打包分发、权限桥接、自动更新",
+          "problemSolved": "把 GUI agent 做成真正可安装的桌面产品，而不是浏览器 demo",
+          "evidence": "apps/ui-tars/package.json",
+          "reuseSignal": "想把 computer-use 做成原生桌面产品时很有借鉴价值",
+          "caution": "跨平台打包、权限、签名、回归成本都高"
+        },
+        {
+          "dependency": "@ui-tars/sdk (GUIAgent)",
+          "type": "runtime SDK",
+          "usedFor": "GUI agent loop、pause/resume/stop、history、status stream",
+          "problemSolved": "把截图→模型→动作→执行串成统一状态机",
+          "evidence": "packages/ui-tars/sdk/src/GUIAgent.ts",
+          "reuseSignal": "这是仓库最值得抽象复用的核心",
+          "caution": "GUI loop 天生脆弱，状态机复杂度会持续增长"
+        },
+        {
+          "dependency": "openai SDK + Responses / Chat Completions 双栈",
+          "type": "model adapter",
+          "usedFor": "VLM provider 兼容、图像窗口、previous_response_id、token/time 统计",
+          "problemSolved": "让同一 agent loop 兼容 UI-TARS、Doubao、HF、自定义 OpenAI-compatible endpoint",
+          "evidence": "packages/ui-tars/sdk/src/Model.ts",
+          "reuseSignal": "“视觉 agent 先统一模型适配层”很值得学",
+          "caution": "provider 差异、日志体积、图像窗口和响应链都容易出边角问题"
+        },
+        {
+          "dependency": "@ui-tars/action-parser",
+          "type": "action grammar parser",
+          "usedFor": "将模型输出解析为 PredictionParsed / 坐标 / 动作参数",
+          "problemSolved": "把 VLM 文本输出变成可执行 GUI 契约",
+          "evidence": "报告架构走读 + packages/ui-tars/action-parser",
+          "reuseSignal": "对所有 GUI agent 都是通用核心模式",
+          "caution": "一旦 parser 假设与模型输出偏离，就会直接误操作"
+        },
+        {
+          "dependency": "@ui-tars/operator-nut-js + @ui-tars/operator-browser",
+          "type": "operator backends",
+          "usedFor": "本地电脑 / 本地浏览器执行后端",
+          "problemSolved": "用同一个 Operator 端口承接 OS 与 browser side effect",
+          "evidence": "apps/ui-tars/package.json + old report code walk",
+          "reuseSignal": "“统一 operator port”是整仓最强复用点之一",
+          "caution": "OS 权限、坐标、浏览器状态、焦点问题都会集中暴露"
+        },
+        {
+          "dependency": "packages/agent-infra/mcp-http-server + jose",
+          "type": "local infra / auth",
+          "usedFor": "MCP HTTP server、本地/远程认证、host 绑定",
+          "problemSolved": "把 GUI agent 生态扩展到 MCP / remote infra，同时尝试补安全边界",
+          "evidence": "packages/agent-infra/mcp-http-server/src/startServer.ts、apps/ui-tars/package.json",
+          "reuseSignal": "GUI agent 与 MCP / remote tooling 拼装方式值得参考",
+          "caution": "当前主分支最新提交都还在修默认 host，说明这条边界仍需谨慎"
+        }
+      ],
       "tags": [
         "agent",
         "mcp",

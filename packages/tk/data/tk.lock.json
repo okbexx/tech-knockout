@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-07T08:10:29.831733Z",
+  "generatedAt": "2026-07-10T12:10:53.436Z",
   "sources": [
     {
       "id": "1shell",
@@ -15,14 +15,19 @@
       "url": "https://github.com/msitarzewski/agency-agents",
       "cloneUrl": "https://github.com/msitarzewski/agency-agents.git",
       "sourceDir": "projects/msitarzewski__agency-agents",
-      "exists": false
+      "exists": true,
+      "branch": "main",
+      "commit": "35548a57c7799f6c984a4cea92d79cfee94af77d",
+      "remote": "https://github.com/msitarzewski/agency-agents.git",
+      "shallow": true,
+      "dirty": false
     },
     {
       "id": "agent-reach",
-      "repo": "Panniantong/agent-reach",
-      "url": "https://github.com/Panniantong/agent-reach",
-      "cloneUrl": "https://github.com/Panniantong/agent-reach.git",
-      "sourceDir": "projects/Panniantong__agent-reach",
+      "repo": "Panniantong/Agent-Reach",
+      "url": "https://github.com/Panniantong/Agent-Reach",
+      "cloneUrl": "https://github.com/Panniantong/Agent-Reach.git",
+      "sourceDir": "projects/Panniantong__Agent-Reach",
       "exists": false
     },
     {
@@ -47,15 +52,12 @@
       "url": "https://github.com/colbymchenry/codegraph",
       "cloneUrl": "https://github.com/colbymchenry/codegraph.git",
       "sourceDir": "projects/colbymchenry__codegraph",
-      "exists": false
-    },
-    {
-      "id": "codexdesktop-rebuild",
-      "repo": "Haleclipse/CodexDesktop-Rebuild",
-      "url": "https://github.com/Haleclipse/CodexDesktop-Rebuild",
-      "cloneUrl": "https://github.com/Haleclipse/CodexDesktop-Rebuild.git",
-      "sourceDir": "projects/Haleclipse__CodexDesktop-Rebuild",
-      "exists": false
+      "exists": true,
+      "branch": "main",
+      "commit": "6ea65246a5ef9c5280a21f49f286e2549bde1fef",
+      "remote": "https://github.com/colbymchenry/codegraph.git",
+      "shallow": true,
+      "dirty": false
     },
     {
       "id": "compound-engineering-plugin",
@@ -67,10 +69,10 @@
     },
     {
       "id": "cyberverse",
-      "repo": "dsd2077/CyberVerse",
-      "url": "https://github.com/dsd2077/CyberVerse",
-      "cloneUrl": "https://github.com/dsd2077/CyberVerse.git",
-      "sourceDir": "projects/dsd2077__CyberVerse",
+      "repo": "Lynpoint/CyberVerse",
+      "url": "https://github.com/Lynpoint/CyberVerse",
+      "cloneUrl": "https://github.com/Lynpoint/CyberVerse.git",
+      "sourceDir": "projects/Lynpoint__CyberVerse",
       "exists": false
     },
     {
@@ -148,7 +150,12 @@
       "url": "https://github.com/the-open-agent/openagent",
       "cloneUrl": "https://github.com/the-open-agent/openagent.git",
       "sourceDir": "projects/the-open-agent__openagent",
-      "exists": false
+      "exists": true,
+      "branch": "master",
+      "commit": "6c85d7ea738ac97ff2bb5f6f1f7c8423a3cb9d01",
+      "remote": "https://github.com/the-open-agent/openagent.git",
+      "shallow": false,
+      "dirty": false
     },
     {
       "id": "opencode",
