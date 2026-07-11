@@ -388,7 +388,65 @@ function readmeProjectIndex(readme) {
   return end === -1 ? rest : rest.slice(0, end);
 }
 
+const TAG_CANDIDATES = [
+  'agent',
+  'coding',
+  'mcp',
+  'rag',
+  'knowledge',
+  'cli',
+  'desktop',
+  'workflow',
+  'runtime',
+  'graph',
+  'design',
+  'security',
+  'browser',
+  'media',
+  'video',
+  'content',
+  'tts',
+  'ffmpeg',
+  'streamlit',
+  'fastapi',
+  'comfyui',
+  'tauri',
+  'rust',
+  'typescript',
+  'python',
+  'go',
+];
+
+const INACTIVE_DEPENDENCY_EVIDENCE_PATTERN =
+  /(?:\bdeclared[\s-]*only\b|\bdeclared\s+but\b|\bmanifest\s+declared\b|\bunused\b|\bnot\s+used\b|\bunimplemented\b|\bnot\s+implemented\b|\bnot\s+exposed\b|\bnot\s+wired\b|\bnot\s+enabled\b|\bnot\s+available\b|\bnot\s+active\b|\bno\b[^.;|]*(?:agent-facing|mcp|tool|server)[^.;|]*(?:contract|implementation|exposure|integration|support)\b|声明但|仅声明|只声明|未暴露|未实现|未使用|未启用|未接入|没有[^。；;|]*(?:agent-facing|mcp|tool|server)[^。；;|]*(?:contract|契约|实现|暴露|使用|接入))/iu;
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function hasTagToken(text, tag) {
+  return new RegExp(`(^|[^a-z0-9])${escapeRegExp(tag)}(?=$|[^a-z0-9])`, 'i').test(text);
+}
+
+function normalizedDependencyName(value) {
+  const text = String(value || '').replace(/`|\*/g, '').trim().toLowerCase();
+  return text.match(/^(@?[a-z0-9_.-]+(?:\/[a-z0-9_.-]+)?)/)?.[1] || text;
+}
+
+function isInactiveDependencyEvidence(dependency) {
+  const text = [dependency.usedFor, dependency.problemSolved].filter(Boolean).join(' ');
+  return INACTIVE_DEPENDENCY_EVIDENCE_PATTERN.test(text);
+}
+
 function buildTags(project) {
+  const dependencyEvidence = project.dependencyEvidence || [];
+  const activeDependencyEvidence = dependencyEvidence.filter((dependency) => !isInactiveDependencyEvidence(dependency));
+  const inactiveDependencyNames = new Set(
+    dependencyEvidence
+      .filter(isInactiveDependencyEvidence)
+      .map((dependency) => normalizedDependencyName(dependency.dependency))
+      .filter(Boolean),
+  );
   const text = [
     project.id,
     project.name,
@@ -396,8 +454,10 @@ function buildTags(project) {
     project.language,
     project.summary,
     project.repo,
-    ...(project.dependencies || []).map((dependency) => dependency.name),
-    ...(project.dependencyEvidence || []).flatMap((dependency) => [
+    ...(project.dependencies || [])
+      .filter((dependency) => !inactiveDependencyNames.has(normalizedDependencyName(dependency.name)))
+      .map((dependency) => dependency.name),
+    ...activeDependencyEvidence.flatMap((dependency) => [
       dependency.dependency,
       dependency.type,
       dependency.usedFor,
@@ -407,32 +467,7 @@ function buildTags(project) {
     .filter(Boolean)
     .join(' ')
     .toLowerCase();
-  const candidates = [
-    'agent',
-    'coding',
-    'mcp',
-    'rag',
-    'knowledge',
-    'cli',
-    'desktop',
-    'workflow',
-    'runtime',
-    'graph',
-    'design',
-    'security',
-    'browser',
-    'tauri',
-    'rust',
-    'typescript',
-    'python',
-    'go',
-  ];
-  return candidates.filter((tag) => {
-    if (tag === 'go') {
-      return /(^|[^a-z0-9])go([^a-z0-9]|$)/.test(text);
-    }
-    return text.includes(tag);
-  });
+  return TAG_CANDIDATES.filter((tag) => hasTagToken(text, tag));
 }
 
 function parseReport(reportPath, paths, readme) {

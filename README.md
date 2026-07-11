@@ -153,6 +153,7 @@ npm run verify
 - [AI Coding Workflow](./comparisons/ai-coding-workflow.md)
 - [Code Intelligence](./comparisons/code-intelligence.md)
 - [Agent Platforms](./comparisons/agent-platforms.md)
+- [AI Media / Content Automation](./comparisons/ai-media-content-automation.md)
 - [Enterprise Knowledge Base / RAG](./comparisons/enterprise-knowledge-base-rag.md)
 
 ## Project Index
@@ -196,6 +197,12 @@ npm run verify
 | [openagent](./reports/openagent.md) | Go + React 自托管个人 AI 助手平台；最新已到 v2.83.1，平台面继续高频迭代，但本轮本地 `go test` 被环境缺少 Go 阻断 | 观望（个人/小团队 PoC 可试） | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [CyberVerse](./reports/CyberVerse.md) | Go + Python + Vue 的实时 digital-human Agent 平台：WebRTC / PersonaAgent / RAG / FlashHead / LiveAct / 云端数字人 | 观望（PoC/学习推荐；生产前先做安全收口） | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [open-design](./reports/open-design.md) | 带 Cloud / desktop / MCP / plugin substrate 的 agent-native 设计平台 | 推荐研究与 PoC；生产采用前先当平台底座评估 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
+
+### AI Media / Content Automation
+
+| Project | What it is | Adopt? | Architecture value | Date |
+|---|---|---|---|---|
+| [Pixelle-Video](./reports/Pixelle-Video.md) | AI Media / Content Automation 短视频生成流水线：把 LLM 文案、TTS、图像/视频生成、HTML 模板渲染和 FFmpeg 合成串成可配置的本地/云端创作工具 | 观望（可信本地环境 PoC / 架构学习推荐；公网生产不建议直接采用） | ⭐⭐⭐⭐⭐ | 2026-07-11 |
 
 ### Tools / Infrastructure / Distribution
 

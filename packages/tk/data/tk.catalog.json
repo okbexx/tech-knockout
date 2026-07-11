@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-10T12:47:33.904Z",
+  "generatedAt": "2026-07-11T14:19:14.233Z",
   "projects": [
     {
       "id": "1shell",
@@ -187,6 +187,7 @@
         "cli",
         "workflow",
         "browser",
+        "video",
         "python"
       ]
     },
@@ -287,6 +288,8 @@
         "runtime",
         "graph",
         "browser",
+        "content",
+        "fastapi",
         "typescript",
         "python"
       ]
@@ -604,7 +607,6 @@
         "cli",
         "runtime",
         "graph",
-        "design",
         "typescript"
       ]
     },
@@ -777,6 +779,8 @@
         "desktop",
         "workflow",
         "design",
+        "media",
+        "tts",
         "typescript",
         "python",
         "go"
@@ -904,7 +908,6 @@
         "agent",
         "coding",
         "mcp",
-        "rag",
         "cli",
         "workflow",
         "rust",
@@ -1170,9 +1173,9 @@
       "tags": [
         "rag",
         "knowledge",
-        "cli",
         "runtime",
         "graph",
+        "fastapi",
         "typescript",
         "python"
       ]
@@ -1454,6 +1457,7 @@
         "desktop",
         "runtime",
         "design",
+        "video",
         "typescript"
       ]
     },
@@ -3728,15 +3732,13 @@
       ],
       "tags": [
         "agent",
-        "coding",
         "mcp",
         "rag",
-        "cli",
         "desktop",
         "workflow",
-        "runtime",
         "graph",
         "design",
+        "fastapi",
         "python",
         "go"
       ]
@@ -4485,11 +4487,448 @@
       "tags": [
         "agent",
         "coding",
-        "rag",
         "cli",
         "workflow",
         "runtime",
         "typescript"
+      ]
+    },
+    {
+      "id": "pixelle-video",
+      "name": "Pixelle-Video",
+      "repo": "ATH-MaaS/Pixelle-Video",
+      "url": "https://github.com/ATH-MaaS/Pixelle-Video",
+      "cloneUrl": "https://github.com/ATH-MaaS/Pixelle-Video.git",
+      "report": "reports/Pixelle-Video.md",
+      "reportFile": "Pixelle-Video",
+      "category": "AI Media / Content Automation",
+      "summary": "Pixelle-Video 是一个面向 AI Media / Content Automation 的短视频生成流水线，把 LLM 文案、TTS、图像/视频生成、HTML 模板渲染和 FFmpeg 合成串成可配置的本地/云端创作工具。",
+      "adoption": "观望；推荐个人/小团队在可信本地环境做隔离 PoC 与架构学习，不建议直接作为公网生产内容流水线。",
+      "architectureValue": 5,
+      "license": "Apache-2.0",
+      "language": "Python、HTML templates、Streamlit UI、FastAPI API",
+      "analysisDate": "2026-07-11；静态代码分析，未安装、未运行、未构建、未测试 Pixelle-Video",
+      "sourceDir": "projects/ATH-MaaS__Pixelle-Video",
+      "owner": "ATH-MaaS",
+      "sourceExists": true,
+      "dependencies": [
+        {
+          "name": "pyyaml",
+          "version": "pyyaml>=6.0.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "packaging/windows/requirements.txt"
+        },
+        {
+          "name": "pytest",
+          "version": "pytest>=8.0.0",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "pytest-asyncio",
+          "version": "pytest-asyncio>=0.23.0",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "ruff",
+          "version": "ruff>=0.6.0",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "beautifulsoup4",
+          "version": "beautifulsoup4>=4.14.2",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "certifi",
+          "version": "certifi>=2025.10.5",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "comfykit",
+          "version": "comfykit>=0.1.12",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "dashscope",
+          "version": "dashscope>=1.23.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "edge-tts",
+          "version": "edge-tts==7.2.7",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "fastapi",
+          "version": "fastapi>=0.115.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "fastmcp",
+          "version": "fastmcp>=2.0.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "ffmpeg-python",
+          "version": "ffmpeg-python>=0.2.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "httpx",
+          "version": "httpx>=0.28.1",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "loguru",
+          "version": "loguru>=0.7.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "moviepy",
+          "version": "moviepy==1.0.3",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "numpy",
+          "version": "numpy>=1.26.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "openai",
+          "version": "openai>=2.6.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "pillow",
+          "version": "pillow>=10.0.0,<12",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "playwright",
+          "version": "playwright>=1.58.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "pydantic",
+          "version": "pydantic>=2.0.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "pyjwt",
+          "version": "pyjwt>=2.10.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "python-multipart",
+          "version": "python-multipart>=0.0.12",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "pyyaml",
+          "version": "pyyaml>=6.0.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "requests",
+          "version": "requests>=2.32.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "streamlit",
+          "version": "streamlit>=1.40.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        },
+        {
+          "name": "uvicorn",
+          "version": "uvicorn[standard]>=0.32.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "pyproject.toml"
+        }
+      ],
+      "dependencySummary": {
+        "total": 26,
+        "manifests": 2,
+        "byEcosystem": {
+          "python": 26
+        },
+        "byScope": {
+          "runtime": 23,
+          "optional": 3
+        }
+      },
+      "dependencyEvidencePresent": true,
+      "dependencyEvidence": [
+        {
+          "dependency": "openai>=2.6.0",
+          "type": "SDK",
+          "usedFor": "LLM 文案、标题、结构化输出",
+          "problemSolved": "避免自写 OpenAI-compatible HTTP 客户端",
+          "evidence": "pixelle_video/services/llm_service.py 的 AsyncOpenAI；response_type 走 Pydantic JSON 解析",
+          "reuseSignal": "项目需要兼容 OpenAI、Qwen、DeepSeek、Ollama 等 OpenAI-compatible provider",
+          "caution": "错误处理较薄；API key 写入 config.yaml；结构化输出依赖 prompt JSON，不是强制 provider schema"
+        },
+        {
+          "dependency": "comfykit>=0.1.12",
+          "type": "SDK / workflow runtime",
+          "usedFor": "selfhost ComfyUI、RunningHub TTS/image/video/VLM workflow 执行",
+          "problemSolved": "把 ComfyUI/RunningHub 差异收敛到 kit.execute()",
+          "evidence": "PixelleVideoCore._get_or_create_comfykit()、ComfyBaseService、MediaService、TTSService",
+          "reuseSignal": "需要在同一产品中复用 ComfyUI 与云端工作流时优先评估",
+          "caution": "默认配置和 issue 样本显示 RunningHub 依赖感强；workflow 输入/输出契约易漂移"
+        },
+        {
+          "dependency": "fastapi>=0.115.0",
+          "type": "framework",
+          "usedFor": "HTTP REST API",
+          "problemSolved": "快速暴露 LLM/TTS/media/video/tasks/files/resources/frame endpoints",
+          "evidence": "api/app.py、api/routers/*.py、api/schemas/*.py",
+          "reuseSignal": "需要把创作能力包装为服务 API",
+          "caution": "当前无 auth、默认 0.0.0.0、wildcard CORS、异常多返回原始 str(e)"
+        },
+        {
+          "dependency": "uvicorn[standard]>=0.32.0",
+          "type": "runtime",
+          "usedFor": "FastAPI server",
+          "problemSolved": "ASGI 运行时",
+          "evidence": "api/app.py main block；Docker command",
+          "reuseSignal": "FastAPI 标准部署路径",
+          "caution": "app 默认 host 公开绑定，不应直接公网暴露"
+        },
+        {
+          "dependency": "streamlit>=1.40.0",
+          "type": "UI",
+          "usedFor": "Web UI、配置面板、pipeline tabs、历史页",
+          "problemSolved": "快速构建创作工具界面",
+          "evidence": "web/app.py、web/pages/1_🎬_Home.py、web/components/*.py",
+          "reuseSignal": "内部工具、PoC、单用户创作台",
+          "caution": "Streamlit session state 不等于生产级用户/任务隔离"
+        },
+        {
+          "dependency": "pydantic>=2.0.0",
+          "type": "schema / validation",
+          "usedFor": "API schema、config schema、structured LLM output、workflow info",
+          "problemSolved": "统一对象合同和校验",
+          "evidence": "pixelle_video/config/schema.py、api/schemas/*.py、AssetBasedPipeline.VideoScript",
+          "reuseSignal": "需要减少 dict 漂移时应复用",
+          "caution": "core model 同时存在 dataclass 与 Pydantic，合同层不完全统一"
+        },
+        {
+          "dependency": "pyyaml>=6.0.0",
+          "type": "config parser",
+          "usedFor": "config.yaml load/save",
+          "problemSolved": "人可编辑配置",
+          "evidence": "pixelle_video/config/loader.py",
+          "reuseSignal": "本地工具适合 YAML 配置",
+          "caution": "明文保存 LLM、RunningHub、Kling、ARK 等 secrets"
+        },
+        {
+          "dependency": "loguru>=0.7.0",
+          "type": "logging",
+          "usedFor": "pipeline/service/API 日志",
+          "problemSolved": "简化日志接入",
+          "evidence": "多数 pixelle_video/services/*、api/routers/*",
+          "reuseSignal": "PoC 和单进程工具可直接用",
+          "caution": "部分 debug/print 路径可能泄露 prompt、路径、provider 输入；ComfyKit config debug 会包含 key"
+        },
+        {
+          "dependency": "edge-tts==7.2.7",
+          "type": "TTS SDK",
+          "usedFor": "本地免费 TTS",
+          "problemSolved": "不依赖 ComfyUI/RunningHub 生成旁白",
+          "evidence": "TTSService._call_local_tts() 调 pixelle_video/utils/tts_util.py",
+          "reuseSignal": "低成本本地 TTS PoC",
+          "caution": "外部 Microsoft 服务稳定性、速率限制和 401 重试仍是运行风险"
+        },
+        {
+          "dependency": "certifi>=2025.10.5",
+          "type": "TLS CA bundle",
+          "usedFor": "Edge TTS SSL context",
+          "problemSolved": "避免禁用 TLS 验证",
+          "evidence": "pixelle_video/utils/tts_util.py",
+          "reuseSignal": "WebSocket/TLS 问题多时可复用",
+          "caution": "Windows packaging 下载路径另行禁用了 TLS 验证，不能混为一谈"
+        },
+        {
+          "dependency": "ffmpeg-python>=0.2.0",
+          "type": "media wrapper",
+          "usedFor": "concat、probe、overlay、audio/video merge、image-to-video",
+          "problemSolved": "避免直接拼接复杂 ffmpeg 命令",
+          "evidence": "pixelle_video/services/video.py、FrameProcessor duration probe",
+          "reuseSignal": "视频合成核心能力值得复用",
+          "caution": "仍依赖系统 ffmpeg；错误多是运行期才暴露"
+        },
+        {
+          "dependency": "moviepy==1.0.3",
+          "type": "media utility",
+          "usedFor": "Web 动作迁移读取上传视频时长",
+          "problemSolved": "简化视频 duration 获取",
+          "evidence": "web/pipelines/action_transfer.py 的 VideoFileClip",
+          "reuseSignal": "需要轻量读取视频元数据时可用",
+          "caution": "旧版 MoviePy；与 ffmpeg-python 功能有重叠"
+        },
+        {
+          "dependency": "playwright>=1.58.0",
+          "type": "browser automation",
+          "usedFor": "HTML 模板渲染成 PNG frame/overlay",
+          "problemSolved": "让模板系统用真实浏览器 CSS 布局",
+          "evidence": "pixelle_video/services/frame_html.py",
+          "reuseSignal": "需要高保真 HTML/CSS 转图时可复用",
+          "caution": "需要 Chromium install、字体、no-sandbox 参数；服务端资源占用较高"
+        },
+        {
+          "dependency": "beautifulsoup4>=4.14.2",
+          "type": "parser",
+          "usedFor": "解析模板 meta 中的 media size",
+          "problemSolved": "避免正则解析 HTML meta",
+          "evidence": "HTMLFrameGenerator._parse_media_size_from_meta()",
+          "reuseSignal": "HTML 模板含结构化 metadata 时可复用",
+          "caution": "只解析少量 meta，不是完整模板 schema"
+        },
+        {
+          "dependency": "httpx>=0.28.1",
+          "type": "async HTTP client",
+          "usedFor": "下载生成媒体、模型列表、Web direct API flows",
+          "problemSolved": "async 场景网络调用",
+          "evidence": "FrameProcessor._download_media()、utils/llm_util.py、Web pipeline 下载",
+          "reuseSignal": "FastAPI/async pipeline 中优先使用",
+          "caution": "与 requests 混用，重试/超时策略不一致"
+        },
+        {
+          "dependency": "requests>=2.32.0",
+          "type": "HTTP client",
+          "usedFor": "DashScope/Kling/Seedance/image upload 等同步 provider client",
+          "problemSolved": "复用成熟同步 HTTP 客户端",
+          "evidence": "pixelle_video/services/api_services/*",
+          "reuseSignal": "provider SDK 或同步轮询适合时可用",
+          "caution": "在 async pipeline 中通过 asyncio.to_thread 包裹，资源治理弱"
+        },
+        {
+          "dependency": "dashscope>=1.23.0",
+          "type": "provider SDK",
+          "usedFor": "DashScope 图像、视频、VLM",
+          "problemSolved": "直接接入通义万象/百炼能力",
+          "evidence": "image_dashscope.py、video_dashscope.py、vlm_dashscope.py",
+          "reuseSignal": "阿里云模型为主的中国区视频生成场景",
+          "caution": "SDK/模型能力与硬编码矩阵可能漂移"
+        },
+        {
+          "dependency": "pyjwt>=2.10.0",
+          "type": "auth helper",
+          "usedFor": "Kling API JWT",
+          "problemSolved": "生成 Kling HMAC token",
+          "evidence": "pixelle_video/services/api_services/video_kling.py",
+          "reuseSignal": "需要服务端签发 provider JWT",
+          "caution": "Secret 明文配置；无密钥轮换策略"
+        },
+        {
+          "dependency": "pillow>=10.0.0,<12",
+          "type": "image processing",
+          "usedFor": "图像尺寸、压缩、拼接、Base64 编码",
+          "problemSolved": "provider API 输入预处理",
+          "evidence": "image_processor.py、video_kling.py",
+          "reuseSignal": "多 provider 图像输入归一化",
+          "caution": "大图内存和异常路径需额外治理"
+        },
+        {
+          "dependency": "numpy>=1.26.0",
+          "type": "numeric / image helper",
+          "usedFor": "图像白边检测等像素处理",
+          "problemSolved": "简化图像数组操作",
+          "evidence": "image_processor.py",
+          "reuseSignal": "需要像素级预处理时可用",
+          "caution": "当前只少量使用，引入体积不小"
+        },
+        {
+          "dependency": "python-multipart>=0.0.12",
+          "type": "HTTP upload parser",
+          "usedFor": "预期支持 FastAPI multipart upload",
+          "problemSolved": "替代手写 multipart parsing",
+          "evidence": "manifest direct dependency",
+          "reuseSignal": "如果未来把 Streamlit upload 下沉到 REST API 可保留",
+          "caution": "静态检索未发现 UploadFile/File(...) API 使用；当前像未落地依赖"
+        },
+        {
+          "dependency": "fastmcp>=2.0.0",
+          "type": "MCP framework",
+          "usedFor": "manifest 声明但源码未暴露 MCP server/tool",
+          "problemSolved": "理论上可建立 Agent-facing tool contract",
+          "evidence": "pyproject.toml、NOTICE、uv.lock；源码检索无 FastMCP 使用",
+          "reuseSignal": "未来若要给 Agent 提供 MCP，可复用官方/成熟框架",
+          "caution": "当前没有 Agent-facing MCP/tool contract，不能把该依赖解读为已实现能力"
+        },
+        {
+          "dependency": "uv.lock",
+          "type": "lockfile",
+          "usedFor": "锁定已解析依赖版本",
+          "problemSolved": "提供可复现安装线索",
+          "evidence": "repo 根目录 uv.lock",
+          "reuseSignal": "PoC 或 Docker 构建应优先使用 lock",
+          "caution": "pyproject.toml 直接依赖多为 lower-bound 无 ceiling；Dockerfile 从远端 shell installer 安装 uv 后运行 uv pip install -e .，未证明 locked install；Windows 路径也未证明锁定安装"
+        }
+      ],
+      "tags": [
+        "workflow",
+        "runtime",
+        "browser",
+        "media",
+        "video",
+        "content",
+        "tts",
+        "ffmpeg",
+        "streamlit",
+        "fastapi",
+        "comfyui",
+        "python"
       ]
     },
     {
@@ -4653,7 +5092,6 @@
         "mcp",
         "rag",
         "knowledge",
-        "cli",
         "workflow",
         "runtime",
         "browser",
@@ -5638,6 +6076,11 @@
       "id": "ai-coding-workflow",
       "path": "comparisons/ai-coding-workflow.md",
       "title": "AI Coding Workflow 横评"
+    },
+    {
+      "id": "ai-media-content-automation",
+      "path": "comparisons/ai-media-content-automation.md",
+      "title": "AI Media / Content Automation 横评"
     },
     {
       "id": "code-intelligence",

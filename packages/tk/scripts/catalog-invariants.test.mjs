@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
-import { doctorRepo, validateCatalog, validateSourceLock } from '../lib/tk-core.mjs';
+import { buildCatalog, doctorRepo, validateCatalog, validateSourceLock } from '../lib/tk-core.mjs';
 
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -70,6 +70,17 @@ function tempPackageRoot() {
   );
   copyFileSync(join(packageRoot, 'schemas', 'run-trace.schema.json'), join(root, 'schemas', 'run-trace.schema.json'));
   return root;
+}
+
+function tempRepoRoot() {
+  const root = mkdtempSync(join(tmpdir(), 'tk-tag-regression-'));
+  mkdirSync(join(root, 'reports'), { recursive: true });
+  mkdirSync(join(root, 'comparisons'), { recursive: true });
+  return root;
+}
+
+function writeReport(root, fileName, text) {
+  writeFileSync(join(root, 'reports', fileName), text);
 }
 
 function lock(ids = ['current-project']) {
@@ -150,4 +161,116 @@ test('repo doctor passes when the persisted packaged source lock matches the cat
 
   assert.ok(check, 'expected source_lock_valid check');
   assert.equal(check.ok, true, check.details.join('; '));
+});
+
+test('catalog tags use token boundaries and ignore inactive dependency evidence rows', () => {
+  const root = tempRepoRoot();
+  mkdirSync(join(root, 'projects', 'example__pixelle-fixture'), { recursive: true });
+  writeFileSync(
+    join(root, 'projects', 'example__pixelle-fixture', 'pyproject.toml'),
+    `[project]
+dependencies = [
+  "fastmcp==2.0.0",
+  "mcp==1.0.0",
+  "streamlit==1.0.0",
+  "fastapi==1.0.0",
+  "ffmpeg-python==0.2.0",
+  "comfyui==0.1.0",
+]
+`,
+  );
+  writeFileSync(
+    join(root, 'README.md'),
+    `# Fixture
+
+## Project Index
+
+### AI Media / Content Automation
+| Project | Adoption |
+|---|---|
+| [Pixelle Fixture](./reports/pixelle-fixture.md) | PoC |
+
+## Methodology
+`,
+  );
+  writeReport(
+    root,
+    'pixelle-fixture.md',
+    `# Pixelle Fixture 全量分析报告
+
+> AI Media / Content Automation for video workflow runtime, browser client storage, and TTS narration.
+
+| 字段 | 值 |
+|---|---|
+| 仓库 | https://github.com/example/pixelle-fixture |
+| 语言 | Python |
+
+### 依赖 / SDK 选型证据
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|---|---|---|---|---|---|---|
+| fastmcp>=2.0.0 | Agent MCP CLI bridge | manifest 声明但源码未暴露 MCP server/tool | 当前没有 Agent-facing MCP/tool contract | pyproject.toml | none | unused/unimplemented |
+| mcp>=1.0.0 | Agent MCP CLI bridge | declared-only manifest package | no agent-facing MCP/tool contract | pyproject.toml | none | unused/unimplemented |
+| streamlit | UI runtime | browser workflow console | renders content operations | app.py | implemented | |
+| fastapi | API runtime | HTTP API runtime | serves browser client requests with no custom tool needed | api.py | implemented | |
+| ffmpeg | Media runtime | video transcoding | content automation uses ffmpeg | services/video.py | implemented | |
+| comfyui | Workflow runtime | ComfyUI workflow execution | media generation workflow | workers.py | implemented | |
+| tts | Media runtime | TTS narration | creates voiceover content | services/tts.py | implemented | |
+`,
+  );
+
+  const project = buildCatalog({ repoRoot: root, sourceRoot: root, packageRoot }).projects.find((item) => item.id === 'pixelle-fixture');
+
+  assert.ok(project, 'expected pixelle fixture project');
+  assert.ok(project.dependencies.some((dependency) => dependency.name === 'mcp'), 'expected inactive dependency to stay in catalog');
+  for (const tag of ['media', 'video', 'content', 'tts', 'ffmpeg', 'streamlit', 'fastapi', 'comfyui', 'python', 'workflow', 'runtime', 'browser']) {
+    assert.ok(project.tags.includes(tag), `expected tag ${tag}, got: ${project.tags.join(', ')}`);
+  }
+  for (const tag of ['agent', 'mcp', 'cli', 'rag', 'coding']) {
+    assert.equal(project.tags.includes(tag), false, `unexpected tag ${tag}: ${project.tags.join(', ')}`);
+  }
+});
+
+test('catalog tags preserve explicit go token matching', () => {
+  const root = tempRepoRoot();
+  writeFileSync(
+    join(root, 'README.md'),
+    `# Fixture
+
+## Project Index
+
+### Runtime Tools
+| Project | Adoption |
+|---|---|
+| [Go Fixture](./reports/go-fixture.md) | PoC |
+
+## Methodology
+`,
+  );
+  writeReport(
+    root,
+    'go-fixture.md',
+    `# Go Fixture 全量分析报告
+
+> Go runtime service for ergonomic storage clients.
+
+| 字段 | 值 |
+|---|---|
+| 仓库 | https://github.com/example/go-fixture |
+| 语言 | Go |
+
+### 依赖 / SDK 选型证据
+
+| Dependency | Type | Used for | Problem solved | Evidence | Reuse signal | Caution |
+|---|---|---|---|---|---|---|
+| net/http | Runtime | Go HTTP runtime | serves API requests | server.go | implemented | |
+`,
+  );
+
+  const project = buildCatalog({ repoRoot: root, sourceRoot: root, packageRoot }).projects.find((item) => item.id === 'go-fixture');
+
+  assert.ok(project, 'expected go fixture project');
+  assert.ok(project.tags.includes('go'), `expected go tag, got: ${project.tags.join(', ')}`);
+  assert.equal(project.tags.includes('rag'), false, `unexpected rag tag: ${project.tags.join(', ')}`);
+  assert.equal(project.tags.includes('cli'), false, `unexpected cli tag: ${project.tags.join(', ')}`);
 });

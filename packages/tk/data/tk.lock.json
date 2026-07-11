@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-10T12:47:34.068Z",
+  "generatedAt": "2026-07-11T14:19:14.332Z",
   "sources": [
     {
       "id": "1shell",
@@ -184,6 +184,19 @@
       "commit": "2b00dade7cec918aefb025c8b7a4fa304a30acdd",
       "remote": "https://github.com/earendil-works/pi.git",
       "shallow": false,
+      "dirty": false
+    },
+    {
+      "id": "pixelle-video",
+      "repo": "ATH-MaaS/Pixelle-Video",
+      "url": "https://github.com/ATH-MaaS/Pixelle-Video",
+      "cloneUrl": "https://github.com/ATH-MaaS/Pixelle-Video.git",
+      "sourceDir": "projects/ATH-MaaS__Pixelle-Video",
+      "exists": true,
+      "branch": "main",
+      "commit": "848b054e4fae40dabc62ec58e960b573e83793ac",
+      "remote": "https://github.com/ATH-MaaS/Pixelle-Video.git",
+      "shallow": true,
       "dirty": false
     },
     {
