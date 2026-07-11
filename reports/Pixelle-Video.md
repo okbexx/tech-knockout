@@ -6,7 +6,7 @@
 
 | 项目 | 值 |
 |------|----|
-| 仓库 | `ATH-MaaS/Pixelle-Video`；README、badge、clone 示例仍指向 legacy `AIDC-AI/Pixelle-Video` |
+| 仓库 | `ATH-MaaS/Pixelle-Video`；tracked tree 仍有 185 处 legacy `AIDC-AI`、0 处 `ATH-MaaS`，覆盖 README、badge、clone、release、docs 与 CLA 自动化 |
 | URL | `https://github.com/ATH-MaaS/Pixelle-Video` |
 | 分类 | AI Media / Content Automation |
 | Star | 25,104（观测日期：2026-07-11） |
@@ -82,7 +82,7 @@ Pixelle-Video 解决的是“从主题或素材到短视频成片”的自动化
 | Bus factor | ⚠️ 中高 | top contributor 约 65%，项目发展较集中 |
 | 供应商锁定 | ⚠️ 高 | 默认 image/video workflow 指向 RunningHub；direct API 矩阵也与具体 provider/model 强绑定 |
 | 维护趋势 | ⚠️ 活跃但不稳定 | 创建时间短、stars 高、release 后仍有 55 commits；但版本号、文档和代码合同存在漂移 |
-| 安全历史 | ⚠️ 未见系统治理 | 没有测试/安全 CI；API 默认公开绑定、无鉴权、wildcard CORS、文件服务 path traversal 风险 |
+| 安全历史 | ❌ Critical 静态发现 | tracked `ImageProcessor.__init__` 含非 placeholder 的 `sk-` 默认 Key `[REDACTED]`，且默认值优先于环境变量；另有无鉴权公网绑定、wildcard CORS、文件服务 path traversal 风险。必须立即撤销/轮换，删除当前值并清理历史 |
 | 生产可靠性 | ❌ | in-memory TaskManager、无持久队列、无并发上限 enforce、无项目测试、泛化异常处理 |
 | 供应链 / 打包 | ⚠️ | `packaging/windows/build.py` 下载 Python/FFmpeg 时禁用 TLS certificate verification，并直接解压下载归档；已检查路径中未见下载前 checksum gate。Dockerfile 的官方 uv installer 是 curl pipe，随后 editable install，不是锁文件强制安装。 |
 
@@ -90,7 +90,7 @@ Pixelle-Video 解决的是“从主题或素材到短视频成片”的自动化
 
 **观望；推荐个人/小团队在可信本地环境做隔离 PoC 与架构学习，不建议直接作为公网生产内容流水线。**
 
-推荐个人/小团队在可信本地环境中做隔离 PoC 与架构学习；不建议直接作为公网生产内容流水线。它的代码资产是实质性的，尤其适合学习“能力路由 + 模板生命周期 + TTS-first 合成”的短视频系统结构。但默认配置强依赖 RunningHub，issue 样本集中在本地 ComfyUI 仍走云端、RunningHub key required、workflow contract failure、FFmpeg、黑屏等运行问题上；工程安全和可靠性也明显不到生产平台门槛。
+推荐个人/小团队在可信本地环境中做隔离 PoC 与架构学习；不建议直接作为公网生产内容流水线。任何试用前都应先撤销/轮换 tracked source 中的疑似真实 Key `[REDACTED]`，并把源码默认值改为空。它的代码资产是实质性的，尤其适合学习“能力路由 + 模板生命周期 + TTS-first 合成”的短视频系统结构。但默认配置强依赖 RunningHub，issue 样本集中在本地 ComfyUI 仍走云端、RunningHub key required、workflow contract failure、FFmpeg、黑屏等运行问题上；工程安全和可靠性也明显不到生产平台门槛。
 
 ---
 
@@ -264,6 +264,7 @@ REST async task flow
 | FFmpeg 不存在 | `VideoService.check_ffmpeg()` | 第一次 video 操作抛 RuntimeError | installer/doctor 检查；Docker/Windows 包内置 |
 | Playwright/字体问题 | `HTMLFrameGenerator` launch/screenshot exception、fontconfig warning | frame rendering failed | 安装 Chromium 与 CJK fonts；预渲染模板 smoke |
 | API async 进程重启 | `TaskManager` 内存状态消失 | `/api/tasks/{id}` 查不到旧任务 | 换 Redis/DB 队列；以 `output/{task_id}` 为恢复事实源 |
+| Credential 已进入 tracked source | 静态检查发现 `ImageProcessor.__init__` 的默认 `api_key` 为非 placeholder `sk-` 字符串 `[REDACTED]` | 默认值优先于环境变量，可能造成泄漏、误用与历史残留 | 立即撤销/轮换；默认值改空；清理 Git 历史；接入 secret scanning |
 | 文件服务路径穿越 | 当前未可靠检测；`relative_to()` 未 `resolve()` | `output/../...` 这类路径可能绕过 prefix 检查 | 对 `abs_path.resolve()` 与 allowed root `resolve()` 做 ancestor check |
 
 #### 可复刻设计不变量
@@ -302,7 +303,9 @@ REST async task flow
 
 - 默认配置 image/video 指向 RunningHub，容易让“本地 ComfyUI”用户误以为已完全本地化。
 - API server 没有 auth，却默认 `0.0.0.0` 和 wildcard CORS。
+- tracked `ImageProcessor.__init__` 含非 placeholder 的默认 Key `[REDACTED]`，且该默认值优先于 `DASHSCOPE_API_KEY` 环境变量；仅删除当前文件不足以清除 Git 历史泄漏。
 - `/api/files/{file_path}` 的路径校验没有 `resolve()`，`output/../` 形式存在穿越风险。
+- `AssetBasedPipeline` 直接把用户 title 拼进输出文件名，未见 slug/path containment guard。
 - `TaskManager.max_concurrent_tasks` 只声明未 enforce，API async 任务可无上限创建。
 - `config.yaml` 明文保存所有 key，且 debug/print 路径可能泄露配置或模型输入。
 - provider/model capability matrix 写在代码中，模型合同更新会导致 UI 可选项和真实 API 不一致。
@@ -398,7 +401,7 @@ FastAPI routers / Streamlit UI
 - **类型系统：** 有 Pydantic schema 和 dataclass model，但混用较多；Web UI、pipeline params、provider params 仍大量 dict 传递。
 - **错误处理：** provider/client 层有部分 retry 和 duration 修复；但 API/服务层大量 `except Exception`，常把原始错误字符串返回给客户端。
 - **代码风格一致性：** 核心抽象清楚，但大文件和重复参数管线明显。`pixelle_video/pipelines/asset_based.py`、`pixelle_video/services/video.py`、`web/components/style_config.py`、`web/pipelines/digital_human.py` 都承担过多职责。
-- **安全性：** 生产级不足。FastAPI 无 auth；默认 `0.0.0.0`；wildcard CORS；`api/routers/files.py` path traversal 风险；配置明文 secret；Windows builder 下载禁用 TLS certificate verification 且直接解压归档，未见下载前 checksum gate。
+- **安全性：** 存在 Critical 静态发现：tracked `ImageProcessor.__init__` 提交了非 placeholder 默认 Key `[REDACTED]`，并优先于环境变量。另有 FastAPI 无 auth、默认 `0.0.0.0`、wildcard CORS、`api/routers/files.py` path traversal、用户 title 路径注入、配置明文 secret、Windows builder 下载禁用 TLS certificate verification 且直接解压归档等风险。
 
 ### 测试
 
@@ -410,8 +413,9 @@ FastAPI routers / Streamlit UI
 ### CI/CD
 
 - **流水线配置：** `.github/workflows/docs.yml` 是唯一 CI，职责是 docs deployment。
+- **测试入口冲突：** `pyproject.toml` 和贡献文档要求 pytest，但 `.gitignore` 直接忽略 `test_*.py`，仓库又没有 tracked `tests/`。
 - **发布流程：** GitHub release 最新为 `v0.1.15`（2026-01-27），HEAD 已前进 55 commits；`pyproject.toml` 为 `0.2.0`，FastAPI app 仍报告 `0.1.0`，说明版本面没有统一。
-- **构建验证：** Dockerfile 和 Windows builder 存在，但没有 CI 证明构建成功、锁文件安装一致或平台包可复现。Dockerfile 国际路径使用 `curl -LsSf https://astral.sh/uv/install.sh | sh`，随后 `uv pip install -e .`；Windows builder 对下载禁用 TLS 验证，最终只为产物 zip 生成 sha256，未在 inspected path 里证明下载前校验。
+- **构建验证：** Dockerfile 和 Windows builder 存在，但没有 CI 证明构建成功、锁文件安装一致或平台包可复现。Dockerfile 国际路径使用远端 shell installer 后运行 `uv pip install -e .`；Windows builder 对下载禁用 TLS 验证，最终只为产物 zip 生成 sha256，未在 inspected path 里证明下载前校验。`NOTICE` 里的多项依赖版本也已经落后于 `uv.lock`，不能充当可靠 SBOM。
 
 ### 文档质量
 
@@ -423,7 +427,9 @@ FastAPI routers / Streamlit UI
 ### Issue / PR 健康度
 
 - **数量信号：** 2026-07-11 观测 130 open issues、40 closed issues、15 open PRs、39 closed PRs。对于创建于 2025-11-07 的项目，用户需求和问题反馈都很强。
-- **痛点聚类：** issue 样本 #188、#66、#52、#67、#90、#200、#225、#226 反映的主要问题集中在本地 ComfyUI 仍路由云端/RunningHub key required、workflow contract failures、FFmpeg 环境、黑屏/合成失败等。closed #127 具有争议性，只能作为社区信任和沟通成本的辅助信号，不能据此推断维护者意图。
+- **痛点聚类：** issue 样本 #188、#66、#52、#67、#90、#200、#225、#226 反映的主要问题集中在本地 ComfyUI 仍路由云端/RunningHub key required、workflow contract failures、FFmpeg 环境、黑屏/合成失败等。#200 还证明 v0.1.15 整合包仍走旧 `html2image` 路径，而 main 已迁移 Playwright；改用源码后问题解决。
+- **维护连续性：** #127 中 collaborator 于 2026-05-06 公开说明参与工程师陆续离开，且一度无人拥有继续更新所需权限；2026-06 有小规模恢复，但尚未转化为新 Release。最近 8 个 open issue 样本仅 1 个收到评论，当前响应覆盖率偏低。
+- **维护集中度：** Top 1 约 66%、Top 3 约 79%；18 个 contributor 不等于 18 个持续维护者。closed #127 的商业关系争议本身只能作为社区沟通信号，不应外推维护者意图。
 - **PR 风险：** open PR 数量不低，且当前无测试 CI，合并质量更依赖 maintainer 人工判断。
 
 ---

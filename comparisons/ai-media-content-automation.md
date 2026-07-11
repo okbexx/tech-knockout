@@ -35,7 +35,7 @@
 | 用户入口 | Streamlit Web、FastAPI、Python SDK | Web UI、API、本地/Docker/Windows 启动包 | Streamlit、本地/Docker/整合包 | Gradio/Colab/Docker framework | Desktop、portable、本地安装、Cloud、API |
 | 内容来源 | LLM 文案、TTS、AI 图像/视频、用户素材、模板 | LLM 文案、Pexels/Pixabay/Coverr、本地素材、TTS、字幕、BGM | 用户已有视频、ASR、视觉理解、LLM 解说/混剪 | Pexels/Bing/视频输入、OpenAI、TTS、MoviePy | 模型、节点、工作流、外部 API nodes |
 | 生产采用建议 | 观望；可信本地环境 PoC / 架构学习推荐；公网生产不建议直接采用 | 可做个人/小团队短视频运营 PoC；生产化前必须补源码审计、安全边界和平台账号治理 | 适合已有视频再创作 PoC；生产化前核验源码、素材版权、模型费用和剪辑质量稳定性 | 不建议作为生产产品底座；适合实验、教学和架构考古 | 可作为生成执行层评估；不能单独替代内容策划、脚本、剪辑和发布产品 |
-| 主要风险 | 默认云端 workflow 倾向、无公网级 auth/queue/audit、安全与测试不足 | README 能力面大，真实代码成熟度、安全、发布账号权限和素材合规需另审 | 对视觉理解、转录、TTS、剪辑策略和中文内容场景依赖强；整合包与外部服务边界需确认 | 实验性强，工程治理、维护连续性和生产契约不宜默认可信 | 节点/模型/插件/版本组合复杂；GPU、模型许可、工作流可复现和运维成本高 |
+| 主要风险 | tracked source 含疑似真实 Key `[REDACTED]`；另有默认云端 workflow、无公网级 auth/queue/audit、安全与测试不足 | README 能力面大，真实代码成熟度、安全、发布账号权限和素材合规需另审 | 对视觉理解、转录、TTS、剪辑策略和中文内容场景依赖强；整合包与外部服务边界需确认 | 实验性强，工程治理、维护连续性和生产契约不宜默认可信 | 节点/模型/插件/版本组合复杂；GPU、模型许可、工作流可复现和运维成本高 |
 | 证据强度 | TK 完整源码审计 | README / public docs | README / public docs；README 观测 `0.8.4` 于 2026-07-02 发布 | README / public docs | README / public docs |
 
 ### 最佳选型
