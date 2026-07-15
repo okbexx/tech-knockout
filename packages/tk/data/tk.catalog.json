@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-11T14:24:57.078Z",
+  "generatedAt": "2026-07-15T15:31:41.764Z",
   "projects": [
     {
       "id": "1shell",
@@ -3937,6 +3937,417 @@
         "design",
         "tauri",
         "rust"
+      ]
+    },
+    {
+      "id": "openmontage",
+      "name": "OpenMontage 技术分析报告",
+      "repo": "calesthio/OpenMontage",
+      "url": "https://github.com/calesthio/OpenMontage",
+      "cloneUrl": "https://github.com/calesthio/OpenMontage.git",
+      "report": "reports/OpenMontage.md",
+      "reportFile": "OpenMontage",
+      "category": "AI Media / Content Automation",
+      "summary": "OpenMontage 是由宿主 Coding Agent 编排、以 manifest / skill / tool / artifact / checkpoint 驱动长链视频生产的仓库级 harness。",
+      "adoption": "采用结论：观望。",
+      "architectureValue": 5,
+      "license": "AGPL-3.0；Remotion 另有独立商业许可证边界",
+      "language": "Python；另有 React、TypeScript、Remotion、HTML/CSS/GSAP",
+      "analysisDate": "2026-07-15",
+      "sourceDir": "projects/calesthio__OpenMontage",
+      "owner": "calesthio",
+      "sourceExists": true,
+      "dependencies": [
+        {
+          "name": "@remotion/cli",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": ".agents/skills/remotion-to-hyperframes/assets/test-corpus/tier-1-title-card/remotion-src/package.json"
+        },
+        {
+          "name": "react",
+          "version": "^18.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": ".agents/skills/remotion-to-hyperframes/assets/test-corpus/tier-1-title-card/remotion-src/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "^18.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": ".agents/skills/remotion-to-hyperframes/assets/test-corpus/tier-1-title-card/remotion-src/package.json"
+        },
+        {
+          "name": "remotion",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": ".agents/skills/remotion-to-hyperframes/assets/test-corpus/tier-1-title-card/remotion-src/package.json"
+        },
+        {
+          "name": "@remotion/cli",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": ".agents/skills/remotion-to-hyperframes/assets/test-corpus/tier-2-multi-scene/remotion-src/package.json"
+        },
+        {
+          "name": "react",
+          "version": "^18.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": ".agents/skills/remotion-to-hyperframes/assets/test-corpus/tier-2-multi-scene/remotion-src/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "^18.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": ".agents/skills/remotion-to-hyperframes/assets/test-corpus/tier-2-multi-scene/remotion-src/package.json"
+        },
+        {
+          "name": "remotion",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": ".agents/skills/remotion-to-hyperframes/assets/test-corpus/tier-2-multi-scene/remotion-src/package.json"
+        },
+        {
+          "name": "@remotion/cli",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": ".agents/skills/remotion-to-hyperframes/assets/test-corpus/tier-3-data-driven/remotion-src/package.json"
+        },
+        {
+          "name": "react",
+          "version": "^18.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": ".agents/skills/remotion-to-hyperframes/assets/test-corpus/tier-3-data-driven/remotion-src/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "^18.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": ".agents/skills/remotion-to-hyperframes/assets/test-corpus/tier-3-data-driven/remotion-src/package.json"
+        },
+        {
+          "name": "remotion",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": ".agents/skills/remotion-to-hyperframes/assets/test-corpus/tier-3-data-driven/remotion-src/package.json"
+        },
+        {
+          "name": "zod",
+          "version": "^3.22.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": ".agents/skills/remotion-to-hyperframes/assets/test-corpus/tier-3-data-driven/remotion-src/package.json"
+        },
+        {
+          "name": "@types/react",
+          "version": "^18.2.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "remotion-composer/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.3.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "remotion-composer/package.json"
+        },
+        {
+          "name": "@remotion/captions",
+          "version": "^4.0.484",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "remotion-composer/package.json"
+        },
+        {
+          "name": "@remotion/cli",
+          "version": "^4.0.484",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "remotion-composer/package.json"
+        },
+        {
+          "name": "@remotion/google-fonts",
+          "version": "^4.0.484",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "remotion-composer/package.json"
+        },
+        {
+          "name": "@remotion/media",
+          "version": "^4.0.484",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "remotion-composer/package.json"
+        },
+        {
+          "name": "@remotion/player",
+          "version": "^4.0.484",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "remotion-composer/package.json"
+        },
+        {
+          "name": "@remotion/transitions",
+          "version": "^4.0.484",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "remotion-composer/package.json"
+        },
+        {
+          "name": "d3-geo",
+          "version": "^3.1.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "remotion-composer/package.json"
+        },
+        {
+          "name": "react",
+          "version": "^18.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "remotion-composer/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "^18.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "remotion-composer/package.json"
+        },
+        {
+          "name": "remotion",
+          "version": "^4.0.484",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "remotion-composer/package.json"
+        },
+        {
+          "name": "topojson-client",
+          "version": "^3.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "remotion-composer/package.json"
+        },
+        {
+          "name": "world-atlas",
+          "version": "^2.0.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "remotion-composer/package.json"
+        },
+        {
+          "name": "fastapi",
+          "version": "fastapi>=0.110",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "google-auth",
+          "version": "google-auth>=2.0       # service-account auth for Google TTS + Imagen (Vertex AI)",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "google-genai",
+          "version": "google-genai>=1.0.0    # Gemini Developer API clients for Lyria, Veo, and Gemini Omni",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "jsonschema",
+          "version": "jsonschema>=4.20",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "numpy",
+          "version": "numpy>=1.24",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "openai",
+          "version": "openai>=2.44.0         # Videos API support for Sora 2",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "Pillow",
+          "version": "Pillow>=10.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "pydantic",
+          "version": "pydantic>=2.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "python-dotenv",
+          "version": "python-dotenv>=1.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "pyyaml",
+          "version": "pyyaml>=6.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "requests",
+          "version": "requests>=2.31",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "uvicorn",
+          "version": "uvicorn>=0.29",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        },
+        {
+          "name": "watchfiles",
+          "version": "watchfiles>=0.21",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "requirements.txt"
+        }
+      ],
+      "dependencySummary": {
+        "total": 40,
+        "manifests": 5,
+        "byEcosystem": {
+          "npm": 27,
+          "python": 13
+        },
+        "byScope": {
+          "runtime": 38,
+          "development": 2
+        }
+      },
+      "dependencyEvidencePresent": true,
+      "dependencyEvidence": [
+        {
+          "dependency": "PyYAML / Pydantic / jsonschema",
+          "type": "Python runtime",
+          "usedFor": "lib/pipeline_loader.py、lib/config_model.py、lib/checkpoint.py",
+          "problemSolved": "manifest、配置和 artifact/checkpoint 校验",
+          "evidence": "requirements.txt 与直接 import",
+          "reuseSignal": "强：控制面基础契约",
+          "caution": "仅下限约束，无 Python lockfile"
+        },
+        {
+          "dependency": "requests",
+          "type": "Python runtime",
+          "usedFor": "多个 tools/ provider、下载与素材 adapter",
+          "problemSolved": "Provider API、轮询任务、下载生成结果和远端素材",
+          "evidence": "requirements.txt；大量 requests.get/post",
+          "reuseSignal": "强：provider 通用 I/O",
+          "caution": "多处直接接受 URL，没有统一 SSRF / 私网地址拦截层"
+        },
+        {
+          "dependency": "FastAPI / Uvicorn / watchfiles",
+          "type": "Python runtime",
+          "usedFor": "backlot/server.py、backlot/__main__.py",
+          "problemSolved": "本地只读 board、SSE 变更通知和目录监听",
+          "evidence": "requirements.txt 与直接 import",
+          "reuseSignal": "中强：observer UI",
+          "caution": "默认仅绑定 127.0.0.1，无认证；不应直接改成公网监听"
+        },
+        {
+          "dependency": "Pillow / NumPy",
+          "type": "Python runtime",
+          "usedFor": "frame、thumbnail、image 与 analysis tools",
+          "problemSolved": "图像、帧、缩略图和媒体数值处理",
+          "evidence": "requirements.txt 与工具 import",
+          "reuseSignal": "强：媒体基础能力",
+          "caution": "CPU/内存压力随素材规模增长"
+        },
+        {
+          "dependency": "FFmpeg / ffprobe",
+          "type": "系统二进制",
+          "usedFor": "video_compose.py、audio、analysis、Backlot thumbnail",
+          "problemSolved": "探测、拼接、编码、音频处理、缩略图",
+          "evidence": "BaseTool.dependencies、Makefile、CI apt install",
+          "reuseSignal": "极强：本地媒体数据面",
+          "caution": "不由 Python manifest 固定版本；平台滤镜差异需E2E"
+        },
+        {
+          "dependency": "Remotion 4.0.484",
+          "type": "npm runtime",
+          "usedFor": "remotion-composer/、video_compose.py",
+          "problemSolved": "React 逐帧合成、字幕、图表和 atelier scene",
+          "evidence": "package.json + package-lock.json",
+          "reuseSignal": "强：主要程序化渲染器",
+          "caution": "独立许可证；个人和至多3人营利组织免费，超过范围需 Company License"
+        },
+        {
+          "dependency": "HyperFrames",
+          "type": "npm CLI/runtime",
+          "usedFor": "hyperframes_compose.py、character animation",
+          "problemSolved": "HTML/CSS/GSAP 合成和 SVG rig 动画",
+          "evidence": "_run_hf() 调用 npx --yes hyperframes",
+          "reuseSignal": "中强：并行渲染器",
+          "caution": "Apache-2.0；版本未固定，本次查询 latest 为0.7.58；要求 Node 22+"
+        },
+        {
+          "dependency": "Piper / faster-whisper / yt-dlp / PySceneDetect",
+          "type": "可选本地依赖",
+          "usedFor": "TTS、reference ingest、transcription、scene detection",
+          "problemSolved": "零Key语音和参考视频分析",
+          "evidence": "tool dependency / install instructions",
+          "reuseSignal": "中强：本地替代路径",
+          "caution": "多项不在core requirements；Quick Start不保证就绪，issue #237仍开放"
+        },
+        {
+          "dependency": "FAL、OpenAI、xAI、Google、Kling、HeyGen、Runway 等",
+          "type": "外部 API SDK / HTTP",
+          "usedFor": "image/video/TTS provider tools",
+          "problemSolved": "云端高质量生成、编辑、avatar和语音",
+          "evidence": ".env.example、provider classes、部分SDK manifest",
+          "reuseSignal": "强：能力广度来源",
+          "caution": "价格、限流、地域、模型、响应和账单语义均为外部动态契约"
+        }
+      ],
+      "tags": [
+        "agent",
+        "coding",
+        "cli",
+        "runtime",
+        "media",
+        "video",
+        "content",
+        "tts",
+        "ffmpeg",
+        "fastapi",
+        "typescript",
+        "python"
       ]
     },
     {

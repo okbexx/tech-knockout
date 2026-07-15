@@ -202,6 +202,7 @@ npm run verify
 
 | Project | What it is | Adopt? | Architecture value | Date |
 |---|---|---|---|---|
+| [OpenMontage](./reports/OpenMontage.md) | 宿主 Coding Agent 驱动的视频生产 harness：YAML pipeline + Markdown skills + Tool Registry/Selector + schema artifact/checkpoint + 人工 gate + FFmpeg/Remotion/HyperFrames | 观望（隔离 PoC / 架构学习推荐；生产直接采用不建议） | ⭐⭐⭐⭐⭐ | 2026-07-15 |
 | [Pixelle-Video](./reports/Pixelle-Video.md) | AI Media / Content Automation 短视频生成流水线：把 LLM 文案、TTS、图像/视频生成、HTML 模板渲染和 FFmpeg 合成串成可配置的本地/云端创作工具 | 观望（可信本地环境 PoC / 架构学习推荐；公网生产不建议直接采用） | ⭐⭐⭐⭐⭐ | 2026-07-11 |
 
 ### Tools / Infrastructure / Distribution

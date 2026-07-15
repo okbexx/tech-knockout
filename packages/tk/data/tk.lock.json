@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-11T14:24:57.170Z",
+  "generatedAt": "2026-07-15T15:31:59.744Z",
   "sources": [
     {
       "id": "1shell",
@@ -172,6 +172,19 @@
       "cloneUrl": "https://github.com/tinyhumansai/openhuman.git",
       "sourceDir": "projects/tinyhumansai__openhuman",
       "exists": false
+    },
+    {
+      "id": "openmontage",
+      "repo": "calesthio/OpenMontage",
+      "url": "https://github.com/calesthio/OpenMontage",
+      "cloneUrl": "https://github.com/calesthio/OpenMontage.git",
+      "sourceDir": "projects/calesthio__OpenMontage",
+      "exists": true,
+      "branch": "main",
+      "commit": "f8d94632ea9bd0057da31904acca1cefecf005dd",
+      "remote": "https://github.com/calesthio/OpenMontage.git",
+      "shallow": false,
+      "dirty": false
     },
     {
       "id": "pi",
