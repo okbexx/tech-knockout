@@ -137,6 +137,7 @@ npm run verify
 
 ## Featured Reports
 
+- [Grok Build](./reports/grok-build.md) — xAI 的完整 Coding Agent harness：ACP + actors + 持久 session + 并发工具 + 多代理。
 - [jcode](./reports/jcode.md) — Rust terminal Coding Agent runtime：server-owned live session + Swarm + Graph Memory。
 - [OpenCode](./reports/opencode.md) — 开源 Coding Agent runtime：durable session + event/projection + tool settlement。
 - [Agent Reach](./reports/agent-reach.md) — Agent Internet Capability Layer：给 AI Agent 装互联网读取与搜索能力。
@@ -162,6 +163,7 @@ npm run verify
 
 | Project | What it is | Adopt? | Architecture value | Date |
 |---|---|---|---|---|
+| [Grok Build](./reports/grok-build.md) | xAI 开放的完整 Coding Agent harness：ACP 内核、ChatState/Sampler actors、持久 session、并发 tool dispatch、subagents/worktrees 与 OS sandbox；公开仓为不接受外部贡献的单向同步镜像 | 源码学习强烈推荐 / 个人隔离试用 / 团队长期押注暂缓 | ⭐⭐⭐⭐⭐ | 2026-07-19 |
 | [jcode](./reports/jcode.md) | Rust terminal Coding Agent runtime：server-owned live session + Swarm + Graph Memory，当前已演进到 v0.37.0 并持续产品化 | 推荐个人隔离试用 / 团队生产化前观望 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [Pi（原 pi-mono）](./reports/pi-mono.md) | Terminal agent harness：coding agent CLI + runtime core + unified AI substrate | 推荐采用（个人主力试用 / 内部 SDK 底座） | ⭐⭐⭐⭐⭐ | 2026-07-07 |
 | [OpenCode](./reports/opencode.md) | 开源 AI coding-agent runtime：durable session + event/projection + tool settlement + 多入口产品面 | 推荐采用（个人/高级开发者）/ 团队生产化前隔离 PoC | ⭐⭐⭐⭐⭐ | 2026-07-08 |

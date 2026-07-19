@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-15T15:31:59.744Z",
+  "generatedAt": "2026-07-19T10:26:23.640Z",
   "sources": [
     {
       "id": "1shell",
@@ -90,6 +90,19 @@
       "cloneUrl": "https://github.com/affaan-m/ECC.git",
       "sourceDir": "projects/affaan-m__ECC",
       "exists": false
+    },
+    {
+      "id": "grok-build",
+      "repo": "xai-org/grok-build",
+      "url": "https://github.com/xai-org/grok-build",
+      "cloneUrl": "https://github.com/xai-org/grok-build.git",
+      "sourceDir": "projects/xai-org__grok-build",
+      "exists": true,
+      "branch": "main",
+      "commit": "7cfcb20d2b50b0d18801a6c0af2e401c0e060894",
+      "remote": "https://github.com/xai-org/grok-build.git",
+      "shallow": false,
+      "dirty": false
     },
     {
       "id": "jcode",
