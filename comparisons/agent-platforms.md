@@ -1,8 +1,10 @@
 # Agent Platforms 横评
 
-> 更新日期：2026-07-08
+> 更新日期：2026-07-21
 > 涉及项目：openagent, openhuman, UI-TARS-desktop, CyberVerse, open-design
 > 分类口径：这里比较的是“平台型 Agent 产品 / 工作台 / 运行时 substrate”，不是纯 SDK，也不是单一 coding agent。五者并非完全同层：openagent 偏自托管 Web agent workbench，openhuman 偏本地优先 personal AI OS，UI-TARS-desktop 偏 GUI automation runtime，CyberVerse 偏实时 digital-human Agent framework，open-design 偏 agent-native design substrate。
+>
+> **2026-07-21 范围更新**：Orca 同样属于 Agent platform，但它更具体地解决“如何用 daemon-owned PTY、Git worktree、多端 RPC 与 structured dispatch 组织现有 Coding Agent CLI”。为避免把异构 CLI control plane 与通用 personal AI / GUI / digital-human / design platform 混成一张过宽矩阵，Orca 的报告见 [reports/orca.md](../reports/orca.md)，同类横评见 [Coding Agent Control Planes](./coding-agent-control-planes.md)。
 
 ---
 

@@ -138,6 +138,7 @@ npm run verify
 ## Featured Reports
 
 - [Grok Build](./reports/grok-build.md) — xAI 的完整 Coding Agent harness：ACP + actors + 持久 session + 并发工具 + 多代理。
+- [Orca](./reports/orca.md) — 以 daemon-owned PTY、Git worktree、多端 RPC 与结构化 dispatch provenance 组织异构 CLI Agent 的本地 ADE。
 - [jcode](./reports/jcode.md) — Rust terminal Coding Agent runtime：server-owned live session + Swarm + Graph Memory。
 - [OpenCode](./reports/opencode.md) — 开源 Coding Agent runtime：durable session + event/projection + tool settlement。
 - [Agent Reach](./reports/agent-reach.md) — Agent Internet Capability Layer：给 AI Agent 装互联网读取与搜索能力。
@@ -154,6 +155,7 @@ npm run verify
 - [AI Coding Workflow](./comparisons/ai-coding-workflow.md)
 - [Code Intelligence](./comparisons/code-intelligence.md)
 - [Agent Platforms](./comparisons/agent-platforms.md)
+- [Coding Agent Control Planes](./comparisons/coding-agent-control-planes.md)
 - [AI Media / Content Automation](./comparisons/ai-media-content-automation.md)
 - [Enterprise Knowledge Base / RAG](./comparisons/enterprise-knowledge-base-rag.md)
 
@@ -193,6 +195,7 @@ npm run verify
 
 | Project | What it is | Adopt? | Architecture value | Date |
 |---|---|---|---|---|
+| [Orca](./reports/orca.md) | Electron + daemon + Web/mobile 的异构 Coding Agent 控制面：daemon-owned PTY、Git worktree、JSON CLI、稳定 terminal handle 与 task/dispatch/gate orchestration | 个人/小团队固定版本后隔离 PoC / 高权限生产仓与团队远程接入暂缓 | ⭐⭐⭐⭐⭐ | 2026-07-21 |
 | [DESIGN.md](./reports/design.md.md) | Google Labs / Stitch 开源的 agent-readable 设计系统文件格式：YAML tokens + Markdown prose + CLI lint/diff/export，让 coding agent 稳定复用视觉身份 | 推荐采用（个人/小团队）/ 企业作为 AI 设计上下文层试点 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [UI-TARS-desktop](./reports/UI-TARS-desktop.md) | ByteDance Multimodal AI Agent Stack：UI-TARS Desktop + GUIAgent SDK + Operator/browser/remote runtime | 生产采用观望 / 推荐 GUI Agent PoC 与架构学习 | ⭐⭐⭐⭐⭐ | 2026-07-07 |
 | [openhuman](./reports/openhuman.md) | Rust/Tauri 本地优先 personal AI OS：Memory Tree + tools + workflow runtime + 多 Agent 编排 | 观望（隔离试用 / 架构学习 / 外围维护） | ⭐⭐⭐⭐⭐ | 2026-07-07 |

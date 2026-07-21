@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-19T10:26:23.640Z",
+  "generatedAt": "2026-07-21T16:03:36.310Z",
   "sources": [
     {
       "id": "1shell",
@@ -196,6 +196,19 @@
       "branch": "main",
       "commit": "f8d94632ea9bd0057da31904acca1cefecf005dd",
       "remote": "https://github.com/calesthio/OpenMontage.git",
+      "shallow": false,
+      "dirty": false
+    },
+    {
+      "id": "orca",
+      "repo": "stablyai/orca",
+      "url": "https://github.com/stablyai/orca",
+      "cloneUrl": "https://github.com/stablyai/orca.git",
+      "sourceDir": "projects/stablyai__orca",
+      "exists": true,
+      "branch": "main",
+      "commit": "827cd49f410f042ae29ee886538d5aa8cf8c0c46",
+      "remote": "https://github.com/stablyai/orca.git",
       "shallow": false,
       "dirty": false
     },

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-19T10:25:27.177Z",
+  "generatedAt": "2026-07-21T16:04:11.301Z",
   "projects": [
     {
       "id": "1shell",
@@ -13757,6 +13757,1467 @@
       ]
     },
     {
+      "id": "orca",
+      "name": "Orca",
+      "repo": "stablyai/orca",
+      "url": "https://github.com/stablyai/orca",
+      "cloneUrl": "https://github.com/stablyai/orca.git",
+      "report": "reports/orca.md",
+      "reportFile": "orca",
+      "category": "Agent Platform / Desktop / Design",
+      "summary": "以 daemon-owned PTY、Git worktree、多端 RPC 与结构化 dispatch provenance 为内核，把现有 Coding Agent CLI 组织成可并行、可远程、可恢复的本地 Agent Development Environment。",
+      "adoption": "⚠️ 观望，但强烈推荐架构学习与隔离 PoC。",
+      "architectureValue": 5,
+      "license": "MIT",
+      "language": null,
+      "analysisDate": "2026-07-21",
+      "sourceDir": "projects/stablyai__orca",
+      "owner": "stablyai",
+      "sourceExists": true,
+      "dependencies": [
+        {
+          "name": "@types/react",
+          "version": "^19.2.14",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "@types/react-native",
+          "version": "^0.73.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "@types/react-test-renderer",
+          "version": "19.1.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "@types/ws",
+          "version": "^8.18.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "acorn",
+          "version": "8.15.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "esbuild",
+          "version": "0.25.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-module-scripts",
+          "version": "^55.0.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "oxfmt",
+          "version": "^0.52.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "oxlint",
+          "version": "^1.71.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "react-test-renderer",
+          "version": "19.2.6",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "tsx",
+          "version": "^4.22.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "6.0.3",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "vite",
+          "version": "^8.0.16",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "vitest",
+          "version": "^4.1.9",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "@noble/hashes",
+          "version": "1.8.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "@orca/expo-two-way-audio",
+          "version": "file:./packages/expo-two-way-audio",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "@react-native-async-storage/async-storage",
+          "version": "^2.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "@xterm/addon-unicode11",
+          "version": "0.10.0-beta.285",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "@xterm/addon-webgl",
+          "version": "0.20.0-beta.284",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "@xterm/xterm",
+          "version": "6.1.0-beta.285",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "buffer",
+          "version": "^6.0.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo",
+          "version": "^55.0.27",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-build-properties",
+          "version": "^55.0.13",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-camera",
+          "version": "^55.0.18",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-clipboard",
+          "version": "^55.0.13",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-constants",
+          "version": "^55.0.16",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-crypto",
+          "version": "^55.0.14",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-dev-client",
+          "version": "~55.0.35",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-document-picker",
+          "version": "^55.0.13",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-file-system",
+          "version": "55.0.19",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-haptics",
+          "version": "^55.0.14",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-image-manipulator",
+          "version": "^55.0.17",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-image-picker",
+          "version": "^55.0.20",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-keep-awake",
+          "version": "~55.0.8",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-linking",
+          "version": "^55.0.15",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-modules-core",
+          "version": "~55.0.25",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-network",
+          "version": "~55.0.14",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-notifications",
+          "version": "^55.0.22",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-router",
+          "version": "^55.0.14",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-secure-store",
+          "version": "^55.0.13",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-splash-screen",
+          "version": "^55.0.20",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "expo-status-bar",
+          "version": "^55.0.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "lowlight",
+          "version": "^3.3.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "lucide-react-native",
+          "version": "^1.14.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "react",
+          "version": "^19.2.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "19.2.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "react-native",
+          "version": "^0.83.9",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "react-native-gesture-handler",
+          "version": "^2.31.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "react-native-reanimated",
+          "version": "^4.3.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "react-native-safe-area-context",
+          "version": "^5.7.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "react-native-screens",
+          "version": "^4.24.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "react-native-svg",
+          "version": "^15.15.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "react-native-web",
+          "version": "^0.21.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "react-native-webview",
+          "version": "^13.16.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "react-native-worklets",
+          "version": "^0.8.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "tweetnacl",
+          "version": "^1.0.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "ws",
+          "version": "^8.21.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "zod",
+          "version": "~4.4.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "zustand",
+          "version": "^5.0.13",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "mobile/package.json"
+        },
+        {
+          "name": "@types/react",
+          "version": "^18.0.25",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/packages/expo-two-way-audio/package.json"
+        },
+        {
+          "name": "expo-module-scripts",
+          "version": "^3.5.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/packages/expo-two-way-audio/package.json"
+        },
+        {
+          "name": "expo-modules-core",
+          "version": "^2.0.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "mobile/packages/expo-two-way-audio/package.json"
+        },
+        {
+          "name": "expo",
+          "version": "*",
+          "ecosystem": "npm",
+          "scope": "peer",
+          "manifest": "mobile/packages/expo-two-way-audio/package.json"
+        },
+        {
+          "name": "react",
+          "version": "*",
+          "ecosystem": "npm",
+          "scope": "peer",
+          "manifest": "mobile/packages/expo-two-way-audio/package.json"
+        },
+        {
+          "name": "react-native",
+          "version": "*",
+          "ecosystem": "npm",
+          "scope": "peer",
+          "manifest": "mobile/packages/expo-two-way-audio/package.json"
+        },
+        {
+          "name": "@dnd-kit/core",
+          "version": "^6.3.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@dnd-kit/sortable",
+          "version": "^10.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@electron-toolkit/tsconfig",
+          "version": "^2.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@electron/rebuild",
+          "version": "^4.2.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@monaco-editor/react",
+          "version": "^4.7.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@playwright/test",
+          "version": "^1.59.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@sanity/diff-match-patch",
+          "version": "^3.2.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@stablyai/playwright-test",
+          "version": "^2.1.14",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tailwindcss/vite",
+          "version": "^4.2.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tanstack/react-virtual",
+          "version": "^3.13.24",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@testing-library/jest-dom",
+          "version": "^6.9.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@testing-library/react",
+          "version": "^16.3.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@testing-library/user-event",
+          "version": "^14.6.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/extension-code-block-lowlight",
+          "version": "^3.22.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/extension-details",
+          "version": "^3.22.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/extension-image",
+          "version": "^3.22.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/extension-link",
+          "version": "^3.22.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/extension-mathematics",
+          "version": "3.22.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/extension-placeholder",
+          "version": "^3.22.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/extension-table",
+          "version": "3.22.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/extension-table-cell",
+          "version": "3.22.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/extension-table-header",
+          "version": "3.22.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/extension-table-row",
+          "version": "3.22.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/extension-task-item",
+          "version": "^3.22.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/extension-task-list",
+          "version": "^3.22.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/markdown",
+          "version": "^3.22.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/pm",
+          "version": "^3.22.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/react",
+          "version": "^3.22.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tiptap/starter-kit",
+          "version": "^3.22.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/node",
+          "version": "^25.6.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/qrcode",
+          "version": "^1.5.6",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/react",
+          "version": "^19.2.17",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/react-dom",
+          "version": "^19.2.3",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/ssh2",
+          "version": "^1.15.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/ws",
+          "version": "^8.18.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@vitejs/plugin-react",
+          "version": "^5.2.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@xterm/addon-fit",
+          "version": "0.12.0-beta.287",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@xterm/addon-ligatures",
+          "version": "0.11.0-beta.287",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@xterm/addon-search",
+          "version": "0.17.0-beta.287",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@xterm/addon-unicode11",
+          "version": "0.10.0-beta.287",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@xterm/addon-web-links",
+          "version": "0.13.0-beta.287",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@xterm/addon-webgl",
+          "version": "0.20.0-beta.286",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@xterm/xterm",
+          "version": "6.1.0-beta.287",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "class-variance-authority",
+          "version": "^0.7.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "clsx",
+          "version": "^2.1.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "cmdk",
+          "version": "^1.1.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "dompurify",
+          "version": "^3.4.11",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "electron",
+          "version": "^43.1.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "electron-builder",
+          "version": "^26.8.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "electron-vite",
+          "version": "^5.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "emoji-picker-react",
+          "version": "^4.19.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "happy-dom",
+          "version": "^20.9.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "html-to-image",
+          "version": "^1.11.13",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "husky",
+          "version": "^9.1.7",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "katex",
+          "version": "^0.16.45",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "lint-staged",
+          "version": "^16.4.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "lowlight",
+          "version": "^3.3.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "lucide-react",
+          "version": "^0.577.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "marked",
+          "version": "^17.0.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "mermaid",
+          "version": "^11.15.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "monaco-editor",
+          "version": "^0.55.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "oxfmt",
+          "version": "^0.52.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "oxlint",
+          "version": "^1.71.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "oxlint-plugin-react-doctor",
+          "version": "0.2.10",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "oxlint-tsgolint",
+          "version": "0.23.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "pdfjs-dist",
+          "version": "^5.7.284",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "pngjs",
+          "version": "^7.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "radix-ui",
+          "version": "^1.6.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "react",
+          "version": "^19.2.7",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "react-colorful",
+          "version": "^5.7.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "^19.2.7",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "react-grab",
+          "version": "^0.1.33",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "react-markdown",
+          "version": "^10.1.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "rehype-highlight",
+          "version": "^7.0.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "rehype-katex",
+          "version": "^7.0.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "rehype-raw",
+          "version": "^7.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "rehype-sanitize",
+          "version": "^6.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "rehype-slug",
+          "version": "^6.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "remark-breaks",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "remark-frontmatter",
+          "version": "^5.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "remark-gfm",
+          "version": "^4.0.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "remark-math",
+          "version": "^6.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "remark-parse",
+          "version": "^11.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "shadcn",
+          "version": "^4.7.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "sonner",
+          "version": "^2.0.7",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "tailwind-merge",
+          "version": "^3.5.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "tailwindcss",
+          "version": "^4.2.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "tw-animate-css",
+          "version": "^1.4.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^7.0.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "typescript-api",
+          "version": "npm:typescript@6.0.3",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "unified",
+          "version": "^11.0.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "vite",
+          "version": "^7.3.6",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "vitest",
+          "version": "^4.1.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "vscode-oniguruma",
+          "version": "^2.0.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "vscode-textmate",
+          "version": "^9.3.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "zustand",
+          "version": "^5.0.13",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "sherpa-onnx-darwin-arm64",
+          "version": "1.12.37",
+          "ecosystem": "npm",
+          "scope": "optional",
+          "manifest": "package.json"
+        },
+        {
+          "name": "sherpa-onnx-darwin-x64",
+          "version": "1.12.37",
+          "ecosystem": "npm",
+          "scope": "optional",
+          "manifest": "package.json"
+        },
+        {
+          "name": "sherpa-onnx-linux-arm64",
+          "version": "1.12.37",
+          "ecosystem": "npm",
+          "scope": "optional",
+          "manifest": "package.json"
+        },
+        {
+          "name": "sherpa-onnx-linux-x64",
+          "version": "1.12.37",
+          "ecosystem": "npm",
+          "scope": "optional",
+          "manifest": "package.json"
+        },
+        {
+          "name": "sherpa-onnx-win-x64",
+          "version": "1.12.37",
+          "ecosystem": "npm",
+          "scope": "optional",
+          "manifest": "package.json"
+        },
+        {
+          "name": "windows-native-registry",
+          "version": "3.2.2",
+          "ecosystem": "npm",
+          "scope": "optional",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@electron-toolkit/preload",
+          "version": "^3.0.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@electron-toolkit/utils",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@floating-ui/dom",
+          "version": "1.7.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@linear/sdk",
+          "version": "^82.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@parcel/watcher",
+          "version": "^2.5.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@xterm/addon-serialize",
+          "version": "0.15.0-beta.287",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@xterm/headless",
+          "version": "6.1.0-beta.287",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "agent-browser",
+          "version": "~0.27.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "electron-updater",
+          "version": "^6.8.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "i18next",
+          "version": "^26.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "jsonc-parser",
+          "version": "^3.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "node-pty",
+          "version": "^1.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "posthog-node",
+          "version": "^5.33.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "qrcode",
+          "version": "^1.5.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "react-i18next",
+          "version": "^17.0.8",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "serve-sim",
+          "version": "^0.1.40",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "sherpa-onnx",
+          "version": "1.12.37",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "ssh2",
+          "version": "^1.17.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "tweetnacl",
+          "version": "^1.0.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "ws",
+          "version": "^8.21.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "yaml",
+          "version": "^2.8.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "zod",
+          "version": "~4.4.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        }
+      ],
+      "dependencySummary": {
+        "total": 189,
+        "manifests": 3,
+        "byEcosystem": {
+          "npm": 189
+        },
+        "byScope": {
+          "development": 113,
+          "runtime": 67,
+          "peer": 3,
+          "optional": 6
+        }
+      },
+      "dependencyEvidencePresent": true,
+      "dependencyEvidence": [
+        {
+          "dependency": "Electron 43 + electron-vite",
+          "type": "Desktop runtime / build",
+          "usedFor": "主进程、renderer、preload、打包",
+          "problemSolved": "跨平台本地工作台、native PTY 与浏览器能力",
+          "evidence": "package.json、src/main/window/createMainWindow.ts",
+          "reuseSignal": "需要桌面壳和 Node native capability 时可评估",
+          "caution": "包体、更新、签名、Chromium 攻击面重"
+        },
+        {
+          "dependency": "node-pty",
+          "type": "Native runtime",
+          "usedFor": "本地 Agent CLI PTY",
+          "problemSolved": "保留真实 TUI、交互审批和会话语义",
+          "evidence": "package.json、src/main/daemon/terminal-host.ts",
+          "reuseSignal": "包装不可 headless 的 CLI 时价值高",
+          "caution": "ABI、平台编译、backpressure、终端生命周期复杂"
+        },
+        {
+          "dependency": "xterm 6 beta family",
+          "type": "Terminal UI",
+          "usedFor": "desktop/mobile terminal rendering",
+          "problemSolved": "浏览器/移动端复用终端语义",
+          "evidence": "root/mobile manifests",
+          "reuseSignal": "多端 terminal 产品可复用",
+          "caution": "beta 版本、Unicode/WebGL/resize 一致性测试面大"
+        },
+        {
+          "dependency": "Node sqlite DatabaseSync",
+          "type": "Storage",
+          "usedFor": "orchestration 与其他 durable state",
+          "problemSolved": "无第三方 native addon 的同步 SQLite",
+          "evidence": "src/main/sqlite/sync-database.ts、orchestration DB",
+          "reuseSignal": "Electron/Node 22+ 本地状态很合适",
+          "caution": "同步 API 不适合高吞吐多租户服务；schema ownership 集中"
+        },
+        {
+          "dependency": "ws + tweetnacl",
+          "type": "Transport / crypto",
+          "usedFor": "runtime WebSocket、mobile E2EE",
+          "problemSolved": "多端控制与在 ws:// 上保护 mobile payload",
+          "evidence": "runtime-rpc.ts、ws-transport.ts、e2ee-keypair.ts",
+          "reuseSignal": "本地/私网设备配对可借鉴",
+          "caution": "自定义 framing/nonce/token contract 要长期维护；不能替代 TLS/网络边界"
+        },
+        {
+          "dependency": "React 19 + Zustand 5",
+          "type": "UI/state",
+          "usedFor": "desktop/mobile client state",
+          "problemSolved": "多 pane、多 workspace、多客户端 UI 投影",
+          "evidence": "root/mobile manifests",
+          "reuseSignal": "大型交互式本地 UI 可复用",
+          "caution": "runtime 与 renderer graph 同步仍非常复杂，库本身不能解决 authority"
+        },
+        {
+          "dependency": "Zod 4",
+          "type": "Schema",
+          "usedFor": "RPC、telemetry、config/CLI validation",
+          "problemSolved": "在边界处拒绝漂移和非法 payload",
+          "evidence": "package.json、RPC/telemetry validators",
+          "reuseSignal": "Agent-facing JSON contract 应优先采用",
+          "caution": "schema 数量大时需版本治理"
+        },
+        {
+          "dependency": "ssh2",
+          "type": "Remote execution",
+          "usedFor": "SSH workspace、remote watcher/PTY",
+          "problemSolved": "将远程 repo/terminal 纳入同一 runtime",
+          "evidence": "package.json、SSH E2E/workflows",
+          "reuseSignal": "需要内建 SSH ownership 时可借鉴",
+          "caution": "auth/MFA、host key、转发和 watcher 崩溃恢复成本高"
+        },
+        {
+          "dependency": "PostHog Node",
+          "type": "Telemetry",
+          "usedFor": "官方 stable/RC 匿名产品事件",
+          "problemSolved": "产品使用反馈与 release 观测",
+          "evidence": "src/main/telemetry/client.ts",
+          "reuseSignal": "有明确 consent/validation/burst cap 时可评估",
+          "caution": "官方 build 编译期启用；企业部署应明确 opt-out/egress policy"
+        },
+        {
+          "dependency": "Vitest + Playwright",
+          "type": "Test",
+          "usedFor": "unit/integration/Electron E2E/perf",
+          "problemSolved": "验证 runtime graph、PTY、跨端与发布包",
+          "evidence": "package scripts、pr.yml、e2e.yml",
+          "reuseSignal": "Electron 复杂状态产品的必要组合",
+          "caution": "CI 成本高，仍不能证明用户环境中的每个 Agent CLI 兼容"
+        }
+      ],
+      "tags": [
+        "agent",
+        "coding",
+        "cli",
+        "desktop",
+        "runtime",
+        "graph",
+        "design",
+        "browser",
+        "typescript"
+      ]
+    },
+    {
       "id": "pi",
       "name": "Pi（原 pi-mono）",
       "repo": "earendil-works/pi",
@@ -15903,6 +17364,11 @@
       "id": "code-intelligence",
       "path": "comparisons/code-intelligence.md",
       "title": "Code Intelligence 横评"
+    },
+    {
+      "id": "coding-agent-control-planes",
+      "path": "comparisons/coding-agent-control-planes.md",
+      "title": "Coding Agent Control Planes 横评"
     },
     {
       "id": "coding-agents",
