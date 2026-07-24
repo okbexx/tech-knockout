@@ -195,6 +195,7 @@ npm run verify
 
 | Project | What it is | Adopt? | Architecture value | Date |
 |---|---|---|---|---|
+| [Buzz](./reports/buzz.md) | Nostr 签名事件驱动的人类 + Agent 协作平台：频道/线程/DM、ACP Agent pool、Git/PR、workflow、审计、桌面/移动/CLI 共用一个事件数据面 | 推荐隔离试点与架构学习 / 生产协作主干暂观望 | ⭐⭐⭐⭐⭐ | 2026-07-24 |
 | [Orca](./reports/orca.md) | Electron + daemon + Web/mobile 的异构 Coding Agent 控制面：daemon-owned PTY、Git worktree、JSON CLI、稳定 terminal handle 与 task/dispatch/gate orchestration | 个人/小团队固定版本后隔离 PoC / 高权限生产仓与团队远程接入暂缓 | ⭐⭐⭐⭐⭐ | 2026-07-21 |
 | [DESIGN.md](./reports/design.md.md) | Google Labs / Stitch 开源的 agent-readable 设计系统文件格式：YAML tokens + Markdown prose + CLI lint/diff/export，让 coding agent 稳定复用视觉身份 | 推荐采用（个人/小团队）/ 企业作为 AI 设计上下文层试点 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [UI-TARS-desktop](./reports/UI-TARS-desktop.md) | ByteDance Multimodal AI Agent Stack：UI-TARS Desktop + GUIAgent SDK + Operator/browser/remote runtime | 生产采用观望 / 推荐 GUI Agent PoC 与架构学习 | ⭐⭐⭐⭐⭐ | 2026-07-07 |

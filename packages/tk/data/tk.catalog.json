@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-21T16:04:11.301Z",
+  "generatedAt": "2026-07-24T05:47:08.356Z",
   "projects": [
     {
       "id": "1shell",
@@ -292,6 +292,4683 @@
         "fastapi",
         "typescript",
         "python"
+      ]
+    },
+    {
+      "id": "buzz",
+      "name": "Buzz 技术评估报告",
+      "repo": "block/buzz",
+      "url": "https://github.com/block/buzz",
+      "cloneUrl": "https://github.com/block/buzz.git",
+      "report": "reports/buzz.md",
+      "reportFile": "buzz",
+      "category": "Agent Platform / Desktop / Design",
+      "summary": "一句话结论：Buzz 不是给聊天产品外挂一个 Agent，而是把人、Agent、Git、工作流和审计统一成 Nostr 签名事件流；架构创新与工程完成度都很高，适合隔离试点和深度借鉴，但 2026-07 的 v0.4.x 仍处于跨平台 Agent runtime 与 onboarding 高频收敛期，不宜直接替换成熟生产协作主干。",
+      "adoption": "方向成立。",
+      "architectureValue": 5,
+      "license": "Apache-2.0",
+      "language": null,
+      "analysisDate": null,
+      "sourceDir": "projects/block__buzz",
+      "owner": "block",
+      "sourceExists": true,
+      "dependencies": [
+        {
+          "name": "httparse",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true,\"features\":[\"test-util\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "anyhow",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "base64",
+          "version": "0.22",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "buzz-persona",
+          "version": "{\"path\":\"../buzz-persona\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "buzz-sdk",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "chrono",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "clap",
+          "version": "{\"version\":\"4\",\"features\":[\"derive\",\"env\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "evalexpr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "futures-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "nix",
+          "version": "{\"version\":\"0.31\",\"default-features\":false,\"features\":[\"signal\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "reqwest",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "rustls",
+          "version": "{\"version\":\"0.23\",\"default-features\":false,\"features\":[\"ring\",\"std\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "tokio-tungstenite",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "tokio-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "toml",
+          "version": "1.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "tracing-subscriber",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "url",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-acp/Cargo.toml"
+        },
+        {
+          "name": "anyhow",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "buzz-audit",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "buzz-auth",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "buzz-db",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "buzz-media",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "buzz-pubsub",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "buzz-search",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "buzz-workflow",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "clap",
+          "version": "{\"version\":\"4\",\"features\":[\"derive\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "deadpool-redis",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "rustls",
+          "version": "{\"version\":\"0.23\",\"default-features\":false,\"features\":[\"ring\",\"std\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "sqlx",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "url",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-admin/Cargo.toml"
+        },
+        {
+          "name": "axum",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "nix",
+          "version": "{\"version\":\"0.31\",\"default-features\":false,\"features\":[\"signal\",\"process\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "tempfile",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true,\"features\":[\"test-util\",\"rt-multi-thread\",\"macros\",\"io-std\",\"io-util\",\"sync\",\"process\",\"time\",\"net\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "arc-swap",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "async-trait",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "axum",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "base64",
+          "version": "0.22",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "getrandom",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "nix",
+          "version": "{\"version\":\"0.31\",\"default-features\":false,\"features\":[\"signal\",\"process\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "reqwest",
+          "version": "{\"workspace\":true,\"features\":[\"json\",\"rustls\",\"form\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "rmcp",
+          "version": "{\"version\":\"1\",\"default-features\":false,\"features\":[\"client\",\"transport-child-process\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "serde_yaml",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true,\"features\":[\"rt-multi-thread\",\"macros\",\"io-std\",\"io-util\",\"sync\",\"process\",\"time\",\"net\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "tracing-subscriber",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "urlencoding",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "webbrowser",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-agent/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-audit/Cargo.toml"
+        },
+        {
+          "name": "chrono",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-audit/Cargo.toml"
+        },
+        {
+          "name": "futures-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-audit/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-audit/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-audit/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-audit/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-audit/Cargo.toml"
+        },
+        {
+          "name": "sqlx",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-audit/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-audit/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-audit/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-audit/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-audit/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-auth/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-auth/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-auth/Cargo.toml"
+        },
+        {
+          "name": "rand",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-auth/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-auth/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-auth/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-auth/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-auth/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-auth/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-auth/Cargo.toml"
+        },
+        {
+          "name": "url",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-auth/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-auth/Cargo.toml"
+        },
+        {
+          "name": "axum",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "tempfile",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "base64",
+          "version": "0.22",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "buzz-persona",
+          "version": "{\"path\":\"../buzz-persona\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "buzz-sdk",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "buzz-ws-client",
+          "version": "{\"path\":\"../buzz-ws-client\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "bytes",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "chrono",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "clap",
+          "version": "{\"version\":\"4\",\"features\":[\"derive\",\"env\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "diffy",
+          "version": "0.5",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "dirs",
+          "version": "6",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "infer",
+          "version": "0.19",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "rand",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "reqwest",
+          "version": "{\"workspace\":true,\"features\":[\"json\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "rustls",
+          "version": "{\"version\":\"0.23\",\"default-features\":false,\"features\":[\"ring\",\"std\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "0.11",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true,\"features\":[\"macros\",\"rt-multi-thread\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "url",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-cli/Cargo.toml"
+        },
+        {
+          "name": "proptest",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-conformance/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-conformance/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-conformance/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-conformance/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-conformance/Cargo.toml"
+        },
+        {
+          "name": "chrono",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-core/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-core/Cargo.toml"
+        },
+        {
+          "name": "hmac",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-core/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-core/Cargo.toml"
+        },
+        {
+          "name": "percent-encoding",
+          "version": "2.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-core/Cargo.toml"
+        },
+        {
+          "name": "rand",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-core/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-core/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-core/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-core/Cargo.toml"
+        },
+        {
+          "name": "subtle",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-core/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-core/Cargo.toml"
+        },
+        {
+          "name": "url",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-core/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-core/Cargo.toml"
+        },
+        {
+          "name": "zeroize",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-core/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-db/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-db/Cargo.toml"
+        },
+        {
+          "name": "chrono",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-db/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-db/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-db/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-db/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-db/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-db/Cargo.toml"
+        },
+        {
+          "name": "sqlx",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-db/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-db/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-db/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-db/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-db/Cargo.toml"
+        },
+        {
+          "name": "base64",
+          "version": "0.22",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "buzz-cli",
+          "version": "{\"path\":\"../buzz-cli\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "git-credential-nostr",
+          "version": "{\"path\":\"../git-credential-nostr\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "git-sign-nostr",
+          "version": "{\"path\":\"../git-sign-nostr\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "ignore",
+          "version": "0.4.25",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "image",
+          "version": "{\"version\":\"0.25\",\"default-features\":false,\"features\":[\"jpeg\",\"png\",\"gif\",\"webp\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "nix",
+          "version": "{\"version\":\"0.31\",\"default-features\":false,\"features\":[\"signal\",\"process\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "reqwest",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "rmcp",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "rustls",
+          "version": "{\"version\":\"0.23\",\"default-features\":false,\"features\":[\"ring\",\"std\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "schemars",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "similar",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "tempfile",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "tokio-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "tracing-subscriber",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "windows-sys",
+          "version": "{\"version\":\"0.61\",\"features\":[\"Win32_Foundation\",\"Win32_Security\",\"Win32_System_JobObjects\",\"Win32_System_Registry\",\"Win32_System_Threading\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "zeroize",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-dev-mcp/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true,\"features\":[\"test-util\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "axum",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "blurhash",
+          "version": "0.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "bytes",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "chrono",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "futures-core",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "futures-util",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "image",
+          "version": "{\"version\":\"0.25\",\"default-features\":false,\"features\":[\"jpeg\",\"png\",\"gif\",\"webp\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "imagesize",
+          "version": "0.14",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "infer",
+          "version": "0.19",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "mp4",
+          "version": "0.14",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "s3",
+          "version": "{\"version\":\"0.37\",\"package\":\"rust-s3\",\"default-features\":false,\"features\":[\"tokio-rustls-tls\",\"fail-on-err\",\"tags\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "tempfile",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "tokio-util",
+          "version": "{\"version\":\"0.7\",\"features\":[\"io\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "ulid",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-media/Cargo.toml"
+        },
+        {
+          "name": "secp256k1",
+          "version": "{\"version\":\"0.31\",\"features\":[\"global-context\",\"rand\",\"std\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-pair-relay/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "0.11",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-pair-relay/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true,\"features\":[\"test-util\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-pair-relay/Cargo.toml"
+        },
+        {
+          "name": "tokio-tungstenite",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-pair-relay/Cargo.toml"
+        },
+        {
+          "name": "futures-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pair-relay/Cargo.toml"
+        },
+        {
+          "name": "http-body-util",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pair-relay/Cargo.toml"
+        },
+        {
+          "name": "hyper",
+          "version": "{\"version\":\"1\",\"features\":[\"server\",\"http1\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pair-relay/Cargo.toml"
+        },
+        {
+          "name": "hyper-util",
+          "version": "{\"version\":\"0.1\",\"features\":[\"tokio\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pair-relay/Cargo.toml"
+        },
+        {
+          "name": "parking_lot",
+          "version": "0.12",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pair-relay/Cargo.toml"
+        },
+        {
+          "name": "secp256k1",
+          "version": "{\"version\":\"0.31\",\"features\":[\"global-context\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pair-relay/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pair-relay/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "0.11",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pair-relay/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true,\"features\":[\"rt-multi-thread\",\"macros\",\"net\",\"time\",\"sync\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pair-relay/Cargo.toml"
+        },
+        {
+          "name": "tokio-tungstenite",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pair-relay/Cargo.toml"
+        },
+        {
+          "name": "tokio-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pair-relay/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pairing-cli/Cargo.toml"
+        },
+        {
+          "name": "clap",
+          "version": "{\"version\":\"4\",\"features\":[\"derive\",\"env\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pairing-cli/Cargo.toml"
+        },
+        {
+          "name": "futures-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pairing-cli/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pairing-cli/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pairing-cli/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pairing-cli/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pairing-cli/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pairing-cli/Cargo.toml"
+        },
+        {
+          "name": "tokio-tungstenite",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pairing-cli/Cargo.toml"
+        },
+        {
+          "name": "url",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pairing-cli/Cargo.toml"
+        },
+        {
+          "name": "zeroize",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pairing-cli/Cargo.toml"
+        },
+        {
+          "name": "tempfile",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-persona/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"version\":\"1\",\"features\":[\"derive\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-persona/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-persona/Cargo.toml"
+        },
+        {
+          "name": "serde_yaml",
+          "version": "0.9",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-persona/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-persona/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-pubsub/Cargo.toml"
+        },
+        {
+          "name": "buzz-auth",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pubsub/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pubsub/Cargo.toml"
+        },
+        {
+          "name": "chrono",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pubsub/Cargo.toml"
+        },
+        {
+          "name": "deadpool-redis",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pubsub/Cargo.toml"
+        },
+        {
+          "name": "futures-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pubsub/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pubsub/Cargo.toml"
+        },
+        {
+          "name": "redis",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pubsub/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pubsub/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pubsub/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pubsub/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pubsub/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pubsub/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-pubsub/Cargo.toml"
+        },
+        {
+          "name": "proptest",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "reqwest",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "aes-gcm",
+          "version": "0.10",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "appattest",
+          "version": "{\"version\":\"0.1.1\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "async-trait",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "axum",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "base64",
+          "version": "0.22",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "byteorder",
+          "version": "1.5",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "chrono",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "getrandom",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "metrics",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "metrics-exporter-prometheus",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "minicbor",
+          "version": "0.25",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "p256",
+          "version": "{\"version\":\"0.14\",\"features\":[\"ecdsa\",\"pem\",\"pkcs8\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "rand",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "reqwest",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "sqlx",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "tower",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "tower-http",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "tracing-subscriber",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "url",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-push-gateway/Cargo.toml"
+        },
+        {
+          "name": "proptest",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true,\"features\":[\"test-util\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "bytes",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "deadpool-redis",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "futures-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "hmac",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "iroh",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "postcard",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "redis",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay-mesh/Cargo.toml"
+        },
+        {
+          "name": "buzz-auth",
+          "version": "{\"workspace\":true,\"features\":[\"dev\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true,\"features\":[\"test-utils\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "futures",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "mesh-llm-host-runtime",
+          "version": "{\"git\":\"https://github.com/Mesh-LLM/mesh-llm.git\",\"tag\":\"v0.73.1\",\"package\":\"mesh-llm-host-runtime\",\"default-features\":false,\"features\":[\"dynamic-native-runtime\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "mesh-llm-sdk",
+          "version": "{\"git\":\"https://github.com/Mesh-LLM/mesh-llm.git\",\"tag\":\"v0.73.1\",\"package\":\"mesh-llm-sdk\",\"default-features\":false,\"features\":[\"client\",\"serving\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "reqwest",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "tokio-tungstenite",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "anyhow",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "async-trait",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "axum",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "base64",
+          "version": "0.22",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "buzz-audit",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "buzz-auth",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "buzz-conformance",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "buzz-db",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "buzz-media",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "buzz-pubsub",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "buzz-relay-mesh",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "buzz-sdk",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "buzz-search",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "buzz-workflow",
+          "version": "{\"workspace\":true,\"features\":[\"reqwest\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "bytes",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "chrono",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "dashmap",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "deadpool-redis",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "futures-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "hmac",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "infer",
+          "version": "0.19",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "metrics",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "metrics-exporter-prometheus",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "metrics-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "moka",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "opentelemetry",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "opentelemetry_sdk",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "opentelemetry-otlp",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "postcard",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "pulldown-cmark",
+          "version": "{\"version\":\"0.13.4\",\"default-features\":false,\"features\":[\"html\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "rand",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "redis",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "reqwest",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "rustls",
+          "version": "{\"version\":\"0.23\",\"default-features\":false,\"features\":[\"ring\",\"std\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "s3",
+          "version": "{\"version\":\"0.37\",\"package\":\"rust-s3\",\"default-features\":false,\"features\":[\"tokio-rustls-tls\",\"fail-on-err\",\"tags\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "serde_yaml",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "sqlx",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "subtle",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "tempfile",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "tokio-util",
+          "version": "{\"workspace\":true,\"features\":[\"io\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "tower",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "tower-http",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "tracing-opentelemetry",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "tracing-subscriber",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "url",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-relay/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-sdk/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-sdk/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-sdk/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-sdk/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-sdk/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-sdk/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-search/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-search/Cargo.toml"
+        },
+        {
+          "name": "sqlx",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-search/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-search/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-search/Cargo.toml"
+        },
+        {
+          "name": "base64",
+          "version": "0.22",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "buzz-sdk",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "chrono",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "futures-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "rand",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "reqwest",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "s3",
+          "version": "{\"version\":\"0.37\",\"package\":\"rust-s3\",\"default-features\":false,\"features\":[\"tokio-rustls-tls\",\"fail-on-err\",\"tags\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "sqlx",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "tracing-subscriber",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "anyhow",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "buzz-ws-client",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "futures-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "rustls",
+          "version": "0.23",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "tokio-tungstenite",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "tracing-subscriber",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "url",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-test-client/Cargo.toml"
+        },
+        {
+          "name": "buzz-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "buzz-db",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "chrono",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "cron",
+          "version": "0.16",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "dashmap",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "evalexpr",
+          "version": "11",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "moka",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "reqwest",
+          "version": "{\"workspace\":true,\"optional\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "serde_yaml",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-workflow/Cargo.toml"
+        },
+        {
+          "name": "futures-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-ws-client/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-ws-client/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-ws-client/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-ws-client/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-ws-client/Cargo.toml"
+        },
+        {
+          "name": "tokio-tungstenite",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-ws-client/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-ws-client/Cargo.toml"
+        },
+        {
+          "name": "url",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/buzz-ws-client/Cargo.toml"
+        },
+        {
+          "name": "base64",
+          "version": "0.22",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/git-credential-nostr/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/git-credential-nostr/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/git-credential-nostr/Cargo.toml"
+        },
+        {
+          "name": "zeroize",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/git-credential-nostr/Cargo.toml"
+        },
+        {
+          "name": "base64",
+          "version": "0.22",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/git-sign-nostr/Cargo.toml"
+        },
+        {
+          "name": "chrono",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/git-sign-nostr/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/git-sign-nostr/Cargo.toml"
+        },
+        {
+          "name": "libc",
+          "version": "0.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/git-sign-nostr/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/git-sign-nostr/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/git-sign-nostr/Cargo.toml"
+        },
+        {
+          "name": "zeroize",
+          "version": "{\"workspace\":true,\"features\":[\"derive\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/git-sign-nostr/Cargo.toml"
+        },
+        {
+          "name": "buzz-acp",
+          "version": "{\"path\":\"../buzz-acp\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/sprig/Cargo.toml"
+        },
+        {
+          "name": "buzz-agent",
+          "version": "{\"path\":\"../buzz-agent\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/sprig/Cargo.toml"
+        },
+        {
+          "name": "buzz-dev-mcp",
+          "version": "{\"path\":\"../buzz-dev-mcp\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/sprig/Cargo.toml"
+        },
+        {
+          "name": "base64",
+          "version": "0.22",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"version\":\"1\",\"features\":[\"derive\"]}",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-build",
+          "version": "{\"version\":\"2\",\"features\":[]}",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "buzz_media_pkg",
+          "version": "{\"package\":\"buzz-media\",\"path\":\"../../crates/buzz-media\"}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"version\":\"1\",\"features\":[\"test-util\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "anyhow",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "arboard",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "atomic-write-file",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "audioadapter-buffers",
+          "version": "3.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "axum",
+          "version": "0.8",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "base64",
+          "version": "0.22",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "buzz_agent_pkg",
+          "version": "{\"package\":\"buzz-agent\",\"path\":\"../../crates/buzz-agent\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "buzz_core_pkg",
+          "version": "{\"package\":\"buzz-core\",\"path\":\"../../crates/buzz-core\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "buzz_persona_pkg",
+          "version": "{\"package\":\"buzz-persona\",\"path\":\"../../crates/buzz-persona\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "buzz_sdk_pkg",
+          "version": "{\"package\":\"buzz-sdk\",\"path\":\"../../crates/buzz-sdk\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "bytes",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "bzip2",
+          "version": "0.6",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "chrono",
+          "version": "{\"version\":\"0.4\",\"features\":[\"serde\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "ctrlc",
+          "version": "{\"version\":\"3\",\"features\":[\"termination\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "dirs",
+          "version": "6",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "earshot",
+          "version": "1.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "ed25519-dalek",
+          "version": "=3.0.0-rc.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "flate2",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "futures-util",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "image",
+          "version": "{\"version\":\"0.25\",\"default-features\":false,\"features\":[\"jpeg\",\"png\",\"webp\",\"gif\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "infer",
+          "version": "0.19",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "iroh",
+          "version": "{\"version\":\"1.0.2\",\"optional\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "keyring",
+          "version": "{\"version\":\"3.6.3\",\"default-features\":false,\"features\":[\"sync-secret-service\",\"vendored\"],\"optional\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "libc",
+          "version": "0.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "mesh-llm-client",
+          "version": "{\"git\":\"https://github.com/Mesh-LLM/mesh-llm.git\",\"tag\":\"v0.73.1\",\"package\":\"mesh-llm-client\",\"optional\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "mesh-llm-events",
+          "version": "{\"git\":\"https://github.com/Mesh-LLM/mesh-llm.git\",\"tag\":\"v0.73.1\",\"package\":\"mesh-llm-events\",\"optional\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "mesh-llm-host-runtime",
+          "version": "{\"git\":\"https://github.com/Mesh-LLM/mesh-llm.git\",\"tag\":\"v0.73.1\",\"package\":\"mesh-llm-host-runtime\",\"default-features\":false,\"features\":[\"dynamic-native-runtime\"],\"optional\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "mesh-llm-node",
+          "version": "{\"git\":\"https://github.com/Mesh-LLM/mesh-llm.git\",\"tag\":\"v0.73.1\",\"package\":\"mesh-llm-node\",\"optional\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "mesh-llm-sdk",
+          "version": "{\"git\":\"https://github.com/Mesh-LLM/mesh-llm.git\",\"tag\":\"v0.73.1\",\"package\":\"mesh-llm-sdk\",\"default-features\":false,\"features\":[\"client\",\"serving\"],\"optional\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "mesh-llm-system",
+          "version": "{\"git\":\"https://github.com/Mesh-LLM/mesh-llm.git\",\"tag\":\"v0.73.1\",\"package\":\"mesh-llm-system\",\"optional\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "neteq",
+          "version": "{\"version\":\"0.8\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"version\":\"0.44\",\"features\":[\"nip44\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "notify-rust",
+          "version": "4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "objc2-app-kit",
+          "version": "{\"version\":\"0.3.2\",\"default-features\":false,\"features\":[\"NSHapticFeedback\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "opus",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "plist",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "png",
+          "version": "0.18",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "regex",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "reqwest",
+          "version": "{\"version\":\"0.13\",\"features\":[\"json\",\"query\",\"stream\",\"blocking\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "rodio",
+          "version": "0.22",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "rubato",
+          "version": "3.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "rusqlite",
+          "version": "{\"version\":\"0.37\",\"features\":[\"bundled\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "rustls",
+          "version": "{\"version\":\"0.23\",\"default-features\":false,\"features\":[\"aws_lc_rs\",\"std\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "security-framework",
+          "version": "{\"version\":\"3.7.0\",\"features\":[\"OSX_10_15\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"version\":\"1\",\"features\":[\"derive\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "serde_yaml",
+          "version": "0.9",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "0.11",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "sherpa-onnx",
+          "version": "1.12",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "strip-ansi-escapes",
+          "version": "0.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tar",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri",
+          "version": "{\"version\":\"2\",\"features\":[\"macos-private-api\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-plugin-deep-link",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-plugin-dialog",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-plugin-global-shortcut",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-plugin-notification",
+          "version": "2.3.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-plugin-opener",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-plugin-process",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-plugin-single-instance",
+          "version": "{\"version\":\"2\",\"features\":[\"deep-link\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-plugin-updater",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-plugin-window-state",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tempfile",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"version\":\"1\",\"features\":[\"fs\",\"sync\",\"rt\",\"macros\",\"time\",\"net\",\"io-util\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tokio-tungstenite",
+          "version": "{\"version\":\"0.29\",\"features\":[\"rustls-tls-webpki-roots\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tokio-util",
+          "version": "{\"version\":\"0.7\",\"features\":[\"rt\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "toml",
+          "version": "0.8",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "url",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "user-idle",
+          "version": "{\"version\":\"0.6\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "uuid",
+          "version": "{\"version\":\"1\",\"features\":[\"v4\",\"v5\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "window-vibrancy",
+          "version": "0.6",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "windows-sys",
+          "version": "{\"version\":\"0.61\",\"features\":[\"Win32_Security\",\"Win32_Storage_FileSystem\",\"Win32_System_JobObjects\",\"Win32_System_Registry\",\"Win32_System_Threading\",\"Win32_Foundation\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "zeroize",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "zip",
+          "version": "8",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "anyhow",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "examples/countdown-bot/Cargo.toml"
+        },
+        {
+          "name": "buzz-sdk",
+          "version": "{\"path\":\"../../crates/buzz-sdk\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "examples/countdown-bot/Cargo.toml"
+        },
+        {
+          "name": "futures-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "examples/countdown-bot/Cargo.toml"
+        },
+        {
+          "name": "nostr",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "examples/countdown-bot/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "examples/countdown-bot/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true,\"features\":[\"rt-multi-thread\",\"macros\",\"time\",\"signal\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "examples/countdown-bot/Cargo.toml"
+        },
+        {
+          "name": "tokio-tungstenite",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "examples/countdown-bot/Cargo.toml"
+        },
+        {
+          "name": "url",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "examples/countdown-bot/Cargo.toml"
+        },
+        {
+          "name": "@playwright/test",
+          "version": "^1.58.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "admin-web/package.json"
+        },
+        {
+          "name": "@testing-library/jest-dom",
+          "version": "^6.9.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "admin-web/package.json"
+        },
+        {
+          "name": "@testing-library/react",
+          "version": "^16.3.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "admin-web/package.json"
+        },
+        {
+          "name": "@types/react",
+          "version": "^19.1.8",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "admin-web/package.json"
+        },
+        {
+          "name": "@types/react-dom",
+          "version": "^19.1.6",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "admin-web/package.json"
+        },
+        {
+          "name": "jsdom",
+          "version": "^27.3.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "admin-web/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "~6.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "admin-web/package.json"
+        },
+        {
+          "name": "vitest",
+          "version": "^4.1.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "admin-web/package.json"
+        },
+        {
+          "name": "@vitejs/plugin-react",
+          "version": "^6.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "admin-web/package.json"
+        },
+        {
+          "name": "react",
+          "version": "^19.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "admin-web/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "^19.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "admin-web/package.json"
+        },
+        {
+          "name": "vite",
+          "version": "^8.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "admin-web/package.json"
+        },
+        {
+          "name": "@noble/hashes",
+          "version": "^2.0.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@playwright/test",
+          "version": "^1.58.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tailwindcss/postcss",
+          "version": "^4.3.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tanstack/router-plugin",
+          "version": "^1.167.12",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tanstack/virtual-file-routes",
+          "version": "^1.161.7",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tauri-apps/cli",
+          "version": "~2.11",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@types/react",
+          "version": "^19.1.8",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@types/react-dom",
+          "version": "^19.1.6",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@vitejs/plugin-react",
+          "version": "^6.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "nostr-tools",
+          "version": "^2.23.3",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "postcss",
+          "version": "^8.5.8",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "tailwindcss",
+          "version": "^4.3.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "tw-animate-css",
+          "version": "^1.4.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "~6.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "vite",
+          "version": "^8.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@dnd-kit/core",
+          "version": "^6.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@dnd-kit/sortable",
+          "version": "^10.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@dnd-kit/utilities",
+          "version": "^3.2.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@emoji-mart/data",
+          "version": "^1.2.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@emoji-mart/react",
+          "version": "^1.1.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@fontsource-variable/inter",
+          "version": "^5.2.8",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@mediapipe/tasks-vision",
+          "version": "^0.10.35",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@radix-ui/react-alert-dialog",
+          "version": "^1.1.15",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@radix-ui/react-avatar",
+          "version": "^1.1.11",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@radix-ui/react-checkbox",
+          "version": "^1.3.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@radix-ui/react-context-menu",
+          "version": "^2.2.16",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@radix-ui/react-dialog",
+          "version": "^1.1.15",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@radix-ui/react-dropdown-menu",
+          "version": "^2.1.16",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@radix-ui/react-focus-scope",
+          "version": "^1.1.8",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@radix-ui/react-popover",
+          "version": "^1.1.15",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@radix-ui/react-separator",
+          "version": "^1.1.8",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@radix-ui/react-slot",
+          "version": "^1.2.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@radix-ui/react-switch",
+          "version": "^1.2.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@radix-ui/react-tabs",
+          "version": "^1.1.13",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@radix-ui/react-toggle",
+          "version": "^1.1.10",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@radix-ui/react-tooltip",
+          "version": "^1.2.8",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tanstack/react-query",
+          "version": "^5.90.21",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tanstack/react-router",
+          "version": "^1.168.10",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tanstack/react-virtual",
+          "version": "^3.14.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tauri-apps/api",
+          "version": "~2.11",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tauri-apps/plugin-notification",
+          "version": "^2.3.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tauri-apps/plugin-opener",
+          "version": "~2.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tauri-apps/plugin-process",
+          "version": "^2.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tauri-apps/plugin-updater",
+          "version": "^2.10.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tiptap/core",
+          "version": "^3.22.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tiptap/extension-link",
+          "version": "^3.22.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tiptap/extension-placeholder",
+          "version": "^3.22.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tiptap/pm",
+          "version": "^3.22.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tiptap/react",
+          "version": "^3.22.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tiptap/starter-kit",
+          "version": "^3.22.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "class-variance-authority",
+          "version": "^0.7.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "clsx",
+          "version": "^2.1.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "embla-carousel-react",
+          "version": "^8.6.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "emoji-mart",
+          "version": "^5.6.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "jdenticon",
+          "version": "^3.3.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "lucide-react",
+          "version": "^1.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "motion",
+          "version": "^12.38.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "qrcode.react",
+          "version": "^4.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "react",
+          "version": "^19.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "react-diff-view",
+          "version": "^3.3.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "^19.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "react-markdown",
+          "version": "^10.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "remark-breaks",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "remark-gfm",
+          "version": "^4.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "shiki",
+          "version": "^4.0.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "sonner",
+          "version": "^2.0.7",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "tailwind-merge",
+          "version": "^3.5.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "tiptap-markdown",
+          "version": "^0.9.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "upng-js",
+          "version": "^2.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "virtua",
+          "version": "0.49.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "yaml",
+          "version": "^2.8.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "zod",
+          "version": "^4.4.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@biomejs/biome",
+          "version": "^2.4.6",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@tailwindcss/typography",
+          "version": "^0.5.19",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@playwright/test",
+          "version": "^1.58.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@tailwindcss/postcss",
+          "version": "^4.3.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@tanstack/router-plugin",
+          "version": "^1.167.12",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@tanstack/virtual-file-routes",
+          "version": "^1.161.7",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@types/react",
+          "version": "^19.1.8",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@types/react-dom",
+          "version": "^19.1.6",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@vitejs/plugin-react",
+          "version": "^6.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "postcss",
+          "version": "^8.5.8",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "tailwindcss",
+          "version": "^4.3.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "tw-animate-css",
+          "version": "^1.4.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "~6.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "vite",
+          "version": "^8.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@fontsource-variable/inter",
+          "version": "^5.2.8",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@isomorphic-git/lightning-fs",
+          "version": "^4.6.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@radix-ui/react-slot",
+          "version": "^1.2.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@radix-ui/react-tooltip",
+          "version": "^1.2.8",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@tailwindcss/typography",
+          "version": "^0.5.19",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@tanstack/react-query",
+          "version": "^5.90.21",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "@tanstack/react-router",
+          "version": "^1.168.10",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "buffer",
+          "version": "^6.0.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "class-variance-authority",
+          "version": "^0.7.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "clsx",
+          "version": "^2.1.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "isomorphic-git",
+          "version": "^1.38.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "lucide-react",
+          "version": "^1.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "nostr-tools",
+          "version": "^2.23.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react",
+          "version": "^19.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "^19.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "react-markdown",
+          "version": "^10.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "remark-gfm",
+          "version": "^4.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "sonner",
+          "version": "^2.0.7",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "tailwind-merge",
+          "version": "^3.5.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "web/package.json"
+        },
+        {
+          "name": "pytest",
+          "version": "pytest>=8.4",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "benchmarks/harbor-buzz-orchestra/pyproject.toml"
+        },
+        {
+          "name": "pytest-asyncio",
+          "version": "pytest-asyncio>=1.2",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "benchmarks/harbor-buzz-orchestra/pyproject.toml"
+        },
+        {
+          "name": "ruff",
+          "version": "ruff>=0.15",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "benchmarks/harbor-buzz-orchestra/pyproject.toml"
+        },
+        {
+          "name": "harbor",
+          "version": "harbor>=0.16.1,<0.18",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "benchmarks/harbor-buzz-orchestra/pyproject.toml"
+        },
+        {
+          "name": "pydantic",
+          "version": "pydantic>=2.11",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "benchmarks/harbor-buzz-orchestra/pyproject.toml"
+        },
+        {
+          "name": "pyyaml",
+          "version": "pyyaml>=6.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "benchmarks/harbor-buzz-orchestra/pyproject.toml"
+        },
+        {
+          "name": "pytest",
+          "version": "pytest>=8.4",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "benchmarks/harbor-buzz-orchestra/testbed/pyproject.toml"
+        },
+        {
+          "name": "ruff",
+          "version": "ruff>=0.15",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "benchmarks/harbor-buzz-orchestra/testbed/pyproject.toml"
+        },
+        {
+          "name": "coincurve",
+          "version": "coincurve>=20",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "benchmarks/harbor-buzz-orchestra/testbed/pyproject.toml"
+        },
+        {
+          "name": "harbor-buzz-orchestra",
+          "version": "harbor-buzz-orchestra",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "benchmarks/harbor-buzz-orchestra/testbed/pyproject.toml"
+        },
+        {
+          "name": "psycopg",
+          "version": "psycopg[binary]>=3.2",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "benchmarks/harbor-buzz-orchestra/testbed/pyproject.toml"
+        }
+      ],
+      "dependencySummary": {
+        "total": 649,
+        "manifests": 34,
+        "byEcosystem": {
+          "cargo": 521,
+          "npm": 117,
+          "python": 11
+        },
+        "byScope": {
+          "development": 82,
+          "runtime": 558,
+          "build": 4,
+          "optional": 5
+        }
+      },
+      "dependencyEvidencePresent": true,
+      "dependencyEvidence": [
+        {
+          "dependency": "nostr 0.44.x",
+          "type": "Protocol / identity",
+          "usedFor": "Event、pubkey、Schnorr 签名、NIP-42/NIP-98",
+          "problemSolved": "让人和 Agent 共用可验证、可回放的身份与事件契约",
+          "evidence": "Cargo.toml、crates/buzz-core/src/verification.rs、crates/buzz-auth/",
+          "reuseSignal": "需要开放身份和 event-sourced collaboration 时价值高",
+          "caution": "私钥生命周期和 NIP 互操作成为核心运维责任"
+        },
+        {
+          "dependency": "Axum",
+          "type": "HTTP / WebSocket runtime",
+          "usedFor": "Relay、REST、Git、media、admin API",
+          "problemSolved": "在 Rust 服务内统一 WebSocket 与 HTTP 路由",
+          "evidence": "crates/buzz-relay/src/router.rs、src/api/",
+          "reuseSignal": "Rust 实时服务的成熟基础",
+          "caution": "单 relay 承担能力面宽，必须按 profile 收紧路由"
+        },
+        {
+          "dependency": "SQLx + PostgreSQL",
+          "type": "Durable storage",
+          "usedFor": "Event、community、channel、workflow、Git metadata",
+          "problemSolved": "事务化持久化与关系投影",
+          "evidence": "crates/buzz-db/src/、schema/、migrations/",
+          "reuseSignal": "事件事实源 + 查询投影组合可复用",
+          "caution": "schema、分区、migration 和 tenant fence 要持续验证"
+        },
+        {
+          "dependency": "Redis",
+          "type": "Coordination / admission",
+          "usedFor": "Pub/sub、连接控制、replay 防护、rate limit",
+          "problemSolved": "多 relay 实例实时广播与共享限流状态",
+          "evidence": "crates/buzz-pubsub/src/、crates/buzz-auth/src/rate_limit.rs",
+          "reuseSignal": "多实例 relay 协调的合理选型",
+          "caution": "fixed window 边界允许约 2× burst；Redis 故障策略需演练"
+        },
+        {
+          "dependency": "agent-client-protocol 0.10.x",
+          "type": "Agent process protocol",
+          "usedFor": "ACP 子进程、session/prompt、model/capability",
+          "problemSolved": "用统一协议桥接 Goose、Codex、Claude 与自定义 Agent",
+          "evidence": "crates/buzz-acp/src/",
+          "reuseSignal": "多 Agent CLI 产品可复用 protocol seam",
+          "caution": "上游 runtime 版本、安装、登录与跨平台 PATH 仍会漂移"
+        },
+        {
+          "dependency": "rmcp 1.1.x",
+          "type": "MCP SDK",
+          "usedFor": "Agent MCP server 与开发工具",
+          "problemSolved": "给 Agent 暴露文件、shell、todo、image 等结构化工具",
+          "evidence": "crates/buzz-agent/src/mcp.rs、crates/buzz-dev-mcp/src/",
+          "reuseSignal": "Agent tool surface 的标准化价值高",
+          "caution": "MCP/tool 权限不能替代 OS sandbox 与最小凭据"
+        },
+        {
+          "dependency": "iroh / mesh runtime",
+          "type": "Mesh / local inference",
+          "usedFor": "Relay tunnel、shared compute、可选本地 LLM",
+          "problemSolved": "跨 relay 连接与本地/共享推理",
+          "evidence": "crates/buzz-relay/src/tunnel/、mesh_boot.rs、release workflow",
+          "reuseSignal": "对边缘 mesh 与 local-first AI 有参考价值",
+          "caution": "native build、模型分发和多节点故障面显著增加"
+        },
+        {
+          "dependency": "Tauri + React + TypeScript",
+          "type": "Desktop product",
+          "usedFor": "多平台桌面 UI、sidecar、updater、keyring",
+          "problemSolved": "在 Web UI 体验下保留 native Agent/Git 能力",
+          "evidence": "desktop/、desktop/src-tauri/",
+          "reuseSignal": "需要本地高权限 sidecar 的跨平台产品可评估",
+          "caution": "签名、更新、PATH、keyring 和平台差异测试成本高"
+        },
+        {
+          "dependency": "Flutter / Dart",
+          "type": "Mobile client",
+          "usedFor": "移动消息、invite、media、notification",
+          "problemSolved": "复用一套移动客户端覆盖 Android/iOS",
+          "evidence": "mobile/、CI mobile job",
+          "reuseSignal": "与 Rust relay 解耦的移动投影可复用",
+          "caution": "desktop/mobile capability rollout 必须同步，媒体认证即受此约束"
+        }
+      ],
+      "tags": [
+        "agent",
+        "mcp",
+        "cli",
+        "desktop",
+        "workflow",
+        "runtime",
+        "design",
+        "security",
+        "media",
+        "tauri",
+        "rust",
+        "typescript"
       ]
     },
     {
