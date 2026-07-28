@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
+import Ajv2020 from 'ajv/dist/2020.js';
 import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
@@ -10,6 +11,63 @@ const scriptDir = dirname(fileURLToPath(import.meta.url));
 export const packageRoot = resolve(scriptDir, '..', '..');
 export const repoRoot = resolve(packageRoot, '..', '..');
 export const fixturesDir = join(packageRoot, 'fixtures', 'replication');
+
+const artifactSchemaFiles = {
+  plan: 'replication-plan.schema.json',
+  verification: 'verification-result.schema.json',
+  trace: 'run-trace.schema.json',
+};
+const ajv = new Ajv2020({ allErrors: true });
+const artifactValidators = Object.fromEntries(
+  Object.entries(artifactSchemaFiles).map(([name, fileName]) => [
+    name,
+    ajv.compile(JSON.parse(readFileSync(join(packageRoot, 'schemas', fileName), 'utf8'))),
+  ]),
+);
+const requiredBriefLines = [
+  '## Capability Replication Brief',
+  'Capability:',
+  'Current project fit:',
+  'Reference projects:',
+  'Evidence:',
+  'TK Replication Ladder:',
+  'Kernel:',
+  'Must keep:',
+  'Can adapt:',
+  'Do not copy:',
+  'Build-vs-buy:',
+  'Dependency / SDK evidence:',
+  'Implementation boundary:',
+  'Verification:',
+  'Freshness gaps:',
+];
+
+function readPersistedArtifacts(runDir) {
+  return {
+    plan: JSON.parse(readFileSync(join(runDir, 'plan.json'), 'utf8')),
+    verification: JSON.parse(readFileSync(join(runDir, 'verification.json'), 'utf8')),
+    trace: JSON.parse(readFileSync(join(runDir, 'trace.json'), 'utf8')),
+    brief: readFileSync(join(runDir, 'brief.md'), 'utf8'),
+  };
+}
+
+function assertSchemaValid(fixtureId, artifactName, value) {
+  const validate = artifactValidators[artifactName];
+  assert.ok(
+    validate(value),
+    `${fixtureId}: persisted ${artifactName}.json violates ${artifactSchemaFiles[artifactName]}: ${JSON.stringify(validate.errors)}`,
+  );
+}
+
+function assertRequiredBriefLines(fixtureId, brief) {
+  const lines = brief.split(/\r?\n/);
+  for (const requiredLine of requiredBriefLines) {
+    const present = requiredLine.endsWith(':')
+      ? lines.some((line) => line === requiredLine || line.startsWith(`${requiredLine} `))
+      : lines.includes(requiredLine);
+    assert.ok(present, `${fixtureId}: persisted brief.md missing required field ${requiredLine}`);
+  }
+}
 
 export function loadReplicationFixtures(dir = fixturesDir) {
   const fixtureFiles = readdirSync(dir).filter((name) => name.endsWith('.json')).sort();
@@ -70,8 +128,10 @@ export async function runReplicationFixture(fixture, options = {}) {
     const verification = await verifyReplication(plan.run.runId, runtimeOptions);
     const verifyDurationMs = Date.now() - verifyStartedAt;
     const trace = getRunTrace(plan.run.runId, runtimeOptions);
+    assert.ok(trace?.dir, `${fixture.id}: persisted run directory missing`);
+    const persistedArtifacts = readPersistedArtifacts(trace.dir);
     const listedRun = (listedAfterPlan.runs || []).find((run) => run.runId === plan.run.runId) || null;
-    const traceSteps = normalizeTraceSteps(trace?.trace || {});
+    const traceSteps = normalizeTraceSteps(persistedArtifacts.trace);
     const artifactFiles = (trace?.artifacts || []).slice().sort();
 
     result = {
@@ -81,18 +141,19 @@ export async function runReplicationFixture(fixture, options = {}) {
       plan,
       verification,
       trace,
+      persistedArtifacts,
       listedRun,
       summary: {
         fixtureId: fixture.id,
         capability: fixture.capability,
         runId: plan.run.runId,
-        referenceIds: plan.plan.references,
-        verificationContract: plan.plan.verificationContract,
-        verifyStatus: verification.status,
-        warnings: verification.warnings || [],
-        checkNames: (verification.checks || []).map((check) => check.name),
-        checkStatuses: normalizeCheckStatuses(verification.checks || []),
-        traceResult: trace?.trace?.result || null,
+        referenceIds: persistedArtifacts.plan.references,
+        verificationContract: persistedArtifacts.plan.verificationContract,
+        verifyStatus: persistedArtifacts.verification.status,
+        warnings: persistedArtifacts.verification.warnings || [],
+        checkNames: (persistedArtifacts.verification.checks || []).map((check) => check.name),
+        checkStatuses: normalizeCheckStatuses(persistedArtifacts.verification.checks || []),
+        traceResult: persistedArtifacts.trace.result || null,
         traceSteps,
         artifactFiles,
         durations: {
@@ -101,13 +162,13 @@ export async function runReplicationFixture(fixture, options = {}) {
           endToEndMs: Date.now() - startedAt,
         },
         counts: {
-          references: plan.plan.references?.length || 0,
-          kernel: plan.plan.kernel?.length || 0,
-          mustKeep: plan.plan.mustKeep?.length || 0,
-          canAdapt: plan.plan.canAdapt?.length || 0,
-          risks: plan.plan.risks?.length || 0,
-          warnings: verification.warnings?.length || 0,
-          checks: verification.checks?.length || 0,
+          references: persistedArtifacts.plan.references?.length || 0,
+          kernel: persistedArtifacts.plan.kernel?.length || 0,
+          mustKeep: persistedArtifacts.plan.mustKeep?.length || 0,
+          canAdapt: persistedArtifacts.plan.canAdapt?.length || 0,
+          risks: persistedArtifacts.plan.risks?.length || 0,
+          warnings: persistedArtifacts.verification.warnings?.length || 0,
+          checks: persistedArtifacts.verification.checks?.length || 0,
           artifacts: artifactFiles.length,
         },
       },
@@ -121,8 +182,30 @@ export async function runReplicationFixture(fixture, options = {}) {
 }
 
 export function assertReplicationFixture(fixture, result) {
-  const { plan, verification, trace, listedRun, summary } = result;
+  const { plan, trace, persistedArtifacts, listedRun, summary } = result;
   const expect = fixture.expect || {};
+
+  assertSchemaValid(fixture.id, 'plan', persistedArtifacts.plan);
+  assertSchemaValid(fixture.id, 'verification', persistedArtifacts.verification);
+  assertSchemaValid(fixture.id, 'trace', persistedArtifacts.trace);
+  assertRequiredBriefLines(fixture.id, persistedArtifacts.brief);
+  assert.equal(
+    persistedArtifacts.plan.verificationContract,
+    persistedArtifacts.verification.contractId,
+    `${fixture.id}: plan and verification contract ids are disconnected`,
+  );
+  assert.equal(persistedArtifacts.verification.runId, summary.runId, `${fixture.id}: verification run id mismatch`);
+  assert.equal(persistedArtifacts.trace.runId, summary.runId, `${fixture.id}: trace run id mismatch`);
+  assert.equal(
+    persistedArtifacts.trace.input?.capability,
+    persistedArtifacts.plan.capability,
+    `${fixture.id}: trace capability is disconnected from plan`,
+  );
+  assert.deepEqual(
+    persistedArtifacts.trace.input?.references,
+    persistedArtifacts.plan.references,
+    `${fixture.id}: trace references are disconnected from plan`,
+  );
 
   assert.ok(summary.runId, `${fixture.id}: missing run id`);
   assert.ok(listedRun, `${fixture.id}: run missing from listRuns`);

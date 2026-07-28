@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
-import { chmodSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { chmodSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { delimiter, dirname, join, resolve } from 'node:path';
 import { promisify } from 'node:util';
@@ -8,7 +8,9 @@ import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { parse as parseYaml } from 'yaml';
 import {
+  codexPluginStatus,
   hermesAdapterStatus,
+  installCodexPlugin,
   installClaudePlugin,
   installHermesAdapter,
   installOpencodeAdapter,
@@ -83,6 +85,7 @@ test('Claude plugin marketplace reuses plugin-local Skills and the published MCP
 test('Codex plugin makes TK the default bounded technical-research route', () => {
   const skill = readWorkspaceFile('plugins/technical-knockout/skills/tk-reference-discovery/SKILL.md');
   const manifest = JSON.parse(readWorkspaceFile('plugins/technical-knockout/.codex-plugin/plugin.json'));
+  const mcp = JSON.parse(readWorkspaceFile('plugins/technical-knockout/.mcp.json'));
 
   for (const trigger of ['technical research', 'architecture design', 'library/framework/tool selection', 'build-vs-buy']) {
     assert.match(skill, new RegExp(trigger.replace(/[/-]/g, '\\$&'), 'i'), `missing default research trigger: ${trigger}`);
@@ -96,13 +99,64 @@ test('Codex plugin makes TK the default bounded technical-research route', () =>
   assert.doesNotMatch(skill, /continue with primary external sources/i);
   assert.match(manifest.description, /maintainer-curated set/i);
   assert.match(manifest.interface.defaultPrompt, /curated TK project set/i);
+  assert.equal(manifest.mcpServers, './.mcp.json');
+  assert.deepEqual(mcp.mcpServers['technical-knockout'], {
+    command: 'npx',
+    args: ['--yes', '--package', '@jarl_okbe/tk', 'tk-mcp-server'],
+  });
 });
 
-function adapterFixture() {
+function adapterFixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'tk-adapter-'));
+  t.after(() => rmSync(root, { recursive: true, force: true }));
   const skillsRoot = join(root, 'installed-skills');
   return { root, skillsRoot };
 }
+
+test('Codex adapter dry run and isolated status expose install state', async (t) => {
+  const installed = await installCodexPlugin({ dryRun: true, ref: 'v0.1.7' });
+  assert.deepEqual(installed.commands, [
+    ['codex', 'plugin', 'marketplace', 'add', 'okbexx/tech-knockout', '--ref', 'v0.1.7'],
+    ['codex', 'plugin', 'add', 'technical-knockout@tech-knockout'],
+    ['codex', 'plugin', 'list', '--marketplace', 'tech-knockout'],
+  ]);
+
+  const fixture = adapterFixture(t);
+  const fakeBin = join(fixture.root, 'bin');
+  const codexPath = join(fakeBin, 'codex');
+  mkdirSync(fakeBin, { recursive: true });
+  writeFileSync(
+    codexPath,
+    `#!/usr/bin/env node
+const args = process.argv.slice(2).join(' ');
+if (args === 'plugin marketplace list') {
+  console.log('tech-knockout okbexx/tech-knockout');
+} else if (args === 'plugin list --marketplace tech-knockout') {
+  console.log('technical-knockout@tech-knockout installed');
+} else {
+  process.exitCode = 2;
+}
+`,
+  );
+  chmodSync(codexPath, 0o755);
+  const priorPath = process.env.PATH;
+  process.env.PATH = `${fakeBin}${delimiter}${priorPath || ''}`;
+  try {
+    const status = await codexPluginStatus({ cwd: fixture.root });
+    assert.equal(status.ok, true);
+    assert.deepEqual(
+      status.checks.map(({ name, ok }) => ({ name, ok })),
+      [
+        { name: 'codex_cli', ok: true },
+        { name: 'marketplace_configured', ok: true },
+        { name: 'plugin_installed', ok: true },
+      ],
+    );
+    assert.equal(status.selector, 'technical-knockout@tech-knockout');
+  } finally {
+    process.env.PATH = priorPath;
+  }
+});
 
 test('Claude adapter dry runs expose the native lifecycle without changing host state', async () => {
   const options = { dryRun: true, scope: 'local' };
@@ -137,8 +191,8 @@ test('Claude CLI rejects unsupported plugin scopes before execution', async () =
   );
 });
 
-test('Claude status rejects wrong marketplace sources and missing scoped declarations', async () => {
-  const fixture = adapterFixture();
+test('Claude status rejects wrong marketplace sources and missing scoped declarations', async (t) => {
+  const fixture = adapterFixture(t);
   const fakeBin = join(fixture.root, 'bin');
   const expectedSource = join(fixture.root, 'expected-marketplace');
   const wrongSource = join(fixture.root, 'wrong-marketplace');
@@ -205,8 +259,8 @@ if (args === 'plugin marketplace list --json') {
   );
 });
 
-test('Claude status respects CLAUDE_CONFIG_DIR and pinned GitHub sources', async () => {
-  const fixture = adapterFixture();
+test('Claude status respects CLAUDE_CONFIG_DIR and pinned GitHub sources', async (t) => {
+  const fixture = adapterFixture(t);
   const fakeBin = join(fixture.root, 'bin');
   const configRoot = join(fixture.root, 'claude-profile');
   const claudePath = join(fakeBin, 'claude');
@@ -261,10 +315,13 @@ if (args === 'plugin marketplace list --json') {
   assert.equal(result.ok, true);
   assert.equal(result.checks.find((check) => check.name === 'marketplace_source').ok, true);
   assert.equal(result.checks.find((check) => check.name === 'marketplace_scope').details[0], `user: ${join(configRoot, 'settings.json')}`);
+  assert.ok(result.checks.every((check) => check.ok), 'Claude status contains a failing check');
+  assert.equal(result.checks.find((check) => check.name === 'plugin_installed')?.ok, true);
+  assert.equal(result.checks.find((check) => check.name === 'plugin_enabled')?.ok, true);
 });
 
-test('Claude status does not confuse directory sources with GitHub shorthand', async () => {
-  const fixture = adapterFixture();
+test('Claude status does not confuse directory sources with GitHub shorthand', async (t) => {
+  const fixture = adapterFixture(t);
   const fakeBin = join(fixture.root, 'bin');
   const configRoot = join(fixture.root, 'claude-profile');
   const claudePath = join(fakeBin, 'claude');
@@ -314,8 +371,8 @@ if (args === 'plugin marketplace list --json') {
   );
 });
 
-test('OpenCode adapter preserves JSONC config and installs canonical Skills plus MCP', () => {
-  const fixture = adapterFixture();
+test('OpenCode adapter preserves JSONC config and installs canonical Skills plus MCP', (t) => {
+  const fixture = adapterFixture(t);
   const configRoot = join(fixture.root, 'config');
   const configPath = join(configRoot, 'opencode', 'opencode.json');
   mkdirSync(dirname(configPath), { recursive: true });
@@ -325,7 +382,10 @@ test('OpenCode adapter preserves JSONC config and installs canonical Skills plus
   const installed = installOpencodeAdapter(options);
   assert.equal(installed.ok, true);
   assert.match(readFileSync(configPath, 'utf8'), /keep user settings/);
-  assert.equal(opencodeAdapterStatus(options).ok, true);
+  const status = opencodeAdapterStatus(options);
+  assert.equal(status.ok, true);
+  assert.ok(status.checks.every((check) => check.ok), 'OpenCode status contains a failing check');
+  assert.equal(status.checks.find((check) => check.name === 'mcp_configured')?.ok, true);
   assert.equal(skillDirectories(fixture.skillsRoot).length, 5);
 
   assert.equal(removeOpencodeAdapter(options).ok, true);
@@ -334,8 +394,8 @@ test('OpenCode adapter preserves JSONC config and installs canonical Skills plus
   assert.match(removed, /autoupdate/);
 });
 
-test('Hermes adapter preserves YAML config and installs canonical Skills plus MCP', () => {
-  const fixture = adapterFixture();
+test('Hermes adapter preserves YAML config and installs canonical Skills plus MCP', (t) => {
+  const fixture = adapterFixture(t);
   const hermesHome = join(fixture.root, 'hermes');
   const configPath = join(hermesHome, 'config.yaml');
   mkdirSync(hermesHome, { recursive: true });
@@ -344,7 +404,10 @@ test('Hermes adapter preserves YAML config and installs canonical Skills plus MC
 
   const installed = installHermesAdapter(options);
   assert.equal(installed.ok, true);
-  assert.equal(hermesAdapterStatus(options).ok, true);
+  const status = hermesAdapterStatus(options);
+  assert.equal(status.ok, true);
+  assert.ok(status.checks.every((check) => check.ok), 'Hermes status contains a failing check');
+  assert.equal(status.checks.find((check) => check.name === 'mcp_configured')?.ok, true);
   assert.equal(skillDirectories(fixture.skillsRoot).length, 5);
   assert.equal(parseYaml(readFileSync(configPath, 'utf8')).model.default, 'existing/model');
 
@@ -354,8 +417,8 @@ test('Hermes adapter preserves YAML config and installs canonical Skills plus MC
   assert.equal(removed.mcp_servers?.['technical-knockout'], undefined);
 });
 
-test('config adapters remove cleanly when TK is not installed', () => {
-  const fixture = adapterFixture();
+test('config adapters remove cleanly when TK is not installed', (t) => {
+  const fixture = adapterFixture(t);
   const options = {
     configRoot: join(fixture.root, 'config'),
     hermesHome: join(fixture.root, 'hermes'),

@@ -1164,8 +1164,12 @@ export function formatRunList(payload) {
 
 export function formatReplicationBrief(payload) {
   const plan = payload.plan || payload.brief || {};
+  const capability = plan.capability || payload.capability;
+  const references = payload.references || [];
+  const reuseEvidence = plan.reuseFirst || [];
+  const implementationSlices = plan.implementationSlices || [];
   const lines = [
-    `# TK Replication Plan: ${payload.capability}`,
+    `# TK Replication Plan: ${capability}`,
     '',
     'Use this as structured reference evidence before changing the target project.',
     '',
@@ -1177,53 +1181,97 @@ export function formatReplicationBrief(payload) {
     lines.push('');
   }
 
-  lines.push('## Reference Projects');
-  if (!payload.references.length) {
-    lines.push('No TK reference projects matched. Try `tk search <capability>` or pass `--from <project>`.');
-    return `${lines.join('\n')}\n`;
-  }
+  lines.push('## Capability Replication Brief', '', `Capability: ${capability}`, '');
+  lines.push('Current project fit:');
+  lines.push('- TK has not inspected the target project. Inspect its existing code, platform support, and dependencies before choosing an implementation boundary.');
 
-  for (const reference of payload.references) {
-    const { project, source } = reference;
-    lines.push(`- ${project.id}: ${project.name}`);
-    if (project.summary) lines.push(`  summary: ${project.summary}`);
-    lines.push(`  report: ${project.report}`);
-    lines.push(`  source: ${source.exists ? 'available' : 'missing'}`);
-    lines.push(`  confidence: ${reference.confidence.score}`);
-  }
-
-  lines.push('', '## Dependency Reuse First');
-  for (const item of plan.reuseFirst || []) lines.push(`- ${item}`);
-
-  lines.push('', '## Evidence Pack');
-  const evidenceOrder = ['kernel', 'abstractions', 'controlDataPlane', 'executionFlows', 'stateModel', 'contracts', 'failureModel', 'invariants'];
-  for (const reference of payload.references) {
-    lines.push('', `### ${reference.project.id}`);
-    for (const name of evidenceOrder) {
-      const section = reference.sections[name];
-      if (!section) continue;
-      lines.push('', `#### ${name}: ${section.title}`, section.text);
+  lines.push('', 'Reference projects:');
+  if (references.length) {
+    for (const reference of references) {
+      lines.push(`- ${reference.project.id}: ${reference.project.name}`);
     }
+  } else {
+    lines.push('- No curated TK coverage matched this capability.');
   }
 
-  lines.push('', '## Replication Contract');
-  lines.push(`Capability: ${plan.capability}`);
-  lines.push(`Verification contract: ${plan.verificationContract}`);
+  lines.push('', 'Evidence:');
+  if (references.length) {
+    for (const reference of references) {
+      const { project, source } = reference;
+      lines.push(`- ${project.id}: report ${project.report}; source cache ${source.exists ? 'available' : 'missing'}; confidence ${reference.confidence.score}.`);
+    }
+    const evidenceOrder = ['kernel', 'abstractions', 'controlDataPlane', 'executionFlows', 'stateModel', 'contracts', 'failureModel', 'invariants'];
+    for (const reference of references) {
+      lines.push('', `### ${reference.project.id} evidence`);
+      for (const name of evidenceOrder) {
+        const section = reference.sections[name];
+        if (!section) continue;
+        lines.push('', `#### ${name}: ${section.title}`, section.text);
+      }
+    }
+  } else {
+    lines.push('- No report or source-cache evidence is available because no curated TK reference matched.');
+  }
+
+  lines.push('', 'TK Replication Ladder:');
+  lines.push('- Inspect and reuse current-project capabilities first.');
+  lines.push('- Prefer platform features, installed dependencies, official SDKs, and mature packages before self-building infrastructure.');
+  lines.push('- Adapt only the smallest TK reference kernel needed for the remaining gap.');
+
   lines.push('', 'Kernel:');
-  for (const item of plan.kernel || []) lines.push(`- ${item}`);
+  if (plan.kernel?.length) {
+    for (const item of plan.kernel) lines.push(`- ${item}`);
+  } else {
+    lines.push('- No kernel evidence is available because no curated TK reference matched.');
+  }
+
   lines.push('', 'Must keep:');
   for (const item of plan.mustKeep || []) lines.push(`- ${item}`);
+
   lines.push('', 'Can adapt:');
   for (const item of plan.canAdapt || []) lines.push(`- ${item}`);
-  lines.push('', 'Risks:');
-  for (const item of plan.risks || []) lines.push(`- ${item}`);
-  lines.push('', 'Implementation slices:');
-  for (const slice of plan.implementationSlices || []) {
+
+  lines.push('', 'Do not copy:');
+  lines.push('- Reference-project branding, repository layout, prompts, or source code.');
+  lines.push('- Host-specific ceremony that is not required by the observable capability contract.');
+
+  lines.push('', 'Build-vs-buy:');
+  lines.push('- Evaluate current-project code, platform support, installed dependencies, official SDKs, and mature packages before self-building.');
+  lines.push(reuseEvidence.length
+    ? '- Selected TK references contain dependency or SDK reuse evidence listed below.'
+    : '- No curated dependency or SDK reuse evidence was found; this is not evidence that self-building is required.');
+
+  lines.push('', 'Dependency / SDK evidence:');
+  if (reuseEvidence.length) {
+    for (const item of reuseEvidence) lines.push(`- ${item}`);
+  } else {
+    lines.push('- None in the selected TK references. Inspect current-project dependencies and official SDK options before building.');
+  }
+
+  lines.push('', 'Implementation boundary:');
+  for (const slice of implementationSlices) {
     lines.push(`- ${slice.id}: ${slice.title}`);
     lines.push(`  boundary: ${slice.boundary}`);
-    lines.push(`  verification: ${slice.verification}`);
   }
-  lines.push('', 'Next: run `tk verify <run_id>` or `tk verify <capability>` after choosing the current-project boundary.');
+
+  lines.push('', 'Verification:');
+  if (plan.verificationContract) lines.push(`- TK contract: ${plan.verificationContract}`);
+  lines.push('- TK verification validates plan and reference evidence only; it does not verify target-project implementation.');
+  for (const slice of implementationSlices) lines.push(`- ${slice.id}: ${slice.verification}`);
+  lines.push("- Run the target project's real verification path before claiming the replicated capability works.");
+
+  lines.push('', 'Freshness gaps:');
+  if (references.length) {
+    for (const reference of references) {
+      const reportDate = reference.freshness?.reportDate ? `report dated ${reference.freshness.reportDate}` : 'report date unavailable';
+      const sourceState = reference.source.exists ? 'source cache available' : 'source cache missing';
+      lines.push(`- ${reference.project.id}: ${reportDate}; ${sourceState}; source status checked ${reference.freshness?.sourceCheckedAt || 'at brief generation'}.`);
+    }
+  } else {
+    lines.push('- No curated reference matched, so report and source freshness could not be established.');
+  }
+
+  lines.push('', 'Next: choose the current-project boundary, then run `tk verify <run_id>` or `tk verify <capability>` for the TK plan/evidence contract.');
   return `${lines.join('\n')}\n`;
 }
 
