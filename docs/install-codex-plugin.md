@@ -5,6 +5,10 @@ from another project. After installation, Codex can ask TK what to keep, what to
 adapt, what not to copy, where the first implementation boundary should be, and
 how to verify it.
 
+For Codex, this guide remains the host-specific reference. The shared Codex,
+OpenCode, and Hermes installation guide is
+[`install-agent-adapters.md`](./install-agent-adapters.md).
+
 ## Prerequisites
 
 - Codex CLI or Codex app with plugin support.
@@ -33,13 +37,19 @@ Restart Codex or start a new Codex thread after installation.
 
 ## Use TK
 
-From the project where you want the capability, ask Codex:
+From the project where you need a technical decision, ask naturally. You do
+not need to name Technical Knockout:
 
 ```text
-Use Technical Knockout to replicate Agent Reach's internet capability layer in this repo.
+We need an internet capability layer for our agent. Research existing open-source approaches and dependencies, then decide what to reuse, adopt, or build.
 ```
 
-Codex should first produce a brief with:
+Codex should inspect the current project and query only the curated TK project
+set. Inclusion in TK is the maintainer's project-selection signal. When TK has
+no relevant coverage, Codex should report that bounded result instead of
+discovering or recommending replacement projects externally.
+
+For a capability-replication request, Codex should produce a brief with:
 
 ```text
 Current project fit
@@ -49,6 +59,7 @@ Can adapt
 Do not copy
 Implementation boundary
 Verification
+Freshness gaps
 ```
 
 For reference-only exploration, run:
@@ -69,7 +80,7 @@ npx @jarl_okbe/tk source status
 You can also ask Codex directly:
 
 ```text
-Use Technical Knockout to clone the missing reference repositories.
+Prepare the reference repositories needed for this decision and verify the relevant implementation details.
 ```
 
 ## Source Cache
@@ -186,15 +197,19 @@ npm install
 npm run verify
 ```
 
-If Codex does not pick up changed plugin metadata immediately, remove and
-reinstall the local plugin:
+Refresh the marketplace snapshot and reinstall the plugin:
 
 ```bash
 npx @jarl_okbe/tk codex refresh
 ```
 
-Start a new Codex thread after reinstalling so the refreshed plugin Skills and
-MCP configuration are available to the agent.
+To uninstall TK from Codex, remove both the plugin and its marketplace source:
+
+```bash
+npx @jarl_okbe/tk codex remove
+```
+
+Start a new Codex thread after either operation so the changed Skills and MCP configuration are reflected.
 
 ## Troubleshooting
 

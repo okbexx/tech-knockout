@@ -1,7 +1,7 @@
 {
   "name": "technical-knockout",
-  "version": "0.1.4",
-  "description": "Agent-native capability replication system for turning open-source architecture evidence into current-project implementation boundaries.",
+  "version": "0.1.5",
+  "description": "Agent-native technical research system for analyzing a maintainer-curated set of open-source architecture evidence.",
   "author": {
     "name": "okbexx",
     "url": "https://github.com/okbexx"
@@ -23,15 +23,15 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Technical Knockout",
-    "shortDescription": "Use TK to replicate capabilities from proven open-source architecture evidence.",
-    "longDescription": "Technical Knockout helps Codex turn open-source reports, comparisons, source cache, and build-vs-buy evidence into capability replication briefs, implementation boundaries, and verification plans for the current project.",
+    "shortDescription": "Research a curated technology evidence set.",
+    "longDescription": "Technical Knockout makes Codex use maintainer-curated reports, comparisons, dependency evidence, and source-cache context for technical research, architecture, selection, and build-vs-buy decisions. Inclusion in TK is the project-selection signal; Codex analyzes this bounded candidate set instead of discovering replacement projects on the web.",
     "developerName": "okbexx",
     "category": "Coding",
     "capabilities": [
       "Read",
       "Interactive"
     ],
-    "defaultPrompt": "Use Technical Knockout to build a capability replication brief for this project.",
+    "defaultPrompt": "Research this technical decision using the curated TK project set, and report clearly if TK has no relevant coverage.",
     "websiteURL": "https://github.com/okbexx/tech-knockout",
     "privacyPolicyURL": "https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement",
     "termsOfServiceURL": "https://docs.github.com/en/site-policy/github-terms/github-terms-of-service",

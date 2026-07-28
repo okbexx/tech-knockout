@@ -11,6 +11,10 @@ import {
   formatCodexInstall,
   formatCodexRefresh,
   formatCodexStatus,
+  formatAdapterInstall,
+  formatAdapterRemove,
+  formatCodexRemove,
+  formatAdapterStatus,
   formatReplicationBrief,
   formatReplicationPlan,
   formatRunList,
@@ -18,6 +22,9 @@ import {
   formatTable,
   formatVerificationResult,
   getRunTrace,
+  hermesAdapterStatus,
+  installHermesAdapter,
+  installOpencodeAdapter,
   installCodexPlugin,
   listRuns,
   loadCatalog,
@@ -26,6 +33,10 @@ import {
   readComparison,
   readReport,
   refreshCodexPlugin,
+  opencodeAdapterStatus,
+  removeHermesAdapter,
+  removeCodexPlugin,
+  removeOpencodeAdapter,
   searchCatalog,
   sourceStatus,
   syncPlan,
@@ -212,7 +223,7 @@ program
 
 program
   .command('replicate')
-  .description('Build a capability replication brief from TK reports, comparisons, and source-cache state.')
+  .description('Build a read-only capability replication brief from TK reports, comparisons, and source-cache state.')
   .argument('<capability...>', 'capability to replicate, such as "agent internet capability layer"')
   .option('--from <projects>', 'comma-separated TK project ids to use as references')
   .option('--limit <number>', 'maximum auto-discovered reference projects', '5')
@@ -225,7 +236,7 @@ program
 
 program
   .command('verify')
-  .description('Verify a replication plan by capability or existing run id.')
+  .description('Validate TK replication plan and reference evidence by capability or existing run id; target implementation is not inspected.')
   .argument('<target...>', 'capability text or persisted run id')
   .option('--from <projects>', 'comma-separated TK project ids to use as references')
   .option('--limit <number>', 'maximum auto-discovered reference projects', '5')
@@ -304,6 +315,90 @@ codex
     output(result, options, formatCodexRefresh);
     process.exitCode = result.ok ? 0 : 1;
   });
+
+codex
+  .command('remove')
+  .alias('uninstall')
+  .description('Remove the TK Codex plugin and its marketplace source.')
+  .option('--marketplace <name>', 'Codex marketplace name', 'tech-knockout')
+  .option('--plugin <name>', 'Codex plugin name', 'technical-knockout')
+  .option('--dry-run', 'print the Codex commands without executing them')
+  .option('--json', 'emit machine-readable JSON')
+  .action(async (options) => {
+    const result = await removeCodexPlugin(options);
+    output(result, options, formatCodexRemove);
+    process.exitCode = result.ok ? 0 : 1;
+  });
+
+function addConfigAdapterCommands(command, handlers, descriptions) {
+  command
+    .command('status')
+    .description(descriptions.status)
+    .option('--json', 'emit machine-readable JSON')
+    .action((options) => {
+      const result = handlers.status(options);
+      output(result, options, formatAdapterStatus);
+      process.exitCode = result.ok ? 0 : 1;
+    });
+
+  command
+    .command('install')
+    .description(descriptions.install)
+    .option('--dry-run', 'show the config changes without writing them')
+    .option('--json', 'emit machine-readable JSON')
+    .action((options) => {
+      const result = handlers.install(options);
+      output(result, options, formatAdapterInstall);
+      process.exitCode = result.ok ? 0 : 1;
+    });
+
+  command
+    .command('refresh')
+    .description(descriptions.refresh)
+    .option('--dry-run', 'show the config changes without writing them')
+    .option('--json', 'emit machine-readable JSON')
+    .action((options) => {
+      const result = handlers.install(options);
+      output(result, options, formatAdapterInstall);
+      process.exitCode = result.ok ? 0 : 1;
+    });
+
+  command
+    .command('remove')
+    .alias('uninstall')
+    .description(descriptions.remove)
+    .option('--dry-run', 'show the config changes without writing them')
+    .option('--json', 'emit machine-readable JSON')
+    .action((options) => {
+      const result = handlers.remove(options);
+      output(result, options, formatAdapterRemove);
+      process.exitCode = result.ok ? 0 : 1;
+    });
+}
+
+const opencode = program.command('opencode').description('Install and inspect the TK OpenCode adapter.');
+addConfigAdapterCommands(
+  opencode,
+  { status: opencodeAdapterStatus, install: installOpencodeAdapter, remove: removeOpencodeAdapter },
+  {
+    status: 'Check whether OpenCode loads the canonical TK Skills and MCP server.',
+    install: 'Configure global OpenCode Skills and MCP access for TK.',
+    refresh: 'Refresh the global OpenCode adapter configuration.',
+    remove: 'Remove TK Skills and MCP entries from global OpenCode configuration.',
+  },
+);
+
+const hermes = program.command('hermes').description('Install and inspect the TK Hermes adapter.');
+addConfigAdapterCommands(
+  hermes,
+  { status: hermesAdapterStatus, install: installHermesAdapter, remove: removeHermesAdapter },
+  {
+    status: 'Check whether Hermes loads the canonical TK Skills and MCP server.',
+    install: 'Configure Hermes external Skills and MCP access for TK.',
+    refresh: 'Refresh the Hermes adapter configuration.',
+    remove: 'Remove TK Skills and MCP entries from Hermes configuration.',
+  },
+);
 
 const report = program.command('report').description('Audit, lint, and normalize TK report structure.');
 

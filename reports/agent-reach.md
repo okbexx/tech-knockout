@@ -1,5 +1,7 @@
 # Agent Reach
 
+> Agent internet capability layer：面向 Agent 的互联网读取、搜索、渠道路由与能力体检。
+
 > 一句话定位：**Agent Reach 是给 AI Agent 装“互联网读取与搜索能力”的本地能力层：它不自己实现完整爬虫/浏览器/搜索引擎，而是为 Twitter/X、Reddit、YouTube、GitHub、B站、小红书、V2EX、雪球、RSS、Exa、网页等渠道选择、安装、体检和路由当下最可用的上游工具，让宿主 Agent 直接调用这些工具完成内容获取。**
 
 ## 基本信息

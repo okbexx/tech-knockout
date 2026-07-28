@@ -1,166 +1,146 @@
-# Technical Knockout
+<p align="center">
+  <img src="./assets/readme/tk-hero.svg" width="100%" alt="Technical Knockout：让 Coding Agent 基于真实证据做采用、复用与能力复刻决策">
+</p>
 
-> 让 Codex 先看证据，再复刻开源项目里的能力。<br>
-> TK 帮 agent 判断要不要做、该复用什么、最小能力内核是什么、第一刀怎么验证。
+<p align="center">
+  <a href="https://www.npmjs.com/package/@jarl_okbe/tk"><img src="https://img.shields.io/npm/v/@jarl_okbe/tk?style=flat-square&color=54C58A" alt="npm version"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT%20%2B%20CC%20BY%204.0-34435A?style=flat-square" alt="MIT and CC BY 4.0 licenses"></a>
+  <img src="https://img.shields.io/badge/agents-Codex%20%7C%20OpenCode%20%7C%20Hermes-34435A?style=flat-square" alt="Supports Codex, OpenCode, and Hermes">
+</p>
 
-Technical Knockout（TK）面向正在让 Codex 做真实工程的开发者。用户给出一个想复刻的能力，TK 会让 agent 先查当前项目、再读可信参考，最后给出实现边界和验证方式。TK 不把参考项目变成代码模板；它回答：**当前项目该保留什么、可以替换什么、不能复制什么。**
+<p align="center">
+  <a href="#为什么用-tk">为什么用 TK</a> ·
+  <a href="#真实证据">真实证据</a> ·
+  <a href="#三步开始">三步开始</a> ·
+  <a href="#project-index">项目索引</a> ·
+  <a href="./docs/install-agent-adapters.md">安装指南</a>
+</p>
 
-TK 的工程纪律是：先跳过不需要的能力，先复用当前项目已有代码，先用标准库、平台能力、已安装依赖、官方 SDK 和成熟 OSS；这些都不够时，才用 TK 证据复刻最小能力内核。
+Technical Knockout（TK）不是又一个项目推荐清单。它把**真实源码、五层技术分析、同类横评和依赖证据**整理成 Coding Agent 可直接使用的研究系统，让 Agent 在写代码前先回答：该不该做、已有能力能否复用、最小架构内核是什么、第一刀做到哪里。
 
-## TK 解决什么问题
+> **目标不是复制参考项目，而是提取经得起验证的能力边界。**
 
-普通项目推荐通常停在：这个项目做什么、怎么安装、Star 多少、README 写了什么。
+## 为什么用 TK
 
-TK 更关注：
+| 普通项目调研 | Technical Knockout |
+|---|---|
+| 从 README、Star 和功能清单判断 | Clone / pull 本地源码，引用真实文件与符号 |
+| 给出“推荐 / 不推荐” | 区分个人 PoC、小团队采用与企业生产化风险 |
+| 描述技术栈和目录 | 拆解架构内核、状态模型、控制面 / 数据面与失败模型 |
+| 把参考项目当模板 | 明确 Must keep / Can adapt / Do not copy |
+| 调研结束于一篇文章 | 输出 Agent 可执行的 plan、verification 和 trace |
 
-- **能不能用**：适合个人、小团队、企业生产化，还是应该观望。
-- **为什么能工作**：核心抽象、控制面 / 数据面、执行链路、状态模型和契约边界。
-- **怎么复刻能力**：如果重写一个同类系统，哪些架构设计不变量必须保留，当前项目第一刀做到哪里。
-- **和谁比较**：同类横评、邻近替代、架构邻居和真实风险。
-- **如何喂给 Agent**：结构化报告可作为 AI coding agent / research agent 的高质量项目上下文。
+<p align="center">
+  <img src="./assets/readme/tk-workflow.svg" width="100%" alt="TK 工作流：检查当前项目，读取精选证据，形成实现边界并验证">
+</p>
 
-## 适合谁读
+## 真实证据
 
-- 技术负责人：快速判断开源项目是否适合引入。
-- 独立开发者：从真实项目中提炼可复用架构模式。
-- AI Agent 使用者：为 agent 提供可信、结构化的项目背景。
-- 开源贡献者：寻找值得贡献、维护或二次构建的项目。
-- 架构学习者：通过真实代码学习系统设计，而不是只看概念文章。
+这里不是产品路线图，而是仓库当前已经落盘的内容：
 
-## 快速开始
+| 证据面 | 当前内容 | 从哪里开始 |
+|---|---:|---|
+| 深度报告 | 32 份正式报告 | [`reports/`](./reports/) |
+| 同类横评 | 8 个决策主题 | [`comparisons/`](./comparisons/) |
+| Agent Skills | 5 个共享工作流 | [`packages/tk/skills/`](./packages/tk/skills/) |
+| 支持宿主 | Codex · OpenCode · Hermes | [`docs/install-agent-adapters.md`](./docs/install-agent-adapters.md) |
+| 机器合同 | catalog · plan · verification · trace | [`docs/tk-replication-runtime.md`](./docs/tk-replication-runtime.md) |
 
-安装 TK 并检查 Codex 是否已经能使用：
+### 精选入口
+
+| 主题 | 先看报告 | 再看横评 |
+|---|---|---|
+| Coding Agent runtime | [Grok Build](./reports/grok-build.md) · [OpenCode](./reports/opencode.md) · [jcode](./reports/jcode.md) | [Coding Agents](./comparisons/coding-agents.md) |
+| Agent workflow / Skills | [superpowers](./reports/superpowers.md) · [compound-engineering-plugin](./reports/compound-engineering-plugin.md) · [Trellis](./reports/Trellis.md) | [AI Coding Workflow](./comparisons/ai-coding-workflow.md) |
+| Agent 平台与控制面 | [Orca](./reports/orca.md) · [Buzz](./reports/buzz.md) · [openhuman](./reports/openhuman.md) | [Agent Platforms](./comparisons/agent-platforms.md) · [Control Planes](./comparisons/coding-agent-control-planes.md) |
+| Code Intelligence / RAG | [CodeGraph](./reports/codegraph.md) · [RAGFlow](./reports/ragflow.md) · [LightRAG](./reports/LightRAG.md) | [Code Intelligence](./comparisons/code-intelligence.md) · [Enterprise RAG](./comparisons/enterprise-knowledge-base-rag.md) |
+
+## 三步开始
+
+### 1. 为你的 Agent 安装 TK
+
+> npm 当前公开版本可能落后于仓库主线；如安装命令尚未包含某个宿主，请从仓库源码运行对应 CLI，或等待下一次 npm 发布。
+
+只运行你当前宿主对应的一组命令：
 
 ```bash
+# Codex
 npx @jarl_okbe/tk codex install
 npx @jarl_okbe/tk codex status
+
+# OpenCode
+npx @jarl_okbe/tk opencode install
+npx @jarl_okbe/tk opencode status
+
+# Hermes Agent
+npx @jarl_okbe/tk hermes install
+npx @jarl_okbe/tk hermes status
 ```
 
-然后在目标项目里直接问 Codex：
+### 2. 直接描述技术决策
+
+无需点名 TK：
 
 ```text
-Use Technical Knockout to replicate Agent Reach's internet capability layer in this repo.
+我们要给 agent 增加互联网读取能力。先检查当前项目，再调研已有开源方案和依赖，判断该复用、引入还是自己做。
 ```
 
-如果需要原始参考代码，也可以直接问：
+Agent 应先检查当前项目，再查询 TK 已收录的报告、横评、依赖与源码证据。如果 TK 没有相关覆盖，应明确报告边界，而不是自行把未经选品的项目混入结论。
 
-```text
-Use Technical Knockout to clone the missing reference repositories.
-```
-
-你应该看到 Codex 先给出一份能力复刻 brief，再进入实现：
-
-```text
-Capability:
-Current project fit:
-Reference projects:
-Must keep:
-Can adapt:
-Do not copy:
-Implementation boundary:
-Verification:
-```
-
-只想先看参考证据时，可以直接运行：
+### 3. 需要确定性结果时使用 CLI
 
 ```bash
+# 人类可读的能力复刻 brief
 npx @jarl_okbe/tk replicate "agent internet capability layer" --from agent-reach
-```
 
-想要 machine-readable 的 plan / verification / trace 工作流时：
-
-```bash
+# 机器可读的 plan / verification / trace
 npx @jarl_okbe/tk plan "agent internet capability layer" --from agent-reach --json
 npx @jarl_okbe/tk verify "agent internet capability layer" --from agent-reach --json
 npx @jarl_okbe/tk run list --json
-npx @jarl_okbe/tk run show <run-id> --json
 ```
 
-看完整示例：[`docs/value-proof.md`](./docs/value-proof.md)。
-运行时契约见 [`docs/tk-replication-runtime.md`](./docs/tk-replication-runtime.md)。
+完整用户路径见 [`docs/install-agent-adapters.md`](./docs/install-agent-adapters.md)，完整结果示例见 [`docs/value-proof.md`](./docs/value-proof.md)。
 
-## 如何使用这个仓库
+## TK 如何工作
 
-- 想让 Codex 复刻能力：先运行 `npx @jarl_okbe/tk codex install`，再在目标项目里直接问 Codex。
-- 想让 Codex 准备参考仓库源码：直接问 `Use Technical Knockout to clone the missing reference repositories.`。
-- 想先看参考证据：运行 `npx @jarl_okbe/tk replicate "<capability>" --from <project>`。
-- 想走结构化 plan / verify / trace 工作流：读 [`docs/tk-replication-runtime.md`](./docs/tk-replication-runtime.md)，或直接运行 `tk plan` / `tk verify` / `tk run show`。
-- 想快速选型或学习架构：从下方 **Project Index**、[`reports/`](./reports/) 或 [`comparisons/`](./comparisons/) 进入。
-- 想看好结果长什么样：读 [`docs/value-proof.md`](./docs/value-proof.md)。
-- 想给其它用户安装 TK：读 [`docs/install-codex-plugin.md`](./docs/install-codex-plugin.md)。
-- 想复用分析方法：读 [`METHODOLOGY.md`](./METHODOLOGY.md)。
-- 想看正式报告结构规范：读 [`docs/tk-report-structure-contract-v1.md`](./docs/tk-report-structure-contract-v1.md)。
-- 想看结构治理 rollout：读 [`docs/tk-report-structure-rollout-plan.md`](./docs/tk-report-structure-rollout-plan.md)。
-- 想提交新项目或修正报告：读 [`CONTRIBUTING.md`](./CONTRIBUTING.md)。
-- 想让 AI Agent 参与维护：读 [`AGENTS.md`](./AGENTS.md)。
+```mermaid
+flowchart LR
+    A[Current project] --> B[TK Skills]
+    B --> C[Catalog / Reports / Comparisons]
+    C --> D[Source evidence]
+    D --> E[Replication plan]
+    E --> F[Verification + Trace]
+```
 
-## Maintainer Notes
+| 层 | 职责 |
+|---|---|
+| Reports / Comparisons | 给人阅读的研究、判断和底层架构分析 |
+| Catalog / Lock / Runs | 给 Agent 与工具读取的机器事实和运行 artifacts |
+| Skills | 规定什么时候查 TK、如何做选型和能力复刻 |
+| CLI | 执行 plan、verify、doctor、source sync 等确定性操作 |
+| MCP | 向 Agent 暴露 read-mostly 的结构化上下文 |
+| Host adapters | 用宿主原生机制接入 Codex、OpenCode 和 Hermes |
 
-TK 的用户入口是安装、检查、让 Codex 复刻能力。下面是给维护者和高级用户看的产品结构：
+TK 的产品边界是一个 host-neutral npm package 加薄宿主适配器，不是只服务某一个 Agent。架构详情见 [`docs/tk-agent-plugin-architecture.md`](./docs/tk-agent-plugin-architecture.md)。
 
-- **npm package**：`packages/tk` 发布为 `@jarl_okbe/tk`，提供 CLI、MCP server、core、schemas、运行时 artifacts 和报告快照。
-- **Codex plugin adapter**：`plugins/technical-knockout` 提供 Codex manifest、Skills 和 MCP 启动配置。
-
-- **Skills**：告诉 agent 何时使用 TK、如何做 reference discovery、build-vs-buy、架构学习和报告维护。
-- **CLI**：提供确定性的本地操作面，覆盖 catalog、source cache、doctor、plan、verify、runs、search、inspect。
-- **MCP**：提供 read-mostly 的结构化上下文查询工具，以及 plan / verify / run trace 入口。
-- **Catalog / lock / run contracts**：把 Markdown 报告转成机器可读事实，把 plan / verification / trace 变成稳定对象，而不是只让 agent 临时解析文本。
-
-常用命令：
+<details>
+<summary><strong>维护者命令与报告治理</strong></summary>
 
 ```bash
+npm install
+npm run verify
 npx @jarl_okbe/tk doctor
-npx @jarl_okbe/tk doctor repo
-npx @jarl_okbe/tk doctor runtime
-npx @jarl_okbe/tk codex install
-npx @jarl_okbe/tk codex status
-npx @jarl_okbe/tk codex refresh
-npx @jarl_okbe/tk replicate "agent internet capability layer" --from agent-reach
-npx @jarl_okbe/tk plan "agent internet capability layer" --from agent-reach --json
-npx @jarl_okbe/tk verify "agent internet capability layer" --from agent-reach --json
-npx @jarl_okbe/tk run list --json
-npx @jarl_okbe/tk run show <run-id> --json
-npx @jarl_okbe/tk search "coding agent runtime" --json
-npx @jarl_okbe/tk deps agent-reach --json
+npx @jarl_okbe/tk catalog validate
 npx @jarl_okbe/tk source status --json
-npx @jarl_okbe/tk source sync --missing
-npx @jarl_okbe/tk source path gitnexus --json
 npx @jarl_okbe/tk report audit
 npx @jarl_okbe/tk report lint --write
-npx @jarl_okbe/tk report fix-headings --write
-npm run verify
 ```
 
-完整产品结构见 [`docs/tk-agent-plugin-architecture.md`](./docs/tk-agent-plugin-architecture.md)。
-运行时和 machine-readable contracts 见 [`docs/tk-replication-runtime.md`](./docs/tk-replication-runtime.md)。
-安装指南见 [`docs/install-codex-plugin.md`](./docs/install-codex-plugin.md)。
+每份正式报告必须覆盖定位与画像、架构解剖、质量成熟度、社区生态和选型决策，并单独回答最小架构内核、核心抽象、执行链路、状态模型、契约边界、失败与降级以及可复刻设计不变量。完整方法见 [`METHODOLOGY.md`](./METHODOLOGY.md)，报告 contract 见 [`docs/tk-report-structure-contract-v1.md`](./docs/tk-report-structure-contract-v1.md)。
 
-## Featured Reports
-
-- [Grok Build](./reports/grok-build.md) — xAI 的完整 Coding Agent harness：ACP + actors + 持久 session + 并发工具 + 多代理。
-- [Orca](./reports/orca.md) — 以 daemon-owned PTY、Git worktree、多端 RPC 与结构化 dispatch provenance 组织异构 CLI Agent 的本地 ADE。
-- [jcode](./reports/jcode.md) — Rust terminal Coding Agent runtime：server-owned live session + Swarm + Graph Memory。
-- [OpenCode](./reports/opencode.md) — 开源 Coding Agent runtime：durable session + event/projection + tool settlement。
-- [Agent Reach](./reports/agent-reach.md) — Agent Internet Capability Layer：给 AI Agent 装互联网读取与搜索能力。
-- [Tolaria](./reports/tolaria.md) — AI-native PKM：local-first / Git-first Markdown 知识库桌面应用。
-- [CodeGraph](./reports/codegraph.md) — Code Intelligence：本地代码图谱 + MCP Server。
-- [Understand-Anything](./reports/Understand-Anything.md) — Agent-native 代码 / 知识库理解工作流。
-- [RAGFlow](./reports/ragflow.md) — Enterprise RAG：DeepDoc + 混合检索 + 引用溯源。
-- [LightRAG](./reports/LightRAG.md) — GraphRAG 检索内核。
-
-## Comparisons
-
-- [Agent-Native Design](./comparisons/agent-native-design.md)
-- [Coding Agents](./comparisons/coding-agents.md)
-- [AI Coding Workflow](./comparisons/ai-coding-workflow.md)
-- [Code Intelligence](./comparisons/code-intelligence.md)
-- [Agent Platforms](./comparisons/agent-platforms.md)
-- [Coding Agent Control Planes](./comparisons/coding-agent-control-planes.md)
-- [AI Media / Content Automation](./comparisons/ai-media-content-automation.md)
-- [Enterprise Knowledge Base / RAG](./comparisons/enterprise-knowledge-base-rag.md)
+</details>
 
 ## Project Index
-
 ### AI Coding / Agent Workflow
 
 | Project | What it is | Adopt? | Architecture value | Date |
@@ -219,44 +199,7 @@ npm run verify
 | [1Shell](./reports/1Shell.md) | AgentRun 驱动的 WebSSH + 多 VPS 运维中枢 + Remote MCP Server，当前已演进到 Task/Panel/AI gateway 一体化控制面 | 观望（个人/小团队 PoC 可试） | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [CLI-Anything](./reports/CLI-Anything.md) | Agent-native CLI 方法论、CLI-Hub 注册表与 Matrix 多工具工作流层；当前已进入 v0.4.0，并开始出现 package-manager/analytics 治理问题 | 观望（生产）/ 推荐学习与受控 PoC | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 
-## Methodology in one screen
-
-TK v1 报告结构不是“任意长文”，而是一套 **scenario-first、contract-backed** 的正式骨架。
-
-### Required H2（hard gate）
-
-| H2 | 作用 |
-|---|---|
-| `基本信息` | 项目标识、仓库元数据、分析日期 |
-| `场景一：是否值得采用` | adoption / build-vs-buy 判断 |
-| `场景二：技术架构学习` | architecture learning / capability replication |
-| `质量与成熟度` | 代码、测试、CI/CD、文档与维护信号 |
-| `社区与生态` | adoption / ecosystem context |
-| `评分` | 结构化结论 |
-| `总结` | 给人和 agent 的最终输出 |
-
-### Required H3（hard gate）
-
-- `场景一：是否值得采用` → `解决的问题` / `核心能力与边界` / `结论`
-- `场景二：技术架构学习` → `核心架构图`
-- `质量与成熟度` → `代码质量`
-
-### Recommended H2（warn only）
-
-- `架构解剖`
-- `关键代码走读`
-
-### Product enforcement
-
-```bash
-npx @jarl_okbe/tk report audit
-npx @jarl_okbe/tk report lint --write
-npx @jarl_okbe/tk report fix-headings --write
-```
-
-差异化重点仍是 **底层技术架构**：最小架构内核、核心抽象、控制面 / 数据面、关键执行链路、状态模型、契约边界、失败与降级模型、可复刻设计不变量。完整方法见 [`METHODOLOGY.md`](./METHODOLOGY.md)，正式 contract 见 [`docs/tk-report-structure-contract-v1.md`](./docs/tk-report-structure-contract-v1.md)。
-
-## Freshness and limitations
+## 新鲜度与边界
 
 TK 报告是基于分析当日源码、文档、Issue/PR、Release 和社区状态形成的快照。Star、Fork、Issue、API、许可证和项目成熟度都可能随时间变化。
 

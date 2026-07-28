@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
-import { mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { getRunTrace, listRuns, planReplication, verifyReplication } from '../../lib/tk-core.mjs';
+import { findProject, getRunTrace, listRuns, planReplication, verifyReplication } from '../../lib/tk-core.mjs';
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 export const packageRoot = resolve(scriptDir, '..', '..');
@@ -45,10 +45,17 @@ function subsetAssert(actualValues, expectedValues, messagePrefix) {
 export async function runReplicationFixture(fixture, options = {}) {
   const runtimeDataDir = options.runtimeDataDir || mkdtempSync(join(tmpdir(), 'tk-fixture-'));
   const keepRuntimeDataDir = Boolean(options.keepRuntimeDataDir || options.runtimeDataDir);
+  const sourceRoot = options.sourceRoot || join(runtimeDataDir, 'source-cache');
+  for (const projectId of fixture.sourceBacked || []) {
+    const project = findProject(projectId, { repoRoot, packageRoot, sourceRoot });
+    assert.ok(project, `${fixture.id}: unknown source-backed project ${projectId}`);
+    mkdirSync(join(sourceRoot, project.sourceDir, '.git'), { recursive: true });
+  }
   const runtimeOptions = {
     repoRoot,
     packageRoot,
     runtimeDataDir,
+    sourceRoot,
     from: fixture.from,
     limit: fixture.limit || 5,
     ...(options.toolOptions || {}),

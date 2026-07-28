@@ -1,31 +1,33 @@
 # @jarl_okbe/tk
 
-Technical Knockout helps Codex replicate open-source capabilities with evidence.
-
-Use it when you want Codex to build something like a proven project without copying the wrong code, architecture ceremony, or infrastructure.
+Technical Knockout makes supported coding agents research a maintainer-curated
+set of open-source projects for architecture, selection, build-vs-buy
+decisions, and capability replication.
 
 TK is now **plan-first**: it produces machine-readable replication contracts and run artifacts before or alongside the human-readable brief.
 
 ## Start
 
-Install TK into Codex and check that it is ready:
+Install TK for your agent host and check that it is ready:
 
 ```bash
-npx @jarl_okbe/tk codex install
-npx @jarl_okbe/tk codex status
+npx @jarl_okbe/tk codex install && npx @jarl_okbe/tk codex status
+npx @jarl_okbe/tk opencode install && npx @jarl_okbe/tk opencode status
+npx @jarl_okbe/tk hermes install && npx @jarl_okbe/tk hermes status
 ```
 
-Then ask Codex from your project:
+Then describe the technical decision from your project without naming TK:
 
 ```text
-Use Technical Knockout to replicate Agent Reach's internet capability layer in this repo.
+We need an internet capability layer for our agent. Research existing open-source approaches and dependencies, then decide what to reuse, adopt, or build.
 ```
 
-If Codex needs the original reference code, ask:
-
-```text
-Use Technical Knockout to clone the missing reference repositories.
-```
+The configured agent should inspect the current project, then query TK reports,
+comparisons, and dependency evidence. Inclusion in TK is the project-selection
+signal. If the curated set has no relevant coverage, the agent should report
+that gap instead of discovering replacement projects externally. If
+implementation evidence is needed, ask the agent to inspect the relevant TK
+source cache.
 
 For a reference-only brief:
 
@@ -42,7 +44,7 @@ npx @jarl_okbe/tk run list --json
 npx @jarl_okbe/tk run show <run-id> --json
 ```
 
-TK should help Codex answer what to keep, what to adapt, what not to copy, the first implementation boundary, and how to verify it.
+TK should help the agent answer what to keep, what to adapt, what not to copy, the first implementation boundary, and how to verify it.
 
 ## CLI
 
@@ -63,6 +65,9 @@ TK should help Codex answer what to keep, what to adapt, what not to copy, the f
 | `tk deps <project>` | Inspect dependency / SDK evidence for one project |
 | `tk source status` | Inspect local source-cache state |
 | `tk source sync --missing` | Create a clone/fetch plan for missing source caches |
+| `tk codex <install|status|refresh|remove>` | Manage the native Codex plugin adapter |
+| `tk opencode <install|status|refresh|remove>` | Manage global OpenCode Skills and MCP configuration |
+| `tk hermes <install|status|refresh|remove>` | Manage global Hermes Skills and MCP configuration |
 
 Machine index invariant: `tk catalog validate` requires every catalog project to
 have a packaged `data/reports/*.md` snapshot, and `tk doctor repo` validates the
@@ -141,4 +146,4 @@ Publish the npm package from the workspace root:
 npm publish --workspace @jarl_okbe/tk --access public
 ```
 
-The Codex plugin adapter lives in `plugins/technical-knockout`; this package is the runtime used by that adapter.
+The package owns the host-neutral runtime and canonical Skills. Codex uses the native plugin adapter in `plugins/technical-knockout`; OpenCode and Hermes load the same package-owned Skills and MCP server through their global configuration.

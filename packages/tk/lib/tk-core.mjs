@@ -1,11 +1,14 @@
 import { execFile } from 'node:child_process';
-import { accessSync, constants as fsConstants, copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { accessSync, constants as fsConstants, cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
+import { homedir } from 'node:os';
 import Ajv2020 from 'ajv/dist/2020.js';
 import envPaths from 'env-paths';
+import { applyEdits, modify, parse as parseJsonc } from 'jsonc-parser';
 import { parse as parseToml } from 'smol-toml';
+import { parseDocument as parseYamlDocument } from 'yaml';
 import { auditReportStructure } from './report-structure.mjs';
 import { createRun, listRuns as listStoredRuns, readRun as readStoredRun, writeRunArtifact } from './runtime/run-store.mjs';
 
@@ -633,16 +636,18 @@ export function validateRunTrace(trace, options = {}) {
 
 export function searchCatalog(query, options = {}) {
   const catalog = loadCatalog(options);
-  const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+  const terms = query.toLowerCase().split(/[^\p{L}\p{N}+#.@/-]+/u).filter(Boolean);
   const scored = catalog.projects
     .map((project) => {
-      const haystack = [
-        project.id,
-        project.name,
-        project.repo,
-        project.category,
-        project.summary,
-        project.adoption,
+      const identity = [project.id, project.name, project.repo, ...(project.tags || [])]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      const description = [project.category, project.summary, project.adoption]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      const dependencies = [
         ...(project.dependencies || []).map((dependency) => `${dependency.name} ${dependency.ecosystem}`),
         ...(project.dependencyEvidence || []).flatMap((dependency) => [
           dependency.dependency,
@@ -650,16 +655,29 @@ export function searchCatalog(query, options = {}) {
           dependency.problemSolved,
           dependency.reuseSignal,
         ]),
-        ...(project.tags || []),
       ]
         .filter(Boolean)
         .join(' ')
         .toLowerCase();
-      const score = terms.reduce((total, term) => total + (haystack.includes(term) ? 1 : 0), 0);
-      return { project, score };
+      const score = terms.reduce((total, term) => {
+        if (identity.includes(term)) return total + 4;
+        if (description.includes(term)) return total + 2;
+        if (dependencies.includes(term)) return total + 1;
+        return total;
+      }, 0);
+      const matchedTerms = terms.filter(
+        (term) => identity.includes(term) || description.includes(term) || dependencies.includes(term),
+      ).length;
+      return { project, score, matchedTerms };
     })
     .filter((item) => item.score > 0 || terms.length === 0)
-    .sort((a, b) => b.score - a.score || a.project.id.localeCompare(b.project.id));
+    .sort(
+      (a, b) =>
+        b.matchedTerms - a.matchedTerms ||
+        b.score - a.score ||
+        Number(b.project.architectureValue || 0) - Number(a.project.architectureValue || 0) ||
+        a.project.id.localeCompare(b.project.id),
+    );
   return scored.map((item) => item.project);
 }
 
@@ -989,7 +1007,7 @@ export async function planReplication(capability, options = {}) {
 }
 
 export async function buildReplicationBrief(capability, options = {}) {
-  return planReplication(capability, options);
+  return planReplication(capability, { ...options, persist: false });
 }
 
 export function listRuns(options = {}) {
@@ -1064,6 +1082,17 @@ export async function verifyReplication(target, options = {}) {
     checks.push({ name: 'source_backing', status: 'pass', details: [] });
   }
 
+  const targetProjectEvidence = Boolean(options.targetProjectEvidence);
+  if (!targetProjectEvidence) {
+    warnings.push('Target-project implementation was not inspected; this result validates TK plan evidence only.');
+    checks.push({
+      name: 'target_project_implementation',
+      status: 'warn',
+      details: ['Run the target project verification path before claiming the replicated capability works.'],
+    });
+  } else {
+    checks.push({ name: 'target_project_implementation', status: 'pass', details: [] });
+  }
   const status = checks.some((check) => check.status === 'fail') ? 'fail' : warnings.length ? 'warn' : 'pass';
   const verification = {
     contractId: run.plan.verificationContract,
@@ -1234,6 +1263,255 @@ async function git(args, cwd) {
   return stdout.trim();
 }
 
+const TK_SKILLS = [
+  'tk-architecture-learning',
+  'tk-capability-replication',
+  'tk-reference-discovery',
+  'tk-report-authoring',
+  'tk-source-evidence',
+];
+
+function configuredHome(options = {}) {
+  return resolve(options.home || process.env.HOME || homedir());
+}
+
+function canonicalSkillsRoot(options = {}) {
+  return resolve(options.sourceSkillsRoot || join(PACKAGE_ROOT, 'skills'));
+}
+
+function installedSkillsRoot(options = {}) {
+  return resolve(options.skillsRoot || process.env.TK_ADAPTER_SKILLS_ROOT || join(USER_PATHS.data, 'skills'));
+}
+
+function syncInstalledSkills(options = {}) {
+  const source = canonicalSkillsRoot(options);
+  const destination = installedSkillsRoot(options);
+  mkdirSync(destination, { recursive: true });
+  for (const name of TK_SKILLS) {
+    const from = join(source, name);
+    const to = join(destination, name);
+    if (!existsSync(join(from, 'SKILL.md'))) throw new Error(`Canonical TK Skill missing: ${from}`);
+    rmSync(to, { recursive: true, force: true });
+    cpSync(from, to, { recursive: true });
+  }
+  return destination;
+}
+
+function mcpCommand() {
+  return ['npx', '--yes', '--package', '@jarl_okbe/tk', 'tk-mcp-server'];
+}
+
+function readJsoncConfig(path) {
+  if (!existsSync(path)) return { text: '{}\n', value: {} };
+  const text = readText(path);
+  const errors = [];
+  const value = parseJsonc(text, errors, { allowTrailingComma: true, allowEmptyContent: true });
+  if (errors.length) throw new Error(`Invalid JSONC config: ${path}`);
+  return { text, value: value || {} };
+}
+
+function updateJsonc(text, path, value) {
+  return applyEdits(
+    text,
+    modify(text, path, value, {
+      formattingOptions: { insertSpaces: true, tabSize: 2, eol: '\n', insertFinalNewline: true },
+    }),
+  );
+}
+
+function readYamlConfig(path) {
+  const document = parseYamlDocument(existsSync(path) ? readText(path) : '{}\n');
+  if (document.errors.length) throw new Error(`Invalid YAML config: ${path}: ${document.errors[0].message}`);
+  return document;
+}
+
+function skillChecks(root) {
+  return TK_SKILLS.map((name) => ({
+    name,
+    ok: existsSync(join(root, name, 'SKILL.md')),
+    path: join(root, name, 'SKILL.md'),
+  }));
+}
+
+
+function formatHostResult(action, result) {
+  if (result.dryRun) return `${JSON.stringify(result.preview, null, 2)}\n`;
+  const lines = result.checks.map((check) => {
+    const details = check.details?.length ? check.details : check.path ? [check.path] : [];
+    const suffix = details.length ? `: ${details.join(', ')}` : '';
+    return `${check.ok ? 'ok' : 'fail'} ${check.name}${suffix}`;
+  });
+  if (result.ok) {
+    lines.push(`${action} ${result.host} adapter`);
+    for (const next of result.next || []) lines.push(next);
+  } else {
+    lines.push(`Run tk ${result.host} install, then restart ${result.host === 'hermes' ? 'Hermes' : 'OpenCode'} or start a new session.`);
+  }
+  return `${lines.join('\n')}\n`;
+}
+
+function opencodePaths(options = {}) {
+  const configRoot = resolve(options.configRoot || process.env.XDG_CONFIG_HOME || join(configuredHome(options), '.config'));
+  return { configPath: join(configRoot, 'opencode', 'opencode.json'), skillsRoot: installedSkillsRoot(options) };
+}
+
+export function opencodeAdapterStatus(options = {}) {
+  const paths = opencodePaths(options);
+  let config;
+  try {
+    config = readJsoncConfig(paths.configPath).value;
+  } catch (error) {
+    return { ok: false, host: 'opencode', paths, checks: [{ name: 'config_valid', ok: false, details: [error.message] }] };
+  }
+  const command = mcpCommand();
+  const configuredSkills = config.skills?.paths || [];
+  const configuredMcp = config.mcp?.['technical-knockout'];
+  const checks = [
+    { name: 'config_valid', ok: true, details: [paths.configPath] },
+    ...skillChecks(paths.skillsRoot).map((check) => ({ ...check, name: `skill_${check.name}` })),
+    { name: 'skills_path_configured', ok: configuredSkills.includes(paths.skillsRoot), details: [paths.skillsRoot] },
+    {
+      name: 'mcp_configured',
+      ok: configuredMcp?.type === 'local' && JSON.stringify(configuredMcp.command) === JSON.stringify(command) && configuredMcp.enabled !== false,
+      details: ['technical-knockout'],
+    },
+  ];
+  return { ok: checks.every((check) => check.ok), host: 'opencode', paths, checks };
+}
+
+export function installOpencodeAdapter(options = {}) {
+  const paths = opencodePaths(options);
+  const current = readJsoncConfig(paths.configPath);
+  const skills = Array.from(new Set([...(current.value.skills?.paths || []), paths.skillsRoot]));
+  let text = updateJsonc(current.text, ['skills', 'paths'], skills);
+  text = updateJsonc(text, ['mcp', 'technical-knockout'], {
+    type: 'local',
+    command: mcpCommand(),
+    enabled: true,
+  });
+  const preview = { configPath: paths.configPath, skills: { paths: skills }, mcp: { 'technical-knockout': { type: 'local', command: mcpCommand(), enabled: true } } };
+  if (options.dryRun) return { ok: true, dryRun: true, host: 'opencode', paths, preview, checks: [] };
+  syncInstalledSkills(options);
+  mkdirSync(dirname(paths.configPath), { recursive: true });
+  writeFileSync(paths.configPath, text.endsWith('\n') ? text : `${text}\n`);
+  return { ...opencodeAdapterStatus(options), next: ['Restart OpenCode or start a new OpenCode session.', 'Run opencode mcp list to verify the MCP connection.'] };
+}
+
+export function removeOpencodeAdapter(options = {}) {
+  const paths = opencodePaths(options);
+  const current = readJsoncConfig(paths.configPath);
+  const configuredSkills = current.value.skills?.paths || [];
+  const skills = configuredSkills.filter((path) => path !== paths.skillsRoot);
+  let text = current.text;
+  if (configuredSkills.includes(paths.skillsRoot)) {
+    text = updateJsonc(text, ['skills', 'paths'], skills.length ? skills : undefined);
+  }
+  if (current.value.mcp?.['technical-knockout'] !== undefined) {
+    text = updateJsonc(text, ['mcp', 'technical-knockout'], undefined);
+  }
+  const preview = { configPath: paths.configPath, removeSkillsPath: paths.skillsRoot, removeMcp: 'technical-knockout' };
+  if (options.dryRun) return { ok: true, dryRun: true, host: 'opencode', paths, preview, checks: [] };
+  if (existsSync(paths.configPath) && text !== current.text) {
+    writeFileSync(paths.configPath, text.endsWith('\n') ? text : `${text}\n`);
+  }
+  return {
+    ok: true,
+    host: 'opencode',
+    paths,
+    checks: [
+      { name: 'skills_path_removed', ok: true },
+      { name: 'mcp_removed', ok: true },
+    ],
+    next: ['Restart OpenCode or start a new OpenCode session.'],
+  };
+}
+
+function hermesPaths(options = {}) {
+  const hermesHome = resolve(options.hermesHome || process.env.HERMES_HOME || join(configuredHome(options), '.hermes'));
+  return { configPath: join(hermesHome, 'config.yaml'), skillsRoot: installedSkillsRoot(options) };
+}
+
+export function hermesAdapterStatus(options = {}) {
+  const paths = hermesPaths(options);
+  let config;
+  try {
+    config = readYamlConfig(paths.configPath).toJS() || {};
+  } catch (error) {
+    return { ok: false, host: 'hermes', paths, checks: [{ name: 'config_valid', ok: false, details: [error.message] }] };
+  }
+  const configuredMcp = config.mcp_servers?.['technical-knockout'];
+  const checks = [
+    { name: 'config_valid', ok: true, details: [paths.configPath] },
+    ...skillChecks(paths.skillsRoot).map((check) => ({ ...check, name: `skill_${check.name}` })),
+    { name: 'skills_path_configured', ok: (config.skills?.external_dirs || []).includes(paths.skillsRoot), details: [paths.skillsRoot] },
+    {
+      name: 'mcp_configured',
+      ok: configuredMcp?.command === 'npx' && JSON.stringify(configuredMcp.args) === JSON.stringify(mcpCommand().slice(1)) && configuredMcp.enabled !== false,
+      details: ['technical-knockout'],
+    },
+  ];
+  return { ok: checks.every((check) => check.ok), host: 'hermes', paths, checks };
+}
+
+export function installHermesAdapter(options = {}) {
+  const paths = hermesPaths(options);
+  const document = readYamlConfig(paths.configPath);
+  const config = document.toJS() || {};
+  const externalDirs = Array.from(new Set([...(config.skills?.external_dirs || []), paths.skillsRoot]));
+  document.setIn(['skills', 'external_dirs'], externalDirs);
+  document.setIn(['mcp_servers', 'technical-knockout'], {
+    command: 'npx',
+    args: mcpCommand().slice(1),
+    enabled: true,
+  });
+  const preview = { configPath: paths.configPath, skills: { external_dirs: externalDirs }, mcp_servers: { 'technical-knockout': { command: 'npx', args: mcpCommand().slice(1), enabled: true } } };
+  if (options.dryRun) return { ok: true, dryRun: true, host: 'hermes', paths, preview, checks: [] };
+  syncInstalledSkills(options);
+  mkdirSync(dirname(paths.configPath), { recursive: true });
+  writeFileSync(paths.configPath, document.toString());
+  return { ...hermesAdapterStatus(options), next: ['Start a new Hermes session or run /reload-skills.', 'Run hermes mcp test technical-knockout to verify the MCP connection.'] };
+}
+
+export function removeHermesAdapter(options = {}) {
+  const paths = hermesPaths(options);
+  const document = readYamlConfig(paths.configPath);
+  const config = document.toJS() || {};
+  const configuredDirs = config.skills?.external_dirs || [];
+  const externalDirs = configuredDirs.filter((path) => path !== paths.skillsRoot);
+  if (configuredDirs.includes(paths.skillsRoot)) {
+    if (externalDirs.length) document.setIn(['skills', 'external_dirs'], externalDirs);
+    else document.deleteIn(['skills', 'external_dirs']);
+  }
+  if (config.mcp_servers?.['technical-knockout'] !== undefined) {
+    document.deleteIn(['mcp_servers', 'technical-knockout']);
+  }
+  const preview = { configPath: paths.configPath, removeSkillsPath: paths.skillsRoot, removeMcp: 'technical-knockout' };
+  if (options.dryRun) return { ok: true, dryRun: true, host: 'hermes', paths, preview, checks: [] };
+  if (existsSync(paths.configPath)) writeFileSync(paths.configPath, document.toString());
+  return {
+    ok: true,
+    host: 'hermes',
+    paths,
+    checks: [
+      { name: 'skills_path_removed', ok: true },
+      { name: 'mcp_removed', ok: true },
+    ],
+    next: ['Start a new Hermes session or run /reload-skills.'],
+  };
+}
+
+export function formatAdapterInstall(result) {
+  return formatHostResult('installed', result);
+}
+
+export function formatAdapterStatus(result) {
+  return formatHostResult(result.ok ? 'ready' : 'not ready', result);
+}
+
+export function formatAdapterRemove(result) {
+  return formatHostResult('removed', result);
+}
+
 async function runCodex(args, cwd = process.cwd()) {
   try {
     const { stdout, stderr } = await execFileAsync('codex', args, {
@@ -1393,6 +1671,7 @@ export async function refreshCodexPlugin(options = {}) {
   const marketplace = options.marketplace || 'tech-knockout';
   const plugin = options.plugin || 'technical-knockout';
   const selector = `${plugin}@${marketplace}`;
+  const upgradeCommand = ['plugin', 'marketplace', 'upgrade', marketplace];
   const removeCommand = ['plugin', 'remove', selector];
   const addCommand = ['plugin', 'add', selector];
 
@@ -1404,15 +1683,22 @@ export async function refreshCodexPlugin(options = {}) {
       plugin,
       selector,
       commands: [
+        ['codex', ...upgradeCommand],
         ['codex', ...removeCommand],
         ['codex', ...addCommand],
       ],
     };
   }
 
-  const remove = await runCodex(removeCommand);
-  const add = await runCodex(addCommand);
+  const upgrade = await runCodex(upgradeCommand);
+  const remove = upgrade.ok
+    ? await runCodex(removeCommand)
+    : { ok: false, command: ['codex', ...removeCommand], stdout: '', stderr: 'marketplace upgrade failed', error: 'marketplace upgrade failed' };
+  const add = remove.ok
+    ? await runCodex(addCommand)
+    : { ok: false, command: ['codex', ...addCommand], stdout: '', stderr: 'plugin removal failed', error: 'plugin removal failed' };
   const steps = [
+    { name: 'marketplace_upgrade', ...upgrade },
     { name: 'plugin_remove', ...remove },
     { name: 'plugin_add', ...add },
   ];
@@ -1425,6 +1711,62 @@ export async function refreshCodexPlugin(options = {}) {
     next: ['Start a new Codex thread so refreshed Skills and MCP config are loaded.'],
   };
 }
+export async function removeCodexPlugin(options = {}) {
+  const marketplace = options.marketplace || 'tech-knockout';
+  const plugin = options.plugin || 'technical-knockout';
+  const selector = `${plugin}@${marketplace}`;
+  const removeCommand = ['plugin', 'remove', selector];
+  const removeMarketplaceCommand = ['plugin', 'marketplace', 'remove', marketplace];
+
+  if (options.dryRun) {
+    return {
+      ok: true,
+      dryRun: true,
+      marketplace,
+      plugin,
+      selector,
+      commands: [
+        ['codex', ...removeCommand],
+        ['codex', ...removeMarketplaceCommand],
+      ],
+    };
+  }
+
+  const remove = await runCodex(removeCommand);
+  const removeMarketplace = remove.ok
+    ? await runCodex(removeMarketplaceCommand)
+    : { ok: false, command: ['codex', ...removeMarketplaceCommand], stdout: '', stderr: 'plugin removal failed', error: 'plugin removal failed' };
+  const steps = [
+    { name: 'plugin_remove', ...remove },
+    { name: 'marketplace_remove', ...removeMarketplace },
+  ];
+  return {
+    ok: steps.every((step) => step.ok),
+    marketplace,
+    plugin,
+    selector,
+    steps,
+    next: ['Start a new Codex thread so removed Skills and MCP config are unloaded.'],
+  };
+}
+
+export function formatCodexRemove(result) {
+  if (result.dryRun) {
+    return result.commands.map((command) => commandText(command)).join('\n') + '\n';
+  }
+
+  const lines = [];
+  for (const step of result.steps || []) {
+    lines.push(`${step.ok ? 'ok' : 'fail'} ${step.name}: ${commandText(step.command || [])}`);
+    if (!step.ok) lines.push(step.stderr || step.error || 'codex command failed');
+  }
+  if (result.ok) {
+    lines.push(`removed ${result.selector}`);
+    for (const next of result.next || []) lines.push(next);
+  }
+  return `${lines.join('\n')}\n`;
+}
+
 
 export function formatCodexInstall(result) {
   if (result.dryRun) {

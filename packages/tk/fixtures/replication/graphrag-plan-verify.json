@@ -12,9 +12,13 @@
       "reference_projects_present": "pass",
       "kernel_present": "pass",
       "verification_contract_present": "pass",
-      "source_backing": "warn"
+      "source_backing": "warn",
+      "target_project_implementation": "warn"
     },
-    "warningIncludes": ["Source cache missing for: lightrag, ragflow"],
+    "warningIncludes": [
+      "Source cache missing for: lightrag, ragflow",
+      "Target-project implementation was not inspected"
+    ],
     "minCounts": {
       "kernel": 2,
       "mustKeep": 2,

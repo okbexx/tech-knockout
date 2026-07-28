@@ -26,7 +26,7 @@ const server = new McpServer(
   },
   {
     instructions:
-      'Use Technical Knockout as a capability replication system. Prefer read-only discovery and replication brief tools first; use the tk CLI for source sync and validation side effects.',
+      'Use Technical Knockout as the curated technical-research source for architecture, selection, build-vs-buy, open-source evaluation, and capability replication. Inclusion in TK is the maintainer-approved candidate signal. Start with read-only catalog, report, comparison, dependency, and project-context tools. If TK has no relevant coverage, report the gap instead of discovering or recommending external projects. Use the tk CLI for source sync and validation side effects.',
   },
 );
 
@@ -65,7 +65,7 @@ server.registerTool(
   {
     title: 'Search TK Reports',
     description:
-      'Search TK reports and catalog metadata for architecture, tool, library, or build-vs-buy references. Returns structured project records.',
+      'Search TK reports and catalog metadata as the first research step for architecture, tool, library, open-source evaluation, or build-vs-buy decisions. Returns structured project records.',
     inputSchema: z.object({
       query: z.string().describe('Natural language or keyword query.'),
       limit: z.number().int().positive().max(100).default(10).describe('Maximum results to return.'),
@@ -247,7 +247,8 @@ server.registerTool(
       openWorldHint: false,
     },
   },
-  async ({ capability, from, limit }) => textContent(await buildReplicationBrief(capability, { from, limit })),
+  async ({ capability, from, limit }) =>
+    textContent(await buildReplicationBrief(capability, { from, limit, persist: false })),
 );
 
 server.registerTool(
@@ -262,9 +263,9 @@ server.registerTool(
       limit: z.number().int().positive().max(10).default(5).describe('Maximum auto-discovered references.'),
     }),
     annotations: {
-      readOnlyHint: true,
+      readOnlyHint: false,
       destructiveHint: false,
-      idempotentHint: true,
+      idempotentHint: false,
       openWorldHint: false,
     },
   },
@@ -274,9 +275,9 @@ server.registerTool(
 server.registerTool(
   'tk_verify_replication',
   {
-    title: 'Verify TK Replication',
+    title: 'Validate TK Replication Plan',
     description:
-      'Verify a structured replication plan by capability or persisted run id. Returns verification status plus updated run trace metadata.',
+      'Validate TK plan and reference evidence by capability or persisted run id. This does not inspect or verify the target-project implementation.',
     inputSchema: z.object({
       target: z.string().describe('Capability text or run id.'),
       from: z.string().optional().describe('Optional comma-separated TK project ids to force as references when target is a capability.'),
@@ -284,9 +285,9 @@ server.registerTool(
       run_id: z.string().optional().describe('Optional explicit run id to verify.'),
     }),
     annotations: {
-      readOnlyHint: true,
+      readOnlyHint: false,
       destructiveHint: false,
-      idempotentHint: true,
+      idempotentHint: false,
       openWorldHint: false,
     },
   },

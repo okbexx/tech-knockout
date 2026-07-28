@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
-import { buildCatalog, doctorRepo, validateCatalog, validateSourceLock } from '../lib/tk-core.mjs';
+import { buildCatalog, doctorRepo, searchCatalog, validateCatalog, validateSourceLock } from '../lib/tk-core.mjs';
 
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -273,4 +273,25 @@ test('catalog tags preserve explicit go token matching', () => {
   assert.ok(project.tags.includes('go'), `expected go tag, got: ${project.tags.join(', ')}`);
   assert.equal(project.tags.includes('rag'), false, `unexpected rag tag: ${project.tags.join(', ')}`);
   assert.equal(project.tags.includes('cli'), false, `unexpected cli tag: ${project.tags.join(', ')}`);
+});
+
+test('catalog search ranks projects matching more research terms first', () => {
+  const root = tempPackageRoot();
+  const projects = [
+    baseProject({ id: 'generic-agent', name: 'Generic Agent', tags: ['agent'] }),
+    baseProject({
+      id: 'internet-agent',
+      name: 'Internet Agent',
+      summary: 'Agent internet capability layer',
+      tags: ['agent', 'internet'],
+    }),
+  ];
+  writePackageIndex(root, { projects, sourceLock: lock(projects.map((project) => project.id)) });
+  const results = searchCatalog('agent internet capability', {
+    packageRoot: root,
+    repoRoot: root,
+    sourceRoot: root,
+  });
+
+  assert.deepEqual(results.map((project) => project.id), ['internet-agent', 'generic-agent']);
 });

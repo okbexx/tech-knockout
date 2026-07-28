@@ -12,9 +12,13 @@
       "reference_projects_present": "pass",
       "kernel_present": "pass",
       "verification_contract_present": "pass",
-      "source_backing": "warn"
+      "source_backing": "warn",
+      "target_project_implementation": "warn"
     },
-    "warningIncludes": ["Source cache missing for: jcode, opencode"],
+    "warningIncludes": [
+      "Source cache missing for: jcode, opencode",
+      "Target-project implementation was not inspected"
+    ],
     "minCounts": {
       "kernel": 6,
       "mustKeep": 8,

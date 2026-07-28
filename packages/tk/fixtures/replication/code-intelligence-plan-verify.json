@@ -3,20 +3,22 @@
   "capability": "local code intelligence MCP",
   "from": "codegraph",
   "limit": 5,
+  "sourceBacked": ["codegraph"],
   "expect": {
     "referenceIds": [
       "codegraph"
     ],
     "verificationContract": "local-code-intelligence-mcp:v1",
-    "verifyStatus": "pass",
+    "verifyStatus": "warn",
     "checkStatuses": {
       "plan_schema_valid": "pass",
       "reference_projects_present": "pass",
       "kernel_present": "pass",
       "verification_contract_present": "pass",
-      "source_backing": "pass"
+      "source_backing": "pass",
+      "target_project_implementation": "warn"
     },
-    "warningIncludes": [],
+    "warningIncludes": ["Target-project implementation was not inspected"],
     "minCounts": {
       "kernel": 1,
       "mustKeep": 2,
