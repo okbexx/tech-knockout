@@ -1,6 +1,6 @@
 {
   "name": "technical-knockout",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Agent-native technical research system for analyzing a maintainer-curated set of open-source architecture evidence.",
   "author": {
     "name": "okbexx",
