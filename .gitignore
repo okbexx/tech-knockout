@@ -19,6 +19,7 @@ Thumbs.db
 config/
 spikes/
 node_modules/
+.claude/
 
 # Python cache
 __pycache__/

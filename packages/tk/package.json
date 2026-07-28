@@ -1,6 +1,6 @@
 {
   "name": "@jarl_okbe/tk",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": false,
   "description": "Technical Knockout host-neutral CLI, MCP server, Skills, and evidence contracts for capability replication.",
   "type": "module",
@@ -60,7 +60,7 @@
     "catalog:validate": "node ./bin/tk.mjs catalog validate",
     "report:audit": "node ./bin/tk.mjs report audit --write",
     "report:lint": "node ./bin/tk.mjs report lint --write",
-    "adapters:dry-run": "node ./bin/tk.mjs codex install --dry-run && node ./bin/tk.mjs codex refresh --dry-run && node ./bin/tk.mjs codex remove --dry-run && node ./bin/tk.mjs opencode install --dry-run && node ./bin/tk.mjs opencode refresh --dry-run && node ./bin/tk.mjs opencode remove --dry-run && node ./bin/tk.mjs hermes install --dry-run && node ./bin/tk.mjs hermes refresh --dry-run && node ./bin/tk.mjs hermes remove --dry-run",
+    "adapters:dry-run": "node ./bin/tk.mjs codex install --dry-run && node ./bin/tk.mjs codex refresh --dry-run && node ./bin/tk.mjs codex remove --dry-run && node ./bin/tk.mjs claude install --dry-run && node ./bin/tk.mjs claude refresh --dry-run && node ./bin/tk.mjs claude remove --dry-run && node ./bin/tk.mjs opencode install --dry-run && node ./bin/tk.mjs opencode refresh --dry-run && node ./bin/tk.mjs opencode remove --dry-run && node ./bin/tk.mjs hermes install --dry-run && node ./bin/tk.mjs hermes refresh --dry-run && node ./bin/tk.mjs hermes remove --dry-run",
     "skills:sync": "node ./scripts/sync-adapter-skills.mjs",
     "fixtures:regression": "node ./scripts/fixture-regression.mjs",
     "benchmark:capabilities": "node ./scripts/capability-benchmark.mjs",

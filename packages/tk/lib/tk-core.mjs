@@ -1,6 +1,6 @@
-import { execFile } from 'node:child_process';
+import { execFile, execFileSync } from 'node:child_process';
 import { accessSync, constants as fsConstants, cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
-import { dirname, join, relative, resolve } from 'node:path';
+import { dirname, isAbsolute, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import { homedir } from 'node:os';
@@ -1510,6 +1510,452 @@ export function formatAdapterStatus(result) {
 
 export function formatAdapterRemove(result) {
   return formatHostResult('removed', result);
+}
+
+async function runClaude(args, cwd = process.cwd()) {
+  try {
+    const { stdout, stderr } = await execFileAsync('claude', args, {
+      cwd,
+      maxBuffer: 1024 * 1024 * 16,
+    });
+    return { ok: true, command: ['claude', ...args], stdout: stdout.trim(), stderr: stderr.trim() };
+  } catch (error) {
+    return {
+      ok: false,
+      command: ['claude', ...args],
+      stdout: (error.stdout || '').trim(),
+      stderr: (error.stderr || '').trim(),
+      error: error.message,
+      code: error.code,
+    };
+  }
+}
+
+async function runClaudeJson(args, cwd = process.cwd()) {
+  const result = await runClaude(args, cwd);
+  if (!result.ok) return result;
+  try {
+    return { ...result, data: JSON.parse(result.stdout) };
+  } catch (error) {
+    return { ...result, ok: false, error: `Invalid Claude CLI JSON: ${error.message}` };
+  }
+}
+
+function claudeMarketplaceRecord(records, marketplace) {
+  return Array.isArray(records) ? records.find((record) => record.name === marketplace) : undefined;
+}
+
+function claudePluginRecord(records, selector, scope) {
+  return Array.isArray(records)
+    ? records.find((record) => record.id === selector && record.scope === scope)
+    : undefined;
+}
+
+function normalizeClaudeMarketplaceSource(source, cwd = process.cwd()) {
+  if (source && typeof source === 'object') {
+    const type = String(source.source || '').toLowerCase();
+    if (type === 'directory' || type === 'file') {
+      const path = String(source.path || '').trim();
+      if (!path) return '';
+      const base = resolveClaudeProjectRoot(cwd);
+      return `local:${isAbsolute(path) ? resolve(path) : resolve(base, path)}`;
+    }
+    if (type === 'github' && source.repo) {
+      return normalizeClaudeMarketplaceSource(`${source.repo}${source.ref ? `@${source.ref}` : ''}`, cwd);
+    }
+    if (source.url) {
+      return normalizeClaudeMarketplaceSource(`${source.url}${source.ref ? `#${source.ref}` : ''}`, cwd);
+    }
+    return '';
+  }
+
+  const value = String(source || '').trim();
+  if (!value) return '';
+
+  if (isAbsolute(value)) return `local:${resolve(value)}`;
+  if (value.startsWith('.')) {
+    return `local:${resolve(resolveClaudeProjectRoot(cwd), value)}`;
+  }
+
+  const sshMatch = value.match(/^git@github\.com:([^/]+)\/(.+)$/i);
+  if (sshMatch) {
+    const [repo, ref = ''] = sshMatch[2].split('#', 2);
+    return `github:${sshMatch[1].toLowerCase()}/${repo.replace(/\.git$/i, '').toLowerCase()}#${ref}`;
+  }
+
+  try {
+    const url = new URL(value);
+    if (url.hostname.toLowerCase() === 'github.com') {
+      const [owner, repo] = url.pathname.replace(/^\/+|\/+$/g, '').split('/');
+      if (owner && repo) {
+        return `github:${owner.toLowerCase()}/${repo.replace(/\.git$/i, '').toLowerCase()}#${url.hash.slice(1)}`;
+      }
+    }
+    url.pathname = url.pathname.replace(/\/+$/g, '').replace(/\.git$/i, '');
+    return `url:${url.toString()}`;
+  } catch {
+    const githubMatch = value.match(/^([^/]+)\/([^/@#]+)(?:@(.+))?$/);
+    if (githubMatch) {
+      const [, owner, repo, ref = ''] = githubMatch;
+      return `github:${owner.toLowerCase()}/${repo.replace(/\.git$/i, '').toLowerCase()}#${ref}`;
+    }
+    return `raw:${value}`;
+  }
+}
+
+function claudeMarketplaceRecordSource(record) {
+  if (!record) return undefined;
+  if (record.source && typeof record.source === 'object') return record.source;
+  return record;
+}
+
+function claudeMarketplaceSourceMatches(record, source, cwd = process.cwd()) {
+  return (
+    normalizeClaudeMarketplaceSource(claudeMarketplaceRecordSource(record), cwd) ===
+    normalizeClaudeMarketplaceSource(source, cwd)
+  );
+}
+
+function resolveClaudeProjectRoot(cwd = process.cwd()) {
+  try {
+    const { stdout: topLevel } = execFileSync('git', ['rev-parse', '--show-toplevel'], {
+      cwd,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    });
+    const { stdout: commonDirectory } = execFileSync('git', ['rev-parse', '--git-common-dir'], {
+      cwd,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    });
+    const repositoryRoot = resolve(topLevel.trim());
+    if (repositoryRoot === resolve(homedir())) return resolve(cwd);
+    const commonGitDirectory = resolve(repositoryRoot, commonDirectory.trim());
+    return commonDirectory.trim() === '.git'
+      ? repositoryRoot
+      : dirname(commonGitDirectory);
+  } catch {
+    return resolve(cwd);
+  }
+}
+
+function claudeMarketplaceSettingsPath(scope, cwd = process.cwd()) {
+  if (scope === 'user') {
+    const configRoot = process.env.CLAUDE_CONFIG_DIR
+      ? resolve(process.env.CLAUDE_CONFIG_DIR)
+      : join(homedir(), '.claude');
+    return join(configRoot, 'settings.json');
+  }
+  const projectRoot = resolveClaudeProjectRoot(cwd);
+  return join(projectRoot, '.claude', scope === 'project' ? 'settings.json' : 'settings.local.json');
+}
+
+function claudeScopedMarketplaceDeclaration(marketplace, scope, cwd = process.cwd()) {
+  const path = claudeMarketplaceSettingsPath(scope, cwd);
+  if (!existsSync(path)) return { path, record: undefined };
+  try {
+    const settings = parseJsonc(readFileSync(path, 'utf8'));
+    return { path, record: settings?.extraKnownMarketplaces?.[marketplace]?.source };
+  } catch {
+    return { path, record: undefined };
+  }
+}
+
+export async function installClaudePlugin(options = {}) {
+  const marketplace = options.marketplace || 'tech-knockout';
+  const plugin = options.plugin || 'technical-knockout';
+  const source = options.source || 'okbexx/tech-knockout';
+  const scope = options.scope || 'user';
+  const cwd = options.cwd || process.cwd();
+  const selector = `${plugin}@${marketplace}`;
+  const addMarketplaceCommand = ['plugin', 'marketplace', 'add', source, '--scope', scope];
+  const installPluginCommand = ['plugin', 'install', selector, '--scope', scope];
+  const uninstallPluginCommand = ['plugin', 'uninstall', selector, '--scope', scope];
+
+  if (options.dryRun) {
+    return {
+      ok: true,
+      dryRun: true,
+      marketplace,
+      plugin,
+      source,
+      scope,
+      selector,
+      commands: [
+        ['claude', 'plugin', 'marketplace', 'list', '--json'],
+        ['claude', ...addMarketplaceCommand],
+        ['claude', 'plugin', 'marketplace', 'list', '--json'],
+        ['claude', 'plugin', 'list', '--json'],
+        ['claude', ...installPluginCommand],
+      ],
+    };
+  }
+
+  const steps = [];
+  const marketplaceList = await runClaudeJson(['plugin', 'marketplace', 'list', '--json'], cwd);
+  steps.push({ name: 'marketplace_list', ...marketplaceList });
+  if (!marketplaceList.ok) return { ok: false, marketplace, plugin, source, scope, selector, steps };
+
+  const previousMarketplace = claudeMarketplaceRecord(marketplaceList.data, marketplace);
+  const previousSourceMatched = claudeMarketplaceSourceMatches(previousMarketplace, source, cwd);
+  const addMarketplace = await runClaude(addMarketplaceCommand, cwd);
+  steps.push({ name: 'marketplace_add', ...addMarketplace });
+  if (!addMarketplace.ok) return { ok: false, marketplace, plugin, source, scope, selector, steps };
+
+  const verifiedMarketplaceList = await runClaudeJson(['plugin', 'marketplace', 'list', '--json'], cwd);
+  steps.push({ name: 'marketplace_verify', ...verifiedMarketplaceList });
+  if (!verifiedMarketplaceList.ok) {
+    return { ok: false, marketplace, plugin, source, scope, selector, steps };
+  }
+  const marketplaceRecord = claudeMarketplaceRecord(verifiedMarketplaceList.data, marketplace);
+  const marketplaceSourceOk = claudeMarketplaceSourceMatches(marketplaceRecord, source, cwd);
+  const scopedDeclaration = claudeScopedMarketplaceDeclaration(marketplace, scope, cwd);
+  const marketplaceScopeOk = claudeMarketplaceSourceMatches(scopedDeclaration.record, source, cwd);
+  steps.push({
+    name: 'marketplace_source',
+    ok: marketplaceSourceOk,
+    command: ['claude', 'plugin', 'marketplace', 'list', '--json'],
+    stdout: marketplaceSourceOk ? `marketplace ${marketplace} resolves to ${source}` : '',
+    stderr: marketplaceSourceOk ? '' : `marketplace ${marketplace} does not resolve to ${source}`,
+  });
+  steps.push({
+    name: 'marketplace_scope',
+    ok: marketplaceScopeOk,
+    command: ['claude', ...addMarketplaceCommand],
+    stdout: marketplaceScopeOk ? `marketplace ${marketplace} is declared in ${scope} scope` : '',
+    stderr: marketplaceScopeOk ? '' : `marketplace ${marketplace} is not declared in ${scope} scope at ${scopedDeclaration.path}`,
+  });
+  if (!marketplaceSourceOk || !marketplaceScopeOk) {
+    return { ok: false, marketplace, plugin, source, scope, selector, steps };
+  }
+
+  const pluginList = await runClaudeJson(['plugin', 'list', '--json'], cwd);
+  steps.push({ name: 'plugin_list', ...pluginList });
+  if (!pluginList.ok) return { ok: false, marketplace, plugin, source, scope, selector, steps };
+
+  const installed = claudePluginRecord(pluginList.data, selector, scope);
+  if (installed && !previousSourceMatched) {
+    const uninstall = await runClaude(uninstallPluginCommand, cwd);
+    steps.push({ name: 'plugin_uninstall_wrong_source', ...uninstall });
+    if (uninstall.ok) {
+      const install = await runClaude(installPluginCommand, cwd);
+      steps.push({ name: 'plugin_install', ...install });
+    }
+  } else if (installed?.enabled) {
+    steps.push({
+      name: 'plugin_install',
+      ok: true,
+      skipped: true,
+      command: ['claude', ...installPluginCommand],
+      stdout: `plugin ${selector} already installed and enabled`,
+      stderr: '',
+    });
+  } else if (installed) {
+    const enable = await runClaude(['plugin', 'enable', selector, '--scope', scope], cwd);
+    steps.push({ name: 'plugin_enable', ...enable });
+  } else {
+    const install = await runClaude(installPluginCommand, cwd);
+    steps.push({ name: 'plugin_install', ...install });
+  }
+
+  return {
+    ok: steps.every((step) => step.ok),
+    marketplace,
+    plugin,
+    source,
+    scope,
+    selector,
+    steps,
+    next: [
+      'Restart Claude Code or start a new Claude Code session.',
+      'Run /mcp in Claude Code to verify the technical-knockout MCP server.',
+    ],
+  };
+}
+
+export async function claudePluginStatus(options = {}) {
+  const marketplace = options.marketplace || 'tech-knockout';
+  const plugin = options.plugin || 'technical-knockout';
+  const source = options.source || 'okbexx/tech-knockout';
+  const scope = options.scope || 'user';
+  const cwd = options.cwd || process.cwd();
+  const selector = `${plugin}@${marketplace}`;
+  const [marketplaceList, pluginList] = await Promise.all([
+    runClaudeJson(['plugin', 'marketplace', 'list', '--json'], cwd),
+    runClaudeJson(['plugin', 'list', '--json'], cwd),
+  ]);
+  const marketplaceRecord = marketplaceList.ok
+    ? claudeMarketplaceRecord(marketplaceList.data, marketplace)
+    : undefined;
+  const scopedDeclaration = claudeScopedMarketplaceDeclaration(marketplace, scope, cwd);
+  const pluginRecord = pluginList.ok ? claudePluginRecord(pluginList.data, selector, scope) : undefined;
+  const cliError = marketplaceList.stderr || marketplaceList.error || pluginList.stderr || pluginList.error;
+  const checks = [
+    { name: 'claude_cli', ok: marketplaceList.ok && pluginList.ok, details: cliError ? [cliError] : [] },
+    { name: 'marketplace_configured', ok: Boolean(marketplaceRecord), details: [marketplace] },
+    {
+      name: 'marketplace_source',
+      ok: claudeMarketplaceSourceMatches(marketplaceRecord, source, cwd),
+      details: [source],
+    },
+    {
+      name: 'marketplace_scope',
+      ok: claudeMarketplaceSourceMatches(scopedDeclaration.record, source, cwd),
+      details: [`${scope}: ${scopedDeclaration.path}`],
+    },
+    { name: 'plugin_installed', ok: Boolean(pluginRecord), details: [`${selector} (${scope})`] },
+    { name: 'plugin_enabled', ok: pluginRecord?.enabled === true, details: [`${selector} (${scope})`] },
+  ];
+  return {
+    ok: checks.every((check) => check.ok),
+    marketplace,
+    plugin,
+    source,
+    scope,
+    selector,
+    checks,
+    commands: {
+      install: commandText(['tk', 'claude', 'install', '--source', source, '--marketplace', marketplace, '--plugin', plugin, '--scope', scope]),
+      refresh: commandText(['tk', 'claude', 'refresh', '--marketplace', marketplace, '--plugin', plugin, '--scope', scope]),
+    },
+  };
+}
+
+export async function refreshClaudePlugin(options = {}) {
+  const marketplace = options.marketplace || 'tech-knockout';
+  const plugin = options.plugin || 'technical-knockout';
+  const scope = options.scope || 'user';
+  const selector = `${plugin}@${marketplace}`;
+  const updateMarketplaceCommand = ['plugin', 'marketplace', 'update', marketplace];
+  const updatePluginCommand = ['plugin', 'update', selector, '--scope', scope];
+
+  if (options.dryRun) {
+    return {
+      ok: true,
+      dryRun: true,
+      marketplace,
+      plugin,
+      scope,
+      selector,
+      commands: [
+        ['claude', ...updateMarketplaceCommand],
+        ['claude', ...updatePluginCommand],
+      ],
+    };
+  }
+
+  const updateMarketplace = await runClaude(updateMarketplaceCommand);
+  const updatePlugin = updateMarketplace.ok
+    ? await runClaude(updatePluginCommand)
+    : {
+        ok: false,
+        command: ['claude', ...updatePluginCommand],
+        stdout: '',
+        stderr: 'marketplace update failed',
+        error: 'marketplace update failed',
+      };
+  const steps = [
+    { name: 'marketplace_update', ...updateMarketplace },
+    { name: 'plugin_update', ...updatePlugin },
+  ];
+  return {
+    ok: steps.every((step) => step.ok),
+    marketplace,
+    plugin,
+    scope,
+    selector,
+    steps,
+    next: ['Restart Claude Code or start a new Claude Code session to load the refreshed plugin.'],
+  };
+}
+
+export async function removeClaudePlugin(options = {}) {
+  const marketplace = options.marketplace || 'tech-knockout';
+  const plugin = options.plugin || 'technical-knockout';
+  const scope = options.scope || 'user';
+  const selector = `${plugin}@${marketplace}`;
+  const uninstallCommand = ['plugin', 'uninstall', selector, '--scope', scope];
+
+  if (options.dryRun) {
+    return {
+      ok: true,
+      dryRun: true,
+      marketplace,
+      plugin,
+      scope,
+      selector,
+      commands: [['claude', ...uninstallCommand]],
+    };
+  }
+
+  const pluginList = await runClaudeJson(['plugin', 'list', '--json']);
+  const steps = [{ name: 'plugin_list', ...pluginList }];
+  if (!pluginList.ok) return { ok: false, marketplace, plugin, scope, selector, steps };
+
+  if (!claudePluginRecord(pluginList.data, selector, scope)) {
+    steps.push({
+      name: 'plugin_uninstall',
+      ok: true,
+      skipped: true,
+      command: ['claude', ...uninstallCommand],
+      stdout: `plugin ${selector} is not installed in ${scope} scope`,
+      stderr: '',
+    });
+  } else {
+    const uninstall = await runClaude(uninstallCommand);
+    steps.push({ name: 'plugin_uninstall', ...uninstall });
+  }
+
+  return {
+    ok: steps.every((step) => step.ok),
+    marketplace,
+    plugin,
+    scope,
+    selector,
+    steps,
+    next: ['Restart Claude Code or start a new Claude Code session so the plugin is unloaded.'],
+  };
+}
+
+function formatClaudeSteps(result, action) {
+  if (result.dryRun) return result.commands.map((command) => commandText(command)).join('\n') + '\n';
+  const lines = [];
+  for (const step of result.steps || []) {
+    const status = step.skipped ? 'skip' : step.ok ? 'ok' : 'fail';
+    lines.push(`${status} ${step.name}: ${commandText(step.command || [])}`);
+    if (!step.ok) lines.push(step.stderr || step.error || 'claude command failed');
+  }
+  if (result.ok) {
+    lines.push(`${action} ${result.selector}`);
+    for (const next of result.next || []) lines.push(next);
+  }
+  return `${lines.join('\n')}\n`;
+}
+
+export function formatClaudeInstall(result) {
+  return formatClaudeSteps(result, 'installed');
+}
+
+export function formatClaudeRefresh(result) {
+  return formatClaudeSteps(result, 'refreshed');
+}
+
+export function formatClaudeRemove(result) {
+  return formatClaudeSteps(result, 'removed');
+}
+
+export function formatClaudeStatus(result) {
+  const lines = result.checks.map((check) => {
+    const suffix = check.details?.length ? `: ${check.details.join(', ')}` : '';
+    return `${check.ok ? 'ok' : 'fail'} ${check.name}${suffix}`;
+  });
+  if (result.ok) {
+    lines.push(`ready ${result.selector} (${result.scope})`);
+    lines.push(`refresh: ${result.commands.refresh}`);
+  } else {
+    lines.push(`install: ${result.commands.install}`);
+  }
+  return `${lines.join('\n')}\n`;
 }
 
 async function runCodex(args, cwd = process.cwd()) {

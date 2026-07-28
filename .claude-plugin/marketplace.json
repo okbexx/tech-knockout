@@ -1,0 +1,31 @@
+{
+  "name": "tech-knockout",
+  "owner": {
+    "name": "okbexx",
+    "url": "https://github.com/okbexx"
+  },
+  "description": "Technical Knockout agent-native architecture evidence and capability replication tools.",
+  "plugins": [
+    {
+      "name": "technical-knockout",
+      "source": "./plugins/technical-knockout",
+      "description": "Research a maintainer-curated technology evidence set and build verifiable capability replication plans.",
+      "version": "0.1.7",
+      "author": {
+        "name": "okbexx",
+        "url": "https://github.com/okbexx"
+      },
+      "homepage": "https://github.com/okbexx/tech-knockout",
+      "repository": "https://github.com/okbexx/tech-knockout",
+      "license": "MIT",
+      "category": "development",
+      "tags": [
+        "architecture",
+        "technical-research",
+        "capability-replication",
+        "mcp",
+        "skills"
+      ]
+    }
+  ]
+}

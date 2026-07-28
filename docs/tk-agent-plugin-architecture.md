@@ -18,7 +18,7 @@ The product is intentionally layered:
 | CLI | Deterministic local operations: plan, brief rendering, verify, catalog, source sync, doctor, report audit/lint/fix, run inspection |
 | MCP | Structured read-mostly access for agents: plan, verify, runs, doctor, context, and evidence |
 | Skills | Agent behavior: when to use TK and how to replicate capabilities with evidence |
-| Agent host adapters | Thin installable integrations for Codex, OpenCode, and Hermes; Claude Code is explicitly deferred |
+| Agent host adapters | Thin installable integrations for Codex, Claude Code, OpenCode, and Hermes |
 | npm package | User-facing CLI and installer entry |
 
 ## Directory Boundary
@@ -29,7 +29,7 @@ host adapters can evolve independently:
 | Directory | Role |
 |---|---|
 | `packages/tk` | `@jarl_okbe/tk` portable product core: CLI, MCP server, core logic, schemas, catalog snapshots, report/comparison snapshots |
-| `plugins/technical-knockout` | Codex-native adapter: `.codex-plugin/plugin.json`, synchronized Skills, plugin README, MCP launch config |
+| `plugins/technical-knockout` | Shared Codex- and Claude Code-native adapter: `.codex-plugin/plugin.json`, `.claude-plugin/plugin.json`, synchronized root Skills, plugin README, MCP launch config; the repository root `.claude-plugin/marketplace.json` is the Claude Code marketplace manifest |
 
 The portable core is the product boundary; no agent host owns it. Every host
 adapter must stay small and must not become a second package or hidden runtime
@@ -51,8 +51,8 @@ adapters. Each adapter must:
 5. Respect the host's sandbox, approval, and tool-discovery model.
 6. Add adapter-specific validation without weakening shared runtime checks.
 
-Codex, OpenCode, and Hermes are the first supported adapters and prove this
-contract; no single host limits the architecture. A new agent integration
+Codex, Claude Code, OpenCode, and Hermes are the supported adapters and prove
+this contract; no single host limits the architecture. A new agent integration
 should add only the thin host mapping required by that agent and reuse
 `@jarl_okbe/tk` unchanged.
 
@@ -67,7 +67,7 @@ TK product infrastructure should use mature libraries for durable surfaces:
 | JSON Schema validation | Ajv draft 2020-12 |
 | TOML manifest parsing | `smol-toml` |
 | CLI package distribution | npm package with `bin.tk` |
-| Agent host distribution | Codex marketplace plugin; OpenCode global JSONC configuration; Hermes global YAML configuration; future hosts use their native plugin, extension, Skill, or configuration mechanism |
+| Agent host distribution | Codex marketplace plugin; Claude Code native marketplace/plugin; OpenCode global JSONC configuration; Hermes global YAML configuration; future hosts use their native plugin, extension, Skill, or configuration mechanism |
 
 Self-built code should stay at the TK business boundary: catalog field mapping,
 source-cache planning, report judgment, and agent workflow semantics.
@@ -116,7 +116,7 @@ TK uses a portable-core plus host-adapter distribution model:
   installer entry.
 - Agent integrations are thin adapters over that package and its stable
   machine-readable contracts.
-- `plugins/technical-knockout` is the Codex-native shipping adapter.
+- `plugins/technical-knockout` is the shared Codex- and Claude Code-native shipping adapter; the repository root also carries Claude Code marketplace metadata.
 - `tk opencode` and `tk hermes` are config-based adapters shipped by the portable npm package.
 
 The npm package exposes host-neutral commands such as `tk doctor`, `tk search`,
@@ -135,10 +135,11 @@ tk run list --json
 tk run show <run-id> --json
 ```
 
-The first-release host lifecycle is:
+The supported host lifecycle is:
 
 ```bash
 tk codex install|status|refresh|remove
+tk claude install|status|refresh|remove
 tk opencode install|status|refresh|remove
 tk hermes install|status|refresh|remove
 tk plan "agent internet capability layer" --from agent-reach
@@ -151,11 +152,12 @@ Every adapter exposes equivalent lifecycle guidance while invoking the same
 
 `replicate` remains the human-readable brief view for users who want direct text output.
 
-`status` is the readiness contract for every supported host. Codex checks its
-CLI, marketplace, and plugin. OpenCode and Hermes check their parsed global
-configuration, all canonical installed Skills, and the shared MCP command.
-`refresh` reapplies current package state; `remove` deletes only TK-owned host
-registrations while preserving unrelated user configuration.
+`status` is the readiness contract for every supported host. Codex and Claude
+Code check their CLI, marketplace, and plugin. OpenCode and Hermes check their
+parsed global configuration, all canonical installed Skills, and the shared MCP
+command. `refresh` reapplies current host state; `remove` deletes only TK-owned
+host registrations while preserving unrelated user configuration. Claude Code
+removal uninstalls only the plugin and deliberately retains its marketplace.
 
 The value proof lives in [`value-proof.md`](./value-proof.md). New product
 surfaces should be justified by a value proof before TK grows a larger runtime.
@@ -167,6 +169,15 @@ plugin installation state:
 codex plugin marketplace add okbexx/tech-knockout
 codex plugin add technical-knockout@tech-knockout
 ```
+
+`tk claude install` likewise wraps Claude Code's official user-scoped marketplace and plugin commands:
+
+```bash
+claude plugin marketplace add okbexx/tech-knockout --scope user
+claude plugin install technical-knockout@tech-knockout --scope user
+```
+
+Claude Code status reads `claude plugin marketplace list --json` and `claude plugin list --json`, validates the marketplace source, and confirms that the selected scope declares that source. Refresh runs `claude plugin marketplace update tech-knockout` and then `claude plugin update technical-knockout@tech-knockout --scope user`. Removal runs only `claude plugin uninstall technical-knockout@tech-knockout --scope user`, leaving the marketplace registration intact.
 
 Publish the npm package from the workspace root:
 
@@ -181,17 +192,18 @@ npx --yes --package @jarl_okbe/tk tk-mcp-server
 ```
 
 Codex must use a durable GitHub repository or explicit local checkout for its
-marketplace, never an ephemeral `npx` cache. OpenCode and Hermes copy canonical
-Skills to TK's OS-specific user data root and register that durable path in
-their global configuration.
+marketplace, never an ephemeral `npx` cache. Claude Code uses the repository's
+native marketplace manifest and discovers the plugin's root Skills and
+`.mcp.json`. OpenCode and Hermes copy canonical Skills to TK's OS-specific user
+data root and register that durable path in their global configuration.
 
 ## Capability Maturity
 
 TK targets **L6 portable product** maturity through a host-neutral npm package,
 CLI, MCP server, canonical Skills, schemas, install guidance, doctor checks,
-and verification. Codex, OpenCode, and Hermes are the first shipping adapters,
-not the product boundary. Additional adapters must reuse the same portable core
-and machine contracts rather than introduce host-specific TK implementations.
+and verification. Codex, Claude Code, OpenCode, and Hermes are the shipping
+adapters, not the product boundary. Additional adapters must reuse the same
+portable core and machine contracts rather than introduce host-specific TK implementations.
 
 | Layer | Role |
 |---|---|
@@ -318,19 +330,22 @@ agent does not reopen candidate discovery on the web. The routing boundary is:
 Each host adapter exposes capabilities through its native manifest,
 configuration, or extension mechanism. The portable `tk-reference-discovery`
 Skill owns the routing policy; a host-specific prompt shortcut is not proof of
-automatic routing. Codex manifest prompts, OpenCode Skills paths, and Hermes
-external Skill directories are three implementations of this adapter contract.
+automatic routing. Codex and Claude Code discover the shared plugin's root
+Skills through their native plugin mechanisms; OpenCode uses configured Skills
+paths, and Hermes uses external Skill directories. These are four implementations
+of the same adapter contract.
 
-## Deferred Claude Code Adapter
+## Claude Code Native Adapter
 
-Claude Code is intentionally outside the first supported release. Its later
-adapter must satisfy the same lifecycle (`install`, `status`, `refresh`,
-`remove`), load the package-owned canonical Skills, start the shared published
-MCP server, preserve unrelated user configuration, and pass host-native
-validation. It must not copy TK core logic or fork catalog, plan, verification,
-trace, or Skill contracts. Until those requirements are implemented and
-smoke-tested against Claude Code's native surfaces, documentation must label
-Claude Code as deferred rather than supported.
+Claude Code is a shipping native adapter. The repository-level
+`.claude-plugin/marketplace.json` publishes the marketplace, while
+`plugins/technical-knockout/.claude-plugin/plugin.json` defines the plugin.
+Claude Code discovers the plugin's root `skills/` and `.mcp.json`, so the
+adapter reuses the same canonical routing and published MCP server as every
+other host without copying TK core logic or forking catalog, plan, verification,
+trace, or Skill contracts. Its lifecycle is exposed through `tk claude`;
+refresh updates the marketplace and plugin, while remove uninstalls only the
+plugin and leaves the marketplace registered.
 
 ## Agent Usage Contract
 

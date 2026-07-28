@@ -1,12 +1,12 @@
 # Install Technical Knockout for Coding Agents
 
-Technical Knockout supports Codex, OpenCode, and Hermes Agent in the first adapter release. Every adapter loads the same package-owned Skills, CLI, MCP server, catalog, and machine contracts; only the host installation mechanism differs.
+Technical Knockout supports Codex, Claude Code, OpenCode, and Hermes Agent. Every adapter loads the same package-owned Skills, CLI, MCP server, catalog, and machine contracts; only the host installation mechanism differs.
 
 ## Prerequisites
 
 - Node.js 22.12.0 or newer.
 - npm.
-- One supported host: Codex CLI/app with plugin support, OpenCode, or Hermes Agent.
+- One supported host: Codex CLI/app with plugin support, Claude Code, OpenCode, or Hermes Agent.
 
 ## Choose your host
 
@@ -17,6 +17,10 @@ Run only the pair for the agent you use:
 npx @jarl_okbe/tk codex install
 npx @jarl_okbe/tk codex status
 
+# Claude Code
+npx @jarl_okbe/tk claude install
+npx @jarl_okbe/tk claude status
+
 # OpenCode
 npx @jarl_okbe/tk opencode install
 npx @jarl_okbe/tk opencode status
@@ -26,9 +30,9 @@ npx @jarl_okbe/tk hermes install
 npx @jarl_okbe/tk hermes status
 ```
 
-A successful `status` prints `ok` for every check and ends with `ready <host> adapter` or `ready technical-knockout@tech-knockout`. Restart the host or start a new session after installation.
+A successful `status` prints `ok` for every check and ends with `ready <host> adapter` or `ready technical-knockout@tech-knockout`. Restart the host or start a new session after installation so it discovers the newly installed Skills and MCP server.
 
-OpenCode and Hermes copy the canonical TK Skills to the OS-specific TK user data directory, then register that durable directory and the published `tk-mcp-server` in the host's global configuration. Set `TK_ADAPTER_SKILLS_ROOT` only when you need to override the installed Skills directory.
+OpenCode and Hermes copy the canonical TK Skills to the OS-specific TK user data directory, then register that durable directory and the published `tk-mcp-server` in the host's global configuration. Codex and Claude Code instead discover the plugin's root `skills/` and `.mcp.json` through their native plugin mechanisms. Set `TK_ADAPTER_SKILLS_ROOT` only when you need to override the installed Skills directory for a configuration-based adapter.
 
 ## Use TK
 
@@ -67,12 +71,12 @@ npx @jarl_okbe/tk run list --json
 Each supported host exposes the same lifecycle verbs:
 
 ```bash
-npx @jarl_okbe/tk <codex|opencode|hermes> status
-npx @jarl_okbe/tk <codex|opencode|hermes> refresh
-npx @jarl_okbe/tk <codex|opencode|hermes> remove
+npx @jarl_okbe/tk <codex|claude|opencode|hermes> status
+npx @jarl_okbe/tk <codex|claude|opencode|hermes> refresh
+npx @jarl_okbe/tk <codex|claude|opencode|hermes> remove
 ```
 
-`refresh` reloads the latest installed adapter state. `remove` removes TK's host registration while preserving unrelated user configuration; Codex also removes the TK marketplace source that its installer registered. Start a new host session after either operation.
+`refresh` reloads the latest installed adapter state. `remove` removes TK's host registration while preserving unrelated user configuration. Claude Code removes only the installed plugin and keeps the marketplace registration; other hosts follow the host-specific behavior below. Start a new host session after either operation.
 
 ## Host-specific behavior
 
@@ -96,6 +100,19 @@ The underlying install commands are:
 codex plugin marketplace add okbexx/tech-knockout
 codex plugin add technical-knockout@tech-knockout
 ```
+
+### Claude Code
+
+Claude Code uses its native plugin marketplace with user-scoped registration and installation. `tk claude install` registers the TK marketplace and installs `technical-knockout@tech-knockout`. The plugin automatically discovers the adapter's root `skills/` and `.mcp.json`.
+
+The underlying install commands are:
+
+```bash
+claude plugin marketplace add okbexx/tech-knockout --scope user
+claude plugin install technical-knockout@tech-knockout --scope user
+```
+
+`tk claude status` checks the native JSON marketplace and installed-plugin views with `claude plugin marketplace list --json` and `claude plugin list --json`, then verifies that the selected scope declares the expected marketplace source. Pass `--source <path-or-repository>` when status-checking a non-default local marketplace. `tk claude refresh` runs `claude plugin marketplace update tech-knockout` followed by `claude plugin update technical-knockout@tech-knockout --scope user`. `tk claude remove` runs only `claude plugin uninstall technical-knockout@tech-knockout --scope user`; it intentionally leaves the marketplace registered because removing a marketplace also uninstalls its plugins. Restart Claude Code or start a new session after install, refresh, or remove; in a live session, use `/reload-plugins` after refresh to reload Skills and reconnect MCP.
 
 ### OpenCode
 
@@ -137,7 +154,3 @@ npx @jarl_okbe/tk doctor --require-sources
 
 4. Upgrade Node.js if the package reports an engine error.
 5. Run `npx @jarl_okbe/tk source sync --missing` if a referenced source path is absent.
-
-## Deferred host: Claude Code
-
-Claude Code is intentionally not part of the first adapter release. A later adapter must reuse the same package-owned Skills, MCP server, catalog, schemas, and lifecycle contract; it must not fork TK runtime logic. Until that adapter is implemented and validated against Claude Code's native install and configuration surfaces, TK does not advertise Claude Code as supported.

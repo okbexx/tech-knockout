@@ -5,7 +5,7 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/@jarl_okbe/tk"><img src="https://img.shields.io/npm/v/@jarl_okbe/tk?style=flat-square&color=54C58A" alt="npm version"></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT%20%2B%20CC%20BY%204.0-34435A?style=flat-square" alt="MIT and CC BY 4.0 licenses"></a>
-  <img src="https://img.shields.io/badge/agents-Codex%20%7C%20OpenCode%20%7C%20Hermes-34435A?style=flat-square" alt="Supports Codex, OpenCode, and Hermes">
+  <img src="https://img.shields.io/badge/agents-Codex%20%7C%20Claude%20Code%20%7C%20OpenCode%20%7C%20Hermes-34435A?style=flat-square" alt="Supports Codex, Claude Code, OpenCode, and Hermes">
 </p>
 
 <p align="center">
@@ -43,7 +43,7 @@ Technical Knockout（TK）不是又一个项目推荐清单。它把**真实源�
 | 深度报告 | 32 份正式报告 | [`reports/`](./reports/) |
 | 同类横评 | 8 个决策主题 | [`comparisons/`](./comparisons/) |
 | Agent Skills | 5 个共享工作流 | [`packages/tk/skills/`](./packages/tk/skills/) |
-| 支持宿主 | Codex · OpenCode · Hermes | [`docs/install-agent-adapters.md`](./docs/install-agent-adapters.md) |
+| 支持宿主 | Codex · Claude Code · OpenCode · Hermes | [`docs/install-agent-adapters.md`](./docs/install-agent-adapters.md) |
 | 机器合同 | catalog · plan · verification · trace | [`docs/tk-replication-runtime.md`](./docs/tk-replication-runtime.md) |
 
 ### 精选入口
@@ -68,6 +68,10 @@ Technical Knockout（TK）不是又一个项目推荐清单。它把**真实源�
 npx @jarl_okbe/tk codex install
 npx @jarl_okbe/tk codex status
 
+# Claude Code
+npx @jarl_okbe/tk claude install
+npx @jarl_okbe/tk claude status
+
 # OpenCode
 npx @jarl_okbe/tk opencode install
 npx @jarl_okbe/tk opencode status
@@ -75,6 +79,13 @@ npx @jarl_okbe/tk opencode status
 # Hermes Agent
 npx @jarl_okbe/tk hermes install
 npx @jarl_okbe/tk hermes status
+```
+
+安装或刷新后请重启宿主或新建会话。Claude Code 也可在当前会话执行 `/reload-plugins` 来重新加载插件并重连 MCP。完整生命周期命令：
+
+```bash
+npx @jarl_okbe/tk claude refresh
+npx @jarl_okbe/tk claude remove
 ```
 
 ### 2. 直接描述技术决策
@@ -119,7 +130,7 @@ flowchart LR
 | Skills | 规定什么时候查 TK、如何做选型和能力复刻 |
 | CLI | 执行 plan、verify、doctor、source sync 等确定性操作 |
 | MCP | 向 Agent 暴露 read-mostly 的结构化上下文 |
-| Host adapters | 用宿主原生机制接入 Codex、OpenCode 和 Hermes |
+| Host adapters | 用宿主原生机制接入 Codex、Claude Code、OpenCode 和 Hermes |
 
 TK 的产品边界是一个 host-neutral npm package 加薄宿主适配器，不是只服务某一个 Agent。架构详情见 [`docs/tk-agent-plugin-architecture.md`](./docs/tk-agent-plugin-architecture.md)。
 

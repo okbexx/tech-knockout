@@ -16,8 +16,10 @@ function fail(message) {
 
 const packageJson = readJson(resolve(packageRoot, 'package.json'));
 const lock = readJson(resolve(workspaceRoot, 'package-lock.json'));
-const plugin = readJson(resolve(workspaceRoot, 'plugins/technical-knockout/.codex-plugin/plugin.json'));
-const marketplace = readJson(resolve(workspaceRoot, '.agents/plugins/marketplace.json'));
+const codexPlugin = readJson(resolve(workspaceRoot, 'plugins/technical-knockout/.codex-plugin/plugin.json'));
+const codexMarketplace = readJson(resolve(workspaceRoot, '.agents/plugins/marketplace.json'));
+const claudePlugin = readJson(resolve(workspaceRoot, 'plugins/technical-knockout/.claude-plugin/plugin.json'));
+const claudeMarketplace = readJson(resolve(workspaceRoot, '.claude-plugin/marketplace.json'));
 const expectedName = '@jarl_okbe/tk';
 const expectedPlugin = 'technical-knockout';
 const version = packageJson.version;
@@ -27,9 +29,15 @@ if (packageJson.name !== expectedName) fail(`expected package name ${expectedNam
 if (lock.packages?.['packages/tk']?.version !== version) {
   fail(`package-lock workspace version ${lock.packages?.['packages/tk']?.version || 'missing'} does not match ${version}`);
 }
-if (plugin.version !== version) fail(`Codex plugin version ${plugin.version} does not match ${version}`);
-if (!marketplace.plugins?.some((entry) => entry.name === expectedPlugin)) {
-  fail(`marketplace does not expose ${expectedPlugin}`);
+if (codexPlugin.version !== version) fail(`Codex plugin version ${codexPlugin.version} does not match ${version}`);
+if (claudePlugin.version !== version) fail(`Claude Code plugin version ${claudePlugin.version} does not match ${version}`);
+if (!codexMarketplace.plugins?.some((entry) => entry.name === expectedPlugin)) {
+  fail(`Codex marketplace does not expose ${expectedPlugin}`);
+}
+const claudeMarketplaceEntry = claudeMarketplace.plugins?.find((entry) => entry.name === expectedPlugin);
+if (!claudeMarketplaceEntry) fail(`Claude Code marketplace does not expose ${expectedPlugin}`);
+if (claudeMarketplaceEntry?.version !== version) {
+  fail(`Claude Code marketplace plugin version ${claudeMarketplaceEntry?.version || 'missing'} does not match ${version}`);
 }
 if (releaseTag && releaseTag !== `v${version}`) {
   fail(`release tag ${releaseTag} does not match package version v${version}`);

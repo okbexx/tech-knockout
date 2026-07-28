@@ -12,9 +12,13 @@ Install TK for your agent host and check that it is ready:
 
 ```bash
 npx @jarl_okbe/tk codex install && npx @jarl_okbe/tk codex status
+npx @jarl_okbe/tk claude install && npx @jarl_okbe/tk claude status
 npx @jarl_okbe/tk opencode install && npx @jarl_okbe/tk opencode status
 npx @jarl_okbe/tk hermes install && npx @jarl_okbe/tk hermes status
 ```
+
+Restart the host or start a new session after installation. In an existing
+Claude Code session, run `/reload-plugins` to load the plugin and reconnect MCP.
 
 Then describe the technical decision from your project without naming TK:
 
@@ -66,6 +70,7 @@ TK should help the agent answer what to keep, what to adapt, what not to copy, t
 | `tk source status` | Inspect local source-cache state |
 | `tk source sync --missing` | Create a clone/fetch plan for missing source caches |
 | `tk codex <install|status|refresh|remove>` | Manage the native Codex plugin adapter |
+| `tk claude <install|status|refresh|remove>` | Manage the native Claude Code marketplace plugin adapter |
 | `tk opencode <install|status|refresh|remove>` | Manage global OpenCode Skills and MCP configuration |
 | `tk hermes <install|status|refresh|remove>` | Manage global Hermes Skills and MCP configuration |
 
@@ -141,7 +146,7 @@ npm run verify --workspace @jarl_okbe/tk
 ```
 
 Publish by creating a GitHub Release whose tag exactly matches the package
-version, for example `v0.1.6`. `.github/workflows/publish.yml` verifies the
+version, for example `v0.1.7`. `.github/workflows/publish.yml` verifies the
 release, publishes through npm trusted publishing, and smoke-tests the registry
 artifact. Before the first automated release, configure the npm package's
 Trusted Publisher with:
@@ -154,4 +159,4 @@ Trusted Publisher with:
 No long-lived `NPM_TOKEN` is required. The workflow requires GitHub-hosted
 runners, Node 24, npm 11.5.1 or newer, and `id-token: write` permission.
 
-The package owns the host-neutral runtime and canonical Skills. Codex uses the native plugin adapter in `plugins/technical-knockout`; OpenCode and Hermes load the same package-owned Skills and MCP server through their global configuration.
+The package owns the host-neutral runtime and canonical Skills. Codex and Claude Code use native plugin adapters in `plugins/technical-knockout`; OpenCode and Hermes load the same package-owned Skills and MCP server through their global configuration.

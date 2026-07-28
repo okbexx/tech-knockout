@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-import { Command } from 'commander';
+import { Command, Option } from 'commander';
 import packageJson from '../package.json' with { type: 'json' };
 import {
   buildCatalog,
   buildReplicationBrief,
+  claudePluginStatus,
   codexPluginStatus,
   doctor,
   executeSyncPlan,
@@ -11,6 +12,10 @@ import {
   formatCodexInstall,
   formatCodexRefresh,
   formatCodexStatus,
+  formatClaudeInstall,
+  formatClaudeRefresh,
+  formatClaudeRemove,
+  formatClaudeStatus,
   formatAdapterInstall,
   formatAdapterRemove,
   formatCodexRemove,
@@ -24,6 +29,7 @@ import {
   getRunTrace,
   hermesAdapterStatus,
   installHermesAdapter,
+  installClaudePlugin,
   installOpencodeAdapter,
   installCodexPlugin,
   listRuns,
@@ -32,10 +38,12 @@ import {
   projectContext,
   readComparison,
   readReport,
+  refreshClaudePlugin,
   refreshCodexPlugin,
   opencodeAdapterStatus,
   removeHermesAdapter,
   removeCodexPlugin,
+  removeClaudePlugin,
   removeOpencodeAdapter,
   searchCatalog,
   sourceStatus,
@@ -327,6 +335,73 @@ codex
   .action(async (options) => {
     const result = await removeCodexPlugin(options);
     output(result, options, formatCodexRemove);
+    process.exitCode = result.ok ? 0 : 1;
+  });
+
+const claude = program.command('claude').description('Install and inspect the TK Claude Code plugin integration.');
+
+function addClaudePluginOptions(command) {
+  return command
+    .option('--marketplace <name>', 'Claude Code marketplace name', 'tech-knockout')
+    .option('--plugin <name>', 'Claude Code plugin name', 'technical-knockout')
+    .addOption(
+      new Option('--scope <scope>', 'Claude Code installation scope')
+        .choices(['user', 'project', 'local'])
+        .default('user'),
+    );
+}
+
+addClaudePluginOptions(
+  claude
+    .command('status')
+    .description('Check whether the Technical Knockout Claude Code marketplace and plugin are ready.')
+    .option('--source <source>', 'Expected Claude Code marketplace source', 'okbexx/tech-knockout'),
+)
+  .option('--json', 'emit machine-readable JSON')
+  .action(async (options) => {
+    const result = await claudePluginStatus(options);
+    output(result, options, formatClaudeStatus);
+    process.exitCode = result.ok ? 0 : 1;
+  });
+
+addClaudePluginOptions(
+  claude
+    .command('install')
+    .description('Install the Technical Knockout Claude Code plugin from its GitHub marketplace.')
+    .option('--source <source>', 'Claude Code marketplace source', 'okbexx/tech-knockout'),
+)
+  .option('--dry-run', 'print the Claude Code commands without executing them')
+  .option('--json', 'emit machine-readable JSON')
+  .action(async (options) => {
+    const result = await installClaudePlugin(options);
+    output(result, options, formatClaudeInstall);
+    process.exitCode = result.ok ? 0 : 1;
+  });
+
+addClaudePluginOptions(
+  claude
+    .command('refresh')
+    .description('Refresh the Technical Knockout Claude Code marketplace and installed plugin.'),
+)
+  .option('--dry-run', 'print the Claude Code commands without executing them')
+  .option('--json', 'emit machine-readable JSON')
+  .action(async (options) => {
+    const result = await refreshClaudePlugin(options);
+    output(result, options, formatClaudeRefresh);
+    process.exitCode = result.ok ? 0 : 1;
+  });
+
+addClaudePluginOptions(
+  claude
+    .command('remove')
+    .alias('uninstall')
+    .description('Remove the Technical Knockout Claude Code plugin while preserving its marketplace.'),
+)
+  .option('--dry-run', 'print the Claude Code commands without executing them')
+  .option('--json', 'emit machine-readable JSON')
+  .action(async (options) => {
+    const result = await removeClaudePlugin(options);
+    output(result, options, formatClaudeRemove);
     process.exitCode = result.ok ? 0 : 1;
   });
 

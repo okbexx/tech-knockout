@@ -1,17 +1,20 @@
 import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
-import { mkdirSync, mkdtempSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { chmodSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, join, resolve } from 'node:path';
+import { delimiter, dirname, join, resolve } from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { parse as parseYaml } from 'yaml';
 import {
   hermesAdapterStatus,
+  installClaudePlugin,
   installHermesAdapter,
   installOpencodeAdapter,
   opencodeAdapterStatus,
+  refreshClaudePlugin,
+  removeClaudePlugin,
   removeHermesAdapter,
   removeOpencodeAdapter,
 } from '../lib/tk-core.mjs';
@@ -47,19 +50,34 @@ function skillDirectories(root) {
     .sort();
 }
 
-test('canonical Skills are package-owned and Codex adapter copies stay synchronized', () => {
+test('canonical Skills are package-owned and native plugin copies stay synchronized', () => {
   const canonicalRoot = join(packageRoot, 'skills');
-  const codexRoot = join(workspaceRoot, 'plugins', 'technical-knockout', 'skills');
+  const pluginRoot = join(workspaceRoot, 'plugins', 'technical-knockout', 'skills');
   const canonicalSkills = skillDirectories(canonicalRoot);
-  const codexSkills = skillDirectories(codexRoot);
+  const pluginSkills = skillDirectories(pluginRoot);
 
-  assert.deepEqual(codexSkills, canonicalSkills);
+  assert.deepEqual(pluginSkills, canonicalSkills);
   assert.ok(canonicalSkills.length > 0, 'expected canonical TK Skills');
   for (const name of canonicalSkills) {
     const canonical = readFileSync(join(canonicalRoot, name, 'SKILL.md'), 'utf8');
-    const codex = readFileSync(join(codexRoot, name, 'SKILL.md'), 'utf8');
-    assert.equal(codex, canonical, `Codex adapter Skill drift: ${name}`);
+    const plugin = readFileSync(join(pluginRoot, name, 'SKILL.md'), 'utf8');
+    assert.equal(plugin, canonical, `native plugin Skill drift: ${name}`);
   }
+});
+
+test('Claude plugin marketplace reuses plugin-local Skills and the published MCP server', () => {
+  const marketplace = JSON.parse(readWorkspaceFile('.claude-plugin/marketplace.json'));
+  const manifest = JSON.parse(readWorkspaceFile('plugins/technical-knockout/.claude-plugin/plugin.json'));
+  const mcp = JSON.parse(readWorkspaceFile('plugins/technical-knockout/.mcp.json'));
+  const entry = marketplace.plugins.find((plugin) => plugin.name === 'technical-knockout');
+
+  assert.equal(marketplace.name, 'tech-knockout');
+  assert.equal(entry.source, './plugins/technical-knockout');
+  assert.equal(manifest.name, 'technical-knockout');
+  assert.deepEqual(mcp.mcpServers['technical-knockout'], {
+    command: 'npx',
+    args: ['--yes', '--package', '@jarl_okbe/tk', 'tk-mcp-server'],
+  });
 });
 
 test('Codex plugin makes TK the default bounded technical-research route', () => {
@@ -85,6 +103,216 @@ function adapterFixture() {
   const skillsRoot = join(root, 'installed-skills');
   return { root, skillsRoot };
 }
+
+test('Claude adapter dry runs expose the native lifecycle without changing host state', async () => {
+  const options = { dryRun: true, scope: 'local' };
+  const installed = await installClaudePlugin(options);
+  const refreshed = await refreshClaudePlugin(options);
+  const removed = await removeClaudePlugin(options);
+
+  assert.deepEqual(installed.commands, [
+    ['claude', 'plugin', 'marketplace', 'list', '--json'],
+    ['claude', 'plugin', 'marketplace', 'add', 'okbexx/tech-knockout', '--scope', 'local'],
+    ['claude', 'plugin', 'marketplace', 'list', '--json'],
+    ['claude', 'plugin', 'list', '--json'],
+    ['claude', 'plugin', 'install', 'technical-knockout@tech-knockout', '--scope', 'local'],
+  ]);
+  assert.deepEqual(refreshed.commands, [
+    ['claude', 'plugin', 'marketplace', 'update', 'tech-knockout'],
+    ['claude', 'plugin', 'update', 'technical-knockout@tech-knockout', '--scope', 'local'],
+  ]);
+  assert.deepEqual(removed.commands, [
+    ['claude', 'plugin', 'uninstall', 'technical-knockout@tech-knockout', '--scope', 'local'],
+  ]);
+});
+
+test('Claude CLI rejects unsupported plugin scopes before execution', async () => {
+  await assert.rejects(
+    execFileAsync(process.execPath, [join(packageRoot, 'bin', 'tk.mjs'), 'claude', 'install', '--scope', 'invalid', '--dry-run']),
+    (error) => {
+      assert.equal(error.code, 1);
+      assert.match(error.stderr, /Allowed choices are user, project, local/);
+      return true;
+    },
+  );
+});
+
+test('Claude status rejects wrong marketplace sources and missing scoped declarations', async () => {
+  const fixture = adapterFixture();
+  const fakeBin = join(fixture.root, 'bin');
+  const expectedSource = join(fixture.root, 'expected-marketplace');
+  const wrongSource = join(fixture.root, 'wrong-marketplace');
+  const settingsPath = join(fixture.root, '.claude', 'settings.local.json');
+  const claudePath = join(fakeBin, 'claude');
+  mkdirSync(fakeBin, { recursive: true });
+  mkdirSync(dirname(settingsPath), { recursive: true });
+  writeFileSync(
+    claudePath,
+    `#!/usr/bin/env node
+const args = process.argv.slice(2).join(' ');
+if (args === 'plugin marketplace list --json') {
+  console.log(JSON.stringify([{ name: 'tech-knockout', source: 'directory', path: process.env.FAKE_MARKETPLACE_SOURCE }]));
+} else if (args === 'plugin list --json') {
+  console.log(JSON.stringify([{ id: 'technical-knockout@tech-knockout', scope: 'local', enabled: true }]));
+} else {
+  process.exitCode = 2;
+}
+`,
+  );
+  chmodSync(claudePath, 0o755);
+  const command = [
+    join(packageRoot, 'bin', 'tk.mjs'),
+    'claude',
+    'status',
+    '--source',
+    expectedSource,
+    '--scope',
+    'local',
+    '--json',
+  ];
+  const baseEnv = { ...process.env, PATH: `${fakeBin}${delimiter}${process.env.PATH || ''}` };
+
+  writeFileSync(settingsPath, JSON.stringify({
+    extraKnownMarketplaces: {
+      'tech-knockout': { source: { source: 'directory', path: wrongSource } },
+    },
+  }));
+  await assert.rejects(
+    execFileAsync(process.execPath, command, {
+      cwd: fixture.root,
+      env: { ...baseEnv, FAKE_MARKETPLACE_SOURCE: wrongSource },
+    }),
+    (error) => {
+      const result = JSON.parse(error.stdout);
+      assert.equal(result.checks.find((check) => check.name === 'marketplace_source').ok, false);
+      assert.equal(result.checks.find((check) => check.name === 'marketplace_scope').ok, false);
+      return true;
+    },
+  );
+
+  writeFileSync(settingsPath, JSON.stringify({ enabledPlugins: {} }));
+  await assert.rejects(
+    execFileAsync(process.execPath, command, {
+      cwd: fixture.root,
+      env: { ...baseEnv, FAKE_MARKETPLACE_SOURCE: expectedSource },
+    }),
+    (error) => {
+      const result = JSON.parse(error.stdout);
+      assert.equal(result.checks.find((check) => check.name === 'marketplace_source').ok, true);
+      assert.equal(result.checks.find((check) => check.name === 'marketplace_scope').ok, false);
+      return true;
+    },
+  );
+});
+
+test('Claude status respects CLAUDE_CONFIG_DIR and pinned GitHub sources', async () => {
+  const fixture = adapterFixture();
+  const fakeBin = join(fixture.root, 'bin');
+  const configRoot = join(fixture.root, 'claude-profile');
+  const claudePath = join(fakeBin, 'claude');
+  mkdirSync(fakeBin, { recursive: true });
+  mkdirSync(configRoot, { recursive: true });
+  writeFileSync(
+    join(configRoot, 'settings.json'),
+    JSON.stringify({
+      extraKnownMarketplaces: {
+        'tech-knockout': {
+          source: { source: 'github', repo: 'okbexx/tech-knockout', ref: 'v0.1.7' },
+        },
+      },
+    }),
+  );
+  writeFileSync(
+    claudePath,
+    `#!/usr/bin/env node
+const args = process.argv.slice(2).join(' ');
+if (args === 'plugin marketplace list --json') {
+  console.log(JSON.stringify([{ name: 'tech-knockout', source: 'github', repo: 'okbexx/tech-knockout', ref: 'v0.1.7' }]));
+} else if (args === 'plugin list --json') {
+  console.log(JSON.stringify([{ id: 'technical-knockout@tech-knockout', scope: 'user', enabled: true }]));
+} else {
+  process.exitCode = 2;
+}
+`,
+  );
+  chmodSync(claudePath, 0o755);
+  const { stdout } = await execFileAsync(
+    process.execPath,
+    [
+      join(packageRoot, 'bin', 'tk.mjs'),
+      'claude',
+      'status',
+      '--source',
+      'okbexx/tech-knockout@v0.1.7',
+      '--scope',
+      'user',
+      '--json',
+    ],
+    {
+      cwd: fixture.root,
+      env: {
+        ...process.env,
+        CLAUDE_CONFIG_DIR: configRoot,
+        PATH: `${fakeBin}${delimiter}${process.env.PATH || ''}`,
+      },
+    },
+  );
+  const result = JSON.parse(stdout);
+  assert.equal(result.ok, true);
+  assert.equal(result.checks.find((check) => check.name === 'marketplace_source').ok, true);
+  assert.equal(result.checks.find((check) => check.name === 'marketplace_scope').details[0], `user: ${join(configRoot, 'settings.json')}`);
+});
+
+test('Claude status does not confuse directory sources with GitHub shorthand', async () => {
+  const fixture = adapterFixture();
+  const fakeBin = join(fixture.root, 'bin');
+  const configRoot = join(fixture.root, 'claude-profile');
+  const claudePath = join(fakeBin, 'claude');
+  mkdirSync(fakeBin, { recursive: true });
+  mkdirSync(configRoot, { recursive: true });
+  writeFileSync(
+    join(configRoot, 'settings.json'),
+    JSON.stringify({
+      extraKnownMarketplaces: {
+        'tech-knockout': { source: { source: 'directory', path: 'okbexx/tech-knockout' } },
+      },
+    }),
+  );
+  writeFileSync(
+    claudePath,
+    `#!/usr/bin/env node
+const args = process.argv.slice(2).join(' ');
+if (args === 'plugin marketplace list --json') {
+  console.log(JSON.stringify([{ name: 'tech-knockout', source: 'github', repo: 'okbexx/tech-knockout' }]));
+} else if (args === 'plugin list --json') {
+  console.log(JSON.stringify([{ id: 'technical-knockout@tech-knockout', scope: 'user', enabled: true }]));
+} else {
+  process.exitCode = 2;
+}
+`,
+  );
+  chmodSync(claudePath, 0o755);
+  await assert.rejects(
+    execFileAsync(
+      process.execPath,
+      [join(packageRoot, 'bin', 'tk.mjs'), 'claude', 'status', '--scope', 'user', '--json'],
+      {
+        cwd: fixture.root,
+        env: {
+          ...process.env,
+          CLAUDE_CONFIG_DIR: configRoot,
+          PATH: `${fakeBin}${delimiter}${process.env.PATH || ''}`,
+        },
+      },
+    ),
+    (error) => {
+      const result = JSON.parse(error.stdout);
+      assert.equal(result.checks.find((check) => check.name === 'marketplace_source').ok, true);
+      assert.equal(result.checks.find((check) => check.name === 'marketplace_scope').ok, false);
+      return true;
+    },
+  );
+});
 
 test('OpenCode adapter preserves JSONC config and installs canonical Skills plus MCP', () => {
   const fixture = adapterFixture();
@@ -141,10 +369,15 @@ test('config adapters remove cleanly when TK is not installed', () => {
 test('release metadata versions stay synchronized', () => {
   const packageJson = JSON.parse(readFileSync(join(packageRoot, 'package.json'), 'utf8'));
   const lock = JSON.parse(readWorkspaceFile('package-lock.json'));
-  const plugin = JSON.parse(readWorkspaceFile('plugins/technical-knockout/.codex-plugin/plugin.json'));
+  const codexPlugin = JSON.parse(readWorkspaceFile('plugins/technical-knockout/.codex-plugin/plugin.json'));
+  const claudePlugin = JSON.parse(readWorkspaceFile('plugins/technical-knockout/.claude-plugin/plugin.json'));
+  const claudeMarketplace = JSON.parse(readWorkspaceFile('.claude-plugin/marketplace.json'));
+  const marketplaceEntry = claudeMarketplace.plugins.find((plugin) => plugin.name === 'technical-knockout');
 
   assert.equal(lock.packages['packages/tk'].version, packageJson.version);
-  assert.equal(plugin.version, packageJson.version);
+  assert.equal(codexPlugin.version, packageJson.version);
+  assert.equal(claudePlugin.version, packageJson.version);
+  assert.equal(marketplaceEntry.version, packageJson.version);
 });
 
 async function dryRunPack() {

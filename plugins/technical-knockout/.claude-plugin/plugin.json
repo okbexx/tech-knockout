@@ -1,0 +1,23 @@
+{
+  "name": "technical-knockout",
+  "version": "0.1.7",
+  "description": "Agent-native technical research and capability replication using a maintainer-curated evidence set.",
+  "author": {
+    "name": "okbexx",
+    "url": "https://github.com/okbexx"
+  },
+  "homepage": "https://github.com/okbexx/tech-knockout",
+  "repository": "https://github.com/okbexx/tech-knockout",
+  "license": "MIT",
+  "keywords": [
+    "architecture",
+    "capability-replication",
+    "build-vs-buy",
+    "technical-research",
+    "open-source",
+    "agent-context",
+    "mcp",
+    "skills",
+    "cli"
+  ]
+}
