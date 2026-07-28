@@ -138,6 +138,15 @@ test('config adapters remove cleanly when TK is not installed', () => {
   assert.equal(removeHermesAdapter(options).ok, true);
 });
 
+test('release metadata versions stay synchronized', () => {
+  const packageJson = JSON.parse(readFileSync(join(packageRoot, 'package.json'), 'utf8'));
+  const lock = JSON.parse(readWorkspaceFile('package-lock.json'));
+  const plugin = JSON.parse(readWorkspaceFile('plugins/technical-knockout/.codex-plugin/plugin.json'));
+
+  assert.equal(lock.packages['packages/tk'].version, packageJson.version);
+  assert.equal(plugin.version, packageJson.version);
+});
+
 async function dryRunPack() {
   const { stdout } = await execFileAsync(
     npmCommand,

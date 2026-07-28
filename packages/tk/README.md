@@ -140,10 +140,18 @@ npm run mcp:smoke --workspace @jarl_okbe/tk
 npm run verify --workspace @jarl_okbe/tk
 ```
 
-Publish the npm package from the workspace root:
+Publish by creating a GitHub Release whose tag exactly matches the package
+version, for example `v0.1.6`. `.github/workflows/publish.yml` verifies the
+release, publishes through npm trusted publishing, and smoke-tests the registry
+artifact. Before the first automated release, configure the npm package's
+Trusted Publisher with:
 
-```bash
-npm publish --workspace @jarl_okbe/tk --access public
-```
+- GitHub owner: `okbexx`
+- Repository: `tech-knockout`
+- Workflow filename: `publish.yml`
+- Allowed action: `npm publish`
+
+No long-lived `NPM_TOKEN` is required. The workflow requires GitHub-hosted
+runners, Node 24, npm 11.5.1 or newer, and `id-token: write` permission.
 
 The package owns the host-neutral runtime and canonical Skills. Codex uses the native plugin adapter in `plugins/technical-knockout`; OpenCode and Hermes load the same package-owned Skills and MCP server through their global configuration.
