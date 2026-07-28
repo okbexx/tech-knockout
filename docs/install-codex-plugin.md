@@ -179,7 +179,7 @@ node packages/tk/bin/tk.mjs search "coding agent runtime" --json
 node packages/tk/bin/tk.mjs deps agent-reach --json
 node packages/tk/bin/tk.mjs source status --json
 node packages/tk/bin/tk.mjs source sync --missing
-node packages/tk/bin/tk.mjs source path gitnexus --json
+node packages/tk/bin/tk.mjs source path codegraph --json
 ```
 
 `source sync --missing` clones source repositories referenced by TK reports.

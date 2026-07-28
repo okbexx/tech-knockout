@@ -42,7 +42,7 @@ changes:
 2. Check relevant TK reference reports and local source caches:
    - `reports/superpowers.md` and `projects/obra__superpowers`
    - `reports/CLI-Anything.md` and `projects/HKUDS__CLI-Anything`
-   - `reports/GitNexus.md` and `projects/abhigyanpatwari__GitNexus`
+   - `reports/codegraph.md` and `projects/colbymchenry__codegraph`
    - `reports/ECC.md` and `projects/affaan-m__ECC`
    - `reports/vibecode-pro-max-kit.md` and `projects/withkynam__vibecode-pro-max-kit`
    - `reports/compound-engineering-plugin.md` and `projects/EveryInc__compound-engineering-plugin`

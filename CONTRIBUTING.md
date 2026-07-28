@@ -129,7 +129,7 @@ TK 维护时通常会把待分析仓库 clone 到本地 `projects/`，但 `proje
 ```bash
 node packages/tk/bin/tk.mjs source sync --missing
 node packages/tk/bin/tk.mjs source status --json
-node packages/tk/bin/tk.mjs source path gitnexus --json
+node packages/tk/bin/tk.mjs source path codegraph --json
 node packages/tk/bin/tk.mjs report audit
 node packages/tk/bin/tk.mjs report lint --write
 node packages/tk/bin/tk.mjs doctor

@@ -113,29 +113,60 @@ Verification:
 - Source evidence only after `npx @jarl_okbe/tk source path agent-reach --json`
   returns an existing path and the agent has read the cited files.
 
-## Current Gap
+## Example 3: Local Code Intelligence MCP
 
-Code intelligence replication is a good next proof, but it is not finished
-until TK reports expose the same reusable architecture sections for CodeGraph
-and GitNexus that the replication brief extractor expects.
+User need:
 
-Current command:
+The user wants a local code-intelligence layer for coding agents without
+building language parsers, symbol storage, graph traversal, incremental sync,
+and host installers from scratch.
+
+Reference:
 
 ```bash
-npx @jarl_okbe/tk replicate "local code intelligence MCP" --from codegraph,gitnexus
+npx @jarl_okbe/tk replicate "local code intelligence MCP" --from codegraph
 ```
 
-Current result:
+What TK surfaces:
 
-TK can identify the references and local source paths, but the generated brief
-does not yet extract enough reusable architecture evidence from those reports.
+- CodeGraph's minimum kernel combines local file scanning, isolated
+  Tree-sitter/WASM parsing, SQLite nodes/edges/FTS, best-effort reference
+  resolution, MCP tools plus server instructions, and watch/sync fallback.
+- The control plane owns init/install/sync/status, host targeting, output
+  budgets, and fallback policy; the data plane parses files, updates the local
+  graph, traverses relationships, and returns path-and-line evidence.
+- Native SQLite may fall back to WASM, watchers may fall back to hooks or
+  manual sync, and best-effort resolution still requires source reads and
+  executable verification for ambiguous dynamic behavior.
 
-Next product cut:
+Decision for a consuming project:
 
-- Update the CodeGraph and GitNexus reports with the TK architecture section
-  names used by `tk replicate`.
-- Re-run the same command and require an evidence pack before claiming this as
-  a completed value proof.
+Do not build a graph database platform first. Start with a local persisted
+symbol graph, bounded MCP queries, explicit server instructions, and one
+reliable sync path. Preserve worker isolation, path traversal guards, and
+honest best-effort semantics; adapt the host installer and storage backend only
+when the consuming project requires it.
+
+First implementation boundary:
+
+- Confirm the current project needs repeated structural exploration rather
+  than ordinary language-server navigation.
+- Index only the languages and relationships required by the first user path.
+- Return source paths and line numbers from every code-evidence query.
+- Expose index freshness and degraded backend state before adding deeper graph
+  analytics.
+
+Verification:
+
+- `npx @jarl_okbe/tk replicate "local code intelligence MCP" --from codegraph`
+- `npx @jarl_okbe/tk plan "local code intelligence MCP" --from codegraph --json`
+- The generated evidence pack contains the architecture kernel, abstractions,
+  control/data plane, execution flows, state, contracts, failure model, and
+  design invariants.
+
+GitNexus is retired from TK's curated catalog and is not a supported reference
+or source-cache target. Historical comparisons in reports remain research
+context, not an active recommendation or product dependency.
 
 ## What Good Looks Like
 

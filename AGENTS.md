@@ -6,7 +6,7 @@ Technical Knockout（TK）是开源项目技术调研与选型仓库。这里保
 
 - 每个项目必须做完整五层分析：定位与画像、架构解剖、质量成熟度、社区生态、选型决策。
 - 必须 clone / pull 本地源码并读实际代码，不能只看 README。
-- 默认不使用 GitNexus；只有用户明确点名“用 GitNexus / 代码图谱”时才作为增强步骤。
+- 默认不使用代码图谱；只有用户明确点名时才把已验证的代码智能工具作为增强步骤。
 - 报告、横评、README 索引、插件、CLI、MCP、schema 必须落盘并提交；`projects/` 源码只做本地缓存。
 - 模糊项目名且多个候选仓库存在时，先问用户确认具体 `org/repo`。
 - 开发 TK 自身时优先使用 repo skill：`.agents/skills/develop-tech-knockout/SKILL.md`。
@@ -28,7 +28,7 @@ TK 给 Agent 的完整产品形态由 npm 包和 Codex 插件适配层共同组�
 ```bash
 node packages/tk/bin/tk.mjs catalog build
 node packages/tk/bin/tk.mjs catalog validate
-node packages/tk/bin/tk.mjs source path gitnexus --json
+node packages/tk/bin/tk.mjs source path codegraph --json
 node packages/tk/bin/tk.mjs doctor
 npm run verify
 ```
