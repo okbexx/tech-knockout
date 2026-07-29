@@ -121,23 +121,33 @@ required brief headings only.
 
 ## Four-Host Acceptance Matrix
 
-Use one fresh session per host after adapter installation. This template is
-intentionally unfilled; record observed evidence rather than assuming parity.
+Use fresh host sessions after adapter installation. Each behavioral scenario may
+use a separate session so its evidence and side effects remain isolated.
 
 | Acceptance item | Codex | Claude Code | OpenCode | Hermes Agent |
 |---|---|---|---|---|
-| Adapter `status --json` ready | Not run | Not run | Not run | Not run |
-| Shared MCP server visible to host | Not run | Not run | Not run | Not run |
-| Natural request routes to TK without naming TK | Not run | Not run | Not run | Not run |
-| Current project inspected before TK | Not run | Not run | Not run | Not run |
-| Evidence remains within curated TK projects | Not run | Not run | Not run | Not run |
-| Brief contains all required sections | Not run | Not run | Not run | Not run |
-| `plan.json`, `verification.json`, `trace.json` persisted and schema-valid | Not run | Not run | Not run | Not run |
-| No curated match stops without external expansion | Not run | Not run | Not run | Not run |
+| Adapter `status --json` ready | Not run | Not run | Pass — 2026-07-28 `tk opencode status --json` | Not run |
+| Shared MCP server visible to host | Not run | Not run | Pass — 2026-07-28 `opencode mcp list` reported `technical-knockout connected` | Not run |
+| Natural request routes to TK without naming TK | Not run | Not run | Pass — session `ses_056da9270ffeTc0i4iOppMpUa4` loaded `tk-reference-discovery` and called TK MCP | Not run |
+| Current project inspected before TK | Not run | Not run | **Fail** — session `ses_056da9270ffeTc0i4iOppMpUa4` began TK search in the same tool wave as project inspection | Not run |
+| Evidence remains within curated TK projects | Not run | Not run | Pass with caveat — candidates stayed curated, but the session fetched upstream Agent Reach files after source status reported no local cache | Not run |
+| Brief contains all required sections | Not run | Not run | Pass — run `run_20260728T142336_m9ns82`; all eight required headings present | Not run |
+| `plan.json`, `verification.json`, `trace.json` persisted and schema-valid | Not run | Not run | Pass — run `run_20260728T142336_m9ns82`, contract `agent-internet-capability-layer:v1` | Not run |
+| No curated match stops without external expansion | Not run | Not run | Pass — session `ses_056e1af5dffeSMM0SOmvf0j1Nh`; external discovery calls: `0` | Not run |
 
 For each cell, replace `Not run` only with a dated result and the relevant
 command output, run id, or session transcript reference. Do not convert an
 adapter readiness result into a pass for a behavioral row.
+
+### OpenCode evidence — 2026-07-28
+
+- Host: OpenCode `1.18.8`, model `okbexx/gpt-5.6-sol`.
+- Natural-routing session: `ses_056da9270ffeTc0i4iOppMpUa4`. The request did not name TK. OpenCode loaded `tk-reference-discovery`, queried TK, and limited candidate selection to curated projects.
+- Positive persisted-run session: `ses_056ecd82affeIlWiIDYnZpEzIQ`. It called `tk_plan_replication`, `tk_verify_replication`, `tk_get_run_trace`, and `tk_list_runs` for `run_20260728T142336_m9ns82` and contract `agent-internet-capability-layer:v1`.
+- Persisted artifacts: `brief.md`, `input.json`, `plan.json`, `references.json`, `trace.json`, and `verification.json`. The brief contains all eight required headings: `Current project fit`, `Can adapt`, `Do not copy`, `Build-vs-buy`, `Dependency / SDK evidence`, `Implementation boundary`, `Verification`, and `Freshness gaps`. Verification was `warn`, correctly stating that TK validated plan evidence but not target-project implementation.
+- No-coverage session: `ses_056e1af5dffeSMM0SOmvf0j1Nh`. TK returned no relevant FPGA / ultrasound / HDL coverage. The recorded tool trace contained no web search, Context7, or grep.app call.
+- Known failure: the natural-routing session did not establish a strict current-project-first order. TK search started in the same tool wave as current-project inspection. This row remains failed until a fresh session inspects the project before the first TK query.
+- Freshness caveat: the natural-routing session used direct upstream Agent Reach reads after the installed MCP runtime reported no local source cache. Candidate selection remained bounded, but source-evidence discipline was weaker than the intended local-cache-first path.
 
 ## Executable Reference Examples
 
