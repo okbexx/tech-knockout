@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
-import { copyFileSync, mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
-import { buildCatalog, doctorRepo, searchCatalog, validateCatalog, validateSourceLock } from '../lib/tk-core.mjs';
+import { buildCatalog, doctorRepo, searchCatalog, validateCatalog, validateSourceLock, writeCatalog } from '../lib/tk-core.mjs';
 
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -120,6 +120,23 @@ test('catalog validation fails when a project has no packaged report snapshot', 
     result.errors.some((error) => error.includes('current-project missing packaged report')),
     `expected missing packaged report error, got: ${result.errors.join('; ')}`,
   );
+});
+
+test('catalog writes current report and comparison snapshots', () => {
+  const root = tempPackageRoot();
+  const reportText = '# Current Project\n';
+  const comparisonText = '# Current Comparison\n';
+  mkdirSync(join(root, 'reports'), { recursive: true });
+  mkdirSync(join(root, 'comparisons'), { recursive: true });
+  writeFileSync(join(root, 'reports', 'current-project.md'), reportText);
+  writeFileSync(join(root, 'comparisons', 'current-comparison.md'), comparisonText);
+
+  const options = { packageRoot: root, repoRoot: root, sourceRoot: root };
+  const catalogPath = writeCatalog(catalog(), options);
+
+  assert.equal(catalogPath, join(root, 'data', 'tk.catalog.json'));
+  assert.equal(readFileSync(join(root, 'data', 'reports', 'current-project.md'), 'utf8'), reportText);
+  assert.equal(readFileSync(join(root, 'data', 'comparisons', 'current-comparison.md'), 'utf8'), comparisonText);
 });
 
 test('source lock validation fails when it contains a stale project id', () => {
