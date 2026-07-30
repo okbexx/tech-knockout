@@ -104,7 +104,7 @@ Pireel、OpenMontage 和 Pixelle-Video 已在 TK 当前报告中完成完整源�
 | Agent 闭环 | `get_state → brief → generate → apply → capture_frame` | 比纯文字 artifact 更强调视觉结果回读 |
 | 本地能力 | draft 在 `localStorage`、视频在 OPFS、Chromium 内导出 | 比依赖 FFmpeg/server render 的流水线更 local-first |
 | 云端依赖 | 官方 Agent plugin 固定连接 `pireel.com` OAuth MCP；hosted auth/project/storage 未开源 | 完整 self-host 不能只部署 Vite shell |
-| 主要风险 | 十天公开历史、无 release/CI、AGPL、custom HTML 主文档注入、部分 preview/export 不一致 | 当前适合隔离 PoC 与架构学习，不适合生产直接押注 |
+| 主要风险 | 十天公开历史、无 release/CI、AGPL、custom HTML/JS 主文档与未 sandbox 导出 iframe 双旁路、部分 preview/export 不一致 | 当前适合隔离 PoC 与架构学习，不适合生产直接押注 |
 | 架构学习价值 | ⭐⭐⭐⭐⭐ | 本组最值得研究的 Agent 可视编辑器样本 |
 
 ### 什么时候优先看 Pireel

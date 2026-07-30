@@ -91,9 +91,9 @@ Pireel 解决的不是“输入一句话生成完整视频”，而是一个更�
 |--------|------|------|
 | 许可证合规 | ⚠️ | AGPL-3.0-only 对自托管网络服务和商业改造有明确合规成本；companion Apache-2.0 不改变主仓许可 |
 | 公开/私有边界 | 高风险 | 仓库是私有 monorepo 的单向镜像；hosted auth、route、DB、R2 policy、媒体代理和完整 provider 实现不可审计 |
-| Bus factor | 高 | 198 commits 中 194 来自主维护者；公开贡献刚出现 4 个 merged PR |
-| 维护趋势 | 极活跃但过早 | 十天 198 commits、约 834 Stars；速度高，但无长期兼容、升级、release 或安全响应样本 |
-| Web 主文档 XSS | 高风险 | Agent/provider 生成的自由 HTML 仅 lint `<script>` 等有限规则；element normalization 与资产缩略图会把 HTML 注入主文档，未见通用 sanitizer/Trusted Types 边界。应协调披露并在生产采用前修复 |
+| Bus factor | 高 | 200 commits 中 196 来自主维护者；公开贡献刚出现 4 个 merged PR |
+| 维护趋势 | 极活跃但过早 | 十天 200 commits、约 834 Stars；速度高，但无长期兼容、升级、release 或安全响应样本 |
+| Custom HTML/JS 执行边界 | 高风险 | 两条旁路成立：element normalization/资产缩略图会把自由 HTML 注入主文档；client export 创建未 sandbox 的同源 `srcdoc` iframe，assembly 再通过 `new Function` 执行 `timelineBody`。lint 只拦截 `<script>` 和少数非确定 API，未形成 sanitizer/Trusted Types/受限 DSL 边界。应协调披露并在生产采用前修复 |
 | MCP / OAuth | ⚠️ | pure MCP contract 设计清晰，但 routing 层负责 auth；公开仓无法验证 OAuth subject、project ownership、CSRF、rate limit 和审计 |
 | 本地媒体隐私 | 中 | OSS shell 主视频本地；官方 plugin 主视频走 loopback，但转录音频、B-roll、图片和音频素材可能上传云端，不能概括为“所有内容均不离开浏览器” |
 | 媒体 SSRF / proxy | 未知 | client export 会调用 `/api/media/fetch?url=`；路由未公开，无法验证 scheme/host/private-network/size/content-type 限制 |
@@ -111,7 +111,7 @@ Pireel 解决的不是“输入一句话生成完整视频”，而是一个更�
 
 1. 公开项目只有十天历史，没有 release、CI、E2E 和长期维护样本；
 2. 完整 Agent/self-host 路径依赖未公开 hosted backend；
-3. 自由 HTML 的主文档注入边界存在高风险缺口；
+3. 自由 HTML/JS 同时可旁路进入应用主文档和未 sandbox 的同源导出 iframe，存在高风险缺口；
 4. AGPL 与 Chromium/media capability 对企业产品有明确约束。
 
 个人体验建议：固定 commit，在无敏感素材的独立浏览器 profile 中运行 OSS shell；不要默认连接托管 MCP；不要把 provider/Agent 生成的自定义 HTML 当可信；先验证本机 codec、长视频内存和导出一致性。
@@ -297,7 +297,7 @@ MediaBunny encoder → MP4 / MOV / WebM Blob
 5. **云控制面只路由能力，媒体/React state 留在最合适的浏览器执行器。**
 6. **Agent 生成内容先过 schema/lint，再应用；视觉任务必须有 capture-frame 闭环。**
 7. **本地大媒体与轻量 draft 分层持久化，session-scoped blob URL 不能直接持久化。**
-8. **任何自由 HTML 在进入应用主 document 前必须消毒或放进无同源 sandbox。**
+8. **任何自由 HTML/JS 无论进入预览、缩略图、测量还是导出，都必须消毒并放进 opaque-origin sandbox，或收敛为受限 AST/命令 DSL。**
 
 ### 关键设计决策与 trade-off
 
@@ -326,7 +326,7 @@ MediaBunny encoder → MP4 / MOV / WebM Blob
 ### 反模式 / 踩坑点
 
 1. **“backend-free AI editor”容易被误读。** 基础编辑确实无后端；生成、ASR、云项目、Agent OAuth 和离线 MCP 并非无后端。
-2. **自由 HTML 的信任边界不完整。** sandbox preview 做对了，但 normalization/asset thumbnail 又把内容带回主 document。
+2. **自由 HTML/JS 的信任边界不完整。** sandbox preview 做对了，但 normalization/asset thumbnail 又把 HTML 带回主 document；client export 还创建未 sandbox 的同源 iframe，并通过 `new Function` 执行 custom `timelineBody`。
 3. **导出 parity 用注释而非 contract 封口。** person matte 和 PiP 已明确不导出，却缺少用户层 capability gate 与 E2E parity matrix。
 4. **公开 mirror 没有 CI。** 私有 monorepo 可能有流水线，但外部采用者无法验证每个同步 commit。
 5. **超新项目被热度放大。** 十天 834 Stars 是关注度，不是兼容性、恢复能力或安全成熟度。
@@ -417,7 +417,7 @@ external agent → hosted MCP route → studio-engine/mcp
 - **类型系统：** 核心 DTO、tool schema、bridge result、export rig、provider contracts 均有明确 TypeScript 类型；大量注释解释时间轴、媒体和一致性不变量。
 - **模块边界：** composition core、MCP pure core、DO bridge、UI bridge queue 与 exporter 角色清楚；`studio-ui` 仍偏大，媒体 data plane 和展示层同包。
 - **错误处理：** provider unavailable、bridge no-tab/timeout/close、OPFS heal、image inline failure 和 export unsupported path 都有显式降级。
-- **安全质量：** preview iframe sandbox 是正确方向；自由 HTML 进入主 document 的旁路破坏了同一安全模型，是当前最严重缺口。
+- **安全质量：** preview iframe sandbox 是正确方向；主 document 注入与未 sandbox 导出 iframe 的双旁路破坏了同一安全模型，是当前最严重缺口。
 - **可读性：** 注释密度极高且多为真实 gotcha；优点是工程意图清楚，缺点是部分 contract 只存在于注释，没有变成可执行 capability test。
 
 ### 测试
@@ -446,7 +446,7 @@ external agent → hosted MCP route → studio-engine/mcp
 - 2026-07-30 服务端 HTML显示 0 个公开 issue。
 - #2–#5 四个 PR 均已进入 Git history；#3–#5 来自外部贡献者并集中修复 engine/UI 边界，说明项目已出现早期外部参与。
 - 十天窗口太短，无法评估 issue 响应、breaking change、release regression 和安全修复 SLA。
-- 主维护者 194/198 commits；当前 bus factor 仍为 1。
+- 主维护者 196/200 commits；当前 bus factor 仍为 1。
 
 ---
 
@@ -507,9 +507,9 @@ external agent → hosted MCP route → studio-engine/mcp
 
 ### 5. 自由 HTML 边界
 
-- 路径：`packages/studio-engine/src/block-lint.ts`、`packages/studio-ui/src/use-element-ops.ts`、`assets-panel.tsx`
+- 路径：`packages/studio-engine/src/block-lint.ts`、`assemble.ts`、`packages/studio-ui/src/use-element-ops.ts`、`assets-panel.tsx`、`client-export.ts`
 - 职责：解析、测量和展示 Agent/provider 生成的 custom block。
-- 实现要点：preview iframe 使用 sandbox；但 lint 未覆盖所有 active-content sink，测量/缩略图又进入主 document。修复应以 sanitizer/Trusted Types/isolated iframe 为 contract，而不是继续追加少数字符串规则。
+- 实现要点：preview iframe 使用 opaque-origin sandbox；但 lint 未覆盖所有 active-content sink，测量/缩略图会进入主 document，导出 iframe 又未 sandbox 且执行 `timelineBody`。修复应以 sanitizer/Trusted Types/opaque-origin export iframe 或受限 timeline DSL 为 contract，而不是继续追加少数字符串规则。
 
 ---
 
@@ -518,7 +518,7 @@ external agent → hosted MCP route → studio-engine/mcp
 | 维度 | 评分(1-5) | 说明 |
 |------|----------|------|
 | 功能覆盖度 | 4 | 口播剪辑、Agent、主题、音频、导出都很深；完整 AI/provider 和部分 export parity 不开源/不完整 |
-| 代码质量 | 4 | 类型与不变量出色，engine tests 扎实；主文档 HTML 边界、UI/E2E 和 package 边界扣分 |
+| 代码质量 | 4 | 类型与不变量出色，engine tests 扎实；主文档与导出 iframe 的 HTML/JS 边界、UI/E2E 和 package 边界扣分 |
 | 文档质量 | 3 | README 和源码注释强；self-host、安全、API、迁移和 browser matrix 不足 |
 | 社区活跃度 | 2 | 十天热度高并已有外部 PR，但没有长期治理、issue/release/CI 样本 |
 | 架构设计 | 5 | composition、双时钟、MCP bridge、单写者、同源 export 组合具有原创工程价值 |
@@ -551,7 +551,7 @@ Pireel 是一个**代码深度远高于公开项目年龄**的 Agent-native brow
 
 ### 下一步
 
-1. 上游优先修复 custom HTML 主文档注入，添加 sanitizer/Trusted Types 和回归测试；
+1. 上游优先修复 custom HTML/JS 双旁路：主文档入口加 sanitizer/Trusted Types，导出改为 opaque-origin sandbox + postMessage 或受限 timeline DSL，并添加回归测试；
 2. 为公开 mirror 增加 CI、Chromium export E2E、multi-tab/cloud conflict tests 和 security policy；
 3. 发布 self-host provider 示例，并清楚说明 hosted-only routes；
 4. 给导出能力建立 feature parity matrix，UI 在不支持时明确 fail closed；
