@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-30T03:21:55.068Z",
+  "generatedAt": "2026-07-30T10:19:21.753Z",
   "projects": [
     {
       "id": "1shell",
@@ -28161,6 +28161,605 @@
         "cli",
         "workflow",
         "runtime",
+        "typescript"
+      ]
+    },
+    {
+      "id": "pireel",
+      "name": "Pireel",
+      "repo": "pireel/pireel",
+      "url": "https://github.com/pireel/pireel",
+      "cloneUrl": "https://github.com/pireel/pireel.git",
+      "report": "reports/pireel.md",
+      "reportFile": "pireel",
+      "category": "AI Media / Content Automation",
+      "summary": "面向口播视频的 browser-native NLE 与 Agent 编辑器内核，以 declarative composition、双时钟视频模型、客户端同源预览/导出和 MCP browser bridge，让外部 Coding Agent 能看见、修改并验证视频工程；但完整 Agent 与云项目路径仍依赖未公开的托管后端。",
+      "adoption": "观望。推荐架构学习和隔离 PoC，不建议直接用于生产或商业关键路径。",
+      "architectureValue": 5,
+      "license": "AGPL-3.0-only；官方 companion pireel-agent 另为 Apache-2.0",
+      "language": "TypeScript / TSX / CSS",
+      "analysisDate": "2026-07-30",
+      "sourceDir": "projects/pireel__pireel",
+      "owner": "pireel",
+      "sourceExists": true,
+      "dependencies": [
+        {
+          "name": "@tailwindcss/vite",
+          "version": "^4.3.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "@types/react",
+          "version": "^19.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "@types/react-dom",
+          "version": "^19.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "@vitejs/plugin-react",
+          "version": "^6.0.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "tailwindcss",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.5.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "vite",
+          "version": "^8.0.16",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "vite-tsconfig-paths",
+          "version": "6.1.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "@fontsource-variable/geist",
+          "version": "^5.2.9",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "@fontsource-variable/jetbrains-mono",
+          "version": "^5.2.8",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "@pireel/studio-engine",
+          "version": "workspace:*",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "@pireel/studio-frames",
+          "version": "workspace:*",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "@pireel/studio-ui",
+          "version": "workspace:*",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "@pireel/ui",
+          "version": "workspace:*",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "react",
+          "version": "^19.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "^19.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "use-intl",
+          "version": "^4.13.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "apps/studio-oss/package.json"
+        },
+        {
+          "name": "@tailwindcss/vite",
+          "version": "^4.3.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/react",
+          "version": "^19.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/react-dom",
+          "version": "^19.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@vitejs/plugin-react",
+          "version": "^6.0.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "tailwindcss",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.5.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "vite",
+          "version": "^8.0.16",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "vite-tsconfig-paths",
+          "version": "6.1.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "vitest",
+          "version": "^4.1.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@ai-sdk/react",
+          "version": "^3.0.176",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@base-ui/react",
+          "version": "^1.4.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@fontsource-variable/geist",
+          "version": "^5.2.9",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@fontsource-variable/jetbrains-mono",
+          "version": "^5.2.8",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@jitsi/rnnoise-wasm",
+          "version": "^0.2.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@mediapipe/tasks-vision",
+          "version": "^0.10.35",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@streamdown/cjk",
+          "version": "^1.0.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@streamdown/code",
+          "version": "^1.1.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@streamdown/math",
+          "version": "^1.0.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@streamdown/mermaid",
+          "version": "^1.0.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "ai",
+          "version": "^6.0.168",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "class-variance-authority",
+          "version": "^0.7.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "clsx",
+          "version": "^2.1.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "cmdk",
+          "version": "^1.1.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "fast-json-patch",
+          "version": "^3.1.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "jsondiffpatch",
+          "version": "^0.7.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "lucide-react",
+          "version": "^1.14.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "mediabunny",
+          "version": "^1.45.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "nanoid",
+          "version": "^5.1.11",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "onnxruntime-web",
+          "version": "^1.27.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "radix-ui",
+          "version": "^1.4.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "react",
+          "version": "^19.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "^19.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "shiki",
+          "version": "^4.0.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "streamdown",
+          "version": "^2.5.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "tailwind-merge",
+          "version": "^3.5.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "tw-animate-css",
+          "version": "^1.4.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "use-intl",
+          "version": "^4.13.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "use-stick-to-bottom",
+          "version": "^1.1.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@pireel/studio-kit",
+          "version": "workspace:*",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/studio-engine/package.json"
+        },
+        {
+          "name": "fast-json-patch",
+          "version": "^3.1.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/studio-engine/package.json"
+        },
+        {
+          "name": "jsondiffpatch",
+          "version": "^0.7.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/studio-engine/package.json"
+        },
+        {
+          "name": "vite",
+          "version": "^8.0.16",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/studio-frames/package.json"
+        },
+        {
+          "name": "@pireel/studio-engine",
+          "version": "workspace:*",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/studio-frames/package.json"
+        },
+        {
+          "name": "tsx",
+          "version": "^4.19.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/studio-kit/package.json"
+        },
+        {
+          "name": "@pireel/studio-engine",
+          "version": "workspace:*",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/studio-ui/package.json"
+        },
+        {
+          "name": "@pireel/studio-frames",
+          "version": "workspace:*",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/studio-ui/package.json"
+        },
+        {
+          "name": "@pireel/ui",
+          "version": "workspace:*",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/studio-ui/package.json"
+        },
+        {
+          "name": "tw-animate-css",
+          "version": "^1.4.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ui/package.json"
+        }
+      ],
+      "dependencySummary": {
+        "total": 65,
+        "manifests": 7,
+        "byEcosystem": {
+          "npm": 65
+        },
+        "byScope": {
+          "development": 19,
+          "runtime": 46
+        }
+      },
+      "dependencyEvidencePresent": true,
+      "dependencyEvidence": [
+        {
+          "dependency": "React 19 + Vite 8",
+          "type": "UI / build framework",
+          "usedFor": "Studio shell、workbench、panels、timeline",
+          "problemSolved": "用成熟浏览器组件模型承载复杂 NLE UI",
+          "evidence": "根与 apps/studio-oss/package.json",
+          "reuseSignal": "构建 browser-first 创作者工具时可评估",
+          "caution": "UI 状态与媒体 runtime 复杂，不能只按普通 CRUD SPA 估算"
+        },
+        {
+          "dependency": "MediaBunny",
+          "type": "media runtime",
+          "usedFor": "demux/decode/sample/encode MP4、MOV、WebM",
+          "problemSolved": "在浏览器内重采样多源视频与音频并写容器",
+          "evidence": "package.json、studio-ui/src/client-export.ts",
+          "reuseSignal": "需要 WebCodecs-first 客户端媒体管线时优先评估",
+          "caution": "受 codec/browser 支持和内存压力约束；不是通用桌面转码替代"
+        },
+        {
+          "dependency": "Canvas + SVG foreignObject",
+          "type": "browser rendering primitive",
+          "usedFor": "overlay WYSIWYG rasterization",
+          "problemSolved": "复用浏览器排版引擎，把 preview DOM 逐帧绘制到视频",
+          "evidence": "client-export.ts",
+          "reuseSignal": "需要“HTML 预览即导出”时值得研究",
+          "caution": "外链图片必须内联；video/canvas layer 不能自然进入 foreignObject"
+        },
+        {
+          "dependency": "onnxruntime-web + MediaPipe Tasks Vision",
+          "type": "ML runtime",
+          "usedFor": "person matte、视觉分析与几何 passes",
+          "problemSolved": "把部分视觉推理放进浏览器",
+          "evidence": "根 package.json、studio UI visual/matte modules",
+          "reuseSignal": "本地隐私优先、模型可接受浏览器性能时可用",
+          "caution": "模型体积、GPU/WASM 兼容和 export parity 都要单独验证"
+        },
+        {
+          "dependency": "@jitsi/rnnoise-wasm",
+          "type": "audio DSP",
+          "usedFor": "narration denoise",
+          "problemSolved": "浏览器内执行 RNNoise 降噪",
+          "evidence": "package.json、denoise modules/tests",
+          "reuseSignal": "轻量口播降噪可评估",
+          "caution": "需要 preview/export 同源与性能预算，不能只接 UI toggle"
+        },
+        {
+          "dependency": "fast-json-patch",
+          "type": "state delta protocol",
+          "usedFor": "receipt / composition patch",
+          "problemSolved": "让 Agent mutation receipt 只返回状态增量",
+          "evidence": "studio-engine/package.json、receipt-delta.ts",
+          "reuseSignal": "外部 Agent 操作大状态对象时适合",
+          "caution": "patch 必须绑定版本/当前快照，避免 stale mutation"
+        },
+        {
+          "dependency": "jsondiffpatch",
+          "type": "diff / debugging",
+          "usedFor": "composition diff",
+          "problemSolved": "生成人可读状态变化",
+          "evidence": "studio-engine/package.json、draft/project modules",
+          "reuseSignal": "需要审计编辑差异时可用",
+          "caution": "不能替代事务和并发控制"
+        },
+        {
+          "dependency": "AI SDK + Streamdown",
+          "type": "chat/UI framework",
+          "usedFor": "内部 AI chat 与流式内容呈现",
+          "problemSolved": "复用 AI stream/react 渲染",
+          "evidence": "根 package.json、studio UI chat modules",
+          "reuseSignal": "同时需要 agent chat surface 时可评估",
+          "caution": "官方外部 Agent 主路径是 MCP，不应把内部 chat 当核心 runtime"
+        },
+        {
+          "dependency": "OPFS + localStorage",
+          "type": "browser storage",
+          "usedFor": "视频字节与 draft 持久化",
+          "problemSolved": "无后端保存大媒体和轻量工程状态",
+          "evidence": "README、use-draft-persist.ts",
+          "reuseSignal": "local-first browser app 可复用分层存储思路",
+          "caution": "origin 绑定、浏览器清理、跨端同步和迁移都要另做"
+        },
+        {
+          "dependency": "Cloudflare Durable Object contract",
+          "type": "coordination runtime",
+          "usedFor": "每用户单活 browser socket、MCP call bridge",
+          "problemSolved": "把外部 Agent 请求路由到持有 React/media state 的浏览器",
+          "evidence": "studio-engine/src/bridge-do.ts",
+          "reuseSignal": "“云控制面调用活跃浏览器执行器”很适合",
+          "caution": "hosted routing/auth 未公开；平台耦合明显"
+        },
+        {
+          "dependency": "Vitest",
+          "type": "test framework",
+          "usedFor": "engine/UI pure-contract tests",
+          "problemSolved": "测 composition、MCP、bridge、trim、audio 等",
+          "evidence": "根 package.json、34 个 test files",
+          "reuseSignal": "TS monorepo 单元/契约测试可复用",
+          "caution": "无公开 CI/E2E，当前测试信号不能证明真实浏览器导出稳定性"
+        }
+      ],
+      "tags": [
+        "agent",
+        "coding",
+        "mcp",
+        "runtime",
+        "browser",
+        "media",
+        "content",
         "typescript"
       ]
     },

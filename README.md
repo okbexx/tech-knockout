@@ -40,7 +40,7 @@ Technical Knockout（TK）不是又一个项目推荐清单。它把**真实源�
 
 | 证据面 | 当前内容 | 从哪里开始 |
 |---|---:|---|
-| 深度报告 | 34 份正式报告 | [`reports/`](./reports/) |
+| 深度报告 | 35 份正式报告 | [`reports/`](./reports/) |
 | 同类横评 | 8 个决策主题 | [`comparisons/`](./comparisons/) |
 | Agent Skills | 5 个共享工作流 | [`packages/tk/skills/`](./packages/tk/skills/) |
 | 支持宿主 | Codex · Claude Code · OpenCode · Hermes | [`docs/install-agent-adapters.md`](./docs/install-agent-adapters.md) |
@@ -54,6 +54,7 @@ Technical Knockout（TK）不是又一个项目推荐清单。它把**真实源�
 | Agent workflow / Skills | [superpowers](./reports/superpowers.md) · [compound-engineering-plugin](./reports/compound-engineering-plugin.md) · [Trellis](./reports/Trellis.md) | [AI Coding Workflow](./comparisons/ai-coding-workflow.md) |
 | Agent 平台与控制面 | [Orca](./reports/orca.md) · [Buzz](./reports/buzz.md) · [openhuman](./reports/openhuman.md) | [Agent Platforms](./comparisons/agent-platforms.md) · [Control Planes](./comparisons/coding-agent-control-planes.md) |
 | Code Intelligence / RAG | [CodeGraph](./reports/codegraph.md) · [RAGFlow](./reports/ragflow.md) · [LightRAG](./reports/LightRAG.md) | [Code Intelligence](./comparisons/code-intelligence.md) · [Enterprise RAG](./comparisons/enterprise-knowledge-base-rag.md) |
+| AI 视频 / 媒体自动化 | [Pireel](./reports/pireel.md) · [OpenMontage](./reports/OpenMontage.md) · [Pixelle-Video](./reports/Pixelle-Video.md) | [AI Media / Content Automation](./comparisons/ai-media-content-automation.md) |
 
 ## 三步开始
 
@@ -200,6 +201,7 @@ npx @jarl_okbe/tk report lint --write
 
 | Project | What it is | Adopt? | Architecture value | Date |
 |---|---|---|---|---|
+| [Pireel](./reports/pireel.md) | Agent-native browser NLE：结构化 composition、edited/source 双时钟、MCP browser bridge、截帧验证与 Chromium 客户端 WYSIWYG 导出 | 观望；推荐隔离 PoC 与架构学习，生产采用前先处理 hosted backend、HTML 信任边界与 AGPL | ⭐⭐⭐⭐⭐ | 2026-07-30 |
 | [OpenMontage](./reports/OpenMontage.md) | 宿主 Coding Agent 驱动的视频生产 harness：YAML pipeline + Markdown skills + Tool Registry/Selector + schema artifact/checkpoint + 人工 gate + FFmpeg/Remotion/HyperFrames | 观望（隔离 PoC / 架构学习推荐；生产直接采用不建议） | ⭐⭐⭐⭐⭐ | 2026-07-15 |
 | [Pixelle-Video](./reports/Pixelle-Video.md) | AI Media / Content Automation 短视频生成流水线：把 LLM 文案、TTS、图像/视频生成、HTML 模板渲染和 FFmpeg 合成串成可配置的本地/云端创作工具 | 观望（可信本地环境 PoC / 架构学习推荐；公网生产不建议直接采用） | ⭐⭐⭐⭐⭐ | 2026-07-11 |
 

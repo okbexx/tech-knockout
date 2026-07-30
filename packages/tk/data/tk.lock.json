@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-30T03:15:26.000Z",
+  "generatedAt": "2026-07-30T10:15:50.000Z",
   "sources": [
     {
       "id": "1shell",
@@ -249,6 +249,19 @@
       "commit": "2b00dade7cec918aefb025c8b7a4fa304a30acdd",
       "remote": "https://github.com/earendil-works/pi.git",
       "shallow": false,
+      "dirty": false
+    },
+    {
+      "id": "pireel",
+      "repo": "pireel/pireel",
+      "url": "https://github.com/pireel/pireel",
+      "cloneUrl": "https://github.com/pireel/pireel.git",
+      "sourceDir": "projects/pireel__pireel",
+      "exists": true,
+      "branch": "main",
+      "commit": "b0ff7bd269444446ec7dd12414c73735704f7c9a",
+      "remote": "https://github.com/pireel/pireel.git",
+      "shallow": true,
       "dirty": false
     },
     {

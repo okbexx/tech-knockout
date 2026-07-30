@@ -1,21 +1,22 @@
 # AI Media / Content Automation 横评
 
-> 更新日期：2026-07-15
-> 涉及项目：OpenMontage, Pixelle-Video, MoneyPrinterTurbo, ShortGPT, linyqh/NarratoAI, ComfyUI
-> 分类口径：这里比较的是“AI 参与媒体内容生产、短视频生成、已有视频理解与再剪辑、以及可作为生成执行底座的工作流系统”。OpenMontage 是宿主 Coding Agent 驱动的制片 harness；Pixelle-Video 和 MoneyPrinterTurbo 是直接短视频自动化产品；linyqh/NarratoAI 对已有视频理解、解说和剪辑是直接/邻近产品；ShortGPT 是实验性架构祖先/邻居；ComfyUI 是执行 substrate，不是面向终端创作者的一站式短视频竞品。
+> 更新日期：2026-07-30（新增 Pireel 专项对照）
+> 涉及项目：Pireel, OpenMontage, Pixelle-Video, MoneyPrinterTurbo, ShortGPT, linyqh/NarratoAI, ComfyUI
+> 分类口径：这里比较的是“AI 参与媒体内容生产、短视频生成、已有视频理解与再剪辑、Agent 可控视频编辑、以及可作为生成执行底座的工作流系统”。Pireel 是 Agent-native browser NLE；OpenMontage 是宿主 Coding Agent 驱动的制片 harness；Pixelle-Video 和 MoneyPrinterTurbo 是直接短视频自动化产品；linyqh/NarratoAI 对已有视频理解、解说和剪辑是直接/邻近产品；ShortGPT 是实验性架构祖先/邻居；ComfyUI 是执行 substrate，不是面向终端创作者的一站式短视频竞品。
 
 ---
 
 ## 证据口径
 
-OpenMontage 和 Pixelle-Video 已在 TK 当前报告中完成完整源码审计。MoneyPrinterTurbo、ShortGPT、linyqh/NarratoAI 和 ComfyUI 的判断均基于 README / public docs 证据，不外推为源码级结论，也不列精确当前 Star、Fork、Issue、Release 等易变指标。唯一明确版本点是 NarratoAI README 显示 2026-07-02 发布 `0.8.4`。
+Pireel、OpenMontage 和 Pixelle-Video 已在 TK 当前报告中完成完整源码审计。MoneyPrinterTurbo、ShortGPT、linyqh/NarratoAI 和 ComfyUI 的判断均基于 README / public docs 证据，不外推为源码级结论，也不列精确当前 Star、Fork、Issue、Release 等易变指标。唯一明确版本点是 NarratoAI README 显示 2026-07-02 发布 `0.8.4`。
 
-这份横评的目的不是排一个总榜，而是把六个项目放回真实产品层级：Agent-native 制片 harness、短视频自动化产品、已有视频理解/解说/剪辑工具、实验性 LLM editing framework、节点式生成执行底座。
+这份横评的目的不是排一个总榜，而是把七个项目放回真实产品层级：Agent-native browser NLE、Agent-native 制片 harness、短视频自动化产品、已有视频理解/解说/剪辑工具、实验性 LLM editing framework、节点式生成执行底座。
 
 ## 项目分层
 
 | 项目 | 分层 | 产品边界 | 与 Pixelle-Video 的关系 |
 |------|------|----------|--------------------------|
+| Pireel | Agent-native browser NLE / talking-head editor | 结构化 composition、字幕/shot/block/audio 时间线、浏览器预览与导出；外部 Coding Agent 通过 MCP 查询、修改并截帧验证 | 不从主题直接跑完整生成 pipeline；更偏“已有口播视频 + 人机共编 + 可视验证”，与 Pixelle 的自动生成形成互补 |
 | OpenMontage | Agent-native 视频生产 harness / substrate | Coding Agent 读取 manifest 与 skills，调用 Python tools，写 artifact/checkpoint，并通过人工 gate 与 Backlot 完成长链制片 | 产品目标相邻但形态不同；OpenMontage 更偏仓库级制片 SDK 和治理契约，Pixelle 更偏可直接运行的 Web/API 流水线 |
 | Pixelle-Video | 直接短视频自动化产品 | 主题/脚本/素材输入后，串联 LLM 文案、TTS、图像/视频生成、HTML 模板渲染和 FFmpeg 合成 | TK 已完成源码审计；更偏 AI 生成媒体、ComfyUI/RunningHub/direct provider 路由与模板化成片 |
 | MoneyPrinterTurbo | 直接短视频自动化产品 | 主题或关键词输入后，生成文案、素材、字幕、BGM，并输出高清短视频；README 还展示 Web/API、批量生成、素材源和跨平台发布 | 与 Pixelle 同层竞争；更偏 stock footage + 内容运营自动化和上手产品面 |
@@ -92,6 +93,36 @@ OpenMontage 和 Pixelle-Video 已在 TK 当前报告中完成完整源码审计�
 
 ---
 
+## 专项新增：Pireel
+
+[Pireel](../reports/pireel.md) 不适合硬塞进“主题 → 文案 → TTS → 素材 → 成片”主矩阵。它的输入通常是已有口播视频，核心资产是一个可视、可编辑、可导出的结构化 composition；外部 Agent 读取 state、按 edited/source 双时钟修改 shot/block/caption/audio，再用 `capture_frame` 看像素验证。
+
+| 维度 | Pireel | 与本组项目的关系 |
+|------|--------|------------------|
+| 产品层 | Browser NLE + Agent MCP | 比 OpenMontage 更接近实时编辑器；比 Pixelle/MoneyPrinterTurbo 更少自动生成 pipeline |
+| 最小内核 | Composition + 双时钟 + Studio Tool Registry + single-writer browser bridge + client export | 把 Agent 控制面与浏览器媒体执行面接在一起 |
+| Agent 闭环 | `get_state → brief → generate → apply → capture_frame` | 比纯文字 artifact 更强调视觉结果回读 |
+| 本地能力 | draft 在 `localStorage`、视频在 OPFS、Chromium 内导出 | 比依赖 FFmpeg/server render 的流水线更 local-first |
+| 云端依赖 | 官方 Agent plugin 固定连接 `pireel.com` OAuth MCP；hosted auth/project/storage 未开源 | 完整 self-host 不能只部署 Vite shell |
+| 主要风险 | 十天公开历史、无 release/CI、AGPL、custom HTML 主文档注入、部分 preview/export 不一致 | 当前适合隔离 PoC 与架构学习，不适合生产直接押注 |
+| 架构学习价值 | ⭐⭐⭐⭐⭐ | 本组最值得研究的 Agent 可视编辑器样本 |
+
+### 什么时候优先看 Pireel
+
+- 输入是已有口播视频，目标是让 Agent 和人共同精剪，而不是从主题全自动生成；
+- 需要 transcript-based cut、字幕、构图、主题、B-roll、音频和实时画布；
+- 需要 Agent 修改后看真实帧检查重叠、位置、对比度和 speaker safe zone；
+- 想研究 WebCodecs/MediaBunny、OPFS、Canvas/SVG raster 和浏览器内 WYSIWYG export。
+
+### 什么时候不要选 Pireel
+
+- 需要成熟 release、公开 CI、长期兼容和企业支持；
+- 需要完整 self-host MCP/OAuth/project/media backend；
+- 需要从选题到发布的无人化批量短视频流水线；
+- 不能接受 AGPL，或需要 Safari/Firefox 与 Chromium 完全一致的导出能力。
+
+---
+
 ## 主要风险
 
 | 风险 | 影响 | 应对 |
@@ -109,6 +140,7 @@ OpenMontage 和 Pixelle-Video 已在 TK 当前报告中完成完整源码审计�
 
 ### 如果要采用
 
+- **个人/小团队做 Agent 辅助口播精剪 PoC**：固定 Pireel commit，在隔离浏览器 profile 中试本地 shell；生产前先修 HTML 信任边界并确认是否接受 AGPL 与 hosted MCP 依赖。
 - **个人/小团队做主题到短视频 PoC**：先试 MoneyPrinterTurbo 或 Pixelle-Video。偏 stock footage、字幕、BGM、发布流选 MoneyPrinterTurbo；偏 AI 生成媒体、ComfyUI/RunningHub/direct provider 路由和模板学习选 Pixelle-Video。
 - **用 Coding Agent 做阶段化制片 PoC**：研究 OpenMontage，但应固定 commit、使用 Node 22、隔离 `.env` 与provider key，并把budget/gate重新接到强runtime。
 - **个人/小团队做已有视频解说/混剪 PoC**：先试 NarratoAI，尤其是短剧、纪录片、素材二创和视频理解驱动剪辑。
@@ -117,6 +149,7 @@ OpenMontage 和 Pixelle-Video 已在 TK 当前报告中完成完整源码审计�
 
 ### 如果要学架构
 
+- **Agent 可视视频编辑、双时钟、browser bridge、客户端 WYSIWYG export**：优先 Pireel。
 - **Agent-native 制片治理**：优先 OpenMontage。
 - **短视频生成 pipeline**：优先 Pixelle-Video。
 - **创作者工作流产品化**：补读 MoneyPrinterTurbo。
@@ -126,4 +159,4 @@ OpenMontage 和 Pixelle-Video 已在 TK 当前报告中完成完整源码审计�
 
 ### 综合结论
 
-这一类项目不能只按 Star 或 demo 效果选型。最关键的是先区分你要做的是 **Agent-native 制片 harness**、**终端短视频产品**、**已有视频解说/剪辑工具**，还是 **生成执行 substrate**。当前最稳妥的策略是：用 OpenMontage 学 artifact/gate/provider 治理，用 Pixelle-Video 学可运行短视频流水线内核，用 MoneyPrinterTurbo/NarratoAI 验证具体创作场景，用 ComfyUI 承载可控生成工作流，把生产级安全、版权、任务队列、成本和发布治理放到自己的系统边界里实现。
+这一类项目不能只按 Star 或 demo 效果选型。最关键的是先区分你要做的是 **Agent-native browser NLE**、**Agent-native 制片 harness**、**终端短视频产品**、**已有视频解说/剪辑工具**，还是 **生成执行 substrate**。当前最稳妥的策略是：用 Pireel 学结构化 composition、双时钟、可视验证和 browser export，用 OpenMontage 学 artifact/gate/provider 治理，用 Pixelle-Video 学可运行短视频流水线内核，用 MoneyPrinterTurbo/NarratoAI 验证具体创作场景，用 ComfyUI 承载可控生成工作流，把生产级安全、版权、任务队列、成本和发布治理放到自己的系统边界里实现。
