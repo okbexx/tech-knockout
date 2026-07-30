@@ -1,7 +1,8 @@
 # Coding Agents 横评
 
-> 更新日期：2026-07-19（新增 Grok Build；OpenCode / Pi / jcode 沿用各自最近一次核验数据）
-> 涉及项目：OpenCode、Pi（原 pi-mono）、jcode、Grok Build
+> 更新日期：2026-07-30（新增 cc-haha 专项对照；OpenCode / Pi / jcode / Grok Build 沿用各自最近一次核验数据）
+> 主矩阵项目：OpenCode、Pi（原 pi-mono）、jcode、Grok Build
+> 专项对照：cc-haha（同类 runtime，但因源码权利链未证明，不进入采用推荐主矩阵）
 > 参考竞品：Claude Code、Codex CLI、Cline、Aider、Continue、OpenHands、Gemini CLI
 
 ---
@@ -163,6 +164,36 @@
 - **二次开发冠军：Pi。** 抽象边界更适合拆成内部 SDK / 平台。
 - **Rust terminal runtime 学习冠军：jcode。** 如果目标是复刻一个本地高性能 terminal coding agent，jcode 当前学习价值已经超过“观望项目”的级别。
 - **完整 Coding Agent 系统工程样本：Grok Build。** 如果目标是研究从客户端协议到长任务恢复、多代理和隔离的完整链路，它的信息密度最高；但不是当前的社区采用冠军。
+
+---
+
+## 同类新增：cc-haha（不进入采用主矩阵）
+
+[cc-haha](../reports/cc-haha.md) 与 OpenCode、Pi、jcode、Grok Build 属于同一类：它有自己的 agent loop、streaming tool executor、JSONL session、permissions、MCP/LSP、subagents/Swarm、provider routing、Desktop、H5/IM 和 Computer Use，不是 Claude Code 的简单 GUI wrapper。
+
+它没有进入上方采用主矩阵，不是因为功能或架构弱，而是存在更高优先级的 **source provenance hard blocker**：
+
+- root commit `f5a40b86` 为 `init: add source code from src.zip`；
+- 随后 commit `5a774a2b` 明确写 `emphasize leaked source`；
+- 再下一阶段才是 `fix leaked source to be locally runnable`；
+- 当前根目录 MIT 没有同时给出 Anthropic 授权、文件级来源或再许可权证明。
+
+| 维度 | cc-haha | 与主矩阵项目的关系 |
+|------|---------|--------------------|
+| Runtime 完整度 | ⭐⭐⭐⭐⭐ | 产品面接近 Grok Build，入口面接近 OpenCode |
+| Agent loop 学习价值 | ⭐⭐⭐⭐⭐ | `query()` 状态机、fallback tombstone、tool-result settlement 信息密度很高 |
+| Desktop / Remote | ⭐⭐⭐⭐⭐ | Electron、H5、IM、Computer Use 比 Pi/jcode 更产品化 |
+| Session model | ⭐⭐⭐⭐⭐ | JSONL canonical + local projection，介于 Pi 的 JSONL 与 OpenCode 的 projection runtime 之间 |
+| 多 provider | ⭐⭐⭐⭐ | provider 面广，但内部消息与权限语义仍深度 Anthropic-shaped |
+| 工程质量 | ⭐⭐⭐⭐ | 599 个 test/spec 文件、六平台 release、细粒度 CI；96 万行历史包袱很重 |
+| 社区活跃 | ⭐⭐⭐⭐ | 13.7k Stars、8.5k Forks、36 tags、维护极活跃；贡献高度集中 |
+| 采用 / 复制 | ⭐ | 根 MIT 不能自动解决初始泄露快照的权利链 |
+
+### 对 cc-haha 的双结论
+
+- **架构学习：强烈推荐。** 重点读 streaming tool execution、JSONL + projection、H5 capability、Computer Use fail-closed、多 Agent permission mailbox。
+- **生产 / 商业采用：不推荐。** 在权利链、SECURITY policy、secret storage、强制签名和 release provenance 补齐前，只适合隔离研究。
+- **复刻方式：clean-room。** 提炼不变量和契约，重新实现；不要直接复制表达性源码。
 
 ---
 

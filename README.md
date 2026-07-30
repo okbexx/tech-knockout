@@ -40,7 +40,7 @@ Technical Knockout（TK）不是又一个项目推荐清单。它把**真实源�
 
 | 证据面 | 当前内容 | 从哪里开始 |
 |---|---:|---|
-| 深度报告 | 32 份正式报告 | [`reports/`](./reports/) |
+| 深度报告 | 34 份正式报告 | [`reports/`](./reports/) |
 | 同类横评 | 8 个决策主题 | [`comparisons/`](./comparisons/) |
 | Agent Skills | 5 个共享工作流 | [`packages/tk/skills/`](./packages/tk/skills/) |
 | 支持宿主 | Codex · Claude Code · OpenCode · Hermes | [`docs/install-agent-adapters.md`](./docs/install-agent-adapters.md) |
@@ -50,7 +50,7 @@ Technical Knockout（TK）不是又一个项目推荐清单。它把**真实源�
 
 | 主题 | 先看报告 | 再看横评 |
 |---|---|---|
-| Coding Agent runtime | [Grok Build](./reports/grok-build.md) · [OpenCode](./reports/opencode.md) · [jcode](./reports/jcode.md) | [Coding Agents](./comparisons/coding-agents.md) |
+| Coding Agent runtime | [cc-haha](./reports/cc-haha.md) · [Grok Build](./reports/grok-build.md) · [OpenCode](./reports/opencode.md) · [jcode](./reports/jcode.md) | [Coding Agents](./comparisons/coding-agents.md) |
 | Agent workflow / Skills | [superpowers](./reports/superpowers.md) · [compound-engineering-plugin](./reports/compound-engineering-plugin.md) · [Trellis](./reports/Trellis.md) | [AI Coding Workflow](./comparisons/ai-coding-workflow.md) |
 | Agent 平台与控制面 | [Orca](./reports/orca.md) · [Buzz](./reports/buzz.md) · [openhuman](./reports/openhuman.md) | [Agent Platforms](./comparisons/agent-platforms.md) · [Control Planes](./comparisons/coding-agent-control-planes.md) |
 | Code Intelligence / RAG | [CodeGraph](./reports/codegraph.md) · [RAGFlow](./reports/ragflow.md) · [LightRAG](./reports/LightRAG.md) | [Code Intelligence](./comparisons/code-intelligence.md) · [Enterprise RAG](./comparisons/enterprise-knowledge-base-rag.md) |
@@ -156,6 +156,7 @@ npx @jarl_okbe/tk report lint --write
 
 | Project | What it is | Adopt? | Architecture value | Date |
 |---|---|---|---|---|
+| [cc-haha](./reports/cc-haha.md) | 从 Claude Code 泄露快照演化出的全栈 Coding Agent runtime：CLI/Desktop、多 provider、JSONL session、MCP/LSP、Swarm、H5/IM 与 Computer Use | 不推荐生产/商业采用；仅建议隔离研究，clean-room 学架构 | ⭐⭐⭐⭐⭐ | 2026-07-30 |
 | [Grok Build](./reports/grok-build.md) | xAI 开放的完整 Coding Agent harness：ACP 内核、ChatState/Sampler actors、持久 session、并发 tool dispatch、subagents/worktrees 与 OS sandbox；公开仓为不接受外部贡献的单向同步镜像 | 源码学习强烈推荐 / 个人隔离试用 / 团队长期押注暂缓 | ⭐⭐⭐⭐⭐ | 2026-07-19 |
 | [jcode](./reports/jcode.md) | Rust terminal Coding Agent runtime：server-owned live session + Swarm + Graph Memory，当前已演进到 v0.37.0 并持续产品化 | 推荐个人隔离试用 / 团队生产化前观望 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
 | [Pi（原 pi-mono）](./reports/pi-mono.md) | Terminal agent harness：coding agent CLI + runtime core + unified AI substrate | 推荐采用（个人主力试用 / 内部 SDK 底座） | ⭐⭐⭐⭐⭐ | 2026-07-07 |

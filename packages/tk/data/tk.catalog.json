@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-27T05:48:56.196Z",
+  "generatedAt": "2026-07-30T03:21:55.068Z",
   "projects": [
     {
       "id": "1shell",
@@ -966,6 +966,1145 @@
         "tauri",
         "rust",
         "typescript"
+      ]
+    },
+    {
+      "id": "cc-haha",
+      "name": "cc-haha",
+      "repo": "NanmiCoder/cc-haha",
+      "url": "https://github.com/NanmiCoder/cc-haha",
+      "cloneUrl": "https://github.com/NanmiCoder/cc-haha.git",
+      "report": "reports/cc-haha.md",
+      "reportFile": "cc-haha",
+      "category": "AI Coding / Agent Workflow",
+      "summary": "从 Claude Code 泄露快照演化出的全栈 Coding Agent runtime，集 CLI、Desktop、多模型代理、Swarm、MCP/LSP、远程入口、IM 适配和 Computer Use 于一体；工程密度很高，但源码权利链未解决。",
+      "adoption": "不推荐直接采用。仅建议在隔离环境做研究或短期体验。",
+      "architectureValue": 5,
+      "license": "根目录声明 MIT；初始泄露源码的再许可 / 权利链未证明，不能据此认定全仓可按 MIT 复用",
+      "language": "TypeScript / TSX 为主，另含 Rust、Swift、Python、Shell",
+      "analysisDate": "2026-07-30",
+      "sourceDir": "projects/NanmiCoder__cc-haha",
+      "owner": "NanmiCoder",
+      "sourceExists": true,
+      "dependencies": [
+        {
+          "name": "tauri-build",
+          "version": "{\"version\":\"=2.5.6\",\"features\":[]}",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "anyhow",
+          "version": "1.0.102",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "portable-pty",
+          "version": "0.9.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "reqwest",
+          "version": "{\"version\":\"0.13\",\"default-features\":false,\"features\":[\"system-proxy\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"version\":\"1\",\"features\":[\"derive\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri",
+          "version": "{\"version\":\"=2.10.3\",\"features\":[\"tray-icon\",\"unstable\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-plugin-dialog",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-plugin-notification",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-plugin-process",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-plugin-shell",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-plugin-single-instance",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-plugin-updater",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-runtime",
+          "version": "=2.10.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "tauri-runtime-wry",
+          "version": "=2.10.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "desktop/src-tauri/Cargo.toml"
+        },
+        {
+          "name": "@types/ws",
+          "version": "^8.5.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "adapters/package.json"
+        },
+        {
+          "name": "bun-types",
+          "version": "latest",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "adapters/package.json"
+        },
+        {
+          "name": "@larksuiteoapi/node-sdk",
+          "version": "^1.60.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "adapters/package.json"
+        },
+        {
+          "name": "@whiskeysockets/baileys",
+          "version": "7.0.0-rc.9",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "adapters/package.json"
+        },
+        {
+          "name": "dingtalk-stream",
+          "version": "2.1.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "adapters/package.json"
+        },
+        {
+          "name": "grammy",
+          "version": "^1.42.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "adapters/package.json"
+        },
+        {
+          "name": "ws",
+          "version": "^8.18.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "adapters/package.json"
+        },
+        {
+          "name": "@tailwindcss/vite",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@testing-library/dom",
+          "version": "^10.4.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@testing-library/jest-dom",
+          "version": "^6.6.3",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@testing-library/react",
+          "version": "^16.1.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@types/node",
+          "version": "^25.9.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@types/react",
+          "version": "^18.3.18",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@types/react-dom",
+          "version": "^18.3.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@vitejs/plugin-react",
+          "version": "^6.0.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@vitest/coverage-v8",
+          "version": "3.2.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "electron",
+          "version": "^42.4.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "electron-builder",
+          "version": "^26.8.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "jsdom",
+          "version": "^25.0.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "tailwindcss",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.9.3",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "vite",
+          "version": "^8.0.10",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "vitest",
+          "version": "^3.0.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@dnd-kit/core",
+          "version": "^6.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@dnd-kit/sortable",
+          "version": "^10.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@dnd-kit/utilities",
+          "version": "^3.2.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@tailwindcss/typography",
+          "version": "^0.5.19",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@types/dompurify",
+          "version": "^3.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@xterm/addon-fit",
+          "version": "^0.11.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "@xterm/xterm",
+          "version": "^6.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "dompurify",
+          "version": "^3.3.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "electron-updater",
+          "version": "^6.8.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "html2canvas",
+          "version": "^1.4.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "katex",
+          "version": "^0.16.45",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "lucide-react",
+          "version": "^0.469.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "marked",
+          "version": "^15.0.7",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "mermaid",
+          "version": "^11.14.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "node-pty",
+          "version": "^1.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "prism-react-renderer",
+          "version": "^2.4.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "qrcode",
+          "version": "^1.5.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "react",
+          "version": "^18.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "react-diff-viewer-continued",
+          "version": "^4.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "^18.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "react-shiki",
+          "version": "^0.9.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "shiki",
+          "version": "^4.0.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "zustand",
+          "version": "^5.0.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "desktop/package.json"
+        },
+        {
+          "name": "mermaid",
+          "version": "^11.14.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@anthropic-ai/sandbox-runtime",
+          "version": "^0.0.44",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@anthropic-ai/sdk",
+          "version": "^0.80.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@aws-sdk/client-bedrock-runtime",
+          "version": "^3.1020.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@commander-js/extra-typings",
+          "version": "^14.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@growthbook/growthbook",
+          "version": "^1.6.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@modelcontextprotocol/sdk",
+          "version": "^1.29.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@opentelemetry/api-logs",
+          "version": "^0.214.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@opentelemetry/core",
+          "version": "^2.6.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@opentelemetry/resources",
+          "version": "^2.6.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@opentelemetry/sdk-logs",
+          "version": "^0.214.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@opentelemetry/sdk-metrics",
+          "version": "^2.6.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@opentelemetry/sdk-trace-base",
+          "version": "^2.6.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@opentelemetry/semantic-conventions",
+          "version": "^1.40.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "ajv",
+          "version": "^8.18.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "asciichart",
+          "version": "^1.5.25",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "auto-bind",
+          "version": "^5.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "axios",
+          "version": "^1.14.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "bidi-js",
+          "version": "^1.0.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "chalk",
+          "version": "^5.6.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "chokidar",
+          "version": "^5.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "cli-boxes",
+          "version": "^4.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "code-excerpt",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "diff",
+          "version": "^8.0.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "emoji-regex",
+          "version": "^10.6.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "env-paths",
+          "version": "^4.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "execa",
+          "version": "^9.6.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "fflate",
+          "version": "^0.8.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "figures",
+          "version": "^6.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "fuse.js",
+          "version": "^7.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "get-east-asian-width",
+          "version": "^1.5.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "google-auth-library",
+          "version": "^10.6.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "highlight.js",
+          "version": "^11.11.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "https-proxy-agent",
+          "version": "^8.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "ignore",
+          "version": "^7.0.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "indent-string",
+          "version": "^5.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "ink",
+          "version": "^6.8.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "jsonc-parser",
+          "version": "^3.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "lodash-es",
+          "version": "^4.17.23",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "lru-cache",
+          "version": "^11.2.7",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "marked",
+          "version": "^17.0.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "medium-zoom",
+          "version": "^1.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "p-map",
+          "version": "^7.0.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "picomatch",
+          "version": "^4.0.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "proper-lockfile",
+          "version": "^4.1.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "qrcode",
+          "version": "^1.5.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "react",
+          "version": "^19.2.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "react-reconciler",
+          "version": "^0.33.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "semver",
+          "version": "^7.7.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "shell-quote",
+          "version": "^1.8.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "signal-exit",
+          "version": "^4.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "stack-utils",
+          "version": "^2.0.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "strip-ansi",
+          "version": "^7.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "supports-hyperlinks",
+          "version": "^4.4.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "tree-kill",
+          "version": "^1.2.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "turndown",
+          "version": "^7.2.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "type-fest",
+          "version": "^5.5.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "undici",
+          "version": "^7.24.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "usehooks-ts",
+          "version": "^3.1.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "vscode-jsonrpc",
+          "version": "^8.2.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "vscode-languageserver-types",
+          "version": "^3.17.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "wrap-ansi",
+          "version": "^10.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "ws",
+          "version": "^8.20.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "xss",
+          "version": "^1.0.15",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "yaml",
+          "version": "^2.8.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "zod",
+          "version": "^4.3.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "vite",
+          "version": "^8.0.10",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "site/package.json"
+        },
+        {
+          "name": "dompurify",
+          "version": "^3.3.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "site/package.json"
+        },
+        {
+          "name": "highlight.js",
+          "version": "^11.11.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "site/package.json"
+        },
+        {
+          "name": "marked",
+          "version": "^17.0.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "site/package.json"
+        },
+        {
+          "name": "mermaid",
+          "version": "^11.14.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "site/package.json"
+        },
+        {
+          "name": "react",
+          "version": "^19.2.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "site/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "^19.2.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "site/package.json"
+        },
+        {
+          "name": "mss",
+          "version": "mss>=9.0.2,<10",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "runtime/requirements.txt"
+        },
+        {
+          "name": "Pillow",
+          "version": "Pillow>=11.3.0,<12",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "runtime/requirements.txt"
+        },
+        {
+          "name": "pyautogui",
+          "version": "pyautogui>=0.9.54",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "runtime/requirements.txt"
+        },
+        {
+          "name": "pyobjc-core",
+          "version": "pyobjc-core>=11.1",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "runtime/requirements.txt"
+        },
+        {
+          "name": "pyobjc-framework-Cocoa",
+          "version": "pyobjc-framework-Cocoa>=11.1",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "runtime/requirements.txt"
+        },
+        {
+          "name": "pyobjc-framework-Quartz",
+          "version": "pyobjc-framework-Quartz>=11.1",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "runtime/requirements.txt"
+        }
+      ],
+      "dependencySummary": {
+        "total": 140,
+        "manifests": 6,
+        "byEcosystem": {
+          "cargo": 15,
+          "npm": 119,
+          "python": 6
+        },
+        "byScope": {
+          "build": 1,
+          "runtime": 119,
+          "development": 20
+        }
+      },
+      "dependencyEvidencePresent": true,
+      "dependencyEvidence": [
+        {
+          "dependency": "Bun",
+          "type": "runtime / bundler / test",
+          "usedFor": "CLI、server、agent loop、测试、打包",
+          "problemSolved": "用同一运行时承载 TypeScript CLI、HTTP/WS 和测试",
+          "evidence": "根 package.json、bun.lock、src/server/index.ts",
+          "reuseSignal": "构建 TypeScript-first agent runtime 时可评估",
+          "caution": "Bun-specific feature()、Bun.serve 和 bundle macro 会提高迁移成本"
+        },
+        {
+          "dependency": "@anthropic-ai/sdk",
+          "type": "SDK",
+          "usedFor": "Messages API、streaming、tool use、thinking",
+          "problemSolved": "复用 Claude 协议和类型",
+          "evidence": "package.json、src/query.ts",
+          "reuseSignal": "以 Anthropic tool-use 语义为主时优先",
+          "caution": "整个内部消息模型仍深度 Anthropic-shaped"
+        },
+        {
+          "dependency": "@modelcontextprotocol/sdk",
+          "type": "protocol SDK",
+          "usedFor": "MCP client/server/tool discovery",
+          "problemSolved": "避免自研工具协议",
+          "evidence": "package.json、src/services/mcp/",
+          "reuseSignal": "需要跨工具生态时优先",
+          "caution": "远程 MCP 是新的数据外发与提示注入边界"
+        },
+        {
+          "dependency": "@anthropic-ai/sandbox-runtime",
+          "type": "sandbox runtime",
+          "usedFor": "Bash/network sandbox 与权限联动",
+          "problemSolved": "限制高风险 shell side effects",
+          "evidence": "package.json、src/tools/BashTool/、permission code",
+          "reuseSignal": "本地 agent 需要可控 shell 时值得研究",
+          "caution": "不能替代容器/VM；平台行为需逐 OS 验证"
+        },
+        {
+          "dependency": "Ink + React",
+          "type": "TUI framework",
+          "usedFor": "CLI 交互、permission dialog、消息与工具状态",
+          "problemSolved": "用组件模型构建流式终端 UI",
+          "evidence": "package.json、src/components/",
+          "reuseSignal": "React 团队做复杂 TUI 可评估",
+          "caution": "渲染和 runtime 高耦合，桌面端又有另一套 React"
+        },
+        {
+          "dependency": "Electron + Vite + Zustand",
+          "type": "desktop stack",
+          "usedFor": "Desktop shell、renderer、IPC、状态管理",
+          "problemSolved": "跨平台桌面工作台",
+          "evidence": "desktop/package.json、desktop/electron/",
+          "reuseSignal": "需要本地进程和成熟桌面生态时可复用",
+          "caution": "进程、IPC、更新签名、node-pty 都扩大攻击面"
+        },
+        {
+          "dependency": "Tauri 2 / Cargo manifest",
+          "type": "legacy desktop shell",
+          "usedFor": "保留旧版 0.3.2 壳、图标、sidecar 路径与 updater 配置",
+          "problemSolved": "解释仓库中仍存在的 Rust/Tauri 依赖",
+          "evidence": "desktop/src-tauri/Cargo.toml、tauri.conf.json；当前 desktop/package.json 只构建 Electron 0.5.0",
+          "reuseSignal": "可用于研究桌面迁移的遗留边界",
+          "caution": "不是当前主线 runtime；不要把 catalog 抽取出的 15 条 Cargo dependency 误判为现役架构"
+        },
+        {
+          "dependency": "electron-updater",
+          "type": "updater",
+          "usedFor": "GitHub Release 检查、下载、安装",
+          "problemSolved": "避免自研更新器",
+          "evidence": "desktop/electron/services/updater.ts",
+          "reuseSignal": "已有 Electron 签名体系时可用",
+          "caution": "本仓 Windows/部分 macOS 可能发布 unsigned；Linux 资产无平台代码签名"
+        },
+        {
+          "dependency": "Zod / AJV",
+          "type": "schema validation",
+          "usedFor": "provider、permissions、MCP、server payload、配置",
+          "problemSolved": "在外部输入进入 runtime 前校验",
+          "evidence": "package.json、provider presets、permission sync",
+          "reuseSignal": "多入口 agent 系统应优先采用 schema-first",
+          "caution": "schema 数量大时要防止调用链出现绕过入口"
+        },
+        {
+          "dependency": "OpenTelemetry SDK",
+          "type": "telemetry protocol",
+          "usedFor": "可选 traces/metrics/logs exporter",
+          "problemSolved": "标准化自托管观测",
+          "evidence": "src/utils/telemetry/instrumentation.ts",
+          "reuseSignal": "需要显式可配置观测时可复用",
+          "caution": "本报告只确认环境变量配置下启用，不能把残留 Anthropic 事件名当完整隐私审计"
+        },
+        {
+          "dependency": "GrowthBook",
+          "type": "feature flags",
+          "usedFor": "上游 feature gate/cache 兼容",
+          "problemSolved": "保留上游动态配置结构",
+          "evidence": "src/services/analytics/growthbook.ts",
+          "reuseSignal": "大型产品做 gate 可参考其 cache/failure handling",
+          "caution": "fork 中无 client key 时直接禁用；不要复制上游内部耦合"
+        },
+        {
+          "dependency": "node-pty / xterm",
+          "type": "terminal",
+          "usedFor": "Desktop 内置 shell 与终端呈现",
+          "problemSolved": "提供真实 PTY 而非命令模拟",
+          "evidence": "desktop/package.json、terminal modules",
+          "reuseSignal": "桌面 IDE/agent 需要完整终端时适合",
+          "caution": "原生模块、多平台构建和进程清理难度高"
+        }
+      ],
+      "tags": [
+        "agent",
+        "coding",
+        "mcp",
+        "cli",
+        "desktop",
+        "workflow",
+        "runtime",
+        "tauri",
+        "rust",
+        "typescript",
+        "python"
       ]
     },
     {

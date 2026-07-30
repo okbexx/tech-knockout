@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-24T05:47:08.515Z",
+  "generatedAt": "2026-07-30T03:15:26.000Z",
   "sources": [
     {
       "id": "1shell",
@@ -49,6 +49,19 @@
       "commit": "76aeae703664a6a6741b82771df67c546886aafd",
       "remote": "https://github.com/block/buzz.git",
       "shallow": false,
+      "dirty": false
+    },
+    {
+      "id": "cc-haha",
+      "repo": "NanmiCoder/cc-haha",
+      "url": "https://github.com/NanmiCoder/cc-haha",
+      "cloneUrl": "https://github.com/NanmiCoder/cc-haha.git",
+      "sourceDir": "projects/NanmiCoder__cc-haha",
+      "exists": true,
+      "branch": "main",
+      "commit": "dda92e6deb47d80be110aa789942031c39a10291",
+      "remote": "https://github.com/NanmiCoder/cc-haha.git",
+      "shallow": true,
       "dirty": false
     },
     {
