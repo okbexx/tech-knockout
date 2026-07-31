@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-30T10:15:50.000Z",
+  "generatedAt": "2026-07-31T03:21:12.240Z",
   "sources": [
     {
       "id": "1shell",
@@ -172,6 +172,19 @@
       "branch": "main",
       "commit": "b2dc68effe09cdec99e131dd478e0bc4224b66f9",
       "remote": "https://github.com/sw33tLie/macshot.git",
+      "shallow": true,
+      "dirty": false
+    },
+    {
+      "id": "memmy-agent",
+      "repo": "MemTensor/memmy-agent",
+      "url": "https://github.com/MemTensor/memmy-agent",
+      "cloneUrl": "https://github.com/MemTensor/memmy-agent.git",
+      "sourceDir": "projects/MemTensor__memmy-agent",
+      "exists": true,
+      "branch": "main",
+      "commit": "211d521b310fc23c63dd3d9ca848941173981c5e",
+      "remote": "https://github.com/MemTensor/memmy-agent.git",
       "shallow": true,
       "dirty": false
     },

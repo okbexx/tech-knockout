@@ -40,8 +40,8 @@ Technical Knockout（TK）不是又一个项目推荐清单。它把**真实源�
 
 | 证据面 | 当前内容 | 从哪里开始 |
 |---|---:|---|
-| 深度报告 | 35 份正式报告 | [`reports/`](./reports/) |
-| 同类横评 | 8 个决策主题 | [`comparisons/`](./comparisons/) |
+| 深度报告 | 36 份正式报告 | [`reports/`](./reports/) |
+| 同类横评 | 9 个决策主题 | [`comparisons/`](./comparisons/) |
 | Agent Skills | 5 个共享工作流 | [`packages/tk/skills/`](./packages/tk/skills/) |
 | 支持宿主 | Codex · Claude Code · OpenCode · Hermes | [`docs/install-agent-adapters.md`](./docs/install-agent-adapters.md) |
 | 机器合同 | catalog · plan · verification · trace | [`docs/tk-replication-runtime.md`](./docs/tk-replication-runtime.md) |
@@ -53,6 +53,7 @@ Technical Knockout（TK）不是又一个项目推荐清单。它把**真实源�
 | Coding Agent runtime | [cc-haha](./reports/cc-haha.md) · [Grok Build](./reports/grok-build.md) · [OpenCode](./reports/opencode.md) · [jcode](./reports/jcode.md) | [Coding Agents](./comparisons/coding-agents.md) |
 | Agent workflow / Skills | [superpowers](./reports/superpowers.md) · [compound-engineering-plugin](./reports/compound-engineering-plugin.md) · [Trellis](./reports/Trellis.md) | [AI Coding Workflow](./comparisons/ai-coding-workflow.md) |
 | Agent 平台与控制面 | [Orca](./reports/orca.md) · [Buzz](./reports/buzz.md) · [openhuman](./reports/openhuman.md) | [Agent Platforms](./comparisons/agent-platforms.md) · [Control Planes](./comparisons/coding-agent-control-planes.md) |
+| Agent 长期记忆 | [Memmy Agent](./reports/memmy-agent.md) | [Agent Memory Infrastructure](./comparisons/agent-memory-infrastructure.md) |
 | Code Intelligence / RAG | [CodeGraph](./reports/codegraph.md) · [RAGFlow](./reports/ragflow.md) · [LightRAG](./reports/LightRAG.md) | [Code Intelligence](./comparisons/code-intelligence.md) · [Enterprise RAG](./comparisons/enterprise-knowledge-base-rag.md) |
 | AI 视频 / 媒体自动化 | [Pireel](./reports/pireel.md) · [OpenMontage](./reports/OpenMontage.md) · [Pixelle-Video](./reports/Pixelle-Video.md) | [AI Media / Content Automation](./comparisons/ai-media-content-automation.md) |
 
@@ -188,6 +189,7 @@ npx @jarl_okbe/tk report lint --write
 
 | Project | What it is | Adopt? | Architecture value | Date |
 |---|---|---|---|---|
+| [Memmy Agent](./reports/memmy-agent.md) | MIT 个人 AI Agent + 本地共享记忆中枢：跨 Agent 历史接管、L1/L2/L3/Skill 自演化、桌面/CLI/API/渠道共用同一 Memory 状态机 | 固定版本隔离试用 / 架构学习推荐；整仓生产采用暂缓 | ⭐⭐⭐⭐⭐ | 2026-07-31 |
 | [Buzz](./reports/buzz.md) | Nostr 签名事件驱动的人类 + Agent 协作平台：频道/线程/DM、ACP Agent pool、Git/PR、workflow、审计、桌面/移动/CLI 共用一个事件数据面 | 推荐隔离试点与架构学习 / 生产协作主干暂观望 | ⭐⭐⭐⭐⭐ | 2026-07-24 |
 | [Orca](./reports/orca.md) | Electron + daemon + Web/mobile 的异构 Coding Agent 控制面：daemon-owned PTY、Git worktree、JSON CLI、稳定 terminal handle 与 task/dispatch/gate orchestration | 个人/小团队固定版本后隔离 PoC / 高权限生产仓与团队远程接入暂缓 | ⭐⭐⭐⭐⭐ | 2026-07-21 |
 | [DESIGN.md](./reports/design.md.md) | Google Labs / Stitch 开源的 agent-readable 设计系统文件格式：YAML tokens + Markdown prose + CLI lint/diff/export，让 coding agent 稳定复用视觉身份 | 推荐采用（个人/小团队）/ 企业作为 AI 设计上下文层试点 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
