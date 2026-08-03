@@ -155,6 +155,8 @@ local backend 不是宿主裸 shell：`src/sandbox/local-sandbox.ts` 为每个 s
 
 生产部署应把“sandbox backend”与“egress enforcement level”作为两个独立验收项。
 
+README 所称 durable sandbox 也是 **backend/profile 条件属性**：resident disk backend、snapshot 回写和 scratch computer 的持久化语义不同；“安装过的工具会一直保留”不能无条件外推到所有 profile，选型时必须按实际 backend 验证 teardown、恢复与镜像升级后的状态。
+
 #### 5. Browser 是显式例外，不能假设继承普通 shell policy
 
 `SECURITY.md` 明确指出 browser navigation 不是普通 command-policy path：浏览器访问由 browser runtime / session 和 provenance 机制处理，不等价于 shell command approval，也不保证复用相同 egress enforcement。网页内容可能回到 Agent，外部页面本身又是 prompt-injection 数据源。
@@ -206,6 +208,8 @@ composition root 大并非原罪，但当前密度已导致：
 - provider/model credentials
 
 并不完全同构。代码为每个 adapter 做了大量 translation，这证明团队知道问题存在，也意味着版本升级是持续风险。组织不能只看“router 支持四个 harness”，而要针对自己实际选定的 harness 跑恢复、审批、tool screen、timeout 与 transcript parity 测试。
+
+同理，README 的 fixed tool surface 应理解为**核心 `ToolContext` 语义合同稳定**，而不是所有请求都获得完全相同且静态不变的工具白名单：实际暴露集合仍受 scope、resolution、capability 与 security posture 影响，各 harness 也保留自己的 native tool / bridge 行为。
 
 #### 9. 公开历史过短，7k stars 主要是 launch signal
 
