@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-31T03:21:12.240Z",
+  "generatedAt": "2026-08-03T01:25:42.978Z",
   "sources": [
     {
       "id": "1shell",
@@ -301,6 +301,19 @@
       "commit": "c4d1925ae9b76a1b641877328209ad25cfeb5ef2",
       "remote": "https://github.com/DietrichGebert/ponytail.git",
       "shallow": true,
+      "dirty": false
+    },
+    {
+      "id": "qm",
+      "repo": "yc-software/qm",
+      "url": "https://github.com/yc-software/qm",
+      "cloneUrl": "https://github.com/yc-software/qm.git",
+      "sourceDir": "projects/yc-software__qm",
+      "exists": true,
+      "branch": "main",
+      "commit": "7f2c916360f1797a8ff2a77ce2ce40c5fabab087",
+      "remote": "https://github.com/yc-software/qm.git",
+      "shallow": false,
       "dirty": false
     },
     {

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-31T03:36:12.118Z",
+  "generatedAt": "2026-08-03T01:38:34.542Z",
   "projects": [
     {
       "id": "1shell",
@@ -30197,6 +30197,639 @@
         "workflow",
         "runtime",
         "python"
+      ]
+    },
+    {
+      "id": "qm",
+      "name": "QM",
+      "repo": "yc-software/qm",
+      "url": "https://github.com/yc-software/qm",
+      "cloneUrl": "https://github.com/yc-software/qm.git",
+      "report": "reports/qm.md",
+      "reportFile": "qm",
+      "category": "Agent Platform / Desktop / Design",
+      "summary": "QM 是把 Slack / Web 中的多人组织协作、scope 隔离、持久 sandbox、durable run queue、长期 memory、credential broker 与 Pi / OpenCode / Codex / Claude Code 可替换 harness 压进同一控制面的“共享组织 Agent”；其运行时与恢复合同具有很高学习价值，但 launch-week 热度、默认 Auto 安全姿态和生产部署复杂度决定了它目前更适合固定版本隔离试点，而不是直接进入企业生产主干。",
+      "adoption": "推荐：固定 v0.1.4 或更高已审计 release，在隔离 cloud account / VPC / Slack test workspace 中做小范围内部 PoC。",
+      "architectureValue": 5,
+      "license": "MIT",
+      "language": "TypeScript / TSX，少量 Shell、JavaScript、CSS、Dockerfile / IaC",
+      "analysisDate": "2026-08-03",
+      "sourceDir": "projects/yc-software__qm",
+      "owner": "yc-software",
+      "sourceExists": true,
+      "dependencies": [
+        {
+          "name": "@types/node",
+          "version": "^24.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "cli/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.8.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "cli/package.json"
+        },
+        {
+          "name": "@eslint/js",
+          "version": "^10.0.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@modelcontextprotocol/sdk",
+          "version": "1.29.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/node",
+          "version": "^24.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/pg",
+          "version": "^8.11.10",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/tar-stream",
+          "version": "^3.1.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@yc-software/qm",
+          "version": "file:./cli",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "eslint",
+          "version": "^10.4.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "globals",
+          "version": "^17.6.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "knip",
+          "version": "^6.26.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "oxlint",
+          "version": "^1.74.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "prettier",
+          "version": "3.9.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.8.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "typescript-eslint",
+          "version": "^8.61.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@anthropic-ai/claude-agent-sdk",
+          "version": "0.3.211",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@anthropic-ai/tokenizer",
+          "version": "^0.0.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@aws-crypto/sha256-js",
+          "version": "^5.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@aws-sdk/client-s3",
+          "version": "^3.1061.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@aws-sdk/client-secrets-manager",
+          "version": "^3.1089.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@aws-sdk/client-sts",
+          "version": "^3.1075.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@aws-sdk/credential-provider-node",
+          "version": "^3.972.70",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@earendil-works/pi-ai",
+          "version": "0.82.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@earendil-works/pi-coding-agent",
+          "version": "https://github.com/yc-software/pi/releases/download/qm-pi-coding-agent-0.82.0-security.2/earendil-works-pi-coding-agent-0.82.0-qm-security.2.tgz",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@fly/sprites",
+          "version": "0.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@openai/codex",
+          "version": "0.144.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@opencode-ai/plugin",
+          "version": "1.17.18",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@opencode-ai/sdk",
+          "version": "1.17.18",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@slack/bolt",
+          "version": "^4.7.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@slack/socket-mode",
+          "version": "^2.0.7",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@slack/web-api",
+          "version": "^7.19.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@smithy/signature-v4",
+          "version": "^5.6.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "croner",
+          "version": "^10.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "emoji-datasource",
+          "version": "^16.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "fastify",
+          "version": "^5.10.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "jose",
+          "version": "^6.2.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "lru-cache",
+          "version": "^11.5.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "opencode-ai",
+          "version": "1.17.18",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "pg",
+          "version": "^8.13.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "pg-boss",
+          "version": "^12.26.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "tar-stream",
+          "version": "^3.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "typebox",
+          "version": "^1.1.38",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "zod",
+          "version": "4.4.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/node",
+          "version": "^24.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "plugins/admin/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.8.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "plugins/admin/package.json"
+        },
+        {
+          "name": "@types/node",
+          "version": "^24.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "plugins/auth/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.8.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "plugins/auth/package.json"
+        },
+        {
+          "name": "jose",
+          "version": "^6.2.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/auth/package.json"
+        },
+        {
+          "name": "@types/node",
+          "version": "^24.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "plugins/portal/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.8.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "plugins/portal/package.json"
+        },
+        {
+          "name": "jose",
+          "version": "^6.2.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/portal/package.json"
+        },
+        {
+          "name": "lru-cache",
+          "version": "^11.5.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/portal/package.json"
+        },
+        {
+          "name": "@types/jsdom",
+          "version": "^28.0.3",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "@types/node",
+          "version": "^24.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "jsdom",
+          "version": "^29.1.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "katex",
+          "version": "^0.16.47",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.8.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "vite",
+          "version": "^7.1.6",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "@date-fns/tz",
+          "version": "^1.5.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "@earendil-works/pi-agent-core",
+          "version": "0.77.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "@earendil-works/pi-ai",
+          "version": "0.77.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "@earendil-works/pi-web-ui",
+          "version": "0.75.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "@mariozechner/mini-lit",
+          "version": "^0.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "date-fns",
+          "version": "^4.4.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "dockview-core",
+          "version": "^7.0.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "dompurify",
+          "version": "^3.4.12",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "jszip",
+          "version": "^3.10.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "lit",
+          "version": "^3.3.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "lru-cache",
+          "version": "^11.5.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "lucide",
+          "version": "^0.544.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/web-ui/package.json"
+        },
+        {
+          "name": "marked",
+          "version": "^18.0.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "plugins/web-ui/package.json"
+        }
+      ],
+      "dependencySummary": {
+        "total": 71,
+        "manifests": 6,
+        "byEcosystem": {
+          "npm": 71
+        },
+        "byScope": {
+          "development": 27,
+          "runtime": 44
+        }
+      },
+      "dependencyEvidencePresent": true,
+      "dependencyEvidence": [
+        {
+          "dependency": "Fastify 5",
+          "type": "HTTP framework",
+          "usedFor": "Core、portal/admin surface API",
+          "problemSolved": "统一 route contract、auth gate、raw body/source signature",
+          "evidence": "src/api/server.ts",
+          "reuseSignal": "适合高密度 TypeScript control plane",
+          "caution": "路由很多，授权必须继续集中在 gate 与 typed route auth，不能散落到 handler"
+        },
+        {
+          "dependency": "pg + pg-boss",
+          "type": "durable storage / queue",
+          "usedFor": "sessions、runs、grants、audit、cron、metrics",
+          "problemSolved": "跨进程持久状态、lease、job queue、leader/advisory lock",
+          "evidence": "src/wiring.ts、src/runs/postgres-run-store.ts",
+          "reuseSignal": "组织 Agent 应把运行状态放数据库，不靠进程内 history",
+          "caution": "schema 目前以内嵌 CREATE/ALTER 初始化为主，长期 migration discipline 要持续验证"
+        },
+        {
+          "dependency": "@earendil-works/pi-*",
+          "type": "agent harness",
+          "usedFor": "默认 Pi runtime、security screen 与 model helpers",
+          "problemSolved": "将模型/工具 loop 接入统一 harness contract",
+          "evidence": "package.json、src/harness/pi-harness.ts",
+          "reuseSignal": "harness-as-adapter 是 QM 最强模式之一",
+          "caution": "pi-coding-agent 来自 yc-software GitHub Release tarball，而非 registry/commit；需保留 artifact digest 与 fork 差异审计"
+        },
+        {
+          "dependency": "OpenCode 1.17.18",
+          "type": "agent harness",
+          "usedFor": "OpenCode adapter / SDK / plugin",
+          "problemSolved": "替换 Pi 而保留平台 state",
+          "evidence": "src/harness/opencode-harness.ts",
+          "reuseSignal": "证明 control plane 不绑定单一 agent runtime",
+          "caution": "upstream CLI/session semantics 会漂移；版本升级需要真实 resume/tool-call E2E"
+        },
+        {
+          "dependency": "OpenAI Codex 0.144.5",
+          "type": "agent harness",
+          "usedFor": "Codex subprocess adapter",
+          "problemSolved": "使用 Codex CLI 能力",
+          "evidence": "src/harness/codex-harness.ts",
+          "reuseSignal": "对已有 Codex 套餐的组织有价值",
+          "caution": "subprocess env、OAuth/token、resume id 与版本兼容是持续维护面"
+        },
+        {
+          "dependency": "Claude Agent SDK 0.3.211",
+          "type": "agent harness",
+          "usedFor": "Claude adapter",
+          "problemSolved": "接入 Claude Code/Agent SDK",
+          "evidence": "src/harness/claude-harness.ts",
+          "reuseSignal": "多 harness 选型与迁移",
+          "caution": "SDK 权限模型不能自动继承 QM 的全部 policy；边界回归必须以实际 tool call 验证"
+        },
+        {
+          "dependency": "Slack Bolt / Web API / Socket Mode",
+          "type": "collaboration surface",
+          "usedFor": "Slack ingestion、delivery、ambient/context",
+          "problemSolved": "把 Agent 放进真实团队频道与 DM",
+          "evidence": "src/slack、src/surfaces",
+          "reuseSignal": "Slack-first 组织 Agent 的完整样本",
+          "caution": "external participants、channel membership、token scope 和 replay 是高风险面"
+        },
+        {
+          "dependency": "Docker / Fly Sprites / AWS AgentCore",
+          "type": "agent computer",
+          "usedFor": "per-scope sandbox 与 deployed apps",
+          "problemSolved": "durable home、shell/process/browser、远端隔离与迁移",
+          "evidence": "src/sandbox/*、deploy/stacks/*",
+          "reuseSignal": "把 Agent computer 抽象成 port，可按环境替换",
+          "caution": "三个 backend 的 egress、snapshot、process/session 能力并不对称"
+        },
+        {
+          "dependency": "jose + AWS Secrets Manager/STS",
+          "type": "auth / credential broker",
+          "usedFor": "capability、portal identity、secret source、temporary role",
+          "problemSolved": "把模型工具权限与长期 credential 分离",
+          "evidence": "src/auth、src/credentials",
+          "reuseSignal": "capability audience + revocation 值得复用",
+          "caution": "secret reuse、key rotation、scope membership 与 broker session policy 都是生产运维责任"
+        },
+        {
+          "dependency": "Zod + TypeBox",
+          "type": "runtime schema",
+          "usedFor": "config、tool descriptor、API contract",
+          "problemSolved": "动态 JSON 进入持久状态前校验",
+          "evidence": "src/deployment、plugins、API",
+          "reuseSignal": "高扩展平台必须有 runtime validation",
+          "caution": "shape validation 不能替代语义授权和 cross-scope invariant"
+        }
+      ],
+      "tags": [
+        "agent",
+        "coding",
+        "cli",
+        "desktop",
+        "runtime",
+        "design",
+        "security",
+        "browser",
+        "typescript"
       ]
     },
     {

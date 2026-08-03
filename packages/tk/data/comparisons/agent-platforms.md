@@ -1,12 +1,14 @@
 # Agent Platforms 横评
 
-> 更新日期：2026-07-24
-> 涉及项目：openagent, openhuman, UI-TARS-desktop, CyberVerse, open-design, Buzz
-> 分类口径：这里比较的是“平台型 Agent 产品 / 工作台 / 运行时 substrate”，不是纯 SDK，也不是单一 coding agent。六者并非完全同层：openagent 偏自托管 Web agent workbench，openhuman 偏本地优先 personal AI OS，UI-TARS-desktop 偏 GUI automation runtime，CyberVerse 偏实时 digital-human Agent framework，open-design 偏 agent-native design substrate，Buzz 偏人类与 Agent 共用签名事件、频道、Git 与 workflow 的组织协作平台。
+> 更新日期：2026-08-03
+> 涉及项目：openagent, openhuman, UI-TARS-desktop, CyberVerse, open-design, Buzz, QM
+> 分类口径：这里比较的是“平台型 Agent 产品 / 工作台 / 运行时 substrate”，不是纯 SDK，也不是单一 coding agent。七者并非完全同层：openagent 偏自托管 Web agent workbench，openhuman 偏本地优先 personal AI OS，UI-TARS-desktop 偏 GUI automation runtime，CyberVerse 偏实时 digital-human Agent framework，open-design 偏 agent-native design substrate，Buzz 偏人类与 Agent 共用签名事件、频道、Git 与 workflow 的组织协作平台，QM 偏 Slack/Web-first 的 durable organization-agent control plane。
 >
 > **2026-07-21 范围更新**：Orca 同样属于 Agent platform，但它更具体地解决“如何用 daemon-owned PTY、Git worktree、多端 RPC 与 structured dispatch 组织现有 Coding Agent CLI”。为避免把异构 CLI control plane 与通用 personal AI / GUI / digital-human / design platform 混成一张过宽矩阵，Orca 的报告见 [reports/orca.md](../reports/orca.md)，同类横评见 [Coding Agent Control Planes](./coding-agent-control-planes.md)。
 >
 > **2026-07-24 范围更新**：Buzz 纳入本表，因为它已形成 Rust relay、Tauri/React desktop、Flutter mobile、CLI、ACP process pool、Git/PR 与 workflow 的完整 Agent platform，而不只是通信协议。它回答的是“Agent 如何成为团队成员”。
+>
+> **2026-08-03 范围更新**：QM 纳入本表，因为它已把 audience-aware scope、Postgres run/session、per-scope agent computer、Pi/OpenCode/Codex/Claude harness、Slack/Web/cron/monitor、capability/credential/approval 收进同一 control plane。它回答的是“一个共享组织 Agent 如何长期、安全、可恢复地工作”。
 
 ---
 
@@ -14,18 +16,18 @@
 
 ### 对比矩阵
 
-| 维度 | openagent | openhuman | UI-TARS-desktop | CyberVerse | open-design | Buzz |
-|------|-----------|-----------|-----------------|------------|-------------|------|
-| 产品形态 | Web 管理台 + 自托管后端 | Rust/Tauri desktop personal AI OS | Electron 桌面应用 + GUIAgent SDK + Operator/browser/remote runtime | Go orchestrator + Python inference + Vue Web 的实时 digital-human Agent 平台 | Web + daemon + desktop + packaged runtime 的 agent-native 设计平台 | Rust relay + Tauri/React desktop + Flutter mobile + CLI + ACP harness 的 Agent-native 团队协作平台 |
-| 核心强项 | LLM Provider + RAG + MCP/tools + admin/distribution | Memory Tree + tool registry + `tinyagents` / `tinyflows` + `skill_runtime` + run ledger + connectors | GUIAgent loop、VLM adapter、action parser、Operator port、本地/浏览器/远程执行 | WebRTC / 实时语音 / PersonaAgent / RAG / FlashHead / LiveAct / 云端数字人 provider | `SKILL.md` + `DESIGN.md` + runtime registry + artifact preview/export + MCP + plugin/automation | Nostr 签名事件、host-derived tenancy、ACP queue/pool、频道/DM、Git/PR、workflow 与审计统一数据面 |
-| 功能覆盖度 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| 集成成本 | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ |
-| 社区健康 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| 文档质量 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| 维护持续性 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| 许可证 | Apache-2.0 | GPL-3.0 | Apache-2.0 | GPL-3.0 | Apache-2.0 | Apache-2.0 |
-| 生产采用建议 | ⚠️ 观望；个人/小团队 PoC 可试 | ⚠️ 观望；隔离试用 / 架构学习 / 外围维护优先 | ⚠️ 观望；GUI agent PoC / 研究推荐 | ⚠️ 观望；PoC / 学习推荐，生产前先做安全收口 | ⚠️ 推荐研究与 PoC；生产采用前先当平台底座评估 | ⚠️ 推荐固定版本、隔离环境内部试点；生产协作主干暂观望 |
-| 架构学习价值 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 维度 | openagent | openhuman | UI-TARS-desktop | CyberVerse | open-design | Buzz | QM |
+|------|-----------|-----------|-----------------|------------|-------------|------|----|
+| 产品形态 | Web 管理台 + 自托管后端 | Rust/Tauri desktop personal AI OS | Electron 桌面应用 + GUIAgent SDK + Operator/browser/remote runtime | Go orchestrator + Python inference + Vue Web 的实时 digital-human Agent 平台 | Web + daemon + desktop + packaged runtime 的 agent-native 设计平台 | Rust relay + Tauri/React desktop + Flutter mobile + CLI + ACP harness 的 Agent-native 团队协作平台 | Headless TS core + Slack/Web/Admin/Portal + deployment CLI + Docker/Sprites/AWS agent computer |
+| 核心强项 | LLM Provider + RAG + MCP/tools + admin/distribution | Memory Tree + tool registry + `tinyagents` / `tinyflows` + `skill_runtime` + run ledger + connectors | GUIAgent loop、VLM adapter、action parser、Operator port、本地/浏览器/远程执行 | WebRTC / 实时语音 / PersonaAgent / RAG / FlashHead / LiveAct / 云端数字人 provider | `SKILL.md` + `DESIGN.md` + runtime registry + artifact preview/export + MCP + plugin/automation | Nostr 签名事件、host-derived tenancy、ACP queue/pool、频道/DM、Git/PR、workflow 与审计统一数据面 | audience-aware scope、durable run/session、per-scope sandbox、多 harness、credential/approval/deployment layer |
+| 功能覆盖度 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 集成成本 | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ | ⭐⭐ |
+| 社区健康 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
+| 文档质量 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 维护持续性 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
+| 许可证 | Apache-2.0 | GPL-3.0 | Apache-2.0 | GPL-3.0 | Apache-2.0 | Apache-2.0 | MIT |
+| 生产采用建议 | ⚠️ 观望；个人/小团队 PoC 可试 | ⚠️ 观望；隔离试用 / 架构学习 / 外围维护优先 | ⚠️ 观望；GUI agent PoC / 研究推荐 | ⚠️ 观望；PoC / 学习推荐，生产前先做安全收口 | ⚠️ 推荐研究与 PoC；生产采用前先当平台底座评估 | ⚠️ 推荐固定版本、隔离环境内部试点；生产协作主干暂观望 | ⚠️ 固定版本、隔离 cloud/Slack PoC；生产主干暂缓 |
+| 架构学习价值 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
 
 ### 分项详评
 
@@ -65,6 +67,12 @@
 - **主要风险**：项目公开历史只有四个多月；v0.4.x 仍在高频修补 Windows PATH/Git Bash、Agent onboarding、runtime discovery、reconnect 与 identity restore；本地 Agent 子进程天然拥有高权限执行面。
 - **最佳采用路径**：固定 release，在独立 VM/开发机用户下只开一个 community、一个 Agent runtime 和一个测试 repo；先验证密钥、重连、崩溃恢复与最小工具权限，再决定是否扩大。
 
+#### QM
+
+- **适合采用的点**：Slack/Web-first 的共享组织 Agent control plane；scope/audience、durable run/session、Postgres lease/reaper、per-scope sandbox、Pi/OpenCode/Codex/Claude、多 surface/cron/monitor、capability/credential/approval 与 deployment layer 已形成真实闭环。
+- **主要风险**：公开历史仅 5 天；默认 Auto 在 screener timeout/不可筛数据时 failed-open；local 与 AWS backend 没有硬 egress enforcement；browser 是额外 policy 面；73 个 open PR 和 launch 热度尚不能证明长期 production adoption。
+- **最佳采用路径**：固定 release/image digest，在隔离 cloud account、test Slack workspace、Strict posture 和受控 egress 下只开一个 harness、一个 channel、一个 project；验证 actor revocation、scope migration、approval replay、crash recovery 与 side-effect idempotency 后再扩大。
+
 ### 场景一结论
 
 - **如果要最快搭自托管 AI 助手后台** → 选 **openagent** 做 PoC。
@@ -73,7 +81,8 @@
 - **如果要实时数字人 / 语音视频 Agent** → 看 **CyberVerse**。
 - **如果要 agent-native 设计平台 / 设计 substrate** → 看 **open-design**。
 - **如果要人类 + Agent + Git 共用协作空间** → 看 **Buzz**，但先固定版本隔离试点。
-- **如果要成熟企业 workflow / RAG / knowledge 平台** → 这六者都仍应和 Dify、Flowise、AnythingLLM、Open WebUI、LangGraph、Onyx、RAGFlow 做进一步对照。
+- **如果要 Slack/Web-first 的 durable organization-agent control plane** → 看 **QM**，但先验证 egress、approval、resume 与 side-effect 去重。
+- **如果要成熟企业 workflow / RAG / knowledge 平台** → 这七者都仍应和 Dify、Flowise、AnythingLLM、Open WebUI、LangGraph、Onyx、RAGFlow 做进一步对照。
 
 ---
 
@@ -81,28 +90,28 @@
 
 ### 对比矩阵
 
-| 维度 | openagent | openhuman | UI-TARS-desktop | CyberVerse | open-design | Buzz |
-|------|-----------|-----------|-----------------|------------|-------------|------|
-| 设计模式深度 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| 代码质量 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| 可借鉴度 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| 创新性 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| 综合学习价值 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 维度 | openagent | openhuman | UI-TARS-desktop | CyberVerse | open-design | Buzz | QM |
+|------|-----------|-----------|-----------------|------------|-------------|------|----|
+| 设计模式深度 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 代码质量 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 可借鉴度 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 创新性 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 综合学习价值 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
 
 ### 架构模式对比
 
-| 问题 | openagent 的方案 | openhuman 的方案 | UI-TARS-desktop 的方案 | CyberVerse 的方案 | open-design 的方案 | Buzz 的方案 |
-|------|------------------|-------------------|--------------------------|-------------------|--------------------|-------------|
-| 产品宿主 | Go 后端 + Web admin | Tauri desktop + in-process Rust core + React | Electron desktop + SDK/packages monorepo | Go server + Python gRPC inference + Vue frontend | Next.js Web + local daemon + Electron/packaged shell | Rust relay + Tauri/React desktop + Flutter mobile + Rust CLI/ACP sidecars |
-| 能力组合根 | Store 绑定 prompt/provider/RAG/tools/MCP | Controller/tool/provider/MCP/flows/profile registries + `tinyagents` / `tinyflows` seams | GUIAgent loop + Model adapter + Action parser + Operator port | 会话 orchestrator + plugin registry + PersonaAgent + avatar / ASR / TTS / RAG providers | runtime registry + `SKILL.md` + `DESIGN.md` + plugin/automation substrate | Nostr signed event kind + `TenantContext` + event projection + ACP queue/pool/session |
-| 模型接入 | `ModelProvider` interface + factory | unified inference + role-based provider routing | OpenAI-compatible VLM / Responses API + UI-TARS action parsing | gRPC plugin 服务面 + Qwen/Doubao/OpenAI/LiteLLM + 本地/云端数字人 provider | 本地 Agent CLI + BYOK proxy + Open Design Cloud | Goose/Codex/Claude/custom ACP 子进程 + 可选本地 mesh LLM |
-| 记忆 / RAG | Store/vector DB/embedding/search provider | Memory Tree + Obsidian vault + session_db/run ledger | 非核心，偏视觉 GUI context / screenshot history | Character knowledge + RAG engine + PersonaAgent 工具化检索 | Skill / Design System / artifact / prompt 资产为主，不以长期记忆为核心卖点 | 事件历史、线程 context、Agent/team snapshot 与 Typesense；非 personal long-memory 主导 |
-| 工具体系 | builtin tools + MCP tools 合并 ToolSet | tool registry + MCP client/server + `flows`/`skill_runtime` + security policy | 本地电脑、浏览器、远程电脑/浏览器等 Operator family | Avatar / LLM / TTS / ASR / Omni / VoiceLLM / Persona 插件总线 | MCP install / plugin runtime / automations / external integrations | MCP/dev tools + Git/PR/workflow/media 能力，Agent identity 与协作权限绑定 |
-| UI / 流式 | SSE event 分层：message/reason/tool/search/vector | Desktop UI + JSON-RPC/core state + command center/recent runs | `onData` delta conversation + prediction marker + IPC lifecycle | WebRTC 实时媒体 + Go session state + gRPC inference + Web UI | daemon SSE + sandboxed preview + desktop host bridge | Nostr WebSocket subscription + typing/presence + observer archive + desktop/mobile 多端投影 |
-| 分发 | 单二进制/Docker/Helm | 多平台桌面安装包 + Homebrew/apt/MSI + CEF | Electron App + npm packages + GitHub release workflows | Docker/Conda/Makefile + Web frontend | Web + daemon + desktop/package + 多 release channel + MCP wiring | 签名/公证 desktop release、Tauri updater、Linux/Windows/macOS、Flutter mobile、Helm/server |
-| 失败恢复 | 后端 service / API error 处理 | approval/sandbox、workflow DONE/FAILED/CANCELLED/DEGENERATE、run ledger、health/doctor | screenshot/model/execute retry、max loop、pause/resume/stop、call_user/finished terminal action | session guard、task state、pipeline/turn seq、语音中断与媒体恢复 | runtime resume/recover、proxy fallback、artifact/retry、desktop/daemon 分层恢复 | relay reconnect、channel queue requeue、ACP process respawn、session rotation、stall/timeout surfacing |
+| 问题 | openagent 的方案 | openhuman 的方案 | UI-TARS-desktop 的方案 | CyberVerse 的方案 | open-design 的方案 | Buzz 的方案 | QM 的方案 |
+|------|------------------|-------------------|--------------------------|-------------------|--------------------|-------------|-----------|
+| 产品宿主 | Go 后端 + Web admin | Tauri desktop + in-process Rust core + React | Electron desktop + SDK/packages monorepo | Go server + Python gRPC inference + Vue frontend | Next.js Web + local daemon + Electron/packaged shell | Rust relay + Tauri/React desktop + Flutter mobile + Rust CLI/ACP sidecars | Node/TS headless core + Fastify/Postgres + Slack/Web/Admin/Portal + deployment CLI |
+| 能力组合根 | Store 绑定 prompt/provider/RAG/tools/MCP | Controller/tool/provider/MCP/flows/profile registries + `tinyagents` / `tinyflows` seams | GUIAgent loop + Model adapter + Action parser + Operator port | 会话 orchestrator + plugin registry + PersonaAgent + avatar / ASR / TTS / RAG providers | runtime registry + `SKILL.md` + `DESIGN.md` + plugin/automation substrate | Nostr signed event kind + `TenantContext` + event projection + ACP queue/pool/session | Principal/Audience + Scope Resolution + Run/Session + Harness + ToolContext + SandboxHandle |
+| 模型接入 | `ModelProvider` interface + factory | unified inference + role-based provider routing | OpenAI-compatible VLM / Responses API + UI-TARS action parsing | gRPC plugin 服务面 + Qwen/Doubao/OpenAI/LiteLLM + 本地/云端数字人 provider | 本地 Agent CLI + BYOK proxy + Open Design Cloud | Goose/Codex/Claude/custom ACP 子进程 + 可选本地 mesh LLM | Pi/OpenCode/Codex/Claude harness adapter + durable runtime/model selection |
+| 记忆 / RAG | Store/vector DB/embedding/search provider | Memory Tree + Obsidian vault + session_db/run ledger | 非核心，偏视觉 GUI context / screenshot history | Character knowledge + RAG engine + PersonaAgent 工具化检索 | Skill / Design System / artifact / prompt 资产为主，不以长期记忆为核心卖点 | 事件历史、线程 context、Agent/team snapshot 与 Typesense；非 personal long-memory 主导 | scope memory + session tape + participant visibility + workspace/skills；非向量 RAG 主导 |
+| 工具体系 | builtin tools + MCP tools 合并 ToolSet | tool registry + MCP client/server + `flows`/`skill_runtime` + security policy | 本地电脑、浏览器、远程电脑/浏览器等 Operator family | Avatar / LLM / TTS / ASR / Omni / VoiceLLM / Persona 插件总线 | MCP install / plugin runtime / automations / external integrations | MCP/dev tools + Git/PR/workflow/media 能力，Agent identity 与协作权限绑定 | ToolContext + command policy/approval + deployment layer + brokered credentials + per-scope sandbox |
+| UI / 流式 | SSE event 分层：message/reason/tool/search/vector | Desktop UI + JSON-RPC/core state + command center/recent runs | `onData` delta conversation + prediction marker + IPC lifecycle | WebRTC 实时媒体 + Go session state + gRPC inference + Web UI | daemon SSE + sandboxed preview + desktop host bridge | Nostr WebSocket subscription + typing/presence + observer archive + desktop/mobile 多端投影 | Slack/Web turn stream + durable run activity + async delivery/approval continuation |
+| 分发 | 单二进制/Docker/Helm | 多平台桌面安装包 + Homebrew/apt/MSI + CEF | Electron App + npm packages + GitHub release workflows | Docker/Conda/Makefile + Web frontend | Web + daemon + desktop/package + 多 release channel + MCP wiring | 签名/公证 desktop release、Tauri updater、Linux/Windows/macOS、Flutter mobile、Helm/server | npm CLI + 六类 cosign GHCR image + Docker/Fly/AWS stack contract |
+| 失败恢复 | 后端 service / API error 处理 | approval/sandbox、workflow DONE/FAILED/CANCELLED/DEGENERATE、run ledger、health/doctor | screenshot/model/execute retry、max loop、pause/resume/stop、call_user/finished terminal action | session guard、task state、pipeline/turn seq、语音中断与媒体恢复 | runtime resume/recover、proxy fallback、artifact/retry、desktop/daemon 分层恢复 | relay reconnect、channel queue requeue、ACP process respawn、session rotation、stall/timeout surfacing | Postgres lease/heartbeat/reaper、per-session serialization、attempt ledger、park/drain/terminal reconciliation |
 
-### 最值得学习的 TOP 12
+### 最值得学习的 TOP 14
 
 1. **openagent 的 Store 能力组合根**
    - 把 prompt、model provider、RAG、tools、skills、MCP server 组合成一个用户可配置对象。
@@ -140,6 +149,12 @@
 12. **Buzz 的按频道串行、跨频道并发 ACP runtime**
    - queue/pool/session 分层处理顺序、并发、进程崩溃、session rotation、timeout 与 context 回填，是长期在线 Agent 产品化的完整样本。
 
+13. **QM 的 Scope Resolution + audience floor**
+   - conversation 先解析出唯一 writable scope，再按参与者计算 workspace layers、policy、egress 与 granted handles 的共同下界；共享 Agent 不因最强成员加入就放大整条会话权限。
+
+14. **QM 的 Run/Session/Harness/ToolContext 四层窄腰**
+   - Session 保存组织历史，Run 用 Postgres lease/reaper 承担重试，Harness 只是可替换 compute，ToolContext 收口 side effect；这是把长期在线 Agent 从单一 CLI/模型中解耦的完整样本。
+
 ### 场景二结论
 
 - **学自托管 Web agent workbench** → 优先读 **openagent**。
@@ -149,6 +164,7 @@
 - **学实时语音 / 数字人 / 媒体会话架构** → 优先读 **CyberVerse**。
 - **学 agent-native design substrate / 多 runtime 设计工作台** → 优先读 **open-design**。
 - **学 Agent-native 组织协作、签名事件与长期 ACP runtime** → 优先读 **Buzz**。
+- **学 durable organization-agent control plane、scope、sandbox 与多 harness 窄腰** → 优先读 **QM**。
 
 ---
 
@@ -162,10 +178,11 @@
 - 想做实时 digital-human / voice-video agent：先试 **CyberVerse**，但务必先补默认安全口径。
 - 想做 AI 设计工作台 / 设计 substrate：先看 **open-design**，但按平台底座方式评估，不要被“demo 很快跑起来”误导。
 - 想让人、Agent、Git 与 workflow 共用协作空间：固定版本隔离试 **Buzz**，不要直接替换生产主干。
+- 想做 Slack/Web-first 共享组织 Agent：固定版本、受控 egress 与 Strict posture 隔离试 **QM**，不要把默认 Auto 当硬安全边界。
 
 ### 如果要学架构
 
-六者都值得看，但不要混淆层级：
+七者都值得看，但不要混淆层级：
 
 - **openagent** 教你怎么把 agent 能力产品化成 Web 管理台。
 - **openhuman** 教你怎么做本地优先 personal AI OS：desktop lifecycle、RPC control plane、tool policy、Memory Tree、`flows` / `tinyflows` / `skill_runtime`、run ledger。
@@ -173,6 +190,7 @@
 - **CyberVerse** 教你怎么做实时语音 + WebRTC + 数字人 + 背景任务的复合 Agent 框架。
 - **open-design** 教你怎么做 design substrate：runtime registry、file protocol、artifact preview/export、daemon↔web↔desktop 边界。
 - **Buzz** 教你怎么把签名事件、tenant isolation、ACP process lifecycle、Git 和团队协作压进同一平台窄腰。
+- **QM** 教你怎么把 audience-aware scope、durable run/session、per-scope agent computer、多 harness、credentials 与 approval 压进同一组织 Agent control plane。
 
 ### 综合冠军
 
@@ -182,4 +200,5 @@
 - **实时 digital-human Agent 冠军：CyberVerse**
 - **agent-native 设计平台冠军：open-design**
 - **Agent-native 团队协作冠军：Buzz**
-- **综合结论**：没有一个“全场景总冠军”；它们代表的是六种不同的 Agent 产品化方向。最正确的选型方法不是排总分，而是先认清你到底是在做 **self-hosted backend、personal AI OS、GUI runtime、digital-human framework、design substrate** 还是 **Agent-native team workspace**。
+- **durable organization-agent control plane 冠军：QM**
+- **综合结论**：没有一个“全场景总冠军”；它们代表的是七种不同的 Agent 产品化方向。最正确的选型方法不是排总分，而是先认清你到底是在做 **self-hosted backend、personal AI OS、GUI runtime、digital-human framework、design substrate、Agent-native team workspace** 还是 **durable organization-agent control plane**。
