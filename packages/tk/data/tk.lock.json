@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T01:25:42.978Z",
+  "generatedAt": "2026-08-04T08:42:23.285Z",
   "sources": [
     {
       "id": "1shell",
@@ -186,6 +186,19 @@
       "commit": "211d521b310fc23c63dd3d9ca848941173981c5e",
       "remote": "https://github.com/MemTensor/memmy-agent.git",
       "shallow": true,
+      "dirty": false
+    },
+    {
+      "id": "mise",
+      "repo": "jdx/mise",
+      "url": "https://github.com/jdx/mise",
+      "cloneUrl": "https://github.com/jdx/mise.git",
+      "sourceDir": "projects/jdx__mise",
+      "exists": true,
+      "branch": "main",
+      "commit": "72379d0c459808f980a037065ac9c39a60032280",
+      "remote": "https://github.com/jdx/mise.git",
+      "shallow": false,
       "dirty": false
     },
     {

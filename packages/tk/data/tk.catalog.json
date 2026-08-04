@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-03T01:38:34.542Z",
+  "generatedAt": "2026-08-04T08:42:08.995Z",
   "projects": [
     {
       "id": "1shell",
@@ -17858,6 +17858,1641 @@
         "design",
         "browser",
         "typescript"
+      ]
+    },
+    {
+      "id": "mise",
+      "name": "mise",
+      "repo": "jdx/mise",
+      "url": "https://github.com/jdx/mise",
+      "cloneUrl": "https://github.com/jdx/mise.git",
+      "report": "reports/mise.md",
+      "reportFile": "mise",
+      "category": "Tools / Infrastructure / Distribution",
+      "summary": "mise 是把多语言工具版本解析/安装、目录环境注入、任务 DAG/cache 与供应链 lock/provenance 收敛到一个 Rust 单二进制的开发环境控制面；核心 tools/env 已成熟到值得积极采用，但 CI trust、自动安装、backend 覆盖差异和仍在高速扩张的 task/sandbox/cache 面意味着企业应固定版本并分层启用，而不是把它当成 Nix/Bazel 级 hermetic substrate。",
+      "adoption": "推荐，但分层采用。",
+      "architectureValue": 5,
+      "license": "MIT",
+      "language": "Rust；少量 Bash、PowerShell、Fish、Python、Lua 与生成/声明数据",
+      "analysisDate": "2026-08-04",
+      "sourceDir": "projects/jdx__mise",
+      "owner": "jdx",
+      "sourceExists": true,
+      "dependencies": [
+        {
+          "name": "aqua-registry",
+          "version": "{\"path\":\"crates/aqua-registry\"}",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "built",
+          "version": "{\"version\":\"0.8\",\"features\":[\"chrono\"]}",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "cfg_aliases",
+          "version": "0.2",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "eyre",
+          "version": "0.6",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "heck",
+          "version": "0.5",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "indexmap",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "phf_codegen",
+          "version": "0.14",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "serde_yaml",
+          "version": "0.9",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "toml",
+          "version": "1.0",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "clap-sort",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "ctor",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "insta",
+          "version": "{\"version\":\"1\",\"features\":[\"filters\",\"json\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "mockito",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "pretty_assertions",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "test-log",
+          "version": "0.2",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "age",
+          "version": "{\"version\":\"0.12\",\"features\":[\"ssh\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "aho-corasick",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "aqua-registry",
+          "version": "{\"path\":\"crates/aqua-registry\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "async-backtrace",
+          "version": "0.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "async-trait",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "aube",
+          "version": "{\"version\":\"1.37\",\"default-features\":false,\"features\":[\"rustls\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "aube-registry",
+          "version": "{\"version\":\"1.37\",\"default-features\":false,\"features\":[\"rustls\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "aws-config",
+          "version": "{\"version\":\"1.5\",\"default-features\":false,\"features\":[\"behavior-version-latest\",\"default-https-client\",\"rt-tokio\",\"sso\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "aws-lc-rs",
+          "version": "{\"version\":\"1\",\"optional\":true,\"features\":[\"bindgen\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "aws-sdk-s3",
+          "version": "{\"version\":\"1\",\"default-features\":false,\"features\":[\"behavior-version-latest\",\"default-https-client\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "base64",
+          "version": "0.23",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "blake3",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "bytesize",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "bzip2",
+          "version": "0.6",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "calm_io",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "chacha20poly1305",
+          "version": "0.11",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "chrono",
+          "version": "{\"version\":\"0.4\",\"default-features\":false,\"features\":[\"std\",\"clock\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "ci_info",
+          "version": "0.14",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "clap",
+          "version": "{\"version\":\"4\",\"features\":[\"env\",\"derive\",\"string\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "clx",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "color-eyre",
+          "version": "0.6",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "color-print",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "comfy-table",
+          "version": "7",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "confique",
+          "version": "{\"version\":\"0.4\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "console",
+          "version": "0.16",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "contracts",
+          "version": "0.6",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "dashmap",
+          "version": "6",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "demand",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "digest",
+          "version": "0.11.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "dotenvy",
+          "version": "0.15",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "duct",
+          "version": "1.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "exec",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "expr-lang",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "eyre",
+          "version": "0.6",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "filetime",
+          "version": "0.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "flate2",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "fslock",
+          "version": "0.2.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "futures-util",
+          "version": "0.3.32",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "gix",
+          "version": "{\"version\":\"<1\",\"features\":[\"worktree-mutation\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "glob",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "globset",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "heck",
+          "version": "0.5",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "homedir",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "ignore",
+          "version": "{\"version\":\"0.4\",\"features\":[]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "indenter",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "indexmap",
+          "version": "{\"version\":\"2\",\"features\":[\"serde\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "indoc",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "itertools",
+          "version": "0.15",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "jdx-tar",
+          "version": "1.1.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "jiff",
+          "version": "0.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "junction",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "landlock",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "log",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "md-5",
+          "version": "0.11",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "miette",
+          "version": "{\"version\":\"7\",\"features\":[\"fancy\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "minisign-verify",
+          "version": "0.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "mise-interactive-config",
+          "version": "{\"path\":\"crates/mise-interactive-config\",\"version\":\"2026.1.12\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "mise-sigstore",
+          "version": "{\"path\":\"crates/mise-sigstore\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "netrc-rs",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "nix",
+          "version": "{\"version\":\"0.31\",\"features\":[\"signal\",\"term\",\"user\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "nodejs-semver",
+          "version": "5.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "nucleo-matcher",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "num_cpus",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "once_cell",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "openssl",
+          "version": "{\"version\":\"0.10\",\"optional\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "path-absolutize",
+          "version": "4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "petgraph",
+          "version": "0.8",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "pgp",
+          "version": "0.20",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "phf",
+          "version": "0.14",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "plist",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "rand",
+          "version": "0.10",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "rattler",
+          "version": "{\"version\":\"0.47\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "rattler_conda_types",
+          "version": "{\"version\":\"0.48\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "rattler_package_streaming",
+          "version": "{\"version\":\"0.26\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "rattler_repodata_gateway",
+          "version": "{\"version\":\"0.30\",\"default-features\":false,\"features\":[\"gateway\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "rattler_solve",
+          "version": "{\"version\":\"7\",\"default-features\":false,\"features\":[\"resolvo\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "rattler_virtual_packages",
+          "version": "{\"version\":\"3\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "regex",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "reqwest",
+          "version": "{\"version\":\"0.13\",\"default-features\":false,\"features\":[\"json\",\"form\",\"gzip\",\"zstd\",\"charset\",\"http2\",\"socks\",\"stream\",\"system-proxy\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "rmcp",
+          "version": "{\"version\":\"2.0\",\"features\":[\"server\",\"transport-io\",\"schemars\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "rmp-serde",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "rops",
+          "version": "{\"version\":\"0.1\",\"default-features\":false,\"features\":[\"aes-gcm\",\"sha2\",\"yaml\",\"json\",\"toml\",\"age\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "same-file",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "seccompiler",
+          "version": "0.5",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "self_update",
+          "version": "{\"version\":\"0.44\",\"optional\":true,\"default-features\":false,\"features\":[\"archive-tar\",\"compression-flate2\",\"signatures\",\"reqwest\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "semver",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"version\":\"1\",\"features\":[\"derive\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "serde_ignored",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "serde_yaml",
+          "version": "0.9",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "sevenz-rust2",
+          "version": "0.20",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "sha1",
+          "version": "0.11",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "0.11",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "shell-escape",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "shell-words",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "signal-hook",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "siphasher",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "strum",
+          "version": "{\"version\":\"0.28\",\"features\":[\"derive\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "supports-hyperlinks",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "tabled",
+          "version": "{\"version\":\"0.21\",\"features\":[\"ansi\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "taplo",
+          "version": "0.14",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "tempfile",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "tera",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "tera-contrib",
+          "version": "{\"version\":\"0.2\",\"features\":[\"base64\",\"date\",\"filesize_format\",\"format\",\"json\",\"rand\",\"regex\",\"slug\",\"urlencode\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "tera1",
+          "version": "{\"package\":\"tera\",\"version\":\"1.20.1\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "terminal_size",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"version\":\"1\",\"features\":[\"full\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "tokio-util",
+          "version": "{\"version\":\"0.7\",\"features\":[\"io\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "toml",
+          "version": "{\"version\":\"1.0\",\"features\":[\"parse\",\"preserve_order\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "toml_edit",
+          "version": "{\"version\":\"0.25\",\"features\":[\"parse\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-iter",
+          "version": "=1.27.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "ubi",
+          "version": "{\"version\":\"0.10\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "url",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "urlencoding",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "usage-lib",
+          "version": "{\"version\":\"4\",\"features\":[\"clap\",\"docs\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "versions",
+          "version": "{\"version\":\"7\",\"features\":[\"serde\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "vfox",
+          "version": "{\"path\":\"crates/vfox\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "walkdir",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "which",
+          "version": "8",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "winapi",
+          "version": "{\"version\":\"0.3.9\",\"features\":[\"consoleapi\",\"minwindef\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "xx",
+          "version": "{\"version\":\"2.5\",\"default-features\":false,\"features\":[\"glob\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "xz2",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "zip",
+          "version": "{\"version\":\"8\",\"default-features\":false,\"features\":[\"deflate\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "zipsign-api",
+          "version": "0.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "zstd",
+          "version": "0.13",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "Cargo.toml"
+        },
+        {
+          "name": "blake3",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/aqua-registry/Cargo.toml"
+        },
+        {
+          "name": "expr-lang",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/aqua-registry/Cargo.toml"
+        },
+        {
+          "name": "eyre",
+          "version": "0.6",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/aqua-registry/Cargo.toml"
+        },
+        {
+          "name": "heck",
+          "version": "0.5",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/aqua-registry/Cargo.toml"
+        },
+        {
+          "name": "indexmap",
+          "version": "{\"version\":\"2\",\"features\":[\"serde\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/aqua-registry/Cargo.toml"
+        },
+        {
+          "name": "itertools",
+          "version": "0.15",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/aqua-registry/Cargo.toml"
+        },
+        {
+          "name": "log",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/aqua-registry/Cargo.toml"
+        },
+        {
+          "name": "rkyv",
+          "version": "{\"version\":\"0.8\",\"features\":[\"unaligned\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/aqua-registry/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"version\":\"1\",\"features\":[\"derive\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/aqua-registry/Cargo.toml"
+        },
+        {
+          "name": "serde_yaml",
+          "version": "0.9",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/aqua-registry/Cargo.toml"
+        },
+        {
+          "name": "siphasher",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/aqua-registry/Cargo.toml"
+        },
+        {
+          "name": "strum",
+          "version": "{\"version\":\"0.28\",\"features\":[\"derive\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/aqua-registry/Cargo.toml"
+        },
+        {
+          "name": "tempfile",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/aqua-registry/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/aqua-registry/Cargo.toml"
+        },
+        {
+          "name": "versions",
+          "version": "{\"version\":\"7\",\"features\":[\"serde\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/aqua-registry/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "crates/mise-interactive-config/Cargo.toml"
+        },
+        {
+          "name": "async-trait",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-interactive-config/Cargo.toml"
+        },
+        {
+          "name": "console",
+          "version": "0.16",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-interactive-config/Cargo.toml"
+        },
+        {
+          "name": "nucleo-matcher",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-interactive-config/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"version\":\"1\",\"features\":[\"rt\",\"sync\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-interactive-config/Cargo.toml"
+        },
+        {
+          "name": "toml_edit",
+          "version": "{\"version\":\"0.25\",\"features\":[\"parse\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-interactive-config/Cargo.toml"
+        },
+        {
+          "name": "unicode-width",
+          "version": "0.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-interactive-config/Cargo.toml"
+        },
+        {
+          "name": "xx",
+          "version": "{\"version\":\"2.5\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-interactive-config/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"version\":\"1\",\"features\":[\"macros\",\"rt-multi-thread\",\"net\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/mise-sigstore/Cargo.toml"
+        },
+        {
+          "name": "async-trait",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-sigstore/Cargo.toml"
+        },
+        {
+          "name": "base64",
+          "version": "0.23",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-sigstore/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-sigstore/Cargo.toml"
+        },
+        {
+          "name": "reqwest",
+          "version": "{\"version\":\"0.13\",\"default-features\":false,\"features\":[\"json\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-sigstore/Cargo.toml"
+        },
+        {
+          "name": "rustls-pki-types",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-sigstore/Cargo.toml"
+        },
+        {
+          "name": "rustls-webpki",
+          "version": "{\"version\":\"0.103\",\"default-features\":false,\"features\":[\"std\",\"aws-lc-rs\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-sigstore/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"version\":\"1\",\"features\":[\"derive\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-sigstore/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-sigstore/Cargo.toml"
+        },
+        {
+          "name": "sha2",
+          "version": "0.11",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-sigstore/Cargo.toml"
+        },
+        {
+          "name": "sigstore-verify",
+          "version": "{\"version\":\"0.11\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-sigstore/Cargo.toml"
+        },
+        {
+          "name": "snap",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-sigstore/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-sigstore/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"version\":\"1\",\"features\":[\"fs\",\"io-util\",\"time\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-sigstore/Cargo.toml"
+        },
+        {
+          "name": "x509-cert",
+          "version": "{\"version\":\"0.3\",\"default-features\":false,\"features\":[\"std\",\"pem\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/mise-sigstore/Cargo.toml"
+        },
+        {
+          "name": "insta",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "wiremock",
+          "version": "0.6",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "clap",
+          "version": "{\"version\":\"4\",\"features\":[\"derive\"],\"optional\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "env_logger",
+          "version": "{\"version\":\"0.11\",\"optional\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "glob",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "homedir",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "indexmap",
+          "version": "{\"version\":\"2\",\"features\":[\"serde\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "itertools",
+          "version": "0.15",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "log",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "mise-sigstore",
+          "version": "{\"path\":\"../mise-sigstore\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "mlua",
+          "version": "{\"version\":\"0.12\",\"features\":[\"async\",\"lua51\",\"macros\",\"serialize\",\"send\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "once_cell",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "reqwest",
+          "version": "{\"version\":\"0.13\",\"default-features\":false,\"features\":[\"json\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "tempfile",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"version\":\"1\",\"features\":[\"macros\",\"fs\",\"io-util\",\"time\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "toml",
+          "version": "1.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "url",
+          "version": "2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "xx",
+          "version": "{\"version\":\"2\",\"default-features\":false,\"features\":[\"archive\",\"hash\",\"hash_sha1\",\"hash_md5\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/vfox/Cargo.toml"
+        },
+        {
+          "name": "@tsconfig/node24",
+          "version": "^24.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/markdown-it",
+          "version": "^14.1.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/node",
+          "version": "^26.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "js-toml",
+          "version": "^1.0.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "markdown-it",
+          "version": "^14.1.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "toml",
+          "version": "^5.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "vitepress",
+          "version": "1.6.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "vitepress-plugin-group-icons",
+          "version": "^1.6.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "vitepress-plugin-mermaid",
+          "version": "2.0.17",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "vitepress-plugin-tabs",
+          "version": "^0.9.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        }
+      ],
+      "dependencySummary": {
+        "total": 212,
+        "manifests": 6,
+        "byEcosystem": {
+          "cargo": 202,
+          "npm": 10
+        },
+        "byScope": {
+          "build": 11,
+          "development": 19,
+          "runtime": 182
+        }
+      },
+      "dependencyEvidencePresent": true,
+      "dependencyEvidence": [
+        {
+          "dependency": "Clap + usage-lib",
+          "type": "CLI/schema",
+          "usedFor": "command tree、help、completion、task usage",
+          "problemSolved": "大型 CLI 的 typed parsing 与统一 UX",
+          "evidence": "Cargo.toml、src/cli/mod.rs",
+          "reuseSignal": "command contract 集中、可测试",
+          "caution": "alias/猜测式 UX 过多会提高歧义与维护成本"
+        },
+        {
+          "dependency": "Tokio + Rayon",
+          "type": "async/concurrency",
+          "usedFor": "HTTP、并发安装、task scheduler、cache",
+          "problemSolved": "I/O 与 CPU 工作并行",
+          "evidence": "src/toolset/toolset_install.rs、src/task/task_scheduler.rs",
+          "reuseSignal": "install DAG + semaphore 模式值得复用",
+          "caution": "全局 cache/locks 与 async 交织，死锁和取消语义需持续 E2E"
+        },
+        {
+          "dependency": "Reqwest",
+          "type": "HTTP",
+          "usedFor": "metadata、downloads、remote cache、registries",
+          "problemSolved": "单一网络层",
+          "evidence": "src/http.rs、backend modules",
+          "reuseSignal": "统一 timeout/retry/user-agent/policy",
+          "caution": "backend 可自定义 host/URL，SSRF/credential forwarding 要按调用链审计"
+        },
+        {
+          "dependency": "Serde + TOML/YAML/JSON",
+          "type": "config/contract",
+          "usedFor": "config、lock、registry、cache metadata",
+          "problemSolved": "动态配置进入 typed graph",
+          "evidence": "src/config、src/lockfile.rs",
+          "reuseSignal": "版本化 schema + typed merge",
+          "caution": "配置来源很多，优先级与 migration 是长期复杂度"
+        },
+        {
+          "dependency": "color-eyre / eyre",
+          "type": "diagnostics",
+          "usedFor": "错误链与 CLI context",
+          "problemSolved": "大型 CLI 的可行动错误",
+          "evidence": "全仓",
+          "reuseSignal": "context-rich errors 明显改善 DX",
+          "caution": "超大模块仍可能把 domain error 压成字符串合同"
+        },
+        {
+          "dependency": "Git/libgit2 + subprocess Git",
+          "type": "source control",
+          "usedFor": "plugin、ref、workspace、registry",
+          "problemSolved": "clone/update/ref discovery",
+          "evidence": "src/git.rs、src/plugins",
+          "reuseSignal": "compatibility 优先，可切 implementation",
+          "caution": "credential/helper/proxy 语义会因 backend 不同而变化"
+        },
+        {
+          "dependency": "Aqua + mise-sigstore + minisign",
+          "type": "supply chain",
+          "usedFor": "checksum、Cosign、SLSA、GitHub attestations",
+          "problemSolved": "验证 release artifacts",
+          "evidence": "src/lockfile.rs、crates/mise-sigstore",
+          "reuseSignal": "把 provenance 变成 lock contract 很有价值",
+          "caution": "只有提供 metadata 的 backend 才能覆盖；不能外推到全部工具"
+        },
+        {
+          "dependency": "Landlock + seccompiler",
+          "type": "sandbox",
+          "usedFor": "Linux filesystem/network restriction",
+          "problemSolved": "task best-effort hardening",
+          "evidence": "src/sandbox/landlock.rs、seccomp.rs",
+          "reuseSignal": "轻量、无需 daemon",
+          "caution": "kernel/platform 相关；不是容器、namespace 或 Windows boundary"
+        },
+        {
+          "dependency": "Seatbelt profile",
+          "type": "sandbox",
+          "usedFor": "macOS task restriction",
+          "problemSolved": "可选 filesystem/network deny",
+          "evidence": "src/sandbox/macos.rs",
+          "reuseSignal": "直接包裹 command",
+          "caution": "sandbox-exec 不是跨平台长期稳定 contract，默认有必要 allow surface"
+        },
+        {
+          "dependency": "Rattler",
+          "type": "package solving",
+          "usedFor": "Conda backend",
+          "problemSolved": "跨平台 package metadata/solve",
+          "evidence": "Cargo manifest、src/backend/conda.rs",
+          "reuseSignal": "native backend 比 shell wrapper 更可控",
+          "caution": "引入较重 solver 与平台 edge cases"
+        },
+        {
+          "dependency": "Duct / command runner",
+          "type": "process",
+          "usedFor": "plugins、tools、tasks、shell",
+          "problemSolved": "统一 subprocess 管理",
+          "evidence": "src/cmd.rs、task/backend code",
+          "reuseSignal": "central command builder 可挂 sandbox/env",
+          "caution": "最终 side effect 仍由外部脚本/二进制决定"
+        },
+        {
+          "dependency": "Tera + template engines",
+          "type": "dynamic config",
+          "usedFor": "config/task templates",
+          "problemSolved": "减少重复配置",
+          "evidence": "src/config、task template",
+          "reuseSignal": "灵活",
+          "caution": "exec() / read_file() 将模板变成代码执行面，必须受 trust/safe 控制"
+        }
+      ],
+      "tags": [
+        "cli",
+        "graph",
+        "rust",
+        "python"
       ]
     },
     {
