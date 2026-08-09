@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-09T10:37:13.840Z",
+  "generatedAt": "2026-08-09T11:02:13.453Z",
   "projects": [
     {
       "id": "1shell",
@@ -32579,6 +32579,15 @@
           "evidence": "lockfile peer evidence；内置 MCP skills",
           "reuseSignal": "中：生态连接面成熟",
           "caution": "外部 MCP 即可信代码/网络边界，context 和凭据面扩大"
+        },
+        {
+          "dependency": "jiti",
+          "type": "dynamic module loader",
+          "usedFor": "加载项目、用户和 package TypeScript/JavaScript extensions",
+          "problemSolved": "让扩展无需预编译即可注册 tools/hooks/providers",
+          "evidence": "extensions/loader.ts:331-350,377-395",
+          "reuseSignal": "中：受信插件系统需要 TS 动态加载时可评估",
+          "caution": "当前缺 workspace trust gate；自动加载项目扩展等同以用户权限执行仓库代码"
         },
         {
           "dependency": "vitest",

@@ -9,8 +9,8 @@
 | 仓库 | `PrimeIntellect-ai/prime-agent` |
 | URL | `https://github.com/PrimeIntellect-ai/prime-agent` |
 | 冻结提交 | `a18809e00ea30638584d87b3afea7285a9d7296c` |
-| Star | 9,747（2026-08-09 GitHub API 快照） |
-| Fork | 936 |
+| Star | 9,762（2026-08-09T10:43Z GitHub API 快照） |
+| Fork | 938 |
 | 许可证 | MIT |
 | 主要语言 | TypeScript；另含 Python kernel runtime |
 | 默认分支 | `main` |
@@ -21,7 +21,7 @@
 | 最新 Release | `v0.7.1`（2026-08-07） |
 | Git 历史 | 4,480 commits；256 个 name/email identity |
 | 分叉后历史 | 2026-05-07 起 524 commits |
-| Open Issues / PRs | 167 issues / 249 PRs |
+| Open Issues / PRs | 167 issues / 250 PRs |
 | Closed Issues / merged PRs | 16 issues / 498 PRs；另有 127 个 closed-unmerged PR |
 | 源码规模 | 1,134 tracked files；912 个 TS 文件、约 344,579 行 TS；23 个 Python 文件、约 4,115 行 Python |
 | 测试资产 | 415 个 `*.test.ts` / `*.spec.ts` 文件（静态计数） |
@@ -71,6 +71,7 @@ Prime Agent 不是为了再做一个“LLM + bash + edit”的终端聊天程序
 - **不是成熟的多租户 Agent 平台。** daemon token、owner-only files 和 process isolation 面向同一 OS 用户下的本地协调，不构成 hostile tenant isolation。
 - **不是 Prime Intellect 从零原创的全部 runtime。** 4,480 个 commits 中大量 AI/provider/agent/TUI/session 基础来自 Pi；Prime 自有增量主要是 IPython/RLM、daemon、long-running/autonomous、refine、A2A、Agents View 与 ACP 组合。
 - **没有默认命令审批防线。** 默认 IPython 能执行任意 Python/shell；仓库有 sandbox extension example 和 remote operation hooks，但不是默认强制 gate。
+- **不能安全地直接打开不可信仓库。** `<cwd>/.prime/agent/settings.json` 可声明 packages，项目扩展会自动发现并由 Jiti 动态导入；当前没有首次打开确认、canonical workspace trust 数据库或来源 allowlist。缺失 package 还能在无确认回调时自动安装，npm/git 安装未强制 `--ignore-scripts`。这属于启动期代码执行边界，不只是 prompt injection。
 
 #### 与 Pi 的真实关系
 
@@ -99,7 +100,7 @@ daemon workers + Agents View + A2A
 - **源码开发**：npm workspaces；根构建串行构建 `tui → ai → agent → coding-agent`，同时包含 Python runtime 包。
 - **运行状态**：默认写入 `~/.prime/agent`，包括 auth、settings、sessions、session-artifacts、daemon/worker metadata、harness 和 kernel environment。
 - **理解成本**：高。需要同时理解 Pi agent substrate、append-only session tree、daemon supervisor/worker protocol、Jupyter ZeroMQ、RLM host request、refinement state 和 autonomous continuation。
-- **团队 PoC 建议**：固定 `v0.7.1` 或具体 SHA；在容器/VM/低权限工作区运行；关闭 telemetry；限制 secrets 暴露；先验证 one-shot coding，再验证 daemon/child/refine。
+- **团队 PoC 建议**：固定 `v0.7.1` 或具体 SHA；只在已审计的可信仓库或 disposable clone 中启动；容器/VM/低权限运行；关闭 telemetry；限制 secrets 暴露；先验证 one-shot coding，再验证 daemon/child/refine。
 
 ### 依赖 / SDK 选型证据
 
@@ -116,6 +117,7 @@ daemon workers + Agents View + A2A
 | `typebox` | schema | tools、protocol payload、config | 统一 runtime validation 与 TS 类型 | coding-agent tool/protocol 层 | **高**：协议密集型 TS runtime 适用 | schema/version migration 仍需显式治理 |
 | `@agentclientprotocol/sdk` | protocol SDK | ACP server/client surface | 接入支持 ACP 的编辑器或宿主 | `packages/coding-agent/package.json:50`；`modes/acp/` | **中高**：需要标准 agent client protocol 时复用 | Prime 特有能力只能放 namespaced `_meta`，互操作会降级 |
 | `@modelcontextprotocol/sdk`（optional peer/transitive） | protocol SDK | MCP integration skills/extensions | 接入外部 tools/services | lockfile peer evidence；内置 MCP skills | **中**：生态连接面成熟 | 外部 MCP 即可信代码/网络边界，context 和凭据面扩大 |
+| `jiti` | dynamic module loader | 加载项目、用户和 package TypeScript/JavaScript extensions | 让扩展无需预编译即可注册 tools/hooks/providers | `extensions/loader.ts:331-350,377-395` | **中**：受信插件系统需要 TS 动态加载时可评估 | 当前缺 workspace trust gate；自动加载项目扩展等同以用户权限执行仓库代码 |
 | `vitest` | test framework | unit/integration/process/kernel tests | 支持 415 个 TS test/spec 文件与 CI shards | 各 package manifest；`.github/workflows/ci.yml` | **高**：TS monorepo 标准选择 | 静态测试数量不等于当前 HEAD 在本机通过 |
 | GitHub Actions + R2 + npm tarball | release pipeline | build、pack、checksum、channel pointer、installer | 同时提供 immutable version artifact 与 stable/beta pointer | `.github/workflows/build-binaries.yml` | **中高**：两阶段 pack/publish 值得学 | workflow pinning 混杂；发布凭据集中于 publish trust domain |
 
@@ -127,11 +129,14 @@ daemon workers + Agents View + A2A
 | Bus factor | 🟡 中偏高 | 分叉后 524 commits 中 Kevin Thomas 同 email 326（62.2%）；前三 identity 合计 80.9% |
 | 供应商锁定 | 🟢 低到中 | 多 provider 与 custom provider 降低模型锁定；默认 Prime 登录、内置 Prime skill、analytics endpoint 增加产品耦合 |
 | 维护趋势 | 🟢 极活跃 | 三个月内快速演进至 v0.7.1；高频 release 同时意味着兼容面仍在快速变化 |
+| Workspace trust | 🔴 严重 | 项目 settings/packages/extensions 可在缺少 trust/首次确认时解析、安装和动态执行；不可信仓库可形成启动期代码执行 |
 | 默认执行权限 | 🔴 高 | IPython 与 shell magic 直接继承 OS 用户权限，默认不是 approval-first 或 sandbox-first |
 | 长任务稳定性 | 🟠 中高 | 冻结观测日存在 heap OOM、child usage flood、compaction self-amplification、worker recovery 等开放问题 |
 | Windows | 🟠 中高 | uv shim、daemon socket、kernel cwd lock、worker shutdown、WSL shell 等问题集中暴露 |
 | Telemetry | 🟠 中 | `telemetry.enabled` 默认 true；支持 `DO_NOT_TRACK`、`PI_OFFLINE`、`PRIME_AGENT_TELEMETRY=false`，但团队应显式关闭 |
-| 供应链 | 🟠 中 | lockfile、checksum、`min-release-age=7` 是积极信号；普通 CI actions 和部分 release artifact actions 仍用浮动 tag |
+| Python bootstrap / 供应链 | 🔴 高 | Python/MCP 依赖只有下限且无 `uv.lock`；缺 uv 时执行未固定、未校验的远程安装脚本；npm lock integrity 覆盖也不完整 |
+| Release gate | 🟠 中高 | release workflow 会 build/check/pack，但不运行完整测试，也不等待同 SHA 的 CI 成功；版本 bump push 可先发布后暴露测试失败 |
+| Session 凭据泄露 | 🟠 中 | Git origin URL 可能原样写入 session JSONL；若 remote URL 内嵌 userinfo/token，可能被持久化，且 session 首次创建 mode 依赖 umask |
 | 协议/状态复杂度 | 🟠 中高 | daemon protocol、schema revision、worker generation、journal、snapshot、leases 和 child registry 组合导致状态空间大 |
 | Benchmark 外推 | 🟠 中 | 官方报告 ARC/long-context 成绩，但当前没有模型按 Prime harness 训练，且本报告未独立复现 benchmark |
 
@@ -143,7 +148,7 @@ daemon workers + Agents View + A2A
 
 - **研究源码**：强烈推荐，特别是 RLM host bridge、daemon recovery、session lease、continual harness。
 - **个人日常编码**：可固定版本试用；不要一开始就让它持有生产凭据或无限制运行长任务。
-- **团队内部 PoC**：容器/VM、最小权限、单独 secrets broker、关闭 telemetry、设置 turn/token/time gates。
+- **团队内部 PoC**：只打开已审计仓库；启动时先用 `--no-extensions --no-skills --no-context-files` 收窄资源面，再按需放开；容器/VM、最小权限、单独 secrets broker、关闭 telemetry、设置 turn/token/time gates。
 - **生产关键仓库**：等待 v1 稳定契约、默认 permission/sandbox 策略、Windows parity、长任务问题收敛与安全政策补齐。
 
 ---
@@ -469,6 +474,7 @@ interactive / RPC / ACP
 - **强项**：session lease、owner-only mode、atomic rename、bounded output、AbortSignal、process-tree cleanup 与 branch-version validation 显示出真实故障驱动的工程迭代。
 - **弱项**：`agent-session.ts`、`daemon-mode.ts`、`daemon-supervisor.ts` 已成为高复杂度中心；大量状态字段和跨 store invariant 增加修改成本。
 - **弱项**：静态 manifest 广泛使用 caret range；虽然 lockfile 固定安装，但发布包消费者仍受 semver range 与上游变化影响。
+- **高优先级缺口**：项目 extensions/packages 的发现、安装和动态导入没有 workspace trust gate；安全边界在 Agent 第一次处理 prompt 之前就可能失守。
 - **弱项**：缺少根级 `SECURITY.md` / CONTRIBUTING 文档，安全披露和外部贡献契约不够清楚。
 
 ### 测试
@@ -487,6 +493,7 @@ CI 将 coding-agent 分成三 shard，并单独运行 process smoke 与 kernel j
 测试盲区/待证：
 
 - CI 只在 Ubuntu；Windows 问题与 platform-specific cleanup 未形成对等主矩阵。
+- `prime-agent-runtime/test` 下的 Python 单元测试未进入 CI；`test:kernel` 只运行 TypeScript/Vitest kernel tests。
 - 官方 benchmark 与长时 soak 没有在当前审计环境复现。
 - 当前开放 issues 表明大规模 child usage、长上下文、compaction retry debris 的状态组合仍可穿透现有测试。
 
@@ -494,10 +501,12 @@ CI 将 coding-agent 分成三 shard，并单独运行 process smoke 与 kernel j
 
 - Build/check job 执行 `npm ci`、build、Biome/tsgo/installer/browser check。
 - Test matrix 覆盖 agent/ai/tui/coding-agent shards/process/kernel。
-- Release 先 resolve context，再 pack immutable tarball/SHA256SUMS，最后由 publish job上传 R2、更新 stable/beta pointer、创建 GitHub Release。
+- Release 先 resolve context，再 pack immutable tarball/SHA256SUMS，最后由 publish job 上传 R2、更新 stable/beta pointer、创建 GitHub Release。
 - release checkout/setup-node 多处固定 commit SHA，且 `persist-credentials: false`，这是积极设计。
+- **发布没有被测试硬门禁**：release workflow 与根 `prepublishOnly` 只执行 install/build/check/pack，不运行完整测试，也没有等待同一 SHA 的 CI workflow 成功；版本 bump push 可能在并行 CI 失败前完成发布。
 - 但普通 CI 仍是 `actions/checkout@v7`、`setup-node@v7.0.0`；release 的 upload/download-artifact 也存在浮动 tag，pinning 不一致。
 - `.npmrc` 声明 `min-release-age=7`，降低新发布恶意包风险；其实际 enforcement 依赖 npm 版本，应在 CI 明确验证而不是只依赖注释。
+- Python runtime 未提交 `uv.lock`，依赖只有下限；kernel 缺少 uv 时会执行 `curl -LsSf https://astral.sh/uv/install.sh | sh`，未固定脚本版本或校验内容。该 bootstrap 不满足可复现供应链要求。
 
 ### 文档质量
 
@@ -516,7 +525,7 @@ CI 将 coding-agent 分成三 shard，并单独运行 process smoke 与 kernel j
 GitHub API 快照：
 
 - Issues：open 167、closed 16，open share 91.3%。仓库年轻，不能简单解释为维护停滞；但 bug intake 明显快于关闭。
-- PR：open 249、merged 498、closed-unmerged 127；closed PR merge rate 79.7%，open share 28.5%。
+- PR：open 250、merged 498、closed-unmerged 127；closed PR merge rate 79.7%，open share 28.6%。
 - 观测日热点缺陷：
   - #1063：长 goal 约 1.5h 后 heap OOM；
   - #1054：child usage attribution 洪泛导致 worker freeze；
@@ -532,10 +541,11 @@ GitHub API 快照：
 
 ### 社区评价
 
-- **热度强**：创建约三个月达到 9.7k Stars、936 Forks，发布节奏密集。
+- **热度强**：创建约三个月达到 9.7k Stars、938 Forks，发布节奏密集。
 - **产品发布驱动强**：从 v0.1.x 到 v0.7.1 快速推进，Prime 团队对 daemon/RLM/autonomous/refine 的开发投入明确。
 - **贡献集中**：分叉后 Kevin Thomas 单 email 占 62.2%，前三 identity 占 80.9%；这是清晰架构主导力，也是 bus-factor 风险。
-- **外部协作活跃但 backlog 高**：已有 498 merged PR，同时 249 open PR；项目需要更强 triage、release stabilization 与兼容治理。
+- **外部协作活跃但 backlog 高**：已有 498 merged PR，同时 250 open PR；项目需要更强 triage、release stabilization 与兼容治理。
+- **Launch validation 强、production adoption 未证实**：release tarball 下载、星标和投稿洪峰证明关注度，但缺少具名生产客户、持续部署规模和留存数据，不能把 launch attention 当成团队生产采用。
 - **公开第三方讨论样本不足**：不将零散外部评价作为核心结论；采用判断主要依据源码、GitHub issue/PR 与官方博客，并明确区分官方 benchmark 主张与独立验证。
 
 ### 衍生项目 / 插件生态
@@ -614,6 +624,7 @@ Prime Agent 继承 Pi 的 extension/custom-provider/skill 思路，并新增：
 - 路径：`packages/coding-agent/src/core/telemetry.ts:13-19,204-219,312-350`、`settings-manager.ts:832-836`
 - 职责：installation ID、agent lifecycle/command/run aggregate analytics。
 - 实现要点：默认 endpoint 为 Prime API；默认 enabled；ID 文件 `0600` 原子写；`DO_NOT_TRACK`、`PI_OFFLINE` 和显式 env/config 可关闭；捕获失败后 client self-disable。
+- 需要与 telemetry 分开看的是 **agent traces**：用户显式启用并具备 credential 时，系统可上传完整 session JSONL；仓库只实现上传端，不能从本仓库证明服务端清洗、训练、评估或策略回流。
 
 ---
 
@@ -626,14 +637,14 @@ Prime Agent 继承 Pi 的 extension/custom-provider/skill 思路，并新增：
 | 文档质量 | 4.7 | daemon/RLM/long-running 文档优秀；安全与企业 hardening 文档不足 |
 | 社区活跃度 | 4.2 | 星标、release、merged PR 很强；issue/PR backlog 与集中度较高 |
 | 架构设计 | 4.8 | worker failure domain、host bridge、journal/snapshot/refine contract 很有原创价值 |
-| 产品成熟度 | 3.4 | v0.7.1；长任务与 Windows 核心问题仍密集出现 |
-| 安全默认值 | 2.8 | 非 sandbox、无默认命令审批、telemetry 默认开、缺根安全政策 |
+| 产品成熟度 | 3.2 | v0.7.1；长任务、Windows、release gate 和 Python runtime closure 仍在硬化 |
+| 安全默认值 | 2.0 | 缺 workspace trust；非 sandbox、无默认命令审批；session/extension/package/trace 边界需外部加固 |
 | 学习价值 | 5.0 | 当前开源 RLM/长时多代理 runtime 中信息密度极高 |
 | 可借鉴度 | 4.8 | 协议、恢复、lease、retained child、typed self-modification 都可抽取复用 |
 
-**综合评分：8.5 / 10。**
+**综合评分：8.3 / 10。**
 
-> 评分解释：这是“架构价值高、产品成熟度尚未追上复杂度”的项目。若只评学习价值接近 9.5/10；若评高权限生产采用，目前约 6.5/10。
+> 评分解释：这是“架构价值高、产品成熟度与安全默认值尚未追上复杂度”的项目。若只评学习价值接近 9.5/10；若评高权限生产采用，考虑 workspace trust 缺口后目前约 5.5/10。
 
 ---
 
@@ -657,13 +668,14 @@ Prime Agent 继承 Pi 的 extension/custom-provider/skill 思路，并新增：
 - 想把“self-improving”理解为自动训练和保证单调提升的人；
 - 不能接受 v0.x 高频 breaking changes、daemon/kernel 运维和 Python/Node 双 runtime 的团队；
 - Windows-first 且要求当前版本稳定 parity 的用户；
+- 需要直接打开来源不明仓库、自动加载项目扩展或第三方 package，却无法提供一次性 VM/container 的用户；
 - 持有生产云凭据、SSH key、钱包或敏感数据，却不准备做外部隔离的人。
 
 ### 下一步
 
-1. 固定 `v0.7.1`/SHA，在无生产凭据的 disposable repo 做 one-shot coding smoke。
+1. 固定 `v0.7.1`/SHA，只在已审计、无项目扩展/package 的 disposable repo 做 one-shot coding smoke；首次启动使用 `--no-extensions --no-skills --no-context-files`。
 2. 显式关闭 telemetry，记录所有网络出站和本地状态目录。
 3. 在容器/VM 中验证 IPython shell、interrupt、process-tree cleanup、daemon detach/attach。
 4. 用 1 个 root + 2 个 retained children 做 1 小时 soak，观察 memory、usage attribution、compaction 和 recovery。
 5. 手工触发 `/refine`，审查 before/after、local/global scope 和 rollback；不要先启用自动 global refinement。
-6. 团队采用前补齐 permission broker、secret isolation、egress policy、artifact retention 与 version migration playbook。
+6. 团队采用前补齐 workspace trust、permission broker、secret isolation、egress policy、artifact retention 与 version migration playbook。

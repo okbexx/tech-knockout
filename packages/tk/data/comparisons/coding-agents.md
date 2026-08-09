@@ -29,7 +29,7 @@
 |------|------|----------------|-------|------|---------------------|----------|
 | OpenCode | `anomalyco/opencode` | 174,169 | 21,032 | TypeScript | v1.17.6 | 开源 Coding Agent runtime，多入口、多模型、MCP/插件 |
 | Pi | `earendil-works/pi` | 68,192（2026-07-07） | 8,371 | TypeScript | v0.80.3 | Terminal agent harness：coding agent CLI + runtime core + unified AI substrate |
-| Prime Agent | `PrimeIntellect-ai/prime-agent` | 9,747（2026-08-09） | 936 | TypeScript + Python | v0.7.1 | Pi fork 上的持久 Agent runtime：daemon workers + IPython/RLM + retained children + continual harness |
+| Prime Agent | `PrimeIntellect-ai/prime-agent` | 9,762（2026-08-09） | 938 | TypeScript + Python | v0.7.1 | Pi fork 上的持久 Agent runtime：daemon workers + IPython/RLM + retained children + continual harness |
 | jcode | `1jehuang/jcode` | 7,055（2026-06-15） | 790 | Rust | v0.28.0 | Rust terminal Coding Agent runtime：TUI + server-owned live session + Swarm + Graph Memory |
 | Grok Build | `xai-org/grok-build` | 19,581（2026-07-19） | 3,512 | Rust | 源码 `0.2.105`；无 GitHub release/tag | ACP + actor + 持久 session + 多代理的完整 Coding Agent harness |
 
@@ -57,7 +57,7 @@
 
 - **OpenCode**：热度最高，最近 push/release 都很新；但 6,033 open issues + 1,031 open PRs，典型“高热度、高活跃、高 backlog”。
 - **Pi**：品牌与分发面明显产品化（`earendil-works/pi`、`pi.dev`、统一 npm scope），但新贡献者 gate 仍很重；社区参与更像 product-led repo，而不是开放共建型基础设施。
-- **Prime Agent**：三个月达到 9.7k Stars、498 merged PR，增长和响应都很快；但 167 open issues、249 open PR，分叉后前三 identity 占 80.9%，是“高势能、高 backlog、高集中度”的早期项目。
+- **Prime Agent**：三个月达到 9.7k Stars、498 merged PR，launch validation 很强；但 167 open issues、250 open PR，分叉后前三 identity 占 80.9%，且缺 workspace trust gate，是“高势能、高 backlog、高集中度、高默认权限”的早期项目。
 - **jcode**：star/fork 增长很快，v0.28.0 仍在高频 release；但本地 `git shortlog` 显示 4,620 commits 高度集中在作者多个 Git identity 上，bus factor 仍是核心风险。
 - **Grok Build**：约五天获得 19.5k Stars，但 Issues/PR 关闭、贡献指南明确不接收外部贡献，公开历史只有 4 个 sync-bot commit。热度极高，社区协作度却是四者最低。
 
@@ -81,7 +81,7 @@
 
 - **想要当下可用的开源 coding agent 主力工具** → 优先试 **OpenCode**，但在关键仓库中先加隔离和权限边界。
 - **想要可二次开发的 TypeScript agent substrate / SDK 底座** → 选 **Pi**。
-- **想研究或试用 RLM、持久子代理、detach/attach、continual harness** → 选 **Prime Agent**，但固定版本并放进容器/VM；暂不要直接交给生产凭据和无限长任务。
+- **想研究或试用 RLM、持久子代理、detach/attach、continual harness** → 选 **Prime Agent**，但固定版本并放进容器/VM；只打开已审计仓库，启动时先禁用项目 extensions/skills/context files，暂不要交给生产凭据和无限长任务。
 - **想要 Rust terminal-first、高性能本地 runtime、Swarm/Memory 深度能力** → **jcode 值得个人隔离试用**；团队生产化前仍需安全隔离、版本冻结和维护风险评估。
 - **想拆解最完整的生产级 Coding Agent runtime** → 读 **Grok Build**；个人使用先在 sandbox/低权限测试仓隔离试用，团队长期押注等待公开同步与 release provenance。
 - **只需要 IDE 内 agent 体验** → 看 Cline / Continue。
@@ -94,37 +94,38 @@
 
 ### 对比矩阵
 
-| 维度 | OpenCode | Pi | jcode | Grok Build |
-|------|----------|----|-------|------------|
-| 设计模式深度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| 代码质量 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| 可借鉴度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| 创新性 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| Runtime 可复用性 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| **综合学习价值** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 维度 | OpenCode | Pi | Prime Agent | jcode | Grok Build |
+|------|----------|----|-------------|-------|------------|
+| 设计模式深度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 代码质量 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| 可借鉴度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 创新性 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Runtime 可复用性 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| **综合学习价值** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
 
 ### 架构模式对比
 
-| 问题 | OpenCode 的方案 | Pi 的方案 | jcode 的方案 | Grok Build 的方案 |
-|------|-----------------|-----------|--------------|-------------------|
-| Agent 执行内核 | Durable Session + Event/Projection + single-turn runner + tool settlement | Agent core + transport/state abstraction + steering/follow-up queues + session tree | Provider stream reducer + `run_turn_streaming_mpsc` + tool settlement | ACP → MvpAgent → AcpSession actor → ChatState/Sampler actor → ToolBridge |
-| 输入生命周期 | `session_input` inbox，`admitted_seq` / `promoted_seq`，`steer` / `queue` | follow-up / steering queue + lifecycle hooks | user prompt、background wake、swarm DM、reload recovery 统一进入 live turn | prompt queue + interjection + goal rounds + TodoGate + cancel/permission outcome |
-| 状态持久化 | SQLite/Drizzle tables + synchronized events + projector | jsonl session log + compaction + branch summary（已显露继续演化信号） | Session JSON/journal + provider_session_id + compaction + replay/memory injection | ACP `updates.jsonl` + raw history + plan/signals + rewind snapshots + compaction checkpoints |
-| 工具执行 | tool-call durable 记录后 settlement，失败显式收敛 | TypeBox tools + Extension events + before/after interception | Registry + ToolContext + session policy + persisted ToolResult | prepare/permission/hooks → `FuturesUnordered` 并发 → path lock → result 回灌 |
-| 扩展机制 | Plugin tools + MCP + filesystem custom tools + HTTP/SDK | TypeScript Extension + lifecycle interception + custom UI + provider registration | MCP + skills + provider profile + crate/internal tool registry | MCP + skills + plugins + hooks + ACP extension methods |
-| 多模型支持 | provider/model catalog + route resolver | side-effect-free AI core + compat shim + lazy provider modules | provider trait + 独立 provider crates + OpenAI-compatible profile | Chat Completions / Responses / Anthropic Messages 三后端 Sampler |
-| Memory | session context epoch / projection-first history | 无本地 RAG，靠 session/compaction | Graph Memory + embedding seeds + BFS cascade retrieval + listwise rerank | Markdown archive + SQLite/FTS/vector + embedding/MMR/query expansion/dream |
-| 多 Agent | task/subagent/tooling 路径，runtime 化能力强 | subagent + experimental orchestrator | Server-owned Swarm：members/channels/event history/live wake | blocking/background subagent + session fork + worktree + leader |
-| UI 架构 | CLI/TUI/Desktop/Web/HTTP 多入口读取 projection | CLI/TUI/RPC 外壳读取共享 runtime substrate | Ratatui TUI + server/gateway/debug clients + desktop/mobile crates | Ratatui TUI、headless、ACP stdio、serve/dashboard 共用 session runtime |
+| 问题 | OpenCode 的方案 | Pi 的方案 | Prime Agent 的方案 | jcode 的方案 | Grok Build 的方案 |
+|------|-----------------|-----------|------------------|--------------|-------------------|
+| Agent 执行内核 | Durable Session + Event/Projection + single-turn runner + tool settlement | Agent core + transport/state abstraction + steering/follow-up queues + session tree | Agent event loop + `AgentSession` + persistent IPython + RLM host bridge | Provider stream reducer + `run_turn_streaming_mpsc` + tool settlement | ACP → MvpAgent → AcpSession actor → ChatState/Sampler actor → ToolBridge |
+| 输入生命周期 | `session_input` inbox，`admitted_seq` / `promoted_seq`，`steer` / `queue` | follow-up / steering queue + lifecycle hooks | prompt admission + daemon queue + A2A steering + goal/heartbeat/autonomous continuation | user prompt、background wake、swarm DM、reload recovery 统一进入 live turn | prompt queue + interjection + goal rounds + TodoGate + cancel/permission outcome |
+| 状态持久化 | SQLite/Drizzle tables + synchronized events + projector | jsonl session log + compaction + branch summary（已显露继续演化信号） | append-only JSONL tree + worker journal + kernel snapshot + harness/child artifacts | Session JSON/journal + provider_session_id + compaction + replay/memory injection | ACP `updates.jsonl` + raw history + plan/signals + rewind snapshots + compaction checkpoints |
+| 工具执行 | tool-call durable 记录后 settlement，失败显式收敛 | TypeBox tools + Extension events + before/after interception | 默认仅暴露 IPython；Python/`%%bash` + host requests；extension gate 可阻断但无默认 approval | Registry + ToolContext + session policy + persisted ToolResult | prepare/permission/hooks → `FuturesUnordered` 并发 → path lock → result 回灌 |
+| 扩展机制 | Plugin tools + MCP + filesystem custom tools + HTTP/SDK | TypeScript Extension + lifecycle interception + custom UI + provider registration | Pi extensions + Python skills + MCP host bridge + ACP `_meta` + continual harness CRUD | MCP + skills + provider profile + crate/internal tool registry | MCP + skills + plugins + hooks + ACP extension methods |
+| 多模型支持 | provider/model catalog + route resolver | side-effect-free AI core + compat shim + lazy provider modules | 继承 Pi provider substrate，增加 daemon/RLM runtime 配置和 auth recovery | provider trait + 独立 provider crates + OpenAI-compatible profile | Chat Completions / Responses / Anthropic Messages 三后端 Sampler |
+| Memory | session context epoch / projection-first history | 无本地 RAG，靠 session/compaction | transcript/compaction + kernel snapshot + harness memory；无向量检索 | Graph Memory + embedding seeds + BFS cascade retrieval + listwise rerank | Markdown archive + SQLite/FTS/vector + embedding/MMR/query expansion/dream |
+| 多 Agent | task/subagent/tooling 路径，runtime 化能力强 | subagent + experimental orchestrator | retained child sessions + 独立 kernel/artifact + A2A + usage attribution | Server-owned Swarm：members/channels/event history/live wake | blocking/background subagent + session fork + worktree + leader |
+| UI 架构 | CLI/TUI/Desktop/Web/HTTP 多入口读取 projection | CLI/TUI/RPC 外壳读取共享 runtime substrate | TUI/print/JSON/RPC/ACP 连接 daemon-owned worker/session tree | Ratatui TUI + server/gateway/debug clients + desktop/mobile crates | Ratatui TUI、headless、ACP stdio、serve/dashboard 共用 session runtime |
 
 ### 设计决策对比
 
 - **OpenCode 倾向 runtime 事务化。** 它的核心不是 UI，而是 durable session、event log、projection、tool settlement、location ownership。这是最适合研究“coding agent 怎么从 prompt loop 变成可靠 runtime”的项目。
 - **Pi 倾向 harness / substrate 化。** 它表面上是 CLI，真正资产在 provider substrate、agent runtime、extension lifecycle、session persistence 与 release discipline，是“怎么把 agent 从产品壳拆成可复用平台层”的好样本。
+- **Prime Agent 倾向 long-horizon runtime 化。** 它把 Pi substrate 推进为 per-root worker、持久 IPython、retained children、journal/snapshot recovery 和 typed harness refinement；最值得学的是生命周期与状态契约，最需要警惕的是 workspace trust 和跨 store 非事务恢复。
 - **jcode 倾向本地系统 runtime 化。** 它用 Rust/Tokio/Ratatui，把 terminal agent 做成 server-owned live session：turn reducer、tool settlement、Swarm、Graph Memory、compaction/reload recovery 都是核心，不只是性能优化。
 - **Grok Build 倾向协议化 agent OS。** ACP 是入口契约，actor 是所有权边界，persistent session 是恢复边界，permission/sandbox/worktree 是副作用边界；它最适合研究“产品级 Coding Agent 的全栈 runtime”。
 
-### 最值得学习的 TOP 12
+### 最值得学习的 TOP 15
 
 1. **OpenCode 的 durable input inbox**：`admitted_seq` / `promoted_seq` 把“收到输入”和“模型看到输入”拆开。
 2. **OpenCode 的 tool settlement**：工具调用先 durable 记录，再执行副作用，再发布 result/failure。
@@ -138,11 +139,15 @@
 10. **jcode 的 server-owned live turn**：用户输入、后台任务、swarm DM、reload recovery 都复用同一条 turn 生命周期。
 11. **Grok Build 的 ACP + actor 分层**：client 协议、session ownership、chat state 和 HTTP sampling 各自独立，TUI/桌面/leader 不重写内核。
 12. **Grok Build 的并发工具 + path lock + explicit outcome**：并行提升吞吐，同文件串行避免冲突，权限拒绝/取消/max-turn 都是一等终止状态。
+13. **Prime Agent 的 RLM host bridge**：Python shim 只做请求，TypeScript host 掌握模型、认证、深度和 child lifecycle，`rlm()` 返回 admission handle 而不是伪同步结果。
+14. **Prime Agent 的 daemon recovery contract**：session lease、worker generation、command journal、kernel snapshot 与 uncertain mutation 明确区分“恢复上下文”和“重放副作用”。
+15. **Prime Agent 的 typed continual harness**：base prompt immutable，supplemental prompt/memory/skill/subagent 可版本化编辑、冲突检测和回滚；同时应外接客观 eval 决定保留。
 
 ### 场景二结论
 
 - **想学 agent runtime 事务化边界** → 读 **OpenCode**。
 - **想学可扩展 TypeScript agent substrate / SDK** → 读 **Pi**。
+- **想学 RLM host bridge、retained child、daemon recovery 与 continual harness** → 读 **Prime Agent**，并把 workspace trust 缺口当反例一起学。
 - **想学 Rust terminal runtime、server live session、Swarm/Memory、长会话 recovery** → 读 **jcode**。
 - **想学 ACP、actor、tool runtime、持久 session、sandbox 与多代理如何组成完整产品** → 读 **Grok Build**。
 - 四者都值得学，但学习重点不同：OpenCode 学“事务化执行内核”，Pi 学“平台底座”，jcode 学“本地系统 runtime”，Grok Build 学“协议化 agent OS”。
@@ -155,6 +160,7 @@
 
 - **个人/高级开发者主力工具：OpenCode 优先。** 它功能覆盖和生态势能最强，但要接受高频迭代和 backlog 带来的摩擦。
 - **内部二次开发底座：Pi 更稳。** provider substrate、SDK、Extension、release discipline 更容易拆出来复用。
+- **长时 RLM 受控试点：Prime Agent。** 只在外部隔离、可信仓库和显式禁用项目扩展/skills/context 的前提下采用；不作为当前默认生产工具。
 - **实验性 Rust terminal agent runtime：jcode 值得个人隔离试用。** 不建议关键生产路径无隔离深度依赖。
 - **完整产品级 Rust harness：Grok Build 先隔离试用。** 源码学习价值极高，但公开项目治理和发布连续性尚不足以支撑团队长期押注。
 
@@ -162,6 +168,7 @@
 
 - **OpenCode**：durable session runtime、event/projection、tool settlement、context epoch。
 - **Pi**：provider substrate、compat shim、Extension 系统、session tree、SDK 化。
+- **Prime Agent**：IPython/RLM host bridge、retained children、daemon journal/snapshot recovery、typed continual harness。
 - **jcode**：streaming turn reducer、server-owned live session、Graph Memory、Swarm、compaction/reload recovery。
 - **Grok Build**：ACP 内核、ChatState/Sampler actors、并发 tool dispatch、persistent session、permission/sandbox/worktree 组合边界。
 
@@ -169,6 +176,7 @@
 
 - **采用冠军（个人工具）：OpenCode。** 生态势能最强，功能覆盖最高，但团队采用要做隔离。
 - **二次开发冠军：Pi。** 抽象边界更适合拆成内部 SDK / 平台。
+- **长时 Agent 架构研究冠军：Prime Agent。** RLM、持久子代理和 continual harness 的开源实现密度最高；采用判断仍是 controlled pilot。
 - **Rust terminal runtime 学习冠军：jcode。** 如果目标是复刻一个本地高性能 terminal coding agent，jcode 当前学习价值已经超过“观望项目”的级别。
 - **完整 Coding Agent 系统工程样本：Grok Build。** 如果目标是研究从客户端协议到长任务恢复、多代理和隔离的完整链路，它的信息密度最高；但不是当前的社区采用冠军。
 

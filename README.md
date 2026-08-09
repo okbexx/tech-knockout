@@ -158,7 +158,7 @@ npx @jarl_okbe/tk report lint --write
 
 | Project | What it is | Adopt? | Architecture value | Date |
 |---|---|---|---|---|
-| [Prime Agent](./reports/prime-agent.md) | Pi substrate 上的持久 Coding Agent runtime：daemon workers、IPython/RLM、retained children、A2A、autonomous gates 与可回滚 continual harness | 架构学习强烈推荐 / 个人固定版本隔离试用 / 高权限长时生产暂缓 | ⭐⭐⭐⭐⭐ | 2026-08-09 |
+| [Prime Agent](./reports/prime-agent.md) | Pi substrate 上的持久 Coding Agent runtime：daemon workers、IPython/RLM、retained children、A2A、autonomous gates 与可回滚 continual harness | 架构学习强烈推荐 / 仅在可信仓库和外部隔离环境受控试用 / 高权限生产暂缓 | ⭐⭐⭐⭐⭐ | 2026-08-09 |
 | [cc-haha](./reports/cc-haha.md) | 从 Claude Code 泄露快照演化出的全栈 Coding Agent runtime：CLI/Desktop、多 provider、JSONL session、MCP/LSP、Swarm、H5/IM 与 Computer Use | 不推荐生产/商业采用；仅建议隔离研究，clean-room 学架构 | ⭐⭐⭐⭐⭐ | 2026-07-30 |
 | [Grok Build](./reports/grok-build.md) | xAI 开放的完整 Coding Agent harness：ACP 内核、ChatState/Sampler actors、持久 session、并发 tool dispatch、subagents/worktrees 与 OS sandbox；公开仓为不接受外部贡献的单向同步镜像 | 源码学习强烈推荐 / 个人隔离试用 / 团队长期押注暂缓 | ⭐⭐⭐⭐⭐ | 2026-07-19 |
 | [jcode](./reports/jcode.md) | Rust terminal Coding Agent runtime：server-owned live session + Swarm + Graph Memory，当前已演进到 v0.37.0 并持续产品化 | 推荐个人隔离试用 / 团队生产化前观望 | ⭐⭐⭐⭐⭐ | 2026-07-08 |
