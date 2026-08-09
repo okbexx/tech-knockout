@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T08:42:23.285Z",
+  "generatedAt": "2026-08-09T10:37:13.624Z",
   "sources": [
     {
       "id": "1shell",
@@ -314,6 +314,19 @@
       "commit": "c4d1925ae9b76a1b641877328209ad25cfeb5ef2",
       "remote": "https://github.com/DietrichGebert/ponytail.git",
       "shallow": true,
+      "dirty": false
+    },
+    {
+      "id": "prime-agent",
+      "repo": "PrimeIntellect-ai/prime-agent",
+      "url": "https://github.com/PrimeIntellect-ai/prime-agent",
+      "cloneUrl": "https://github.com/PrimeIntellect-ai/prime-agent.git",
+      "sourceDir": "projects/PrimeIntellect-ai__prime-agent",
+      "exists": true,
+      "branch": "main",
+      "commit": "a18809e00ea30638584d87b3afea7285a9d7296c",
+      "remote": "https://github.com/PrimeIntellect-ai/prime-agent.git",
+      "shallow": false,
       "dirty": false
     },
     {

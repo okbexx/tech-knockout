@@ -1,7 +1,7 @@
 # Coding Agents 横评
 
-> 更新日期：2026-07-30（新增 cc-haha 专项对照；OpenCode / Pi / jcode / Grok Build 沿用各自最近一次核验数据）
-> 主矩阵项目：OpenCode、Pi（原 pi-mono）、jcode、Grok Build
+> 更新日期：2026-08-09（新增 Prime Agent；OpenCode / Pi / jcode / Grok Build 沿用各自最近一次核验数据）
+> 主矩阵项目：OpenCode、Pi（原 pi-mono）、Prime Agent、jcode、Grok Build
 > 专项对照：cc-haha（同类 runtime，但因源码权利链未证明，不进入采用推荐主矩阵）
 > 参考竞品：Claude Code、Codex CLI、Cline、Aider、Continue、OpenHands、Gemini CLI
 
@@ -11,17 +11,17 @@
 
 ### 对比矩阵
 
-| 维度 | OpenCode | Pi | jcode | Grok Build |
-|------|----------|----|-------|------------|
-| 功能覆盖度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| 集成成本 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
-| 社区健康 | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐ |
-| 文档质量 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| 维护持续性 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐（公开镜像待观察） |
-| 运行时架构成熟度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| 扩展与二次开发 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
-| 许可证 | MIT | MIT | MIT | Apache-2.0 |
-| **综合推荐度** | ✅ 推荐个人/高级开发者；团队隔离 PoC | ✅ 推荐个人主力试用 / 内部 SDK 底座 | ✅ 推荐个人隔离试用；团队生产化观望 | ⚠️ 源码学习强烈推荐；个人隔离试用；团队押注暂缓 |
+| 维度 | OpenCode | Pi | Prime Agent | jcode | Grok Build |
+|------|----------|----|-------------|-------|------------|
+| 功能覆盖度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 集成成本 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
+| 社区健康 | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐ |
+| 文档质量 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| 维护持续性 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐（v0.x 高频演进） | ⭐⭐⭐ | ⭐⭐（公开镜像待观察） |
+| 运行时架构成熟度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐（设计强、长任务仍硬化） | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| 扩展与二次开发 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
+| 许可证 | MIT | MIT | MIT | MIT | Apache-2.0 |
+| **综合推荐度** | ✅ 推荐个人/高级开发者；团队隔离 PoC | ✅ 推荐个人主力试用 / 内部 SDK 底座 | ⚠️ 架构学习强烈推荐；个人固定版本隔离试用；高权限生产暂缓 | ✅ 推荐个人隔离试用；团队生产化观望 | ⚠️ 源码学习强烈推荐；个人隔离试用；团队押注暂缓 |
 
 ### 基础画像
 
@@ -29,6 +29,7 @@
 |------|------|----------------|-------|------|---------------------|----------|
 | OpenCode | `anomalyco/opencode` | 174,169 | 21,032 | TypeScript | v1.17.6 | 开源 Coding Agent runtime，多入口、多模型、MCP/插件 |
 | Pi | `earendil-works/pi` | 68,192（2026-07-07） | 8,371 | TypeScript | v0.80.3 | Terminal agent harness：coding agent CLI + runtime core + unified AI substrate |
+| Prime Agent | `PrimeIntellect-ai/prime-agent` | 9,747（2026-08-09） | 936 | TypeScript + Python | v0.7.1 | Pi fork 上的持久 Agent runtime：daemon workers + IPython/RLM + retained children + continual harness |
 | jcode | `1jehuang/jcode` | 7,055（2026-06-15） | 790 | Rust | v0.28.0 | Rust terminal Coding Agent runtime：TUI + server-owned live session + Swarm + Graph Memory |
 | Grok Build | `xai-org/grok-build` | 19,581（2026-07-19） | 3,512 | Rust | 源码 `0.2.105`；无 GitHub release/tag | ACP + actor + 持久 session + 多代理的完整 Coding Agent harness |
 
@@ -40,12 +41,14 @@
 
 - **OpenCode** 覆盖最广：CLI/TUI/Desktop/Web/HTTP/SDK/GitHub Action/Slack，多模型、多工具、MCP、插件、自定义工具都在同一个 runtime 体系内。
 - **Pi** 覆盖也很强，而且比旧判断更“底座化”：Coding Agent CLI、独立 runtime core、统一 AI substrate、TUI、Extension 系统、Session 树、30+ provider 适配、experimental orchestrator，已经不只是“工具箱”。
+- **Prime Agent** 继承 Pi substrate 后，把产品重心移到长时自治：常驻 daemon、per-root worker、持久 IPython、RLM retained children、A2A、autonomous gates 和可回滚 continual harness。它的广度不如 OpenCode，但长时多代理深度更强。
 - **jcode** 已从“Rust TUI 工具”升级为完整 terminal agent runtime：流式 turn 状态机、server-owned live session、Swarm、Graph Memory、MCP、skills、provider/OAuth、本地/云 provider、desktop/mobile crates 和多平台 release 都已进入主线。
 - **Grok Build** 的产品面最完整：Ratatui TUI、headless/structured output、ACP stdio、leader/relay、dashboard、三模型协议、MCP、skills/plugins/hooks、subagents/worktrees、memory、sandbox 和 rewind 都在同一 runtime 中。
 
 #### 集成成本
 
 - **Pi**：终端安装仍然很轻，`npm install -g @earendil-works/pi-coding-agent` 即可；但 Node floor 已提高到 `>=22.19.0`，比旧版更挑环境。
+- **Prime Agent**：官方安装器降低入口门槛，但 RLM 完整路径需要 Node 22、Python 3.11、uv/ipykernel、ZeroMQ 和 daemon 状态目录；源码理解还要同时掌握 Pi substrate、Jupyter bridge 与多进程恢复，成本高于 Pi。
 - **OpenCode**：终端用户安装路径清晰；源码级二次开发需要 Bun monorepo、Effect、session/event/projection 心智，学习成本中高。团队应先隔离 PoC。
 - **jcode**：release binary/Homebrew/AUR 分发降低终端用户成本；源码级二次开发成本仍高，69 个 workspace members、约 54.5 万行 Rust、Swarm/Memory/provider/session/compaction 心智都需要消化。
 - **Grok Build**：官方脚本和独立 release index 降低终端安装门槛，但源码是 79-member、约 138.6 万行 Rust 的 monorepo；公开 README 缺少 source build/test 手册，fork 成本为四者最高。
@@ -54,12 +57,14 @@
 
 - **OpenCode**：热度最高，最近 push/release 都很新；但 6,033 open issues + 1,031 open PRs，典型“高热度、高活跃、高 backlog”。
 - **Pi**：品牌与分发面明显产品化（`earendil-works/pi`、`pi.dev`、统一 npm scope），但新贡献者 gate 仍很重；社区参与更像 product-led repo，而不是开放共建型基础设施。
+- **Prime Agent**：三个月达到 9.7k Stars、498 merged PR，增长和响应都很快；但 167 open issues、249 open PR，分叉后前三 identity 占 80.9%，是“高势能、高 backlog、高集中度”的早期项目。
 - **jcode**：star/fork 增长很快，v0.28.0 仍在高频 release；但本地 `git shortlog` 显示 4,620 commits 高度集中在作者多个 Git identity 上，bus factor 仍是核心风险。
 - **Grok Build**：约五天获得 19.5k Stars，但 Issues/PR 关闭、贡献指南明确不接收外部贡献，公开历史只有 4 个 sync-bot commit。热度极高，社区协作度却是四者最低。
 
 #### 文档质量
 
 - **Pi**：当前是三者里“产品入口文档 + 包级文档 + 工程合同”最完整的一档。README 直接覆盖 permissions/containerization、supply-chain hardening、网站和 docs 入口。
+- **Prime Agent**：daemon、RLM runtime、long-running agent 文档的信息密度很高；不足是缺少同等完整的 security threat model、默认 permission/sandbox 和企业 hardening 指南。
 - **OpenCode**：README/AGENTS/CONTEXT 对用户和 agent 友好，但 runtime 深层理解仍需读源码，尤其要分清 V1/V2 session 演进边界。
 - **jcode**：README 已覆盖 provider/MCP/memory/swarm/安装，`SERVER_ARCHITECTURE.md`、`MEMORY_ARCHITECTURE.md`、`SWARM_ARCHITECTURE.md`、`SAFETY_SYSTEM.md` 等文档质量不错；不足是实现演进快，稳定扩展 API 和迁移指南还不如前两者成熟。
 - **Grok Build**：24 篇用户指南对 session、permissions、sandbox、MCP、skills、hooks、plugins、subagents、memory、telemetry 的说明很细；不足是根 README 太薄，缺少外部 source build/test、release provenance 和迁移政策。
@@ -68,6 +73,7 @@
 
 - **OpenCode**：极高活跃，但 backlog 和复杂产品线意味着维护压力巨大。
 - **Pi**：维护节奏稳定，release 到 v0.80.3；风险主要来自核心维护者集中、社区 gate 偏重，以及 session persistence / orchestrator 仍在继续演化。
+- **Prime Agent**：v0.1 到 v0.7.1 的发布速度极快，核心团队持续投入；同一观测日仍有 heap OOM、usage attribution flood、compaction self-amplification 和 Windows parity 缺陷，说明长任务主路径仍在硬化。
 - **jcode**：迭代速度很快，2026-06-15 已到 v0.28.0；release/CI/多平台 artifact 信号强，但单点维护风险和版本稳定性仍需观察。
 - **Grok Build**：内部产品代码显然长期迭代，但公开仓仅是 2026-07-16 起的单向同步镜像。当前不能用内部代码成熟度替代公开同步、发布和安全修复持续性的证据。
 
@@ -75,6 +81,7 @@
 
 - **想要当下可用的开源 coding agent 主力工具** → 优先试 **OpenCode**，但在关键仓库中先加隔离和权限边界。
 - **想要可二次开发的 TypeScript agent substrate / SDK 底座** → 选 **Pi**。
+- **想研究或试用 RLM、持久子代理、detach/attach、continual harness** → 选 **Prime Agent**，但固定版本并放进容器/VM；暂不要直接交给生产凭据和无限长任务。
 - **想要 Rust terminal-first、高性能本地 runtime、Swarm/Memory 深度能力** → **jcode 值得个人隔离试用**；团队生产化前仍需安全隔离、版本冻结和维护风险评估。
 - **想拆解最完整的生产级 Coding Agent runtime** → 读 **Grok Build**；个人使用先在 sandbox/低权限测试仓隔离试用，团队长期押注等待公开同步与 release provenance。
 - **只需要 IDE 内 agent 体验** → 看 Cline / Continue。

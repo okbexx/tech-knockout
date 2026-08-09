@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-04T08:42:08.995Z",
+  "generatedAt": "2026-08-09T10:37:13.840Z",
   "projects": [
     {
       "id": "1shell",
@@ -31831,6 +31831,782 @@
         "mcp",
         "workflow",
         "runtime",
+        "python"
+      ]
+    },
+    {
+      "id": "prime-agent",
+      "name": "Prime Agent",
+      "repo": "PrimeIntellect-ai/prime-agent",
+      "url": "https://github.com/PrimeIntellect-ai/prime-agent",
+      "cloneUrl": "https://github.com/PrimeIntellect-ai/prime-agent.git",
+      "report": "reports/prime-agent.md",
+      "reportFile": "prime-agent",
+      "category": "AI Coding / Agent Workflow",
+      "summary": "Prime Agent 是从 Pi 分叉并重构出的持久化 Coding Agent runtime：以 `AgentSession` 为执行聚合根，以常驻 daemon/worker 隔离会话树，以 IPython 作为模型默认工具面，再把 RLM 子代理、Agent2Agent、autonomous gates 与可回滚 continual harness 组合成长时自治系统。",
+      "adoption": "🟡 推荐架构学习与个人隔离试用；团队高权限、长时自治生产暂缓。",
+      "architectureValue": 5,
+      "license": "MIT",
+      "language": "TypeScript；另含 Python kernel runtime",
+      "analysisDate": "2026-08-09",
+      "sourceDir": "projects/PrimeIntellect-ai__prime-agent",
+      "owner": "PrimeIntellect-ai",
+      "sourceExists": true,
+      "dependencies": [
+        {
+          "name": "@anthropic-ai/sandbox-runtime",
+          "version": "^0.0.55",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@biomejs/biome",
+          "version": "2.3.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/node",
+          "version": "^22.10.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@typescript/native-preview",
+          "version": "7.0.0-dev.20260120.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "concurrently",
+          "version": "^9.2.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "husky",
+          "version": "^9.1.7",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "jiti",
+          "version": "^2.7.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "shx",
+          "version": "^0.4.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "tsx",
+          "version": "^4.23.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.9.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@earendil-works/pi-coding-agent",
+          "version": "^0.7.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "get-east-asian-width",
+          "version": "^1.6.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/node",
+          "version": "^24.3.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.7.3",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "vitest",
+          "version": "^4.1.9",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "@earendil-works/pi-ai",
+          "version": "^0.7.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "typebox",
+          "version": "^1.1.24",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "@types/node",
+          "version": "^24.3.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "canvas",
+          "version": "^3.2.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "vitest",
+          "version": "^4.1.9",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "@anthropic-ai/sdk",
+          "version": "^0.91.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "@aws-sdk/client-bedrock-runtime",
+          "version": "^3.1083.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "@google/genai",
+          "version": "^1.40.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "@mistralai/mistralai",
+          "version": "^2.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "chalk",
+          "version": "^5.6.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "openai",
+          "version": "6.47.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "partial-json",
+          "version": "^0.1.7",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "proxy-agent",
+          "version": "^6.5.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "typebox",
+          "version": "^1.1.24",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "undici",
+          "version": "^7.28.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "zod-to-json-schema",
+          "version": "^3.24.6",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "@anthropic-ai/sdk",
+          "version": "^0.52.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/examples/extensions/custom-provider-anthropic/package.json"
+        },
+        {
+          "name": "@anthropic-ai/sandbox-runtime",
+          "version": "^0.0.55",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/examples/extensions/sandbox/package.json"
+        },
+        {
+          "name": "@types/ms",
+          "version": "^2.1.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/coding-agent/examples/extensions/with-deps/package.json"
+        },
+        {
+          "name": "ms",
+          "version": "^2.1.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/examples/extensions/with-deps/package.json"
+        },
+        {
+          "name": "@types/diff",
+          "version": "^7.0.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@types/hosted-git-info",
+          "version": "^3.0.5",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@types/ms",
+          "version": "^2.1.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@types/node",
+          "version": "^24.3.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@types/proper-lockfile",
+          "version": "^4.1.4",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "esbuild",
+          "version": "^0.28.1",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "shx",
+          "version": "^0.4.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "^5.7.3",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "vitest",
+          "version": "^4.1.9",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@mariozechner/clipboard",
+          "version": "^0.3.9",
+          "ecosystem": "npm",
+          "scope": "optional",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@agentclientprotocol/sdk",
+          "version": "^1.3.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@earendil-works/pi-agent-core",
+          "version": "^0.7.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@earendil-works/pi-ai",
+          "version": "^0.7.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@earendil-works/pi-tui",
+          "version": "^0.7.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@silvia-odwyer/photon-node",
+          "version": "^0.3.4",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "chalk",
+          "version": "^5.5.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "cli-highlight",
+          "version": "^2.1.11",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "diff",
+          "version": "^9.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "extract-zip",
+          "version": "^2.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "file-type",
+          "version": "^21.1.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "glob",
+          "version": "^13.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "hosted-git-info",
+          "version": "^9.0.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "ignore",
+          "version": "^7.0.5",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "jiti",
+          "version": "^2.7.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "marked",
+          "version": "^15.0.12",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "minimatch",
+          "version": "^10.2.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "proper-lockfile",
+          "version": "^4.1.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "strip-ansi",
+          "version": "^7.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "typebox",
+          "version": "^1.1.24",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "undici",
+          "version": "^7.28.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "uuid",
+          "version": "^14.0.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "yaml",
+          "version": "^2.9.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "zeromq",
+          "version": "^6.1.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@xterm/headless",
+          "version": "^6.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/tui/package.json"
+        },
+        {
+          "name": "@xterm/xterm",
+          "version": "^6.0.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/tui/package.json"
+        },
+        {
+          "name": "koffi",
+          "version": "^2.9.0",
+          "ecosystem": "npm",
+          "scope": "optional",
+          "manifest": "packages/tui/package.json"
+        },
+        {
+          "name": "@types/mime-types",
+          "version": "^3.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/tui/package.json"
+        },
+        {
+          "name": "chalk",
+          "version": "^5.5.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/tui/package.json"
+        },
+        {
+          "name": "get-east-asian-width",
+          "version": "^1.6.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/tui/package.json"
+        },
+        {
+          "name": "marked",
+          "version": "^15.0.12",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/tui/package.json"
+        },
+        {
+          "name": "mime-types",
+          "version": "^3.0.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/tui/package.json"
+        },
+        {
+          "name": "pillow",
+          "version": "pillow>=10.0.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/skills/attach-image/pyproject.toml"
+        },
+        {
+          "name": "prime-agent-runtime",
+          "version": "prime-agent-runtime",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/skills/attach-image/pyproject.toml"
+        },
+        {
+          "name": "httpx",
+          "version": "httpx",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/skills/linear/pyproject.toml"
+        },
+        {
+          "name": "mcp",
+          "version": "mcp",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/skills/linear/pyproject.toml"
+        },
+        {
+          "name": "prime-agent-runtime",
+          "version": "prime-agent-runtime",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/skills/linear/pyproject.toml"
+        },
+        {
+          "name": "httpx",
+          "version": "httpx",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/skills/notion/pyproject.toml"
+        },
+        {
+          "name": "mcp",
+          "version": "mcp",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/skills/notion/pyproject.toml"
+        },
+        {
+          "name": "prime-agent-runtime",
+          "version": "prime-agent-runtime",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/skills/notion/pyproject.toml"
+        },
+        {
+          "name": "httpx",
+          "version": "httpx>=0.27,<1",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/skills/websearch/pyproject.toml"
+        },
+        {
+          "name": "prime-agent-runtime",
+          "version": "prime-agent-runtime",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/skills/websearch/pyproject.toml"
+        },
+        {
+          "name": "prime-agent-runtime",
+          "version": "prime-agent-runtime",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/test/fixtures/skills/python-skill/pyproject.toml"
+        },
+        {
+          "name": "ipykernel",
+          "version": "ipykernel",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "prime-agent-runtime/pyproject.toml"
+        },
+        {
+          "name": "nest-asyncio",
+          "version": "nest-asyncio",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "prime-agent-runtime/pyproject.toml"
+        },
+        {
+          "name": "tyro",
+          "version": "tyro",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "prime-agent-runtime/pyproject.toml"
+        }
+      ],
+      "dependencySummary": {
+        "total": 90,
+        "manifests": 14,
+        "byEcosystem": {
+          "npm": 76,
+          "python": 14
+        },
+        "byScope": {
+          "development": 28,
+          "runtime": 60,
+          "optional": 2
+        }
+      },
+      "dependencyEvidencePresent": true,
+      "dependencyEvidence": [
+        {
+          "dependency": "@earendil-works/pi-ai",
+          "type": "model substrate",
+          "usedFor": "provider adapters、stream、usage、cost、thinking",
+          "problemSolved": "统一多 provider 消息与流式语义",
+          "evidence": "packages/coding-agent/package.json:49-73；packages/ai/",
+          "reuseSignal": "高：需要 TypeScript 多模型 substrate 时优先研究",
+          "caution": "Prime fork scope 与上游 Pi 演进会带来跟踪成本"
+        },
+        {
+          "dependency": "@earendil-works/pi-agent-core",
+          "type": "agent runtime",
+          "usedFor": "message state、tool loop、steer/follow-up、transport",
+          "problemSolved": "把 agent loop 与具体 UI 解耦",
+          "evidence": "packages/agent/；agent-session.ts",
+          "reuseSignal": "高：轻量可嵌入 agent core",
+          "caution": "Prime 的持久/daemon 语义主要在 coding-agent 层，不在 core 单包"
+        },
+        {
+          "dependency": "@earendil-works/pi-tui",
+          "type": "terminal UI",
+          "usedFor": "interactive/Agents View/components",
+          "problemSolved": "终端交互、增量渲染与组件模型",
+          "evidence": "packages/tui/、packages/coding-agent/src/modes/interactive/",
+          "reuseSignal": "中高：终端原生产品可复用",
+          "caution": "UI 与 daemon capability 协商增加测试矩阵"
+        },
+        {
+          "dependency": "zeromq + Jupyter protocol",
+          "type": "runtime / IPC",
+          "usedFor": "IPython shell、IOPub、control channels",
+          "problemSolved": "持久 REPL、异步 host request、interrupt/shutdown",
+          "evidence": "kernel/index.ts；docs/rlm-runtime.md:76-123",
+          "reuseSignal": "高：需要模型可编程 REPL 时很有价值",
+          "caution": "native dependency、进程清理和 Windows 行为复杂"
+        },
+        {
+          "dependency": "prime-agent-runtime / ipykernel",
+          "type": "Python runtime",
+          "usedFor": "rlm、goal、refine、agent_message skills",
+          "problemSolved": "给模型稳定 Python API，执行仍留在 TS host",
+          "evidence": "prime-agent-runtime/pyproject.toml；src/rlm/",
+          "reuseSignal": "高：host-owned policy + thin Python shim 是好边界",
+          "caution": "不是 sandbox；bootstrap/venv/ABI 都是运维面"
+        },
+        {
+          "dependency": "proper-lockfile",
+          "type": "concurrency / storage",
+          "usedFor": "session lease、同路径互斥",
+          "problemSolved": "防止多个 worker 同时写同一 transcript",
+          "evidence": "packages/coding-agent/package.json:66；session-lease.ts",
+          "reuseSignal": "高：本地多进程 JSONL 状态适用",
+          "caution": "network filesystem 与异常进程恢复需额外验证"
+        },
+        {
+          "dependency": "typebox",
+          "type": "schema",
+          "usedFor": "tools、protocol payload、config",
+          "problemSolved": "统一 runtime validation 与 TS 类型",
+          "evidence": "coding-agent tool/protocol 层",
+          "reuseSignal": "高：协议密集型 TS runtime 适用",
+          "caution": "schema/version migration 仍需显式治理"
+        },
+        {
+          "dependency": "@agentclientprotocol/sdk",
+          "type": "protocol SDK",
+          "usedFor": "ACP server/client surface",
+          "problemSolved": "接入支持 ACP 的编辑器或宿主",
+          "evidence": "packages/coding-agent/package.json:50；modes/acp/",
+          "reuseSignal": "中高：需要标准 agent client protocol 时复用",
+          "caution": "Prime 特有能力只能放 namespaced _meta，互操作会降级"
+        },
+        {
+          "dependency": "@modelcontextprotocol/sdk（optional peer/transitive）",
+          "type": "protocol SDK",
+          "usedFor": "MCP integration skills/extensions",
+          "problemSolved": "接入外部 tools/services",
+          "evidence": "lockfile peer evidence；内置 MCP skills",
+          "reuseSignal": "中：生态连接面成熟",
+          "caution": "外部 MCP 即可信代码/网络边界，context 和凭据面扩大"
+        },
+        {
+          "dependency": "vitest",
+          "type": "test framework",
+          "usedFor": "unit/integration/process/kernel tests",
+          "problemSolved": "支持 415 个 TS test/spec 文件与 CI shards",
+          "evidence": "各 package manifest；.github/workflows/ci.yml",
+          "reuseSignal": "高：TS monorepo 标准选择",
+          "caution": "静态测试数量不等于当前 HEAD 在本机通过"
+        },
+        {
+          "dependency": "GitHub Actions + R2 + npm tarball",
+          "type": "release pipeline",
+          "usedFor": "build、pack、checksum、channel pointer、installer",
+          "problemSolved": "同时提供 immutable version artifact 与 stable/beta pointer",
+          "evidence": ".github/workflows/build-binaries.yml",
+          "reuseSignal": "中高：两阶段 pack/publish 值得学",
+          "caution": "workflow pinning 混杂；发布凭据集中于 publish trust domain"
+        }
+      ],
+      "tags": [
+        "agent",
+        "coding",
+        "mcp",
+        "cli",
+        "workflow",
+        "runtime",
+        "typescript",
         "python"
       ]
     },
