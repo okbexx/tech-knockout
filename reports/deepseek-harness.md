@@ -68,6 +68,7 @@ DeepSeek Harness 不是“给 DeepSeek API 加一个 bash tool”的薄 CLI，�
 - **不是仅支持 DeepSeek 模型。** 默认 route 是 DeepSeek，但 `llm-pi-ai`、MCP、ACP、外部 subagent provider 都说明它更接近通用 runtime；反过来，也不要把 provider breadth 夸大成已经等同 Pi/OpenCode 的开箱 catalog。
 - **sandbox 不是容器或 microVM。** 默认本地 runner 主要约束文件写入；项目文档明确网络和进程可见性不在该边界内。Windows restricted token/ACL 和旧 Landlock ABI 还可能只有 partial enforcement。
 - **approval 不是强隔离。** 默认 `ask` 是策略 gate；用户批准后，命令仍以宿主用户权限运行。`danger-full-access` 会同时切到 sandbox unrestricted 与 approval `never`。
+- **缺少 workspace trust gate。** 默认会从当前仓库加载 `AGENTS.md`、`CLAUDE.md` 及 local variants，并扫描 `.dsh/skills`、`.agents/skills`；项目 skill 默认可被模型调用且会跟随 symlink。恶意仓库内容不能无条件直接 RCE，但可诱导模型结合宿主可读文件与可联网 shell 形成数据外发链。
 - **插件/profile 配置是受信代码。** profile `cordis.patch.yml` 支持 `!!js` 表达式，插件由 Node 动态加载，`dsh plugin` 直接把参数转给 pnpm；这些入口不适合加载未知来源包或配置。
 - **没有证明公开生产稳定。** 官方标记 Developer Preview；0.1 RC；无 tag/release；公开主 CI 对冻结 HEAD 没创建 job；公开生态仅经历约一天。
 - **不提供 hostile multi-tenant isolation。** 本地 Web 默认 loopback、请求有 trust fence，但把它部署到共享网络或多租户环境仍需独立认证、容器边界、secret broker 和网络策略。
@@ -86,7 +87,7 @@ DeepSeek Harness 不是“给 DeepSeek API 加一个 bash tool”的薄 CLI，�
 - **源码开发**：pnpm monorepo，248 个 `package.json`、248-package 级 composition、TypeScript 6、Vite/Vitest、native sandbox helper、Python SDK，完整构建面很大。
 - **状态与配置**：`$DSH_HOME`（默认 `~/.dsh`）下保存 profiles、settings、credentials、sessions、home patch；当前工作目录作为 workspace root。
 - **理解成本**：高。需要同时掌握 Cordis context/fiber/plugin loader、patch layering、declaration merging、session event/projection、capability seam、agent phase machine 和 client RPC/plugin tree。
-- **PoC 建议**：固定 `0.1.0-rc.6` 或 SHA；先用默认 `workspace-write + ask`；保留 loopback；关闭 telemetry；只装审计过的 profile/plugin；外层再加 disposable container/VM 和出站限制。
+- **PoC 建议**：只打开可信 workspace；固定 `0.1.0-rc.6` 或 SHA；保留 `workspace-write + ask`、loopback、telemetry disabled；只装审计过的 profile/plugin。对未审计仓库，先禁用 project instructions/skills，再使用 disposable container/VM、出站限制和无生产秘密环境。
 
 ### 依赖 / SDK 选型证据
 
@@ -103,7 +104,7 @@ DeepSeek Harness 不是“给 DeepSeek API 加一个 bash tool”的薄 CLI，�
 | bwrap / Landlock / Seatbelt / Windows restricted token | OS isolation | 本地文件 effect confinement | 在不改 tool schema 的情况下限制 write surface | `packages/sandbox/*`；`.github/workflows/sandbox.yml` | **高**：本地 coding agent 默认防线值得复刻 | 不是网络/进程隔离；平台能力不一致；必须 fail closed |
 | `commander` | CLI parser | launcher 与 profile app 参数分层 | 外层只解析 profile/patch，把剩余参数交给插件 app | `apps/cli/src/args.ts` | **中**：多 app launcher 可借鉴 | pass-through grammar 和 help ownership 需要严格测试 |
 | React + Vite + typed client plugins | UI | Web shell、conversation、settings、tool views | 让 Host 与 browser plugin 共享 contract、按 slot 组合 UI | `apps/web`、`packages/client/*` | **高**：插件化 Web agent surface 可研究 | 包数量与 client/host 双面契约使变更成本高 |
-| OpenTelemetry | telemetry | opt-in session-log export | 统一会话反馈/遥测传输 | `packages/bundle/base/cordis.patch.yml:129-161` | **中**：需要标准 collector 时复用 | FULL 模式上传 raw captured session copy；必须明确同意和数据治理 |
+| OpenTelemetry | telemetry | opt-in session-log export | 统一会话反馈/遥测传输 | `packages/bundle/base/cordis.patch.yml:129-161` | **中**：需要标准 collector 时复用 | FULL 模式上传 raw captured session copy；默认无强制脱敏且 endpoint 允许 HTTP，必须显式同意、强制 TLS 和治理 |
 | pnpm workspace + lockfile | build/package | 248 manifests 的 monorepo 与发布序列 | workspace linkage、可复现依赖图、统一 RC 发布 | `pnpm-workspace.yaml`、`pnpm-lock.yaml`、release workflows | **中高**：超大 TS monorepo 适用 | 发布面巨大；RC 包 dist-tag 仍不完全一致 |
 | Pydantic + pinned runtime wheel | SDK | Python host API / runtime distribution | 让 Python 调用方复用 DSH runtime contract | `python/sdk/pyproject.toml`、`python/sdk/uv.lock` | **中高**：需要 Python wrapper 时适用 | SDK 仍是 0.1 RC；runtime wheel 与 Node monorepo 双发行需同步 |
 
@@ -116,12 +117,16 @@ DeepSeek Harness 不是“给 DeepSeek API 加一个 bash tool”的薄 CLI，�
 | 供应商锁定 | 🟡 中 | runtime seam 通用、可挂多 provider；默认模型、search、telemetry endpoint 与 npm scope 深度 DeepSeek 化 |
 | 公开发行成熟度 | 🔴 低 | Developer Preview、0.1 RC、无 GitHub tag/release、公开时间约一天 |
 | 内部工程成熟度 | 🟢 高 | 12,293 commits、56 万行 TS、927 个 TS test asset、完整架构/子系统/decision 文档；不能与公开稳定性混为一谈 |
-| 默认工具权限 | 🟡 中 | 默认 `workspace-write + ask` 明显好于 unrestricted；批准后仍以宿主用户执行 |
+| Workspace trust | 🔴 高（P1） | 无首次打开确认；默认加载项目 `AGENTS.md` / `CLAUDE.md` 和 model-invocable project skills，skills 还会跟随 symlink；宿主读取与网络未被 sandbox 切断 |
+| 默认工具权限 | 🟠 中偏高 | 默认 `workspace-write + ask` 好于 unrestricted，但普通 standing-policy 命令不必逐次审批；批准后仍以宿主用户执行 |
 | OS 隔离 | 🟠 中 | POSIX 有 bwrap/Landlock/Seatbelt，Windows 有 restricted token/ACL；仅文件 effect，非 container/microVM，部分平台 partial |
 | 网络 / 进程隔离 | 🔴 高 | sandbox 不限制网络或进程可见性；需要外层容器、出站 ACL、最小 OS 用户补齐 |
 | 插件 / 配置供应链 | 🔴 高 | `dsh plugin` 调 pnpm；profile/home patch 支持 `!!js`；未知插件与配置可在宿主进程执行任意代码 |
+| MCP 权限边界 | 🟠 中偏高（P2） | stdio server 可执行配置中的 command/args/env/cwd，MCP tool 直接注册；该链不统一经过 shell sandbox 或 per-tool approval。base bundle 默认未挂任意 server |
+| 发布供应链 | 🟠 中偏高（P2） | release/Python release 中多项第三方 Actions 使用可漂移 tag，而不是 40 位 commit SHA；虽有 frozen lock、environment gate、OIDC/checksum 等缓解，仍应固定 |
 | 凭据泄露 | 🟡 中 | subprocess/MCP/PTY 共享敏感 env scrub，code worker 环境为空；启发式变量名不等于 secret broker，显式 env 仍可放行 |
-| Telemetry | 🟡 中 | 默认 `DISABLED` 是积极设计；启用 FULL 后 raw session-log copy 可上传，需单独治理 PII/代码/秘密 |
+| Telemetry | 🟠 中偏高（P2） | 默认 `DISABLED`；FULL 会镜像未经内建强制脱敏的 session event data，endpoint 允许 HTTP/HTTPS，启用时需单独确认、强制 TLS 和脱敏 |
+| 后台任务 teardown | 🟡 中（P2） | 内建 subprocess 有 TERM→grace→KILL；但第三方 job producer 若 cancel 返回后永不 settle，owner/service dispose 可无限等待，缺 hard deadline/orphan reporting |
 | Web 暴露 | 🟡 中 | 默认 127.0.0.1，Host/Origin/trustedHosts fence 防 DNS rebinding；非 loopback 部署仍缺完整多租户认证论证 |
 | 主 CI 门禁 | 🔴 高 | 冻结 HEAD 的 CI workflow run `31701568000` conclusion=failure 且 API 返回 0 jobs，无法作为有效测试门禁 |
 | Real API E2E | 🟡 未验证 | run `31701562200` 失败在 preflight 缺 `DEEPSEEK_API_KEY`，没有进入模型 E2E；不能算产品回归，也不能算通过 |
@@ -136,8 +141,8 @@ DeepSeek Harness 不是“给 DeepSeek API 加一个 bash tool”的薄 CLI，�
 分场景建议：
 
 - **源码研究 / 内部架构设计**：强烈推荐。Cordis reversible composition、SessionEvent/projection、capability seam、tool scheduler、persistence repair 和默认 permission composition 的信息密度极高。
-- **个人 Web Coding Agent**：可试。固定 `0.1.0-rc.6`/SHA，保持 loopback 和 `workspace-write + ask`，只加载可信 profile/plugin，关闭 telemetry。
-- **团队 PoC**：放入一次性容器/VM；单独低权限用户；限制出站；不把生产 secrets 放进 ambient env；审计 `$DSH_HOME` patch、profile package 与 MCP server；保留 approval。
+- **个人 Web Coding Agent**：只在可信 workspace 可试。固定 `0.1.0-rc.6`/SHA，保持 loopback 和 `workspace-write + ask`，只加载可信 profile/plugin，关闭 telemetry；不可信仓库先禁用 project instructions/skills，并放入一次性容器/VM与出站受限环境。
+- **团队 PoC**：建立 workspace trust/allowlist；不可信仓默认禁用 project instructions/skills；放入一次性容器/VM、单独低权限用户并限制出站；不把生产 secrets 放进 ambient env；审计 `$DSH_HOME` patch、profile package 与 MCP server；保留 approval。
 - **长期生产平台**：等待至少一个稳定版本、GitHub release/tag、有效主 CI、real API E2E、SECURITY policy、公开 migration/compatibility 承诺和真实社区修复周期。
 
 ---
@@ -520,7 +525,7 @@ Web host
 |------|------|----------|----------------|----------------|
 | OpenCode | 完整 Coding Agent runtime | durable event/projection + 多入口 + 大生态 | 公开发行、用户生态、provider breadth 更成熟 | capability seam 与可逆 plugin composition 没有 DSH 如此体系化 |
 | Pi | TypeScript agent substrate + CLI | 轻量 provider/agent/TUI SDK 与 extension | 更轻、更稳定、更适合直接嵌入 | durability、sandbox、profile composition 和 Web platform 深度较弱 |
-| Prime Agent | 长时 Coding Agent runtime | daemon worker、IPython/RLM、retained child、continual harness | 长时自治与持久子代理更深 | 默认权限和 workspace trust 明显弱于 DSH 默认组合 |
+| Prime Agent | 长时 Coding Agent runtime | daemon worker、IPython/RLM、retained child、continual harness | 长时自治与持久子代理更深 | 两者都缺 workspace trust gate；Prime Agent 项目扩展自动执行链更直接，DSH 默认权限 composition 更保守但仍有 prompt/skill→read/network 链 |
 | Grok Build | 产品级 Coding Agent harness | ACP/actor、session、sandbox、worktree、multi-agent | 产品 surface 与 actor failure domain 完整 | 公开治理弱、生态封闭；DSH 的插件/文档契约更开放 |
 | jcode | Rust terminal runtime | server-owned live session、Swarm、Graph Memory | 单二进制/Rust、本地性能与 memory depth | Web/plugin composition 和 capability seam 不如 DSH |
 | Claude Code / Codex CLI | 商业 coding agent | 模型体验、分发、产品抛光 | 直接使用门槛低、稳定 support | 内核不可完整检查/替换；DSH 可作为外部 subagent 调用它们 |
@@ -594,13 +599,13 @@ Web host
 | 社区活跃度 | 3.4 | launch 热度极高，但公开仅一天、Issues/PR 关闭，治理闭环尚无观察窗 |
 | 架构设计 | 5.0 | reversible composition + event/projection + capability seam 是当前开源 harness 的一线样本 |
 | 产品成熟度 | 2.8 | Developer Preview、0.1 RC、无 tag/release、主 CI 无有效 jobs |
-| 安全默认值 | 4.0 | workspace-write + ask、sandbox fail-closed、env scrub、telemetry off；仍非网络/container隔离 |
+| 安全默认值 | 3.0 | workspace-write + ask、sandbox fail-closed、env scrub、telemetry off 是优点；但缺 workspace trust，默认项目 instructions/skills 与宿主读取/网络组合成 P1 |
 | 学习价值 | 5.0 | agent runtime、插件生命周期、持久化与安全 composition 都值得深读 |
 | 可借鉴度 | 4.9 | 多个模式可独立抽取；不建议照搬 248-package 粒度和受信 `!!js` 配置 |
 
-**综合评分：8.8 / 10。**
+**综合评分：8.6 / 10。**
 
-> 评分解释：若只评架构与源码工程，约 9.6/10；若评 2026-08-14 的个人受控试用，约 7.5/10；若评团队关键生产底座，受 0.1 RC、公开时间、CI/security policy/治理证据拖累，目前约 5.8/10。
+> 评分解释：若只评架构与源码工程，约 9.6/10；若评 2026-08-14 在**可信 workspace** 的个人受控试用，约 6.8/10；若评团队关键生产底座，受 workspace trust P1、0.1 RC、公开时间、CI/security policy/治理证据拖累，目前约 5.2/10。
 
 ---
 
@@ -621,14 +626,15 @@ Web host
 
 - 需要稳定 semver、长期迁移承诺、正式 security support 和企业 SLA 的团队；
 - 想在共享服务器上直接做 hostile multi-tenant agent execution 的平台；
+- 准备直接打开未审计仓库，或认为项目 `AGENTS.md` / `CLAUDE.md` / skills 只是无害文档的使用者；
 - 认为默认 sandbox 会隔离网络、进程、同用户 secrets 的使用者；
 - 准备安装未知 profile/plugin/MCP 或把 `danger-full-access` 用作无人值守默认值的人；
 - 只需要一个轻量 CLI/SDK，不愿承担 248-package runtime 心智的人。
 
 ### 下一步
 
-1. **官方优先级**：修复公开主 CI job creation；给 real API E2E 正确配置 secret；发布 SECURITY.md；打 GitHub tag/release；统一 RC dist-tag。
-2. **个人试用**：固定 `0.1.0-rc.6`/SHA，保持 `workspace-write + ask`、loopback、telemetry disabled，只装可信插件。
-3. **团队 PoC**：外层容器/VM + 低权限用户 + egress allowlist + secret broker；审计 `$DSH_HOME` 和 profile package；记录 approval 与 session artifact retention。
+1. **官方优先级**：加入持久 workspace trust gate；未信任仓默认禁用 project instructions/skills；修复公开主 CI job creation；给 real API E2E 正确配置 secret；发布 SECURITY.md；固定 release Actions SHA；打 GitHub tag/release。
+2. **个人试用**：固定 `0.1.0-rc.6`/SHA，只打开可信 workspace；保持 `workspace-write + ask`、loopback、telemetry disabled，只装可信插件。不可信仓先禁用 project instructions/skills，再进入无生产秘密、出站受限的一次性容器/VM。
+3. **团队 PoC**：workspace allowlist + 外层容器/VM + 低权限用户 + egress allowlist + secret broker；审计 `$DSH_HOME`、profile package、MCP command/env 和 project skills；记录 approval 与 session artifact retention。
 4. **架构复刻**：先复刻五个最小不变量——fiber ownership、event/projection、turn/step state machine、ordered tool settlement、persistence repair；不要一开始复制 248-package 全量产品面。
 5. **复核窗口**：等待 30-60 天，重新观察公开版本、Discussion resolution、第三方插件、主 CI 与 security response，再决定是否进入团队主路径。

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-14T00:02:42.461Z",
+  "generatedAt": "2026-08-14T00:10:53.572Z",
   "projects": [
     {
       "id": "1shell",
@@ -34474,7 +34474,7 @@
           "problemSolved": "统一会话反馈/遥测传输",
           "evidence": "packages/bundle/base/cordis.patch.yml:129-161",
           "reuseSignal": "中：需要标准 collector 时复用",
-          "caution": "FULL 模式上传 raw captured session copy；必须明确同意和数据治理"
+          "caution": "FULL 模式上传 raw captured session copy；默认无强制脱敏且 endpoint 允许 HTTP，必须显式同意、强制 TLS 和治理"
         },
         {
           "dependency": "pnpm workspace + lockfile",

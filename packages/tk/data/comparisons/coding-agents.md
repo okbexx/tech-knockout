@@ -21,7 +21,7 @@
 | 运行时架构成熟度 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐（源码强、公开 RC） | ⭐⭐⭐⭐（设计强、长任务仍硬化） | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
 | 扩展与二次开发 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ |
 | 许可证 | MIT | MIT | MIT | MIT | MIT | Apache-2.0 |
-| **综合推荐度** | ✅ 推荐个人/高级开发者；团队隔离 PoC | ✅ 推荐个人主力试用 / 内部 SDK 底座 | ⚠️ 架构学习强烈推荐；个人固定 RC 隔离试用；团队生产底座暂观望 | ⚠️ 架构学习强烈推荐；个人固定版本隔离试用；高权限生产暂缓 | ✅ 推荐个人隔离试用；团队生产化观望 | ⚠️ 源码学习强烈推荐；个人隔离试用；团队押注暂缓 |
+| **综合推荐度** | ✅ 推荐个人/高级开发者；团队隔离 PoC | ✅ 推荐个人主力试用 / 内部 SDK 底座 | ⚠️ 架构学习强烈推荐；仅可信 workspace 固定 RC 隔离试用；团队生产底座暂观望 | ⚠️ 架构学习强烈推荐；个人固定版本隔离试用；高权限生产暂缓 | ✅ 推荐个人隔离试用；团队生产化观望 | ⚠️ 源码学习强烈推荐；个人隔离试用；团队押注暂缓 |
 
 ### 基础画像
 
@@ -87,7 +87,7 @@
 
 - **想要当下可用的开源 coding agent 主力工具** → 优先试 **OpenCode**，但在关键仓库中先加隔离和权限边界。
 - **想要可二次开发的 TypeScript agent substrate / SDK 底座** → 选 **Pi**。
-- **想研究可逆插件树、capability seam、append-only event/projection 和安全默认组合** → 读 **DeepSeek Harness**；试用固定 RC、保留 `workspace-write + ask`，并用外层容器/VM补网络与租户边界。
+- **想研究可逆插件树、capability seam、append-only event/projection 和安全组合** → 读 **DeepSeek Harness**；只打开可信 workspace，固定 RC 并保留 `workspace-write + ask`。未审计仓先禁用 project instructions/skills，并用外层容器/VM补宿主读取、网络与租户边界。
 - **想研究或试用 RLM、持久子代理、detach/attach、continual harness** → 选 **Prime Agent**，但固定版本并放进容器/VM；只打开已审计仓库，启动时先禁用项目 extensions/skills/context files，暂不要交给生产凭据和无限长任务。
 - **想要 Rust terminal-first、高性能本地 runtime、Swarm/Memory 深度能力** → **jcode 值得个人隔离试用**；团队生产化前仍需安全隔离、版本冻结和维护风险评估。
 - **想拆解最完整的生产级 Coding Agent runtime** → 读 **Grok Build**；个人使用先在 sandbox/低权限测试仓隔离试用，团队长期押注等待公开同步与 release provenance。
@@ -128,7 +128,7 @@
 
 - **OpenCode 倾向 runtime 事务化。** 它的核心不是 UI，而是 durable session、event log、projection、tool settlement、location ownership。这是最适合研究“coding agent 怎么从 prompt loop 变成可靠 runtime”的项目。
 - **Pi 倾向 harness / substrate 化。** 它表面上是 CLI，真正资产在 provider substrate、agent runtime、extension lifecycle、session persistence 与 release discipline，是“怎么把 agent 从产品壳拆成可复用平台层”的好样本。
-- **DeepSeek Harness 倾向 composition runtime 化。** Cordis tree 同时是 dependency graph、capability graph 和 ownership graph；SessionEvent 是事实层，surface projection 是模型层，profile patch 是产品层。最值得学的是可逆 composition 与 capability seam，最需警惕的是 `!!js`/插件供应链和 native sandbox 被误当成完整隔离。
+- **DeepSeek Harness 倾向 composition runtime 化。** Cordis tree 同时是 dependency graph、capability graph 和 ownership graph；SessionEvent 是事实层，surface projection 是模型层，profile patch 是产品层。最值得学的是可逆 composition 与 capability seam；最需警惕的是缺 workspace trust、默认项目 instructions/skills 与宿主读取/网络形成的 P1 链，以及 `!!js`/插件供应链和 native sandbox 被误当成完整隔离。
 - **Prime Agent 倾向 long-horizon runtime 化。** 它把 Pi substrate 推进为 per-root worker、持久 IPython、retained children、journal/snapshot recovery 和 typed harness refinement；最值得学的是生命周期与状态契约，最需要警惕的是 workspace trust 和跨 store 非事务恢复。
 - **jcode 倾向本地系统 runtime 化。** 它用 Rust/Tokio/Ratatui，把 terminal agent 做成 server-owned live session：turn reducer、tool settlement、Swarm、Graph Memory、compaction/reload recovery 都是核心，不只是性能优化。
 - **Grok Build 倾向协议化 agent OS。** ACP 是入口契约，actor 是所有权边界，persistent session 是恢复边界，permission/sandbox/worktree 是副作用边界；它最适合研究“产品级 Coding Agent 的全栈 runtime”。
@@ -172,7 +172,7 @@
 
 - **个人/高级开发者主力工具：OpenCode 优先。** 它功能覆盖和生态势能最强，但要接受高频迭代和 backlog 带来的摩擦。
 - **内部二次开发底座：Pi 更稳。** provider substrate、SDK、Extension、release discipline 更容易拆出来复用。
-- **可组合 Harness 受控试点：DeepSeek Harness。** 固定 RC，保留 `workspace-write + ask`，外层补容器/VM、出站限制和插件白名单；当前不作为团队生产底座。
+- **可组合 Harness 受控试点：DeepSeek Harness。** 仅打开可信 workspace，固定 RC 并保留 `workspace-write + ask`；未审计仓默认禁用 project instructions/skills，外层补容器/VM、出站限制和插件白名单；当前不作为团队生产底座。
 - **长时 RLM 受控试点：Prime Agent。** 只在外部隔离、可信仓库和显式禁用项目扩展/skills/context 的前提下采用；不作为当前默认生产工具。
 - **实验性 Rust terminal agent runtime：jcode 值得个人隔离试用。** 不建议关键生产路径无隔离深度依赖。
 - **完整产品级 Rust harness：Grok Build 先隔离试用。** 源码学习价值极高，但公开项目治理和发布连续性尚不足以支撑团队长期押注。
