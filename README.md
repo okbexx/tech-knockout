@@ -40,7 +40,7 @@ Technical Knockout（TK）不是又一个项目推荐清单。它把**真实源�
 
 | 证据面 | 当前内容 | 从哪里开始 |
 |---|---:|---|
-| 深度报告 | 39 份正式报告 | [`reports/`](./reports/) |
+| 深度报告 | 40 份正式报告 | [`reports/`](./reports/) |
 | 同类横评 | 9 个决策主题 | [`comparisons/`](./comparisons/) |
 | Agent Skills | 5 个共享工作流 | [`packages/tk/skills/`](./packages/tk/skills/) |
 | 支持宿主 | Codex · Claude Code · OpenCode · Hermes | [`docs/install-agent-adapters.md`](./docs/install-agent-adapters.md) |
@@ -50,7 +50,7 @@ Technical Knockout（TK）不是又一个项目推荐清单。它把**真实源�
 
 | 主题 | 先看报告 | 再看横评 |
 |---|---|---|
-| Coding Agent runtime | [Prime Agent](./reports/prime-agent.md) · [cc-haha](./reports/cc-haha.md) · [Grok Build](./reports/grok-build.md) · [OpenCode](./reports/opencode.md) · [jcode](./reports/jcode.md) | [Coding Agents](./comparisons/coding-agents.md) |
+| Coding Agent runtime | [DeepSeek Harness](./reports/deepseek-harness.md) · [Prime Agent](./reports/prime-agent.md) · [cc-haha](./reports/cc-haha.md) · [Grok Build](./reports/grok-build.md) · [OpenCode](./reports/opencode.md) · [jcode](./reports/jcode.md) | [Coding Agents](./comparisons/coding-agents.md) |
 | Agent workflow / Skills | [superpowers](./reports/superpowers.md) · [compound-engineering-plugin](./reports/compound-engineering-plugin.md) · [Trellis](./reports/Trellis.md) | [AI Coding Workflow](./comparisons/ai-coding-workflow.md) |
 | Agent 平台与控制面 | [QM](./reports/qm.md) · [Orca](./reports/orca.md) · [Buzz](./reports/buzz.md) · [openhuman](./reports/openhuman.md) | [Agent Platforms](./comparisons/agent-platforms.md) · [Control Planes](./comparisons/coding-agent-control-planes.md) |
 | Agent 长期记忆 | [Memmy Agent](./reports/memmy-agent.md) | [Agent Memory Infrastructure](./comparisons/agent-memory-infrastructure.md) |
@@ -158,6 +158,7 @@ npx @jarl_okbe/tk report lint --write
 
 | Project | What it is | Adopt? | Architecture value | Date |
 |---|---|---|---|---|
+| [DeepSeek Harness](./reports/deepseek-harness.md) | Cordis 驱动的可组合 Coding Agent runtime：可逆 plugin/fiber tree、append-only SessionEvent、capability seams、Web/headless/Python SDK 与默认 workspace-write + ask | 架构学习强烈推荐 / 个人固定 RC 隔离试用 / 团队生产底座暂观望 | ⭐⭐⭐⭐⭐ | 2026-08-14 |
 | [Prime Agent](./reports/prime-agent.md) | Pi substrate 上的持久 Coding Agent runtime：daemon workers、IPython/RLM、retained children、A2A、autonomous gates 与可回滚 continual harness | 架构学习强烈推荐 / 仅在可信仓库和外部隔离环境受控试用 / 高权限生产暂缓 | ⭐⭐⭐⭐⭐ | 2026-08-09 |
 | [cc-haha](./reports/cc-haha.md) | 从 Claude Code 泄露快照演化出的全栈 Coding Agent runtime：CLI/Desktop、多 provider、JSONL session、MCP/LSP、Swarm、H5/IM 与 Computer Use | 不推荐生产/商业采用；仅建议隔离研究，clean-room 学架构 | ⭐⭐⭐⭐⭐ | 2026-07-30 |
 | [Grok Build](./reports/grok-build.md) | xAI 开放的完整 Coding Agent harness：ACP 内核、ChatState/Sampler actors、持久 session、并发 tool dispatch、subagents/worktrees 与 OS sandbox；公开仓为不接受外部贡献的单向同步镜像 | 源码学习强烈推荐 / 个人隔离试用 / 团队长期押注暂缓 | ⭐⭐⭐⭐⭐ | 2026-07-19 |

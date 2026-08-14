@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09T10:37:13.624Z",
+  "generatedAt": "2026-08-14T00:02:42.685Z",
   "sources": [
     {
       "id": "1shell",
@@ -100,6 +100,19 @@
       "cloneUrl": "https://github.com/Lynpoint/CyberVerse.git",
       "sourceDir": "projects/Lynpoint__CyberVerse",
       "exists": false
+    },
+    {
+      "id": "deepseek-harness",
+      "repo": "deepseek-ai/deepseek-harness",
+      "url": "https://github.com/deepseek-ai/deepseek-harness",
+      "cloneUrl": "https://github.com/deepseek-ai/deepseek-harness.git",
+      "sourceDir": "projects/deepseek-ai__deepseek-harness",
+      "exists": true,
+      "branch": "master",
+      "commit": "47f943859bef60e4160492346772ded9b24f765a",
+      "remote": "https://github.com/deepseek-ai/deepseek-harness.git",
+      "shallow": false,
+      "dirty": false
     },
     {
       "id": "design.md",
