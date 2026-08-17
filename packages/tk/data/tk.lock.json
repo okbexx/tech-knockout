@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-14T00:10:53.831Z",
+  "generatedAt": "2026-08-17T03:12:49.888Z",
   "sources": [
     {
       "id": "1shell",
@@ -212,6 +212,19 @@
       "commit": "72379d0c459808f980a037065ac9c39a60032280",
       "remote": "https://github.com/jdx/mise.git",
       "shallow": false,
+      "dirty": false
+    },
+    {
+      "id": "oh-my-pi",
+      "repo": "can1357/oh-my-pi",
+      "url": "https://github.com/can1357/oh-my-pi",
+      "cloneUrl": "https://github.com/can1357/oh-my-pi.git",
+      "sourceDir": "projects/can1357__oh-my-pi",
+      "exists": true,
+      "branch": "main",
+      "commit": "37eee71978951fccf66b21f7e3e2b74596ac9d74",
+      "remote": "https://github.com/can1357/oh-my-pi.git",
+      "shallow": true,
       "dirty": false
     },
     {

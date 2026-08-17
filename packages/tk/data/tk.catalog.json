@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-14T00:10:53.572Z",
+  "generatedAt": "2026-08-17T03:12:49.414Z",
   "projects": [
     {
       "id": "1shell",
@@ -47231,6 +47231,3169 @@
         "graph",
         "rust",
         "python"
+      ]
+    },
+    {
+      "id": "oh-my-pi",
+      "name": "Oh My Pi",
+      "repo": "can1357/oh-my-pi",
+      "url": "https://github.com/can1357/oh-my-pi",
+      "cloneUrl": "https://github.com/can1357/oh-my-pi.git",
+      "report": "reports/oh-my-pi.md",
+      "reportFile": "oh-my-pi",
+      "category": "AI Coding / Agent Workflow",
+      "summary": "基于 Pi substrate 深度分叉、把 IDE 智能、原生执行、多 Agent、浏览器与长期记忆内置为一等能力的 batteries-included Coding Agent runtime。",
+      "adoption": "推荐个人受控试用；团队生产采用观望。",
+      "architectureValue": 5,
+      "license": "MIT",
+      "language": "TypeScript + Rust；另有少量 TSX / Python 测试与工具",
+      "analysisDate": "2026-08-17",
+      "sourceDir": "projects/can1357__oh-my-pi",
+      "owner": "can1357",
+      "sourceExists": true,
+      "dependencies": [
+        {
+          "name": "anyhow",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "ast-grep-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "globset",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "ignore",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "phf",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-astro",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-bash",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-c",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-c-sharp",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-clojure",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-cmake",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-cpp",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-css",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-dart",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-diff",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-dockerfile",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-elisp",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-elixir",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-erlang",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-fortran",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-go",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-graphql",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-haskell",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-hcl",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-html",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-ini",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-java",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-javascript",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-julia",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-just",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-kotlin",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-lua",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-make",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-md",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-nix",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-objc",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-ocaml",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-odin",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-php",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-powershell",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-proto",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-python",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-r",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-regex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-ruby",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-rust",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-scala",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-solidity",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-sql",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-starlark",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-svelte",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-swift",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-tlaplus",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-toml-ng",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-typescript",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-verilog",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-vue",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-xml",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-yaml",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "tree-sitter-zig",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-ast/Cargo.toml"
+        },
+        {
+          "name": "anyhow",
+          "version": "1.0.102",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "pretty_assertions",
+          "version": "{\"version\":\"1.4.1\",\"features\":[\"unstable\"]}",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "tempfile",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "ansi-width",
+          "version": "0.1.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "argmax",
+          "version": "0.3.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "bigdecimal",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "binary-heap-plus",
+          "version": "0.5.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "brush-core",
+          "version": "^0.5.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "brush-parser",
+          "version": "^0.4.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "bstr",
+          "version": "1.12.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "bytecount",
+          "version": "{\"version\":\"0.6.8\",\"features\":[\"runtime-dispatch-simd\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "cfg-if",
+          "version": "1.0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "chrono",
+          "version": "0.4.44",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "clap",
+          "version": "{\"version\":\"4.6.0\",\"features\":[\"cargo\",\"color\",\"derive\",\"env\",\"wrap_help\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "codesnake",
+          "version": "0.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "compare",
+          "version": "0.1.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "dns-lookup",
+          "version": "3.0.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "faccess",
+          "version": "0.2.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "fancy-regex",
+          "version": "0.17",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "filetime",
+          "version": "0.2.23",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "flume",
+          "version": "0.11",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "foldhash",
+          "version": "0.2.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "fs_extra",
+          "version": "1.3.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "futures",
+          "version": "0.3.32",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "glob",
+          "version": "0.3.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "globset",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "grep-cli",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "grep-matcher",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "grep-pcre2",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "grep-printer",
+          "version": "0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "grep-regex",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "grep-searcher",
+          "version": "0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "hex",
+          "version": "0.4.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "hifijson",
+          "version": "0.2.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "hostname",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "ignore",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "indicatif",
+          "version": "0.18.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "itertools",
+          "version": "0.14.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "jaq-core",
+          "version": "2.1.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "jaq-json",
+          "version": "1.1.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "jaq-std",
+          "version": "2.1.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "jiff",
+          "version": "{\"version\":\"0.2.18\",\"features\":[\"tzdb-bundle-platform\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "libc",
+          "version": "0.2.172",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "lscolors",
+          "version": "{\"version\":\"0.21.0\",\"default-features\":false,\"features\":[\"gnu_legacy\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "memchr",
+          "version": "2.7.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "memmap2",
+          "version": "0.9",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "nix",
+          "version": "{\"version\":\"0.31.2\",\"features\":[\"fs\",\"poll\",\"process\",\"resource\",\"signal\",\"term\",\"user\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "nom",
+          "version": "8.0.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "notify",
+          "version": "{\"version\":\"=8.2.0\",\"features\":[\"macos_kqueue\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "num-bigint",
+          "version": "0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "num-traits",
+          "version": "0.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "onig",
+          "version": "{\"version\":\"6.4\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "os_display",
+          "version": "0.1.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "parking_lot",
+          "version": "0.12.5",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "parse_datetime",
+          "version": "0.14",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "pi-walker",
+          "version": "{\"path\":\"../pi-walker\"}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "platform-info",
+          "version": "2.0.3",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "procfs",
+          "version": "0.18.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "rand",
+          "version": "{\"version\":\"0.10.0\",\"features\":[\"std_rng\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "rayon",
+          "version": "1.10",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "regex",
+          "version": "1.11",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "rlimit",
+          "version": "0.11.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "rustc-hash",
+          "version": "2.1.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "rustix",
+          "version": "{\"version\":\"1.1.4\",\"features\":[\"fs\",\"process\",\"time\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "self_cell",
+          "version": "1.0.4",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "similar",
+          "version": "3.1.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "smallvec",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "strum",
+          "version": "0.28.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "strum_macros",
+          "version": "0.28.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "tempfile",
+          "version": "3.15.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "thiserror",
+          "version": "2.0.18",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"version\":\"1.50.0\",\"features\":[\"io-util\",\"macros\",\"process\",\"rt\",\"rt-multi-thread\",\"signal\",\"sync\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "tokio-util",
+          "version": "0.7",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "tracing",
+          "version": "0.1.44",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "unicode-width",
+          "version": "0.2.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "uucore",
+          "version": "{\"version\":\"0.8.0\",\"default-features\":false,\"features\":[\"backup-control\",\"checksum\",\"colors\",\"encoding\",\"entries\",\"extendedbigdecimal\",\"fast-inc\",\"format\",\"fs\",\"fsext\",\"hardware\",\"i18n-charmap\",\"i18n-collator\",\"i18n-datetime\",\"i18n-decimal\",\"libc\",\"lines\",\"mode\",\"parser\",\"pipes\",\"process\",\"quoting-style\",\"ranges\",\"ringbuffer\",\"signals\",\"sum\",\"time\",\"version-cmp\",\"wide\",\"update-control\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "uutils_term_grid",
+          "version": "0.8",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "windows-sys",
+          "version": "{\"version\":\"0.61\",\"features\":[\"Win32_Foundation\",\"Win32_Networking_WinSock\",\"Win32_Storage_FileSystem\",\"Win32_System_IO\",\"Win32_System_SystemInformation\",\"Win32_System_WindowsProgramming\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "yansi",
+          "version": "1.0.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-builtins/Cargo.toml"
+        },
+        {
+          "name": "async-trait",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-iso/Cargo.toml"
+        },
+        {
+          "name": "libc",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-iso/Cargo.toml"
+        },
+        {
+          "name": "parking_lot",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-iso/Cargo.toml"
+        },
+        {
+          "name": "similar",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-iso/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-iso/Cargo.toml"
+        },
+        {
+          "name": "windows-sys",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-iso/Cargo.toml"
+        },
+        {
+          "name": "napi-build",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "build",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "xkeysym",
+          "version": "=0.2.1",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "anyhow",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "arboard",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "ashpd",
+          "version": "{\"version\":\"=0.11.1\",\"default-features\":false,\"features\":[\"tokio\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "ast-grep-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "atspi",
+          "version": "{\"version\":\"=0.30.0\",\"features\":[\"tokio\",\"zbus\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "base64",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "clap",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "clipboard-win",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "core-graphics",
+          "version": "0.25",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "enigo",
+          "version": "{\"version\":\"=0.6.1\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "flume",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "fontdue",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "foreign-types",
+          "version": "=0.5.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "futures",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "globset",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "grep-matcher",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "grep-pcre2",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "grep-regex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "grep-searcher",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "html-to-markdown-rs",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "icy_sixel",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "ignore",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "image",
+          "version": "{\"workspace\":true,\"features\":[\"bmp\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "inferno",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "libc",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "napi",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "napi-derive",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "objc2-app-kit",
+          "version": "=0.3.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "objc2-application-services",
+          "version": "{\"version\":\"=0.3.2\",\"default-features\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "objc2-core-foundation",
+          "version": "=0.3.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "objc2-core-graphics",
+          "version": "=0.3.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "objc2-foundation",
+          "version": "=0.3.2",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "parking_lot",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "pdf-inspector",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "phf",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "pi-ast",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "pi-iso",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "pi-shell",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "pi-voice",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "pi-walker",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "pipewire",
+          "version": "{\"version\":\"=0.9.2\",\"optional\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "png",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "portable-pty",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "rayon",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "regex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "reis",
+          "version": "{\"version\":\"=0.5.0\",\"features\":[\"tokio\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "smallvec",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "syntect",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "tempfile",
+          "version": "=3.27.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "tiktoken-rs",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "tokio-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "toml",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "uiautomation",
+          "version": "=0.25.0",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "unicode-segmentation",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "unicode-width",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "windows-sys",
+          "version": "{\"workspace\":true,\"features\":[\"Wdk_Storage_FileSystem\",\"Win32_Foundation\",\"Win32_Graphics_Gdi\",\"Win32_Security\",\"Win32_System_Threading\",\"Win32_UI_Input_KeyboardAndMouse\",\"Win32_UI_WindowsAndMessaging\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "winreg",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "x11rb",
+          "version": "{\"version\":\"=0.13.2\",\"features\":[\"randr\",\"xinput\",\"xtest\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "xcap",
+          "version": "{\"version\":\"=0.9.6\",\"default-features\":false}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "xkeysym",
+          "version": "=0.2.1",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "xxhash-rust",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "zune-jpeg",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-natives/Cargo.toml"
+        },
+        {
+          "name": "tempfile",
+          "version": "3",
+          "ecosystem": "cargo",
+          "scope": "development",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "anyhow",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "brush-core",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "brush-parser",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "bytes",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "clap",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "flume",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "jiff",
+          "version": "{\"version\":\"0.2\",\"features\":[\"tzdb-bundle-platform\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "libc",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "os_pipe",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "parking_lot",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "pi-builtins",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "regex",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "serde",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "serde_json",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "smallvec",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "tokio-util",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "toml",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "windows-sys",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "winreg",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "xxhash-rust",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-shell/Cargo.toml"
+        },
+        {
+          "name": "audiopus_sys",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-voice/Cargo.toml"
+        },
+        {
+          "name": "bytes",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-voice/Cargo.toml"
+        },
+        {
+          "name": "flume",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-voice/Cargo.toml"
+        },
+        {
+          "name": "libc",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-voice/Cargo.toml"
+        },
+        {
+          "name": "opus",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-voice/Cargo.toml"
+        },
+        {
+          "name": "parking_lot",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-voice/Cargo.toml"
+        },
+        {
+          "name": "tokio",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-voice/Cargo.toml"
+        },
+        {
+          "name": "webrtc",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-voice/Cargo.toml"
+        },
+        {
+          "name": "windows-sys",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-voice/Cargo.toml"
+        },
+        {
+          "name": "dashmap",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-walker/Cargo.toml"
+        },
+        {
+          "name": "globset",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-walker/Cargo.toml"
+        },
+        {
+          "name": "ignore",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-walker/Cargo.toml"
+        },
+        {
+          "name": "libc",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-walker/Cargo.toml"
+        },
+        {
+          "name": "parking_lot",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-walker/Cargo.toml"
+        },
+        {
+          "name": "rayon",
+          "version": "{\"workspace\":true}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-walker/Cargo.toml"
+        },
+        {
+          "name": "windows-sys",
+          "version": "{\"workspace\":true,\"features\":[\"Wdk_Storage_FileSystem\",\"Win32_Foundation\",\"Win32_Security\",\"Win32_Storage_FileSystem\",\"Win32_System_IO\"]}",
+          "ecosystem": "cargo",
+          "scope": "runtime",
+          "manifest": "crates/pi-walker/Cargo.toml"
+        },
+        {
+          "name": "@biomejs/biome",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@typescript/native-preview",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "lint-staged",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "prettier",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "ts-morph",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "package.json"
+        },
+        {
+          "name": "sherpa-onnx",
+          "version": "1.13.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "sherpa-onnx-darwin-arm64",
+          "version": "1.13.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "sherpa-onnx-node",
+          "version": "1.13.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "package.json"
+        },
+        {
+          "name": "@oh-my-pi/omptype",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "@opentelemetry/context-async-hooks",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "@opentelemetry/sdk-trace-base",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-ai",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-catalog",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-natives",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-utils",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-wire",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/snapcompact",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "@opentelemetry/api",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/agent/package.json"
+        },
+        {
+          "name": "@bufbuild/protoc-gen-es",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "@bufbuild/protobuf",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "@oh-my-pi/omptype",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-catalog",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-utils",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-wire",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/ai/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/browser-relay/package.json"
+        },
+        {
+          "name": "puppeteer-core",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/browser-relay/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-ai",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/catalog/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/catalog/package.json"
+        },
+        {
+          "name": "@bufbuild/protobuf",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/catalog/package.json"
+        },
+        {
+          "name": "@oh-my-pi/omptype",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/catalog/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-utils",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/catalog/package.json"
+        },
+        {
+          "name": "@types/ms",
+          "version": "^2.1.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/coding-agent/examples/extensions/with-deps/package.json"
+        },
+        {
+          "name": "ms",
+          "version": "^2.1.3",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/examples/extensions/with-deps/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@huggingface/transformers",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "optional",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "sherpa-onnx-node",
+          "version": "1.13.2",
+          "ecosystem": "npm",
+          "scope": "optional",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@babel/parser",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/hashline",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/omp-stats",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/omptype",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-agent-core",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-ai",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-catalog",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-mnemopi",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-natives",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-tui",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-utils",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-wire",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@oh-my-pi/snapcompact",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@opentelemetry/api",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@opentelemetry/api-logs",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@opentelemetry/context-async-hooks",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@opentelemetry/exporter-logs-otlp-proto",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@opentelemetry/exporter-metrics-otlp-proto",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@opentelemetry/exporter-trace-otlp-proto",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@opentelemetry/resources",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@opentelemetry/sdk-logs",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@opentelemetry/sdk-metrics",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@opentelemetry/sdk-trace-base",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@opentelemetry/sdk-trace-node",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "puppeteer-core",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/coding-agent/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/collab-web/package.json"
+        },
+        {
+          "name": "@types/react",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/collab-web/package.json"
+        },
+        {
+          "name": "@types/react-dom",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/collab-web/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-utils",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/collab-web/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-wire",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/collab-web/package.json"
+        },
+        {
+          "name": "lucide-react",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/collab-web/package.json"
+        },
+        {
+          "name": "react",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/collab-web/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/collab-web/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/hashline/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-natives",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/hashline/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-utils",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/hashline/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "@types/d3-scale",
+          "version": "^4.0.9",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "@types/d3-shape",
+          "version": "^3.1.7",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "@types/react",
+          "version": "^19.1.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "@types/react-dom",
+          "version": "^19.1.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "react-refresh",
+          "version": "^0.18.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "@oh-my-pi/hashline",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-agent-core",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-ai",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-catalog",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-coding-agent",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-natives",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-utils",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "@oh-my-pi/typescript-edit-benchmark",
+          "version": "workspace:*",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "clsx",
+          "version": "^2.1.1",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "d3-scale",
+          "version": "^4.0.2",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "d3-shape",
+          "version": "^3.2.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "diff",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "motion",
+          "version": "^12.15.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "react",
+          "version": "^19.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "^19.1.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "tailwind-merge",
+          "version": "^3.3.0",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/metaharness/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/mnemopi/package.json"
+        },
+        {
+          "name": "fastembed",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/mnemopi/package.json"
+        },
+        {
+          "name": "onnxruntime-node",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/mnemopi/package.json"
+        },
+        {
+          "name": "fastembed",
+          "version": "2.1.0",
+          "ecosystem": "npm",
+          "scope": "peer",
+          "manifest": "packages/mnemopi/package.json"
+        },
+        {
+          "name": "onnxruntime-node",
+          "version": "1.21.0",
+          "ecosystem": "npm",
+          "scope": "peer",
+          "manifest": "packages/mnemopi/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-ai",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/mnemopi/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-catalog",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/mnemopi/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-natives",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/mnemopi/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-utils",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/mnemopi/package.json"
+        },
+        {
+          "name": "@napi-rs/cli",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/natives/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/natives/package.json"
+        },
+        {
+          "name": "@ark/attest",
+          "version": "0.56.3",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/omptype/package.json"
+        },
+        {
+          "name": "@ark/schema",
+          "version": "0.56.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/omptype/package.json"
+        },
+        {
+          "name": "@ark/util",
+          "version": "0.56.2",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/omptype/package.json"
+        },
+        {
+          "name": "@sinclair/typebox",
+          "version": "^0.34.0",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/omptype/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/omptype/package.json"
+        },
+        {
+          "name": "arkregex",
+          "version": "0.0.8",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/omptype/package.json"
+        },
+        {
+          "name": "arktype",
+          "version": "2.2.3",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/omptype/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/snapcompact/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-ai",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/snapcompact/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-catalog",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/snapcompact/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-natives",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/snapcompact/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-utils",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/snapcompact/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-wire",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/snapcompact/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/stats/package.json"
+        },
+        {
+          "name": "@types/react",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/stats/package.json"
+        },
+        {
+          "name": "@types/react-dom",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/stats/package.json"
+        },
+        {
+          "name": "postcss",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/stats/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-ai",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/stats/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-catalog",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/stats/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-utils",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/stats/package.json"
+        },
+        {
+          "name": "@tailwindcss/node",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/stats/package.json"
+        },
+        {
+          "name": "chart.js",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/stats/package.json"
+        },
+        {
+          "name": "lucide-react",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/stats/package.json"
+        },
+        {
+          "name": "react",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/stats/package.json"
+        },
+        {
+          "name": "react-chartjs-2",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/stats/package.json"
+        },
+        {
+          "name": "react-dom",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/stats/package.json"
+        },
+        {
+          "name": "tailwindcss",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/stats/package.json"
+        },
+        {
+          "name": "ghostty-web",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/tui/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-natives",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/tui/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-utils",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/tui/package.json"
+        },
+        {
+          "name": "@types/babel__generator",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "@types/babel__traverse",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "@babel/generator",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "@babel/parser",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "@babel/traverse",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "@babel/types",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "@oh-my-pi/hashline",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-agent-core",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-ai",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-coding-agent",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-natives",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-tui",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-utils",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "diff",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "prettier",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "regexp-tree",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/typescript-edit-benchmark/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/utils/package.json"
+        },
+        {
+          "name": "@oh-my-pi/pi-natives",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "packages/utils/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "packages/wire/package.json"
+        },
+        {
+          "name": "@tailwindcss/vite",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "python/robomp/web/package.json"
+        },
+        {
+          "name": "@types/bun",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "python/robomp/web/package.json"
+        },
+        {
+          "name": "tailwindcss",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "python/robomp/web/package.json"
+        },
+        {
+          "name": "typescript",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "python/robomp/web/package.json"
+        },
+        {
+          "name": "vite",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "python/robomp/web/package.json"
+        },
+        {
+          "name": "vite-plugin-solid",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "development",
+          "manifest": "python/robomp/web/package.json"
+        },
+        {
+          "name": "solid-js",
+          "version": "catalog:",
+          "ecosystem": "npm",
+          "scope": "runtime",
+          "manifest": "python/robomp/web/package.json"
+        },
+        {
+          "name": "pytest",
+          "version": "pytest>=8.0",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "python/robomp/pyproject.toml"
+        },
+        {
+          "name": "pytest-asyncio",
+          "version": "pytest-asyncio>=0.23",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "python/robomp/pyproject.toml"
+        },
+        {
+          "name": "respx",
+          "version": "respx>=0.21",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "python/robomp/pyproject.toml"
+        },
+        {
+          "name": "ruff",
+          "version": "ruff>=0.13",
+          "ecosystem": "python",
+          "scope": "optional",
+          "manifest": "python/robomp/pyproject.toml"
+        },
+        {
+          "name": "click",
+          "version": "click>=8.1",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "python/robomp/pyproject.toml"
+        },
+        {
+          "name": "fastapi",
+          "version": "fastapi>=0.112",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "python/robomp/pyproject.toml"
+        },
+        {
+          "name": "httpx",
+          "version": "httpx>=0.27",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "python/robomp/pyproject.toml"
+        },
+        {
+          "name": "omp-rpc",
+          "version": "omp-rpc>=0.1.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "python/robomp/pyproject.toml"
+        },
+        {
+          "name": "pydantic",
+          "version": "pydantic>=2.6",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "python/robomp/pyproject.toml"
+        },
+        {
+          "name": "pydantic-settings",
+          "version": "pydantic-settings>=2.2",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "python/robomp/pyproject.toml"
+        },
+        {
+          "name": "python-dotenv",
+          "version": "python-dotenv>=1.0",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "python/robomp/pyproject.toml"
+        },
+        {
+          "name": "uvicorn",
+          "version": "uvicorn[standard]>=0.30",
+          "ecosystem": "python",
+          "scope": "runtime",
+          "manifest": "python/robomp/pyproject.toml"
+        }
+      ],
+      "dependencySummary": {
+        "total": 434,
+        "manifests": 28,
+        "byEcosystem": {
+          "cargo": 256,
+          "npm": 166,
+          "python": 12
+        },
+        "byScope": {
+          "runtime": 360,
+          "development": 63,
+          "build": 3,
+          "optional": 6,
+          "peer": 2
+        }
+      },
+      "dependencyEvidencePresent": true,
+      "dependencyEvidence": [
+        {
+          "dependency": "@oh-my-pi/pi-agent-core",
+          "type": "Runtime SDK",
+          "usedFor": "Agent loop、tool settlement、state/events",
+          "problemSolved": "把产品 UI 与模型/工具执行内核分开",
+          "evidence": "packages/agent/package.json、packages/coding-agent/src/sdk.ts",
+          "reuseSignal": "需要可嵌入 TypeScript Agent runtime 时优先评估",
+          "caution": "与上游 Pi scope 已分叉，升级不能按 drop-in replacement 假设"
+        },
+        {
+          "dependency": "@oh-my-pi/pi-ai",
+          "type": "Provider SDK",
+          "usedFor": "多协议模型流、tool conversion、credential routing",
+          "problemSolved": "统一 Anthropic/OpenAI/Google 及兼容 API",
+          "evidence": "packages/ai/package.json、packages/coding-agent/src/config/model-registry.ts",
+          "reuseSignal": "多 provider 产品需要统一事件模型时可复用",
+          "caution": "provider 与兼容层很宽，回归面大"
+        },
+        {
+          "dependency": "@oh-my-pi/pi-natives",
+          "type": "Native runtime",
+          "usedFor": "shell、walker、AST、隔离、语音 addon",
+          "problemSolved": "降低高频文件/进程操作开销并补跨平台原语",
+          "evidence": "packages/natives/package.json、crates/、.github/workflows/ci.yml",
+          "reuseSignal": "TUI Agent 遇到 Node 文件遍历或 shell 性能瓶颈时可评估",
+          "caution": "增加二进制供应链、ABI 与跨平台发布成本"
+        },
+        {
+          "dependency": "@oh-my-pi/hashline",
+          "type": "Editing protocol",
+          "usedFor": "稳定行锚编辑",
+          "problemSolved": "缓解行号漂移和大文件 patch 定位失败",
+          "evidence": "packages/hashline/、settings-schema.ts 的默认 edit mode",
+          "reuseSignal": "多轮 Agent 编辑容易发生定位漂移时值得借鉴",
+          "caution": "需要模型遵循专用 wire format，兼容桥复杂"
+        },
+        {
+          "dependency": "@oh-my-pi/pi-mnemopi",
+          "type": "Memory backend",
+          "usedFor": "长期记忆与检索",
+          "problemSolved": "将 session history 之外的记忆变成独立 backend",
+          "evidence": "packages/mnemopi/、docs/memory.md",
+          "reuseSignal": "需要本地长期记忆但不想绑单一 SaaS 时评估",
+          "caution": "记忆注入会扩大隐私与 prompt contamination 风险"
+        },
+        {
+          "dependency": "@modelcontextprotocol/sdk",
+          "type": "Protocol SDK",
+          "usedFor": "MCP client/host",
+          "problemSolved": "接入外部工具生态",
+          "evidence": "packages/coding-agent/package.json、src/capability/mcp.ts",
+          "reuseSignal": "需要标准化外部工具互操作时优先复用",
+          "caution": "MCP server 与 project config 都应进入信任边界"
+        },
+        {
+          "dependency": "node-pty / native PTY layer",
+          "type": "Runtime",
+          "usedFor": "persistent shell、后台任务、交互进程",
+          "problemSolved": "让命令执行跨 turn 持久化并可恢复",
+          "evidence": "coding-agent manifest、shell/job implementation",
+          "reuseSignal": "长任务或 REPL 场景有明确收益",
+          "caution": "PTY 生命周期、孤儿进程和权限边界难度高"
+        },
+        {
+          "dependency": "tree-sitter / native AST layer",
+          "type": "Parser",
+          "usedFor": "AST search/edit",
+          "problemSolved": "比文本 grep/replace 更稳的结构化改写",
+          "evidence": "crates/pi-ast/、src/tools/ast-*",
+          "reuseSignal": "多语言结构化重构值得复用",
+          "caution": "grammar 版本与语言覆盖需持续治理"
+        }
+      ],
+      "tags": [
+        "agent",
+        "coding",
+        "mcp",
+        "cli",
+        "workflow",
+        "runtime",
+        "fastapi",
+        "rust",
+        "typescript",
+        "python",
+        "go"
       ]
     },
     {
